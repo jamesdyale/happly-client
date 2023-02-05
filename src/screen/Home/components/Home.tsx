@@ -1,7 +1,8 @@
 import { View, Text, Button } from 'react-native'
 import React from 'react'
 import { useAtom } from 'jotai/index'
-import { textAtom } from '../../App'
+import { textAtom } from '../../../App'
+
 
 export const Home = ({ navigation }) => {
   const [text, setText] = useAtom(textAtom)

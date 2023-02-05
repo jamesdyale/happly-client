@@ -30,7 +30,7 @@ npm manifest:
   {
     "name": "happly-client",
     "version": "1.0.0",
-    "main": "src/App.js",
+    "main": "src/App.tsx",
     "scripts": {
       "start": "expo start",
       "android": "expo start --android",
