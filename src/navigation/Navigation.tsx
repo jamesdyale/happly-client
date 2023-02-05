@@ -15,14 +15,14 @@ const Stack = createNativeStackNavigator()
 export const Navigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName='Home'>
         <Stack.Screen name='Onboard'>
           {(props) => <OnboardContainer {...props} />}
         </Stack.Screen>
         <Stack.Screen name='Home'>
           {(props) => <Home {...props} />}
         </Stack.Screen>
-        <Stack.Screen name='AllHabit'>
+        <Stack.Screen name='AllHabits'>
           {(props) => <AllHabits {...props} />}
         </Stack.Screen>
         <Stack.Screen name='SingleHabit'>
