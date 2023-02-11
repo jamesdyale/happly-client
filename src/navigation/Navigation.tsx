@@ -1,13 +1,18 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import { OnboardContainer } from '../screen/Onboard'
-import { Home } from '../screen/Home'
-import { CreateRoom, Room, Rooms } from '../screen/Accountability'
-import { AllChallenges, CreateChallenge } from '../screen/Challenge'
-import { SingleHabit } from '../screen/Habit/components/SingleHabit/SingleHabit'
-import { AllHabits } from '../screen/Habit/components/AllHabits/AllHabits'
-import { Settings } from '../screen/Settings'
+import { Tabs } from '../components'
+import {
+  AllChallenges,
+  AllHabits, CreateChallenge,
+  CreateRoom,
+  Home,
+  OnboardContainer,
+  Room,
+  Rooms,
+  Settings,
+  SingleHabit
+} from '../screen'
 
 
 const Stack = createNativeStackNavigator()
