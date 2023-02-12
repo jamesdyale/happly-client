@@ -39,3 +39,9 @@ export type ICustomSwitchType = {
 export type ProgressBarType = {
   progress: number
 }
+
+export type WeeklyCalendarDateType = {
+  day: string,
+  date: Date,
+  isToday: boolean
+}

@@ -1,3 +1,5 @@
+import { WeeklyCalendarDateType } from './types'
+
 export const progressBarStatus = (progress: number): string => {
   switch (true) {
     case progress < 20:
@@ -30,4 +32,26 @@ export const progressBarCalculation = (habits: any[]): number => {
   const totalHabits = habits.length
   const completedHabits = habits.filter((habit) => habit.completed).length
   return Math.round((completedHabits / totalHabits) * 100)
+}
+
+export const DAY_NAME_OF_WEEK_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+export const getWeekFromCurrentDate = (): WeeklyCalendarDateType[] => {
+  const today = new Date()
+  const todayIndex = today.getDay()
+  const week = []
+
+  DAY_NAME_OF_WEEK_SHORT.forEach((day, index) => {
+    const newDay = new Date()
+    if (index < todayIndex) {
+      newDay.setDate(today.getDate() - (todayIndex - index))
+    } else if (index > todayIndex) {
+      newDay.setDate(today.getDate() + (index - todayIndex))
+    } else if (index === todayIndex) {
+      newDay.setDate(today.getDate())
+    }
+    week.push({ day, date: newDay, isToday: index === todayIndex })
+  })
+
+  return week
 }
