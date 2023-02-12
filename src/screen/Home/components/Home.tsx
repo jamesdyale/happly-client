@@ -4,7 +4,7 @@ import { useAtom } from 'jotai'
 import { textAtom } from '../../../App'
 import { APP_GRAY, APP_WHITE, MAIN_ACCENT_COLOR, MAIN_BG_COLOR } from '../../../styles'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { CustomButton, CustomSwitch, CustomTextInput, CustomProgressBar, Tabs } from '../../../components'
+import { CustomButton, CustomSwitch, CustomTextInput, CustomProgressBar } from '../../../components'
 import { progressBarCalculation } from '../../../shared/utils'
 
 const habits = [
@@ -37,44 +37,43 @@ export const Home = ({ navigation }) => {
       justifyContent: 'center',
       backgroundColor: MAIN_BG_COLOR
     }}>
-      {/*<Tabs />*/}
-      <Ionicons name='md-checkmark-circle' size={32} color={MAIN_ACCENT_COLOR} />
-      <CustomTextInput
-        label='New Custom Text Input'
-        value={customText}
-        placeholder=''
-        keyboardType='default'
-        handleChange={onChangeCustomText}
-      />
-      <CustomButton
-        icon={<Ionicons name='md-checkmark-circle' size={32} color={APP_WHITE} />}
-        text='CREATE My Own'
-        bgColor={MAIN_ACCENT_COLOR}
-        color={APP_WHITE}
-        onClick={() => console.log('eyh')}
-      />
-      <CustomButton
-        text='CREATE My Own'
-        bgColor={MAIN_ACCENT_COLOR}
-        color={APP_WHITE}
-        onClick={() => console.log('eyh')}
-      />
-
-      <Text>{text} world</Text>
-
-      <CustomProgressBar progress={progressCount} />
-
-      <CustomSwitch
-        isEnabled={isEnabled}
-        toggleSwitch={toggleSwitch}
-        thumbEnabledColor={APP_WHITE}
-        trueTrackColor={MAIN_ACCENT_COLOR}
-        thumbNonEnabledColor={APP_WHITE}
-        falseTrackColor={MAIN_ACCENT_COLOR}
-        iosBackgroundColor={APP_GRAY}
-      />
-
       <ScrollView>
+        <Ionicons name='md-checkmark-circle' size={32} color={MAIN_ACCENT_COLOR} />
+        <CustomTextInput
+          label='New Custom Text Input'
+          value={customText}
+          placeholder=''
+          keyboardType='default'
+          handleChange={onChangeCustomText}
+        />
+        <CustomButton
+          icon={<Ionicons name='md-checkmark-circle' size={32} color={APP_WHITE} />}
+          text='CREATE My Own'
+          bgColor={MAIN_ACCENT_COLOR}
+          color={APP_WHITE}
+          onClick={() => console.log('eyh')}
+        />
+        <CustomButton
+          text='CREATE My Own'
+          bgColor={MAIN_ACCENT_COLOR}
+          color={APP_WHITE}
+          onClick={() => console.log('eyh')}
+        />
+
+        <Text>{text} world</Text>
+
+        <CustomProgressBar progress={progressCount} />
+
+        <CustomSwitch
+          isEnabled={isEnabled}
+          toggleSwitch={toggleSwitch}
+          thumbEnabledColor={APP_WHITE}
+          trueTrackColor={MAIN_ACCENT_COLOR}
+          thumbNonEnabledColor={APP_WHITE}
+          falseTrackColor={MAIN_ACCENT_COLOR}
+          iosBackgroundColor={APP_GRAY}
+        />
+
         <Button title='Home' onPress={() => navigation.navigate('Home')} />
         <Button title='Onboard' onPress={() => navigation.navigate('Onboard')} />
         <Button title='AllHabits' onPress={() => navigation.navigate('AllHabits')} />

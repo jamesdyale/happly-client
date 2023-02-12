@@ -1,17 +1,22 @@
 import { registerRootComponent } from 'expo'
 import React from 'react'
 import { Provider as StateProvider, atom } from 'jotai'
-import { Navigation } from './navigation/Navigation'
+import { NavigationContainer } from '@react-navigation/native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { BottomTabNavigator } from './navigation'
 
 
 export const textAtom = atom('hello')
 
+const Tab = createBottomTabNavigator()
 
 const App = () => {
   return (
-    <StateProvider>
-      <Navigation />
-    </StateProvider>
+    <NavigationContainer>
+      <StateProvider>
+        <BottomTabNavigator />
+      </StateProvider>
+    </NavigationContainer>
   )
 }
 
