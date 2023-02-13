@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import { Calendar } from 'react-native-calendars'
 import React from 'react'
-import { Inter_700Bold, Inter_400Regular, useFonts } from '@expo-google-fonts/inter'
 import { APP_BLACK, APP_GRAY } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -10,13 +9,6 @@ const Arrow = ({ direction }) => {
     <Icon name='chevron-back' size={22} color={APP_GRAY} /> : <Icon name='chevron-forward' size={22} color={APP_GRAY} />
 }
 export const CustomCalendar = () => {
-  let [fontsLoaded] = useFonts({
-    Inter_700Bold, Inter_400Regular
-  })
-
-  if (!fontsLoaded) {
-    return null
-  }
   return (
     <Calendar
       // // Initially visible month. Default = Date()
@@ -50,6 +42,7 @@ export const CustomCalendar = () => {
       // }}
       // // Hide month navigation arrows. Default = false
       // Hide month navigation arrows. Default = false
+
       // Replace default arrows with custom ones (direction can be 'left' or 'right')
       renderArrow={(direction) => (<Arrow direction={direction} />)}
       // // Do not show days of other months in month page. Default = false
@@ -59,7 +52,7 @@ export const CustomCalendar = () => {
       // // day from another month that is visible in calendar page. Default = false
       // disableMonthChange={true}
       // // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
-      // firstDay={1}
+      firstDay={1}
       enableSwipeMonths={true}
     />
   )
@@ -80,7 +73,7 @@ const theme: any = {
   textDayFontSize: 16,
   textMonthFontSize: 18,
   textMonthFontWeight: '600',
-  textDayHeaderFontSize: 16
+  textDayHeaderFontSize: 15
 }
 
 const styles = StyleSheet.create({

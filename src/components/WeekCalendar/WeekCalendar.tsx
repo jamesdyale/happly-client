@@ -1,20 +1,26 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { getWeekFromCurrentDate } from '../../shared/utils'
-import moment from 'moment'
+import { Inter_400Regular, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
+import { DayOfTheWeek } from './components/DayOfTheWeek'
 
 
 // make this into a reusable library
 export const WeekCalendar = () => {
+  let [fontsLoaded] = useFonts({
+    Inter_700Bold, Inter_400Regular
+  })
+
+  if (!fontsLoaded) {
+    return null
+  }
+
   const week = getWeekFromCurrentDate()
-  console.log('week', week)
+
   return (
     <View style={styles.container}>
       {week.map((day) => {
         return (
-          <View style={{ ...styles.day, backgroundColor: day.isToday ? 'red' : 'white' }}>
-            <Text>{day.day}</Text>
-            <Text>{moment(day.date).format('DD')}</Text>
-          </View>
+          <DayOfTheWeek key={day.day} day={day} />
         )
       })}
     </View>
@@ -28,15 +34,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     padding: 10
-  },
-  day: {
-    width: 50,
-    height: 50,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10
-
   }
 })

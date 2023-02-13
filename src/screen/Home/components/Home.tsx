@@ -60,9 +60,9 @@ export const Home = ({ navigation }) => {
 
         {/*<Text>{text} world</Text>*/}
 
-        <CustomCalendar />
-        <CustomProgressBar progress={progressCount} />
-        <WeekCalendar />
+        {/*<CustomCalendar />*/}
+        {/*<CustomProgressBar progress={progressCount} />*/}
+        {/*<WeekCalendar />*/}
 
         {/*<CustomSwitch*/}
         {/*  isEnabled={isEnabled}*/}
