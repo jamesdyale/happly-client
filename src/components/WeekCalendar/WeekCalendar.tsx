@@ -19,7 +19,6 @@ export const WeekCalendar = () => {
 
   const week = getWeekFromCurrentDate()
   const day = new Date()
-  console.log(day)
 
   return (
     <View style={styles.container}>
