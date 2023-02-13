@@ -17,7 +17,11 @@ const Stack = createStackNavigator()
 
 export const HomeScreenNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
       <Stack.Screen name={ROUTES.HOME}>
         {(props) => <Home {...props} />}
       </Stack.Screen>
