@@ -1,26 +1,42 @@
 import { WeeklyCalendarDateType } from '../../../shared'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '../../../styles'
 import moment from 'moment/moment'
+import { useState } from 'react'
 
 interface IDayOfTheWeek {
-  key: string,
   day: WeeklyCalendarDateType
+  selectedDay: Date;
+  handleDayClick: (day: Date) => void;
 }
 
 export const DayOfTheWeek = (props: IDayOfTheWeek) => {
-  const { key, day } = props
+  const { day, handleDayClick, selectedDay } = props
+  const dateFromCalendar = day.date
+  const dateFromSelectedDay = selectedDay
+
+  const isSelected = dateFromCalendar.getDate() === dateFromSelectedDay.getDate()
+
   return (
-    <View key={key} style={{
-      ...styles.day, backgroundColor: day.isToday ? MAIN_ACCENT_COLOR : APP_WHITE,
-      borderColor: day.isToday ? MAIN_ACCENT_COLOR : APP_GRAY
-    }}>
-      <Text style={{ ...styles.dayText, color: day.isToday ? APP_WHITE : HABIT_OPTION }}>{day.day}</Text>
+    <TouchableOpacity
+      key={day.date.toString()}
+      onPress={() => handleDayClick(day.date)}
+      style={{
+        ...styles.day,
+        backgroundColor: isSelected ? MAIN_ACCENT_COLOR : APP_WHITE,
+        borderColor: isSelected ? MAIN_ACCENT_COLOR : APP_GRAY
+      }}
+    >
+      <Text style={{
+        ...styles.dayText, color: isSelected ? APP_WHITE : HABIT_OPTION
+      }}>
+        {day.day}
+      </Text>
       <Text style={{
         ...styles.dayNumber,
-        color: day.isToday ? APP_WHITE : HABIT_OPTION
+        color: isSelected ? APP_WHITE : HABIT_OPTION
       }}>{moment(day.date).format('DD')}</Text>
-    </View>
+    </TouchableOpacity>
 
   )
 }

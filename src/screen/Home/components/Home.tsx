@@ -2,6 +2,7 @@ import { SafeAreaView } from 'react-native'
 import React from 'react'
 import { MAIN_BG_COLOR } from '../../../styles'
 import { UserProfile, WeekCalendar } from '../../../components'
+import { HabitList } from '../../../components/HabitList/HabitList'
 
 const habits = [
   {
@@ -28,6 +29,7 @@ export const Home = ({ navigation }) => {
     }}>
       <UserProfile />
       <WeekCalendar />
+      <HabitList />
     </SafeAreaView>
   )
 }

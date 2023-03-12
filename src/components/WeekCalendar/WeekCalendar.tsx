@@ -5,10 +5,14 @@ import { DayOfTheWeek } from './components/DayOfTheWeek'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { APP_BLACK } from '../../styles'
 import moment from 'moment/moment'
+import { useAtom } from 'jotai'
+import { selectDayOfTheWeekAtom } from '../../state/state'
 
 
 // make this into a reusable library
 export const WeekCalendar = () => {
+  const [selectedDay, setSelectedDay] = useAtom(selectDayOfTheWeekAtom)
+
   let [fontsLoaded] = useFonts({
     Inter_700Bold, Inter_500Medium, Inter_400Regular
   })
@@ -20,6 +24,11 @@ export const WeekCalendar = () => {
   const week = getWeekFromCurrentDate()
   const day = new Date()
 
+  const handleDayClick = (day: Date) => {
+    setSelectedDay(day)
+    // TODO: make api call to get habits for the day
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -29,7 +38,11 @@ export const WeekCalendar = () => {
       <View style={styles.footer}>
         {week.map((day) => {
           return (
-            <DayOfTheWeek key={day.day} day={day} />
+            <DayOfTheWeek
+              day={day}
+              selectedDay={selectedDay}
+              handleDayClick={handleDayClick}
+            />
           )
         })}
       </View>
