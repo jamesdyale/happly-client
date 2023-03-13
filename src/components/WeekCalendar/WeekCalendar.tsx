@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     width: '100%',
-    padding: 20
+    paddingLeft: 20,
+    paddingRight: 20
   },
   header: {
     display: 'flex',

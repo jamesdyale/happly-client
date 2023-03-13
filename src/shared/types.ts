@@ -45,3 +45,26 @@ export type WeeklyCalendarDateType = {
   date: Date,
   isToday: boolean
 }
+
+export type HabitType = {
+  id: string;
+  title: string;
+  description: string;
+  frequency: string;
+  dayOfTheWeek: string;
+  timeOfDay: string;
+  reminderOn: boolean;
+  reminderAt: string;
+  userId: string;
+}
+
+export type DailyHabitType = {
+  id: string;
+  habitId: string;
+  title: string;
+  progress: number;
+  completed: boolean;
+  info: string;
+}
+
+export type HabitsType = HabitType[];

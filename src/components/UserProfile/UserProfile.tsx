@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
-import { APP_BLACK, HABIT_OPTION, SECONDARY_BG_COLOR } from '../../styles'
+import { APP_BLACK, HABIT_OPTION } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Inter_700Bold, Inter_600SemiBold, useFonts } from '@expo-google-fonts/inter'
 

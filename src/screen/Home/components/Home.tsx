@@ -3,21 +3,7 @@ import React from 'react'
 import { MAIN_BG_COLOR } from '../../../styles'
 import { UserProfile, WeekCalendar } from '../../../components'
 import { HabitList } from '../../../components/HabitList/HabitList'
-
-const habits = [
-  {
-    id: 1,
-    name: 'Meditate',
-    progress: 0,
-    completed: false
-  },
-  {
-    id: 2,
-    name: 'Meditate',
-    progress: 100,
-    completed: true
-  }
-]
+import { EditHabitModal } from '../../Modals'
 
 export const Home = ({ navigation }) => {
 
@@ -30,6 +16,7 @@ export const Home = ({ navigation }) => {
       <UserProfile />
       <WeekCalendar />
       <HabitList />
+      <EditHabitModal />
     </SafeAreaView>
   )
 }

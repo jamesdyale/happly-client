@@ -1,13 +1,27 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { APP_GRAY, APP_GREEN, APP_WHITE } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { useAtom } from 'jotai'
+import { habitSelectedAtom, isHabitSelectedAtom } from '../../state/state'
+import { DailyHabitType } from '../../shared'
 
-export const SingleHabit = ({ habit }) => {
+type SingleHabitType = {
+  habit: DailyHabitType;
+}
+
+export const SingleHabit = ({ habit }: SingleHabitType) => {
+  const [, setIsHabitSelected] = useAtom(isHabitSelectedAtom)
+  const [, setHabitSelected] = useAtom(habitSelectedAtom)
+  const handleHabitClick = (id: string) => {
+    setIsHabitSelected(true)
+    setHabitSelected(id)
+  }
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={() => handleHabitClick(habit.id)} style={styles.container}>
       <View style={styles.habitNameContainer}>
-        <Text style={styles.habitName}>{habit.name}</Text>
+        <Text style={styles.habitName}>{habit.title}</Text>
         <Text style={styles.habitInfo}>{habit.info}</Text>
       </View>
       <View style={styles.habitProgressContainer}>
@@ -33,7 +47,7 @@ export const SingleHabit = ({ habit }) => {
           )}
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
