@@ -1,7 +1,6 @@
 import { View, StyleSheet, Text, ScrollView } from 'react-native'
 import { APP_GRAY, HABIT_OPTION, MAIN_ACCENT_COLOR, MAIN_BG_COLOR } from '../../styles'
 import { NoHabitIcon } from '../../assets/svgs/NoHabitIcon'
-import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 import { SingleHabit } from './SingleHabit'
 import { CustomProgressBar } from '../CustomProgressBar/CustomProgressBar'
 import React from 'react'
@@ -11,16 +10,6 @@ import { dailyHabitAtom } from '../../state/state'
 
 export const HabitList = () => {
   const [habits] = useAtom(dailyHabitAtom)
-
-  let [fontsLoaded] = useFonts({
-    Inter_700Bold, Inter_600SemiBold
-  })
-
-  if (!fontsLoaded) {
-    return null
-  }
-
-
   const progressCount = habits.filter(habit => habit.completed === true).length
 
   return (

@@ -1,6 +1,5 @@
 import { View, StyleSheet, Text } from 'react-native'
 import { getWeekFromCurrentDate } from '../../shared/utils'
-import { Inter_400Regular, Inter_500Medium, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 import { DayOfTheWeek } from './components/DayOfTheWeek'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { APP_BLACK } from '../../styles'
@@ -13,13 +12,6 @@ import { selectDayOfTheWeekAtom } from '../../state/state'
 export const WeekCalendar = () => {
   const [selectedDay, setSelectedDay] = useAtom(selectDayOfTheWeekAtom)
 
-  let [fontsLoaded] = useFonts({
-    Inter_700Bold, Inter_500Medium, Inter_400Regular
-  })
-
-  if (!fontsLoaded) {
-    return null
-  }
 
   const week = getWeekFromCurrentDate()
   const day = new Date()
