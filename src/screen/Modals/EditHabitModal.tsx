@@ -1,45 +1,65 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { useAtom } from 'jotai'
-import { habitSelectedAtom, isHabitSelectedAtom } from '../../state/state'
+import { useAtomValue, useSetAtom } from 'jotai'
+import {
+  selectedHabitAtom,
+  useClearSelectedHabitAtom
+} from '../../state/state'
 import {
   APP_BLACK,
-  APP_GRAY,
   APP_WHITE,
-  HABIT_OPTION,
   MAIN_ACCENT_COLOR,
-  MAIN_BG_COLOR,
   SECONDARY_BG_COLOR
 } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 export const EditHabitModal = () => {
-  const [isHabitSelected] = useAtom(isHabitSelectedAtom)
-  const [habitSelected] = useAtom(habitSelectedAtom)
+  const clearSelectedHabit = useSetAtom(useClearSelectedHabitAtom)
+  const habitSelected = useAtomValue(selectedHabitAtom)
+
+  const handleOnPressCloseIcon = () => {
+    clearSelectedHabit()
+  }
+
+  const handleOnPressDelete = () => {
+    // TODO: Open delete modal
+    console.log('deleting habit')
+  }
+
+  const handleOnPressEdit = () => {
+    // TODO: Open edit modal
+  }
+
+  const handleOnPressMarkAsDone = () => {
+    // TODO: Mark habit as done
+  }
 
   return (
     <View style={styles.container}>
 
       <View style={styles.titleSection}>
         <View>
-          <Text style={styles.habitTitle}>Evening Workout</Text>
-          <Text style={styles.highlightText}>Reminder: 9:00pm (In 30mins)</Text>
+          <Text style={styles.habitTitle}>{habitSelected?.title}</Text>
+          <Text style={styles.highlightText}>Reminder: {habitSelected?.reminderAt} (In
+            30mins) {/* TODO: write function to figure out the time difference consider a case where reminder is past */} </Text>
         </View>
-        <Icon style={styles.closeIcon} name='close' size={25} color={APP_WHITE} />
+        <TouchableOpacity onPress={handleOnPressCloseIcon}>
+          <Icon style={styles.closeIcon} name='close' size={25} color={APP_WHITE} />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.bodySection}>
         <Icon style={styles.icon} name='notifications-outline' size={25} color={APP_BLACK} />
         <View>
           <Text style={styles.highlightText}>Reminders</Text>
-          <Text style={styles.infoText}>9:00 PM</Text>
+          <Text style={styles.infoText}>{habitSelected?.reminderAt}</Text>
         </View>
       </View>
 
       <View style={styles.bodySection}>
         <Icon style={styles.icon} name='options-outline' size={25} color={APP_BLACK} />
         <View>
-          <Text style={styles.highlightText}>Add description</Text>
-          <Text style={styles.infoText}>Working on abs, sync with smartwatch</Text>
+          <Text style={styles.highlightText}>Description</Text>
+          <Text style={styles.infoText}>{habitSelected?.description}</Text>
         </View>
       </View>
 
@@ -142,6 +162,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 15,
     color: APP_WHITE
-
   }
 })

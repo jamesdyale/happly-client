@@ -2,8 +2,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { APP_GRAY, APP_GREEN, APP_WHITE } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { useAtom } from 'jotai'
-import { habitSelectedAtom, isHabitSelectedAtom } from '../../state/state'
+import { useSetAtom } from 'jotai'
+import { useSetSelectedHabitAtom } from '../../state/state'
 import { DailyHabitType } from '../../shared'
 
 type SingleHabitType = {
@@ -11,10 +11,9 @@ type SingleHabitType = {
 }
 
 export const SingleHabit = ({ habit }: SingleHabitType) => {
-  const [, setIsHabitSelected] = useAtom(isHabitSelectedAtom)
-  const [, setHabitSelected] = useAtom(habitSelectedAtom)
+  const setHabitSelected = useSetAtom(useSetSelectedHabitAtom)
+
   const handleHabitClick = (id: string) => {
-    setIsHabitSelected(true)
     setHabitSelected(id)
   }
 

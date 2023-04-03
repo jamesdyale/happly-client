@@ -10,16 +10,14 @@ import {
   RoomsScreenNavigator
 } from './ScreenNavigator'
 import { CustomTabItem } from '../components'
-import { useAtom } from 'jotai/index'
-import { isHabitSelectedAtom } from '../state/state'
+import { selectedHabitAtom } from '../state/state'
+import { useAtomValue } from 'jotai'
 
 
 const Tab = createBottomTabNavigator()
 
 export const BottomTabNavigator = () => {
-  const [isHabitSelected] = useAtom(isHabitSelectedAtom)
-
-  console.log(isHabitSelected)
+  const selectedHabit = useAtomValue(selectedHabitAtom)
 
   return (
     <Tab.Navigator
@@ -29,7 +27,7 @@ export const BottomTabNavigator = () => {
         tabBarInactiveTintColor: HABIT_OPTION,
         tabBarStyle: {
           ...styles.tabBarStyle,
-          display: isHabitSelected ? 'none' : 'flex'
+          display: selectedHabit ? 'none' : 'flex'
         },
         tabBarActiveTintColor: MAIN_ACCENT_COLOR,
         tabBarIcon: ({ color, size, focused }) => {
