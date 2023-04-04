@@ -4,8 +4,8 @@ import {
   OnboardContainer
 } from '../screen'
 import { BottomTabNavigator } from './BottomTabNavigator'
-import { Button, View, Text } from 'react-native'
 import { CustomModalStackNavigator } from './CustomModalStackNavigator'
+import { CustomStackNavigator } from './CustomStackNavigator'
 
 
 const Stack = createNativeStackNavigator()
@@ -18,6 +18,7 @@ export const NavigationRoutes = () => {
         {(props) => <OnboardContainer {...props} />}
       </Stack.Screen>
       <Stack.Screen name='CustomModal' component={CustomModalStackNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name='CustomStack' component={CustomStackNavigator} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }

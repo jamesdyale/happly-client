@@ -5,7 +5,6 @@ import { UserProfile, WeekCalendar, HabitList } from '../../../components'
 import { EditHabitModal } from '../../Modals'
 import { useAtomValue } from 'jotai'
 import { selectedHabitAtom, showDeleteModalAtom } from '../../../state/state'
-import { DeleteHabitModal } from '../../Modals/DeleteHabitModal'
 
 export const Home = ({ navigation }) => {
   const habitSelected = useAtomValue(selectedHabitAtom)
@@ -16,10 +15,10 @@ export const Home = ({ navigation }) => {
       flex: 1,
       backgroundColor: MAIN_BG_COLOR
     }}>
-      <UserProfile />
+      <UserProfile navigation={navigation} />
       <WeekCalendar />
       <HabitList />
-      {/*{habitSelected ? <EditHabitModal /> : null}*/}
+      {habitSelected ? <EditHabitModal /> : null}
       {/*{isDeleteHabitModalOpen ? <DeleteHabitModal /> : null}*/}
     </SafeAreaView>
   )
