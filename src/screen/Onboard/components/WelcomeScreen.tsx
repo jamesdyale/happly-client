@@ -22,10 +22,10 @@ export const WelcomeScreen = ({ navigation }) => {
           <Text style={styles.welcomeUser}>Hello,</Text>
           <Text style={styles.welcomeInfo}>we would like to know you so we personalize your experience!</Text>
           <View style={styles.welcomeForm}>
-            {/*<CustomTextInput label='Name' placeholder='Name' />*/}
-            {/*<CustomTextInput label='Email' placeholder='Email' />*/}
-            {/*<CustomTextInput label='Password' placeholder='Password' />*/}
-            {/*<CustomTextInput label='Confirm Password' placeholder='Confirm Password' />*/}
+            <CustomTextInput label='Name' placeholder='Name' />
+            <CustomTextInput label='Email' placeholder='Email' />
+            <CustomTextInput label='Password' placeholder='Password' />
+            <CustomTextInput label='Confirm Password' placeholder='Confirm Password' />
           </View>
           <View style={styles.welcomeActionBtn}>
             {/* TODO: Add a slider that shows how many more screens for onboarding */}
