@@ -1,1 +1,1 @@
-export * from './components/OnboardContainer'
+export * from './components/WelcomeScreen'

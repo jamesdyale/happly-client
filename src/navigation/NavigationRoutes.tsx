@@ -1,24 +1,20 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
-import {
-  OnboardContainer
-} from '../screen'
 import { BottomTabNavigator } from './BottomTabNavigator'
 import { CustomModalStackNavigator } from './CustomModalStackNavigator'
 import { CustomStackNavigator } from './CustomStackNavigator'
+import { OnboardNavigator } from './OnboardNavigator'
 
 
 const Stack = createNativeStackNavigator()
 
 export const NavigationRoutes = () => {
   return (
-    <Stack.Navigator initialRouteName='MainApp'>
-      <Stack.Screen name='MainApp' component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name='Onboard'>
-        {(props) => <OnboardContainer {...props} />}
-      </Stack.Screen>
-      <Stack.Screen name='CustomModal' component={CustomModalStackNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name='CustomStack' component={CustomStackNavigator} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName='Onboard' screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='MainApp' component={BottomTabNavigator} />
+      <Stack.Screen name='Onboard' component={OnboardNavigator} />
+      <Stack.Screen name='CustomModal' component={CustomModalStackNavigator} />
+      <Stack.Screen name='CustomStack' component={CustomStackNavigator} />
     </Stack.Navigator>
   )
 }

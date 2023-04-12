@@ -1,20 +1,11 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { CustomTextInputType } from '../../shared'
-import { useFonts, Inter_700Bold } from '@expo-google-fonts/inter'
-
 
 export const CustomTextInput = ({ label, handleChange, value, placeholder, keyboardType }: CustomTextInputType) => {
 
-  let [fontsLoaded] = useFonts({
-    Inter_700Bold
-  })
-
-  if (!fontsLoaded) {
-    return null
-  }
 
   return (
-    <View>
+    <View style={styles.textInput}>
       <Text style={styles.label}>
         {label}
       </Text>
@@ -30,11 +21,14 @@ export const CustomTextInput = ({ label, handleChange, value, placeholder, keybo
 }
 
 const styles = StyleSheet.create({
+  textInput: {
+    marginBottom: 10
+  },
   label: {
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'Inter_400Regular',
     fontStyle: 'normal',
-    fontSize: 18,
-    lineHeight: 22,
+    fontSize: 16,
+    lineHeight: 19,
     color: '#0F0F0F'
   },
   input: {

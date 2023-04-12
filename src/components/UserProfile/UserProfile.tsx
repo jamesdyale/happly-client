@@ -1,17 +1,8 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { APP_BLACK, HABIT_OPTION } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { Inter_700Bold, Inter_600SemiBold, useFonts } from '@expo-google-fonts/inter'
 
 export const UserProfile = ({ navigation }) => {
-  let [fontsLoaded] = useFonts({
-    Inter_700Bold, Inter_600SemiBold
-  })
-
-  if (!fontsLoaded) {
-    return null
-  }
-
   const navigateToSetting = () => {
     navigation.navigate('CustomStack', { screen: 'Settings' })
   }
