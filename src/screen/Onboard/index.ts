@@ -1,2 +1,2 @@
-export * from './components/WelcomeScreen'
-export * from './components/AuthScreen'
+export * from './components/OnboardScreen/OnboardScreen'
+export * from './components/AuthScreen/AuthScreen'
