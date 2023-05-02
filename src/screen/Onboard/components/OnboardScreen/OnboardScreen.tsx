@@ -97,7 +97,7 @@ const OnboardScreenFour = () => (
 )
 
 export const OnboardScreen = ({ navigation }) => {
-  const [currentScreen, setCurrentScreen] = React.useState<number>(2)
+  const [currentScreen, setCurrentScreen] = React.useState<number>(1)
 
   const handleSkip = () => {
     navigation.navigate('MainApp')
