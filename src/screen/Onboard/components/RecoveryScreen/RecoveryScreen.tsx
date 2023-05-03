@@ -10,6 +10,7 @@ export const RecoveryScreen = ({ navigation }) => {
         <View style={styles.AuthFormHeaderContainer}>
           <Text style={styles.AuthFormHeader}>Recover Password️</Text>
           <Text style={styles.AuthFormInfo}>Kindly enter email address you signed up with.</Text>
+          <Text style={styles.AuthFormInfo}>Kindly enter email address you signed up with.</Text>
           <View style={styles.AuthFormBody}>
             <CustomTextInput label='Email Address' placeholder='Enter Email Address' />
           </View>
