@@ -34,7 +34,7 @@ export const HomeScreenNavigator = () => {
 
 export const HabitsScreenNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={ROUTES.ALL_HABIT}>
         {(props) => <AllHabits {...props} />}
       </Stack.Screen>
