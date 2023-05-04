@@ -4,9 +4,10 @@ export default {
   ONBOARD: 'Onboard',
 
   HOME: 'Home',
-  ALL_HABIT: 'All Habits',
-  CREATE_HABIT: 'Create Habit',
-  SINGLE_HABIT: 'Single Habit',
+  
+  ALL_HABIT: 'AllHabits',
+  CREATE_HABIT: 'CreateHabit',
+  SINGLE_HABIT: 'SingleHabit',
 
   SETTINGS: 'Settings',
 

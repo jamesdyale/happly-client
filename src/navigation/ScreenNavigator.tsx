@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import {
+  AddHabit,
   AllChallenges,
   AllHabits,
   CreateChallenge,
@@ -34,15 +35,15 @@ export const HomeScreenNavigator = () => {
 
 export const HabitsScreenNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName='RecoveryScreen' screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName='CreateHabit' screenOptions={{ headerShown: false }}>
       <Stack.Screen name={ROUTES.ALL_HABIT}>
         {(props) => <AllHabits {...props} />}
       </Stack.Screen>
       <Stack.Screen name={ROUTES.SINGLE_HABIT}>
         {(props) => <SingleHabit {...props} />}
       </Stack.Screen>
-      <Stack.Screen name={ROUTES.SINGLE_HABIT}>
-        {(props) => <SingleHabit {...props} />}
+      <Stack.Screen name='CreateHabit'>
+        {(props) => <AddHabit {...props} />}
       </Stack.Screen>
     </Stack.Navigator>
   )

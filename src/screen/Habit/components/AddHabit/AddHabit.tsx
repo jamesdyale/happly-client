@@ -4,7 +4,7 @@ import { CustomSwitch, CustomTextInput } from '../../../../components'
 import { APP_GRAY, APP_WHITE, MAIN_ACCENT_COLOR } from '../../../../styles'
 
 
-export const AddHabit = () => {
+export const AddHabit = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = React.useState(false)
 
   const toggleSwitch = () => setIsEnabled(previousState => !previousState)
@@ -14,6 +14,7 @@ export const AddHabit = () => {
     <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <View>
         <TouchableOpacity onPress={() => {
+          navigation.goBack()
         }}>
           Cancel
         </TouchableOpacity>
@@ -76,8 +77,6 @@ export const AddHabit = () => {
           </View>
         </View>
       </View>
-      <Text>AddHabit</Text>
-      <Text>AddHabit</Text>
     </SafeAreaView>
   )
 }
