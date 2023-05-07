@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator()
 
 export const NavigationRoutes = () => {
   return (
-    <Stack.Navigator initialRouteName='Habit' screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName='MainApp' screenOptions={{ headerShown: false }}>
       <Stack.Screen name='MainApp' component={BottomTabNavigator} />
       <Stack.Screen name='Onboard' component={OnboardNavigator} />
       <Stack.Screen name='Habit' component={HabitsScreenNavigator} />
