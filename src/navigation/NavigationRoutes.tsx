@@ -5,6 +5,7 @@ import { CustomModalStackNavigator } from './CustomModalStackNavigator'
 import { CustomStackNavigator } from './CustomStackNavigator'
 import { OnboardNavigator } from './OnboardNavigator'
 import { HabitsScreenNavigator } from './ScreenNavigator'
+import { ROUTES } from '../constants'
 
 
 const Stack = createNativeStackNavigator()
@@ -12,11 +13,11 @@ const Stack = createNativeStackNavigator()
 export const NavigationRoutes = () => {
   return (
     <Stack.Navigator initialRouteName='MainApp' screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='MainApp' component={BottomTabNavigator} />
-      <Stack.Screen name='Onboard' component={OnboardNavigator} />
-      <Stack.Screen name='Habit' component={HabitsScreenNavigator} />
-      <Stack.Screen name='CustomModal' component={CustomModalStackNavigator} />
-      <Stack.Screen name='CustomStack' component={CustomStackNavigator} />
+      <Stack.Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
+      <Stack.Screen name={ROUTES.ONBOARD} component={OnboardNavigator} />
+      <Stack.Screen name={ROUTES.HABIT} component={HabitsScreenNavigator} />
+      <Stack.Screen name={ROUTES.CUSTOM_MODAL} component={CustomModalStackNavigator} />
+      <Stack.Screen name={ROUTES.CUSTOM_STACK} component={CustomStackNavigator} />
     </Stack.Navigator>
   )
 }

@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { WeekCalendar } from '../../../../../components'
 import React from 'react'
 import { APP_BLACK } from '../../../../../styles'
@@ -20,11 +20,11 @@ export const WeekView = ({ navigation, habit }) => {
           {/*  <Text style={styles.label}>Everyday</Text>*/}
           {/*</View>*/}
         </View>
-        <Icon name='calendar-outline' size={25} color={APP_BLACK} onPress={() => console.log('hey there')} />
+        <Icon name='calendar-outline' size={25} color={APP_BLACK}
+              onPress={() => navigation.navigate('Habit', { screen: 'SingleHabit', habitId: habit.habitId })} />
       </View>
       <View style={styles.footer}>
         {week.map((day, index) => {
-          console.log(habit.last7days[index])
           return (
             <StreakWeek
               day={day}
@@ -39,7 +39,7 @@ export const WeekView = ({ navigation, habit }) => {
 }
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 25
+    marginBottom: 35
   },
   habitTitleContainer: {
     display: 'flex',

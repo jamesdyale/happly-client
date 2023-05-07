@@ -1,14 +1,15 @@
 import { AuthScreen, OnboardScreen, RecoveryScreen } from '../screen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { ROUTES } from '../constants'
 
 const Stack = createNativeStackNavigator()
 
 export const OnboardNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName='RecoveryScreen' screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='AuthScreen' component={AuthScreen} />
-      <Stack.Screen name='OnboardScreen' component={OnboardScreen} />
-      <Stack.Screen name='RecoveryScreen' component={RecoveryScreen} />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={ROUTES.AUTH} component={AuthScreen} />
+      <Stack.Screen name={ROUTES.BENEFIT} component={OnboardScreen} />
+      <Stack.Screen name={ROUTES.RECOVER_ACCOUNT} component={RecoveryScreen} />
     </Stack.Navigator>
   )
 }

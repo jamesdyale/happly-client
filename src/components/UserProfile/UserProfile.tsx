@@ -3,10 +3,6 @@ import { APP_BLACK, HABIT_OPTION } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 export const UserProfile = ({ navigation }) => {
-  const navigateToSetting = () => {
-    navigation.navigate('CustomStack', { screen: 'Settings' })
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.left}>
@@ -19,7 +15,7 @@ export const UserProfile = ({ navigation }) => {
           <Text style={styles.username}>James Odeyale</Text>
         </View>
       </View>
-      <TouchableOpacity onPress={navigateToSetting}>
+      <TouchableOpacity onPress={() => navigation.navigate('CustomStack', { screen: 'Settings' })}>
         <Icon name='settings' size={25} color={APP_BLACK} />
       </TouchableOpacity>
     </View>
