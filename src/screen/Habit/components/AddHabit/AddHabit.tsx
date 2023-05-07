@@ -23,6 +23,7 @@ export const AddHabit = ({ navigation }) => {
       <View>
         <CustomTextInput label='Title' placeholder='Enter the title' />
         <CustomTextInput label='Description' placeholder='Enter the description' />
+        
         <View>
           <Text>How often do you want to do it?</Text>
           <View>
