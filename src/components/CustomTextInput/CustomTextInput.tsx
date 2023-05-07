@@ -2,12 +2,18 @@ import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { CustomTextInputType } from '../../shared'
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 
-export const CustomTextInput = ({ label, handleChange, value, placeholder, keyboardType }: CustomTextInputType) => {
+export const CustomTextInput = ({
+                                  bigLabel,
+                                  label,
+                                  handleChange,
+                                  value,
+                                  placeholder,
+                                  keyboardType
+                                }: CustomTextInputType) => {
   return (
     <View style={styles.textInput}>
-      <Text style={styles.label}>
-        {label}
-      </Text>
+      {label && <Text style={styles.label}>{label}</Text>}
+      {bigLabel && <Text style={styles.bigLabel}>{bigLabel}</Text>}
       <TextInput
         style={styles.input}
         onChangeText={handleChange}
@@ -30,6 +36,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 19,
     color: '#0F0F0F'
+  },
+  bigLabel: {
+    fontFamily: 'Inter',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 18,
+    lineHeight: 22,
+    color: '#333333'
   },
   input: {
     backgroundColor: '#FAFAFA',

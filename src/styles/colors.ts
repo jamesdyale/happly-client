@@ -10,5 +10,8 @@ export const APP_BLUE = '#082E67'
 export const APP_GOLD = '#EFDA45'
 export const HABIT_OPTION = '#565454'
 
+export const APP_RED = '#F84A3E'
+
+export const APP_PINK = '#F5B6B1'
 
 

@@ -5,7 +5,8 @@ import { KeyboardTypeOptions } from 'react-native'
  * Type for my custom text input
  */
 export type CustomTextInputType = {
-  label: string;
+  label?: string;
+  bigLabel?: string;
   handleChange: (e) => void;
   value: string;
   placeholder?: string;
