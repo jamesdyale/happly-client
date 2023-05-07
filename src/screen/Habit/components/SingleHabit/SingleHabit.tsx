@@ -8,7 +8,11 @@ import { StreakIcon } from '../../../../assets/svgs'
 
 export const SingleHabit = ({ route, navigation }) => {
   const { habitId } = route.params
-  console.log(habitId)
+  const currentDate = new Date().toISOString().split('T')[0]
+
+  // TODO: function to get habit from habitId
+
+  // TODO: function to get habit streak from habitId for the entire month
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -40,7 +44,7 @@ export const SingleHabit = ({ route, navigation }) => {
           </View>
         </View>
 
-        <CustomCalendar />
+        <CustomCalendar currentDate={currentDate} />
 
         <View style={styles.streakContainer}>
           <View style={styles.streakVSLongestStreak}>

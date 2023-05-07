@@ -8,12 +8,12 @@ const Arrow = ({ direction }) => {
   return direction === 'left' ?
     <Icon name='chevron-back' size={22} color={APP_GRAY} /> : <Icon name='chevron-forward' size={22} color={APP_GRAY} />
 }
-export const CustomCalendar = () => {
+export const CustomCalendar = ({ currentDate }) => {
   return (
     <Calendar
       // // Initially visible month. Default = Date()
       style={styles.calendar}
-      current={'2023-02-12'}
+      current={currentDate}
       theme={theme}
       // // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
       // minDate={'2012-05-10'}
