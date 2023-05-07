@@ -1,13 +1,92 @@
-import { View, Text, Button } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { CustomCalendar } from '../../../../components'
+import { APP_RED, APP_WHITE, MAIN_ACCENT_COLOR } from '../../../../styles'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 
 export const SingleHabit = ({ route, navigation }) => {
   const { habitId } = route.params
+  console.log(habitId)
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>SingleHabit {habitId} here</Text>
-      <Button title='Go back' onPress={() => navigation.goBack()} />
-    </View>
+    <SafeAreaView style={styles.wrapper}>
+      <View style={styles.container}>
+        <View>
+          <View>
+            <Text>Go back</Text>
+            <Icon name='close' size={25} color={APP_RED} onPress={() => navigation.goBack()} />
+          </View>
+          <View>
+            <Icon name='close' size={25} color={APP_RED} onPress={() => navigation.goBack()} />
+            <Icon name='close' size={25} color={APP_RED} onPress={() => navigation.goBack()} />
+            <Icon name='close' size={25} color={APP_RED} onPress={() => navigation.goBack()} />
+          </View>
+        </View>
+        <View>
+          <Text>Read a book</Text>
+          <Text>I want to read 10 pages of a book everyday.</Text>
+        </View>
+        <View>
+          <View>
+            <Text>Repeat:</Text>
+            <Text>Daily</Text>
+          </View>
+          <View>
+            <Text>Remind:</Text>
+            <Text>01:30 PM</Text>
+          </View>
+        </View>
+        <View>
+          <CustomCalendar />
+        </View>
+        <View>
+          <View>
+            <View>
+              <Text>0 DAYS</Text>
+              <Text>Your Current Streak</Text>
+            </View>
+            <View>
+              <Text>0 days</Text>
+              <Text>Your longest streak</Text>
+            </View>
+          </View>
+          <View>
+            <Text>Image</Text>
+          </View>
+        </View>
+        <TouchableOpacity
+          style={styles.createButton}
+          onPress={() => console.log('Hey there')}>
+          <Text style={styles.createButtonText}>CREATE</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: APP_WHITE,
+    flex: 1
+  },
+  container: {
+    padding: 20
+  },
+
+  createButton: {
+    backgroundColor: MAIN_ACCENT_COLOR,
+    borderRadius: 8,
+    color: APP_WHITE,
+    padding: 15
+  },
+  createButtonText: {
+    color: APP_WHITE,
+    fontFamily: 'Inter',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 18,
+    lineHeight: 22,
+    textAlign: 'center'
+  }
+})

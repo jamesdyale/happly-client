@@ -21,7 +21,12 @@ export const WeekView = ({ navigation, habit }) => {
           {/*</View>*/}
         </View>
         <Icon name='calendar-outline' size={25} color={APP_BLACK}
-              onPress={() => navigation.navigate('Habit', { screen: 'SingleHabit', habitId: habit.habitId })} />
+              onPress={() => navigation.navigate('CustomStack', {
+                screen: 'SingleHabit',
+                params: {
+                  habitId: habit.id
+                }
+              })} />
       </View>
       <View style={styles.footer}>
         {week.map((day, index) => {

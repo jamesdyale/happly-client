@@ -39,9 +39,9 @@ export const HabitsScreenNavigator = () => {
       <Stack.Screen name={ROUTES.ALL_HABIT}>
         {(props) => <AllHabits {...props} />}
       </Stack.Screen>
-      <Stack.Screen name={ROUTES.SINGLE_HABIT}>
-        {(props) => <SingleHabit {...props} />}
-      </Stack.Screen>
+      {/*<Stack.Screen name={ROUTES.SINGLE_HABIT}>*/}
+      {/*  {(props) => <SingleHabit {...props} />}*/}
+      {/*</Stack.Screen>*/}
       <Stack.Screen name={ROUTES.CREATE_HABIT}>
         {(props) => <AddHabit {...props} />}
       </Stack.Screen>
