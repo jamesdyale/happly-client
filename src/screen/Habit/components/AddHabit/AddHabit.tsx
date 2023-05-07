@@ -7,7 +7,7 @@ import {
   APP_GRAY,
   APP_PINK,
   APP_RED,
-  APP_WHITE,
+  APP_WHITE, GRAY_TEXT,
   MAIN_ACCENT_COLOR,
   MAIN_BG_COLOR
 } from '../../../../styles'
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 18,
     lineHeight: 22,
-    color: '#333333',
+    color: GRAY_TEXT,
     marginBottom: 10
   },
   frequencyOptions: {
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 14,
     lineHeight: 22,
-    color: '#333333'
+    color: GRAY_TEXT
   },
   everyOption: {
     display: 'flex',
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 14,
     lineHeight: 22,
-    color: '#333333'
+    color: GRAY_TEXT
   },
   reminderContainer: {
     display: 'flex',

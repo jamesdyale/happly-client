@@ -2,7 +2,7 @@ import { View, StyleSheet, Text } from 'react-native'
 import { getWeekFromCurrentDate } from '../../shared/utils'
 import { DayOfTheWeek } from './components/DayOfTheWeek'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { APP_BLACK } from '../../styles'
+import { APP_BLACK, GRAY_TEXT } from '../../styles'
 import moment from 'moment/moment'
 import { useAtom } from 'jotai'
 import { selectDayOfTheWeekAtom } from '../../state/state'
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontSize: 16,
     lineHeight: 19,
-    color: '#333333'
+    color: GRAY_TEXT
   },
   footer: {
     display: 'flex',

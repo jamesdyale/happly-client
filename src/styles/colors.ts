@@ -14,4 +14,6 @@ export const APP_RED = '#F84A3E'
 
 export const APP_PINK = '#F5B6B1'
 
+export const GRAY_TEXT = '#333333'
+
 

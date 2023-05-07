@@ -6,7 +6,7 @@ import {
 } from '../../state/state'
 import {
   APP_BLACK,
-  APP_WHITE,
+  APP_WHITE, GRAY_TEXT,
   MAIN_ACCENT_COLOR,
   SECONDARY_BG_COLOR
 } from '../../styles'
@@ -131,20 +131,20 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_600SemiBold',
     fontSize: 20,
     lineHeight: 24,
-    color: '#333333',
+    color: GRAY_TEXT,
     marginBottom: 3
   },
   highlightText: {
     fontFamily: 'Inter_500Medium',
     fontSize: 10,
     lineHeight: 12,
-    color: '#333333'
+    color: GRAY_TEXT
   },
   infoText: {
     fontFamily: 'Inter_500Medium',
     fontSize: 12,
     lineHeight: 15,
-    color: '#333333',
+    color: GRAY_TEXT,
     marginTop: 3
   },
   icon: {

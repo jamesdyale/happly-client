@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { CustomTextInputType } from '../../shared'
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
+import { GRAY_TEXT } from '../../styles'
 
 export const CustomTextInput = ({
                                   bigLabel,
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 18,
     lineHeight: 22,
-    color: '#333333'
+    color: GRAY_TEXT
   },
   input: {
     backgroundColor: '#FAFAFA',

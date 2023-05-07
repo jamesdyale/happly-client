@@ -6,7 +6,7 @@ import {
   OnboardScreenThreeIcon,
   OnboardScreenTwoIcon
 } from '../../../../assets/svgs'
-import { MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '../../../../styles'
+import { GRAY_TEXT, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '../../../../styles'
 
 
 const OnboardScreenOne = () => (
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 16,
     lineHeight: 20,
-    color: '#333333',
+    color: GRAY_TEXT,
     marginBottom: 20
   },
   OnboardInformation_ActionBtn: {
