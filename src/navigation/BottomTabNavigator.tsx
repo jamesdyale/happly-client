@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { ROUTES } from '../constants'
 import { HABIT_OPTION, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '../styles'
