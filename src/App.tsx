@@ -4,7 +4,7 @@ import { Provider as StateProvider } from 'jotai'
 import { NavigationContainer } from '@react-navigation/native'
 import { NavigationRoutes } from './navigation'
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
-
+import { ToastProvider } from 'react-native-toast-notifications'
 
 const App = () => {
   let [fontsLoaded] = useFonts({
@@ -19,7 +19,9 @@ const App = () => {
   return (
     <NavigationContainer>
       <StateProvider>
-        <NavigationRoutes />
+        <ToastProvider placement='top' offsetTop={100}>
+          <NavigationRoutes />
+        </ToastProvider>
       </StateProvider>
     </NavigationContainer>
   )
