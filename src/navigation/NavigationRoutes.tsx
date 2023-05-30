@@ -12,7 +12,7 @@ const Stack = createNativeStackNavigator()
 
 export const NavigationRoutes = () => {
   return (
-    <Stack.Navigator initialRouteName='CustomModal' screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName='Onboard' screenOptions={{ headerShown: false }}>
       <Stack.Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
       <Stack.Screen name={ROUTES.ONBOARD} component={OnboardNavigator} />
       <Stack.Screen name={ROUTES.HABIT} component={HabitsScreenNavigator} />

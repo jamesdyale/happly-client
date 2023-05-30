@@ -7,4 +7,4 @@ export * from './CustomTabItem/CustomTabItem'
 export * from './WeekCalendar/WeekCalendar'
 export * from './UserProfile/UserProfile'
 export * from './HabitList/HabitList'
-
+export * from './CustomSlider/CustomSlider'

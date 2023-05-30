@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { FlatList, SafeAreaView, Slider, StyleSheet, Text, View } from 'react-native'
 import {
   OnboardScreenFourIcon,
   OnboardScreenOneIcon,
@@ -7,6 +7,7 @@ import {
   OnboardScreenTwoIcon
 } from '../../../../assets/svgs'
 import { GRAY_TEXT, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '../../../../styles'
+import { CustomSlider } from '../../../../components'
 
 
 const OnboardScreenOne = () => (
@@ -133,7 +134,9 @@ export const OnboardScreen = ({ navigation }) => {
         </View>
         <View style={styles.OnboardInformation_ActionBtn}>
           {/* TODO: Add a slider that shows how many more screens for onboarding */}
-          <Text style={styles.OnboardInformation_ActionBtn_Slider}>Slider goes here</Text>
+          <View>
+            <CustomSlider current={currentScreen} total={4} />
+          </View>
           <Text style={styles.OnboardInformation_ActionBtn_NextBtn}
                 onPress={handleNext}>
             {currentScreen !== 4 ? 'Next' : 'Get Started!'}</Text>
