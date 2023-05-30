@@ -163,7 +163,7 @@ export const OnboardScreen = ({ navigation }) => {
             showsHorizontalScrollIndicator={false}
             pagingEnabled
             bounces={false}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
             onScroll={Animated.event(
               [{ nativeEvent: { contentOffset: { x: scrollX } } }],
               { useNativeDriver: false }
@@ -178,7 +178,7 @@ export const OnboardScreen = ({ navigation }) => {
           <View>
             <CustomSlider data={screens} scrollX={scrollX} />
           </View>
-          <NextBtn handleNext={handleNext} />
+          <NextBtn handleNext={handleNext} currentScreen={currentScreen} />
         </View>
       </View>
     </SafeAreaView>
@@ -196,10 +196,12 @@ const OnboardItem = ({ item }) => {
 }
 
 
-const NextBtn = ({ handleNext }) => {
+const NextBtn = ({ handleNext, currentScreen }) => {
   return (
     <TouchableOpacity onPress={handleNext}>
-      <Text style={styles.OnboardInformation_ActionBtn_NextBtn}>Next</Text>
+      <Text style={styles.OnboardInformation_ActionBtn_NextBtn}>
+        {currentScreen < screens.length - 1 ? 'Next' : 'Get Started'}
+      </Text>
     </TouchableOpacity>
   )
 }
@@ -210,7 +212,7 @@ const styles = StyleSheet.create({
     backgroundColor: SECONDARY_BG_COLOR
   },
   ItemContainer: {
-    paddingTop: 50,
+    paddingTop: 10,
     paddingLeft: 50,
     paddingRight: 50
   },
@@ -235,7 +237,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 100,
     height: '50%'
   },
   OnboardScreen_SkipTextContainer: {
@@ -288,7 +290,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 25
   },
   OnboardInformation_ActionBtn_Slider: {
     fontFamily: 'Inter_600SemiBold',
