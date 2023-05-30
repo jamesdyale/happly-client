@@ -1,39 +1,32 @@
-import { StyleSheet, Text, View } from 'react-native'
-import { APP_GRAY, HABIT_OPTION, MAIN_ACCENT_COLOR } from '../../styles'
+import { StyleSheet, View, Animated, useWindowDimensions } from 'react-native'
+import { APP_GRAY, MAIN_ACCENT_COLOR } from '../../styles'
 import { useFonts, Inter_600SemiBold } from '@expo-google-fonts/inter'
 
-export const CustomSlider = ({ total, current }: {
-  total: number;
-  current: number
-}) => {
-  let [fontsLoaded] = useFonts({
-    Inter_600SemiBold
-  })
+export const CustomSlider = ({ data, scrollX }) => {
+  const { width } = useWindowDimensions()
 
-  if (!fontsLoaded) {
-    return null
-  }
 
   return (
     <View style={styles.container}>
-      {Array(total).fill(1).map(
-        (_, index) => {
-          const currentIndex = index + 1
-          if (currentIndex === current) {
-            return (
-              <View key={index} style={styles.currentScreen}>
-              </View>
-            )
-          }
-          return (
-            <View key={index} style={{
-              ...styles.notCurrentScreen,
-              backgroundColor: currentIndex < current ? MAIN_ACCENT_COLOR : APP_GRAY
-            }}>
-            </View>
-          )
-        }
-      )}
+      {data.map((_, index) => {
+        const inputRange = [(index - 1) * width, index * width, (index + 1) * width]
+        const dotWidth = scrollX.interpolate({
+          inputRange,
+          outputRange: [10, 30, 10],
+          extrapolate: 'clamp'
+        })
+
+        const opacity = scrollX.interpolate({
+          inputRange,
+          outputRange: [0.3, 1, 0.3],
+          extrapolate: 'clamp'
+        })
+
+
+        return (
+          <Animated.View key={index.toString()} style={[styles.dot, { width: dotWidth, opacity }]} />
+        )
+      })}
     </View>
   )
 }
@@ -44,17 +37,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%'
   },
-  currentScreen: {
-    backgroundColor: MAIN_ACCENT_COLOR,
-    width: 30,
+  dot: {
     height: 10,
     borderRadius: 5,
-    marginRight: 10
-  },
-  notCurrentScreen: {
-    width: 10,
-    height: 10,
-    borderRadius: 10,
-    marginRight: 10
+    backgroundColor: MAIN_ACCENT_COLOR,
+    marginHorizontal: 8
   }
+
 })

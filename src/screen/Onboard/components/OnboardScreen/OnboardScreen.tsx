@@ -1,5 +1,5 @@
-import React from 'react'
-import { FlatList, SafeAreaView, Slider, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { Animated, FlatList, SafeAreaView, Slider, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import {
   OnboardScreenFourIcon,
   OnboardScreenOneIcon,
@@ -97,26 +97,46 @@ const OnboardScreenFour = () => (
   </>
 )
 
+const screens = [
+  {
+    key: 1,
+    component: <OnboardScreenOne />
+  },
+  {
+    key: 2,
+    component: <OnboardScreenTwo />
+  },
+  {
+    key: 3,
+    component: <OnboardScreenThree />
+  },
+  {
+    key: 4,
+    component: <OnboardScreenFour />
+  }
+]
+
 export const OnboardScreen = ({ navigation }) => {
-  const [currentScreen, setCurrentScreen] = React.useState<number>(1)
+  const slidesRef = React.useRef(null)
+  const scrollX = React.useRef(new Animated.Value(0)).current
+  const [currentScreen, setCurrentScreen] = React.useState<number>(0)
+
+  const viewableItemsChanged = React.useRef(({ viewableItems }) => {
+    setCurrentScreen(viewableItems[0].index + 1)
+  }).current
+
+  const viewConfig = React.useRef({ viewAreaCoveragePercentThreshold: 50 }).current
 
   const handleSkip = () => {
     navigation.navigate('MainApp')
   }
 
   const handleNext = () => {
-    switch (currentScreen) {
-      case 1:
-        setCurrentScreen(2)
-        break
-      case 2:
-        setCurrentScreen(3)
-        break
-      case 3:
-        setCurrentScreen(4)
-        break
-      case 4:
-        navigation.navigate('MainApp')
+    console.log(currentScreen)
+    if (currentScreen < screens.length - 1) {
+      slidesRef.current.scrollToIndex({ index: currentScreen + 1 })
+    } else {
+      console.log('End of the slides reached')
     }
   }
 
@@ -127,22 +147,46 @@ export const OnboardScreen = ({ navigation }) => {
           <Text style={styles.OnboardScreen_SkipText} onPress={handleSkip}>Skip</Text>
         </View>
         <View style={styles.OnboardScreen_CurrentScreen}>
-          {currentScreen === 1 ? <OnboardScreenOne /> : null}
-          {currentScreen === 2 ? <OnboardScreenTwo /> : null}
-          {currentScreen === 3 ? <OnboardScreenThree /> : null}
-          {currentScreen === 4 ? <OnboardScreenFour /> : null}
+          <FlatList
+            data={screens}
+            renderItem={({ item }) => <Item index={item.key} />}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+            bounces={false}
+            keyExtractor={item => item.key.toString()}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+              { useNativeDriver: false }
+            )}
+            scrollEventThrottle={32}
+            onViewableItemsChanged={viewableItemsChanged}
+            viewabilityConfig={viewConfig}
+            ref={slidesRef}
+          />
         </View>
         <View style={styles.OnboardInformation_ActionBtn}>
-          {/* TODO: Add a slider that shows how many more screens for onboarding */}
           <View>
-            <CustomSlider current={currentScreen} total={4} />
+            <CustomSlider data={screens} scrollX={scrollX} />
           </View>
-          <Text style={styles.OnboardInformation_ActionBtn_NextBtn}
-                onPress={handleNext}>
-            {currentScreen !== 4 ? 'Next' : 'Get Started!'}</Text>
+          <NextBtn handleNext={handleNext} />
         </View>
       </View>
     </SafeAreaView>
+  )
+}
+
+const Item = ({ index }) => {
+  return (
+    <OnboardScreenOne />
+  )
+}
+
+const NextBtn = ({ handleNext }) => {
+  return (
+    <TouchableOpacity onPress={handleNext}>
+      <Text style={styles.OnboardInformation_ActionBtn_NextBtn}>Next Button</Text>
+    </TouchableOpacity>
   )
 }
 
@@ -157,8 +201,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop: 20,
     paddingBottom: 20,
-    paddingLeft: 50,
-    paddingRight: 50
+    paddingLeft: 20,
+    paddingRight: 20
   },
   OnboardScreen_Icon: {
     display: 'flex',
@@ -184,8 +228,8 @@ const styles = StyleSheet.create({
   OnboardScreen_CurrentScreen: {
     height: '80%',
     display: 'flex',
-    justifyContent: 'space-between'
-
+    justifyContent: 'space-between',
+    flex: 3
   },
   OnboardInformation: {},
   OnboardInformation_Title: {
