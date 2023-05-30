@@ -1,5 +1,15 @@
 import React, { useEffect } from 'react'
-import { Animated, FlatList, SafeAreaView, Slider, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Animated,
+  FlatList,
+  SafeAreaView,
+  Slider,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View
+} from 'react-native'
 import {
   OnboardScreenFourIcon,
   OnboardScreenOneIcon,
@@ -99,19 +109,19 @@ const OnboardScreenFour = () => (
 
 const screens = [
   {
-    key: 1,
+    id: 1,
     component: <OnboardScreenOne />
   },
   {
-    key: 2,
+    id: 2,
     component: <OnboardScreenTwo />
   },
   {
-    key: 3,
+    id: 3,
     component: <OnboardScreenThree />
   },
   {
-    key: 4,
+    id: 4,
     component: <OnboardScreenFour />
   }
 ]
@@ -122,7 +132,7 @@ export const OnboardScreen = ({ navigation }) => {
   const [currentScreen, setCurrentScreen] = React.useState<number>(0)
 
   const viewableItemsChanged = React.useRef(({ viewableItems }) => {
-    setCurrentScreen(viewableItems[0].index + 1)
+    setCurrentScreen(viewableItems[0].index)
   }).current
 
   const viewConfig = React.useRef({ viewAreaCoveragePercentThreshold: 50 }).current
@@ -132,11 +142,10 @@ export const OnboardScreen = ({ navigation }) => {
   }
 
   const handleNext = () => {
-    console.log(currentScreen)
     if (currentScreen < screens.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentScreen + 1 })
     } else {
-      console.log('End of the slides reached')
+      navigation.navigate('MainApp')
     }
   }
 
@@ -149,12 +158,12 @@ export const OnboardScreen = ({ navigation }) => {
         <View style={styles.OnboardScreen_CurrentScreen}>
           <FlatList
             data={screens}
-            renderItem={({ item }) => <Item index={item.key} />}
+            renderItem={({ item }) => <OnboardItem item={item} />}
             horizontal
             showsHorizontalScrollIndicator={false}
             pagingEnabled
             bounces={false}
-            keyExtractor={item => item.key.toString()}
+            keyExtractor={item => item.id}
             onScroll={Animated.event(
               [{ nativeEvent: { contentOffset: { x: scrollX } } }],
               { useNativeDriver: false }
@@ -176,16 +185,21 @@ export const OnboardScreen = ({ navigation }) => {
   )
 }
 
-const Item = ({ index }) => {
+
+const OnboardItem = ({ item }) => {
+  const { width } = useWindowDimensions()
   return (
-    <OnboardScreenOne />
+    <View style={[styles.ItemContainer, { width }]}>
+      {item.component}
+    </View>
   )
 }
+
 
 const NextBtn = ({ handleNext }) => {
   return (
     <TouchableOpacity onPress={handleNext}>
-      <Text style={styles.OnboardInformation_ActionBtn_NextBtn}>Next Button</Text>
+      <Text style={styles.OnboardInformation_ActionBtn_NextBtn}>Next</Text>
     </TouchableOpacity>
   )
 }
@@ -195,14 +209,27 @@ const styles = StyleSheet.create({
   OnboardScreen: {
     backgroundColor: SECONDARY_BG_COLOR
   },
+  ItemContainer: {
+    paddingTop: 50,
+    paddingLeft: 50,
+    paddingRight: 50
+  },
+  ItemTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: MAIN_ACCENT_COLOR,
+    textAlign: 'center'
+  },
+  ItemDescription: {
+    fontSize: 16,
+    color: MAIN_ACCENT_COLOR,
+    textAlign: 'center'
+  },
   OnboardScreen_Container: {
     height: '100%',
     display: 'flex',
-    justifyContent: 'space-between',
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 20,
-    paddingRight: 20
+    justifyContent: 'space-between'
   },
   OnboardScreen_Icon: {
     display: 'flex',
@@ -215,7 +242,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'flex-end',
     marginBottom: 20,
-    height: '5%'
+    height: '5%',
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20
   },
   OnboardScreen_SkipText: {
     fontFamily: 'Inter_600SemiBold',
@@ -226,10 +256,9 @@ const styles = StyleSheet.create({
     color: MAIN_ACCENT_COLOR
   },
   OnboardScreen_CurrentScreen: {
-    height: '80%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    flex: 3
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   OnboardInformation: {},
   OnboardInformation_Title: {
@@ -255,7 +284,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    height: '10%'
+    height: '10%',
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 20,
+    paddingRight: 20
   },
   OnboardInformation_ActionBtn_Slider: {
     fontFamily: 'Inter_600SemiBold',
