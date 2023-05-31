@@ -4,6 +4,8 @@ import * as O from 'optics-ts'
 import { DailyHabitType } from '../shared'
 import { atom } from 'jotai'
 
+export const userAtom = atomWithStorage('user', null)
+
 export const selectDayOfTheWeekAtom = atomWithStorage('dayOfTheWeek', new Date())
 
 export const dailyHabitAtom = atomWithStorage<DailyHabitType[]>('habits', [
