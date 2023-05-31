@@ -10,7 +10,7 @@ import { userAtom } from './state/state'
 
 const App = () => {
   const userAtomValue = useAtomValue(userAtom)
-  console.log(userAtomValue)
+
   let [fontsLoaded] = useFonts({
     Inter_700Bold, Inter_600SemiBold, Inter_500Medium, Inter_400Regular
   })
