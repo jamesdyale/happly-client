@@ -6,7 +6,7 @@ const Stack = createNativeStackNavigator()
 
 export const OnboardNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName='Benefit' screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName='Auth' screenOptions={{ headerShown: false }}>
       <Stack.Screen name={ROUTES.AUTH} component={AuthScreen} />
       <Stack.Screen name={ROUTES.BENEFIT} component={OnboardScreen} />
       <Stack.Screen name={ROUTES.RECOVER_ACCOUNT} component={RecoveryScreen} />

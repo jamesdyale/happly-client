@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { CustomButton, CustomTextInput } from '../../../../../components'
 import { APP_WHITE, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '../../../../../styles'
 import React from 'react'
+import { Formik } from 'formik'
 
 type IForm = {
   changeBetweenForms: () => void
@@ -9,29 +10,48 @@ type IForm = {
 
 
 export const LoginForm = ({ changeBetweenForms }: IForm) => (
-  <View style={styles.AuthForm}>
-    <View style={styles.AuthFormHeaderContainer}>
-      <Text style={styles.AuthFormHeader}>Welcome Back ✌️✌️</Text>
-      <Text style={styles.AuthFormInfo}>Enter login details to get started.</Text>
-      <View style={styles.AuthFormBody}>
-        <CustomTextInput label='Email Address' placeholder='Enter Email Address' />
-        <CustomTextInput label='Password' placeholder='Enter Password' />
+  <Formik
+    initialValues={{ email: '', password: '' }}
+    onSubmit={values => console.log(values)}
+  >
+    {({ handleChange, handleBlur, handleSubmit, values }) => (
+      <View style={styles.AuthForm}>
+        <View style={styles.AuthFormHeaderContainer}>
+          <Text style={styles.AuthFormHeader}>Welcome Back ✌️✌️</Text>
+          <Text style={styles.AuthFormInfo}>Enter login details to get started.</Text>
+          <View style={styles.AuthFormBody}>
+            <CustomTextInput
+              label='Email Address'
+              placeholder='Enter Email Address'
+              handleChange={handleChange('email')}
+              handleBlur={handleBlur('email')}
+              value={values.email}
+            />
+            <CustomTextInput
+              label='Password'
+              placeholder='Enter Password'
+              handleChange={handleChange('password')}
+              handleBlur={handleBlur('password')}
+              value={values.password}
+            />
+          </View>
+        </View>
+        <View style={styles.AuthFormActionBtn}>
+          <Text style={styles.ActionTextContainer}>
+            <Text style={styles.ActionText}>Don't have an account? </Text>
+            <Text style={styles.HighlightedText} onPress={() => changeBetweenForms()}>Sign Up</Text>
+          </Text>
+          <CustomButton bgColor={MAIN_ACCENT_COLOR} color={APP_WHITE} text={'Login'}
+                        onClick={() => console.log('hey there')} />
+          <View style={styles.ActionTextContainer}>
+            <Text style={styles.ActionText}>Forgot Password? </Text>
+            <Text style={styles.HighlightedText} onPress={() => console.log('navigate to password recovery')}>Recover
+              Password</Text>
+          </View>
+        </View>
       </View>
-    </View>
-    <View style={styles.AuthFormActionBtn}>
-      <Text style={styles.ActionTextContainer}>
-        <Text style={styles.ActionText}>Don't have an account? </Text>
-        <Text style={styles.HighlightedText} onPress={() => changeBetweenForms()}>Sign Up</Text>
-      </Text>
-      <CustomButton bgColor={MAIN_ACCENT_COLOR} color={APP_WHITE} text={'Login'}
-                    onClick={() => console.log('hey there')} />
-      <View style={styles.ActionTextContainer}>
-        <Text style={styles.ActionText}>Forgot Password? </Text>
-        <Text style={styles.HighlightedText} onPress={() => console.log('navigate to password recovery')}>Recover
-          Password</Text>
-      </View>
-    </View>
-  </View>
+    )}
+  </Formik>
 )
 
 const styles = StyleSheet.create({

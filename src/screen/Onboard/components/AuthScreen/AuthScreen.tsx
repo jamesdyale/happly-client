@@ -6,8 +6,7 @@ import { SignUpForm } from './components/SignUpForm'
 
 
 export const AuthScreen = () => {
-
-  const [formType, setFormType] = React.useState('register')
+  const [formType, setFormType] = React.useState('login')
 
   const changeBetweenForms = () => {
     if (formType === 'login') {

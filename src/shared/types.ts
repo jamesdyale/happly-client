@@ -8,9 +8,10 @@ export type CustomTextInputType = {
   label?: string;
   bigLabel?: string;
   handleChange: (e) => void;
+  handleBlur: (e) => void;
   value: string;
   placeholder?: string;
-  keyboardType: KeyboardTypeOptions;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 /**

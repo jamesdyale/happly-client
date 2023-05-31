@@ -21,6 +21,7 @@
     "expo": "^46.0.21",
     "expo-font": "~10.2.0",
     "expo-status-bar": "~1.4.2",
+    "formik": "^2.4.0",
     "jotai": "^2.0.0",
     "jotai-optics": "^0.3.0",
     "moment": "^2.29.4",

@@ -7,6 +7,7 @@ export const CustomTextInput = ({
                                   bigLabel,
                                   label,
                                   handleChange,
+                                  handleBlur,
                                   value,
                                   placeholder,
                                   keyboardType
@@ -18,6 +19,7 @@ export const CustomTextInput = ({
       <TextInput
         style={styles.input}
         onChangeText={handleChange}
+        onBlur={handleBlur}
         value={value}
         placeholder={placeholder}
         keyboardType={keyboardType}
