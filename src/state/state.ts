@@ -1,12 +1,13 @@
-import { atomWithStorage } from 'jotai/utils'
+import { atomWithStorage } from 'jotai/utils';
 // import { focusAtom } from 'jotai-optics'
-import * as O from 'optics-ts'
-import { DailyHabitType } from '../shared'
-import { atom } from 'jotai'
+import * as O from 'optics-ts';
+import { DailyHabitType } from '../shared';
+import { atom } from 'jotai';
 
-export const userAtom = atomWithStorage('user', null)
+export const userAtom = atomWithStorage('user', null);
 
-export const selectDayOfTheWeekAtom = atomWithStorage('dayOfTheWeek', new Date())
+
+export const selectDayOfTheWeekAtom = atomWithStorage('dayOfTheWeek', new Date());
 
 export const dailyHabitAtom = atomWithStorage<DailyHabitType[]>('habits', [
   {
@@ -18,7 +19,7 @@ export const dailyHabitAtom = atomWithStorage<DailyHabitType[]>('habits', [
     reminderAt: '10:00pm',
     progress: 0,
     completed: false,
-    info: 'Abc'
+    info: 'Abc',
   },
   {
     id: '2',
@@ -29,7 +30,7 @@ export const dailyHabitAtom = atomWithStorage<DailyHabitType[]>('habits', [
     reminderAt: '10:00pm',
     progress: 0,
     completed: false,
-    info: 'Abc'
+    info: 'Abc',
   },
   {
     id: '3',
@@ -40,7 +41,7 @@ export const dailyHabitAtom = atomWithStorage<DailyHabitType[]>('habits', [
     reminderAt: '10:00pm',
     progress: 0,
     completed: false,
-    info: 'Abc'
+    info: 'Abc',
   },
   {
     id: '4',
@@ -51,7 +52,7 @@ export const dailyHabitAtom = atomWithStorage<DailyHabitType[]>('habits', [
     reminderAt: '10:00pm',
     progress: 100,
     completed: true,
-    info: '1 day streak'
+    info: '1 day streak',
   },
   {
     id: '5',
@@ -62,35 +63,35 @@ export const dailyHabitAtom = atomWithStorage<DailyHabitType[]>('habits', [
     reminderAt: '10:00pm',
     progress: 100,
     completed: true,
-    info: '5 days streak'
-  }
-])
+    info: '5 days streak',
+  },
+]);
 
-export const selectedHabitAtom = atomWithStorage<DailyHabitType | null>('habitSelected', null)
+export const selectedHabitAtom = atomWithStorage<DailyHabitType | null>('habitSelected', null);
 
-export const showDeleteModalAtom = atomWithStorage<boolean>('showDeleteModal', true)
+export const showDeleteModalAtom = atomWithStorage<boolean>('showDeleteModal', true);
 
 export const useSetSelectedHabitAtom = atom(null, (get, set, habitId: string) => {
-  const dailyHabits = get(dailyHabitAtom) // TODO: should be replaced with endpoint call
-  const habit = dailyHabits.find(habit => habit.habitId === habitId)
+  const dailyHabits = get(dailyHabitAtom); // TODO: should be replaced with endpoint call
+  const habit = dailyHabits.find(habit => habit.habitId === habitId);
   if (habit) {
-    return set(selectedHabitAtom, habit)
+    return set(selectedHabitAtom, habit);
   }
-  return undefined
-})
+  return undefined;
+});
 
 export const useClearSelectedHabitAtom = atom(null, (get, set) => {
-  return set(selectedHabitAtom, null)
-})
+  return set(selectedHabitAtom, null);
+});
 
 export const useDeleteHabitAtom = atom(null, (get, set) => {
-  const habit = get(selectedHabitAtom)
+  const habit = get(selectedHabitAtom);
   if (habit) {
-    const dailyHabits = get(dailyHabitAtom)
-    const updatedHabits = dailyHabits.filter(h => h.habitId !== habit.habitId)
-    set(dailyHabitAtom, updatedHabits)
-    set(selectedHabitAtom, null)
-    set(showDeleteModalAtom, false)
+    const dailyHabits = get(dailyHabitAtom);
+    const updatedHabits = dailyHabits.filter(h => h.habitId !== habit.habitId);
+    set(dailyHabitAtom, updatedHabits);
+    set(selectedHabitAtom, null);
+    set(showDeleteModalAtom, false);
   }
-  return undefined
-})
+  return undefined;
+});
