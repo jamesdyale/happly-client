@@ -1,59 +1,22 @@
 import {
-  View, StyleSheet, Text, ScrollView,
-} from 'react-native';
-import React from 'react';
-import { useAtom } from 'jotai';
+  View, StyleSheet, Text, ScrollView
+} from 'react-native'
+import React from 'react'
+import { useAtom } from 'jotai'
 import {
   APP_GRAY,
   HABIT_OPTION,
   MAIN_ACCENT_COLOR,
-  MAIN_BG_COLOR,
-} from '../../styles';
-import { NoHabitIcon } from '../../assets/svgs';
-import { SingleHabit } from './SingleHabit';
-import { dailyHabitAtom } from '../../state/state';
-import CustomProgressBar from '../CustomProgressBar/CustomProgressBar';
+  MAIN_BG_COLOR
+} from '../../styles'
+import { NoHabitIcon } from '../../assets/svgs'
+import { SingleHabit } from './SingleHabit'
+import { dailyHabitAtom } from '../../state/state'
+import { CustomProgressBar } from '../CustomProgressBar/CustomProgressBar'
 
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
-    width: '100%',
-    padding: 20,
-    backgroundColor: MAIN_BG_COLOR,
-  },
-  noHabitIconContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    height: '100%',
-  },
-  noHabitMessage: {
-    fontFamily: 'Inter_600SemiBold',
-    fontStyle: 'normal',
-    fontWeight: '600',
-    fontSize: 12,
-    lineHeight: 15,
-    textAlign: 'center',
-    color: HABIT_OPTION,
-    opacity: 0.5,
-  },
-  noHabitMessageMessenger: {
-    fontFamily: 'Inter_700Bold',
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 10,
-    lineHeight: 12,
-    textAlign: 'right',
-    color: MAIN_ACCENT_COLOR,
-    opacity: 0.5,
-    marginTop: 10,
-  },
-});
-
-export function HabitList() {
-  const [habits] = useAtom(dailyHabitAtom);
-  const progressCount = habits.filter((habit) => habit.completed === true).length;
+export const HabitList = () => {
+  const [habits] = useAtom(dailyHabitAtom)
+  const progressCount = habits.filter((habit) => habit.completed === true).length
 
   return (
     <View style={styles.container}>
@@ -64,7 +27,7 @@ export function HabitList() {
               marginTop: 80,
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'center',
+              alignItems: 'center'
             }}
           >
             <NoHabitIcon />
@@ -89,7 +52,7 @@ export function HabitList() {
             borderBottomWidth: 1,
             marginBottom: 15,
             borderBottomColor: APP_GRAY,
-            paddingBottom: 15,
+            paddingBottom: 15
           }}
           >
             <CustomProgressBar
@@ -105,5 +68,43 @@ export function HabitList() {
       )}
 
     </View>
-  );
+  )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    width: '100%',
+    padding: 20,
+    backgroundColor: MAIN_BG_COLOR
+  },
+  noHabitIconContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    height: '100%'
+  },
+  noHabitMessage: {
+    fontFamily: 'Inter_600SemiBold',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 12,
+    lineHeight: 15,
+    textAlign: 'center',
+    color: HABIT_OPTION,
+    opacity: 0.5
+  },
+  noHabitMessageMessenger: {
+    fontFamily: 'Inter_700Bold',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 10,
+    lineHeight: 12,
+    textAlign: 'right',
+    color: MAIN_ACCENT_COLOR,
+    opacity: 0.5,
+    marginTop: 10
+  }
+})
+

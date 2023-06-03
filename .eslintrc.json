@@ -4,16 +4,20 @@
     "es2021": true
   },
   "extends": [
+    "plugin:react/recommended",
     "airbnb",
-    "airbnb-typescript",
-    "airbnb/hooks",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    "airbnb/hooks"
   ],
-  "overrides": [],
+  "overrides": [
+  ],
   "parserOptions": {
-    "project": "tsconfig.json"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
+  "plugins": [
+    "react",
+    "react-native"
+  ],
   "rules": {
   }
 }

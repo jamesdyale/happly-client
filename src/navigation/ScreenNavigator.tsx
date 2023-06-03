@@ -4,12 +4,10 @@ import {
   AllChallenges,
   AllHabits,
   CreateChallenge,
-  CreateRoom,
-  Home,
+  CreateRoom, Home,
   Room,
   Rooms,
-  Settings,
-  SingleHabit
+  Settings
 } from '../screen'
 import { ROUTES } from '../constants'
 import React from 'react'

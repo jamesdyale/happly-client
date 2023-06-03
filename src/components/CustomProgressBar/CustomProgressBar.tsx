@@ -1,25 +1,25 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { useFonts, Inter_600SemiBold } from '@expo-google-fonts/inter';
-import { APP_GRAY, HABIT_OPTION, MAIN_ACCENT_COLOR } from '../../styles';
-import { ProgressBarType } from '../../shared';
-import { progressBarStatus } from '../../shared/utils';
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { useFonts, Inter_600SemiBold } from '@expo-google-fonts/inter'
+import { APP_GRAY, HABIT_OPTION, MAIN_ACCENT_COLOR } from '../../styles'
+import { ProgressBarType } from '../../shared'
+import { progressBarStatus } from '../../shared/utils'
 
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
+    width: '100%'
   },
   top: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 10
   },
   text: {
     fontFamily: 'Inter_600SemiBold',
-    color: HABIT_OPTION,
+    color: HABIT_OPTION
   },
   bottom: {
     width: '100%',
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    borderTopRightRadius: 8
   },
   innerBottom: {
     width: '50%',
@@ -37,17 +37,17 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-  },
-});
+    borderTopRightRadius: 8
+  }
+})
 
-function CustomProgressBar({ progress }: ProgressBarType) {
+export const CustomProgressBar = ({ progress }: ProgressBarType) => {
   const [fontsLoaded] = useFonts({
-    Inter_600SemiBold,
-  });
+    Inter_600SemiBold
+  })
 
   if (!fontsLoaded) {
-    return null;
+    return null
   }
   return (
     <View style={styles.container}>
@@ -63,7 +63,5 @@ function CustomProgressBar({ progress }: ProgressBarType) {
         <View style={{ ...styles.innerBottom, width: `${progress}%` }} />
       </View>
     </View>
-  );
+  )
 }
-
-export default CustomProgressBar;

@@ -1,11 +1,11 @@
 import { atomWithStorage } from 'jotai/utils';
 // import { focusAtom } from 'jotai-optics'
 import * as O from 'optics-ts';
-import { DailyHabitType } from '../shared';
 import { atom } from 'jotai';
+import { DailyHabitType } from '../shared';
+import { User } from '../types';
 
 export const userAtom = atomWithStorage('user', null);
-
 
 export const selectDayOfTheWeekAtom = atomWithStorage('dayOfTheWeek', new Date());
 
@@ -73,22 +73,20 @@ export const showDeleteModalAtom = atomWithStorage<boolean>('showDeleteModal', t
 
 export const useSetSelectedHabitAtom = atom(null, (get, set, habitId: string) => {
   const dailyHabits = get(dailyHabitAtom); // TODO: should be replaced with endpoint call
-  const habit = dailyHabits.find(habit => habit.habitId === habitId);
+  const habit = dailyHabits.find((habit) => habit.habitId === habitId);
   if (habit) {
     return set(selectedHabitAtom, habit);
   }
   return undefined;
 });
 
-export const useClearSelectedHabitAtom = atom(null, (get, set) => {
-  return set(selectedHabitAtom, null);
-});
+export const useClearSelectedHabitAtom = atom(null, (get, set) => set(selectedHabitAtom, null));
 
 export const useDeleteHabitAtom = atom(null, (get, set) => {
   const habit = get(selectedHabitAtom);
   if (habit) {
     const dailyHabits = get(dailyHabitAtom);
-    const updatedHabits = dailyHabits.filter(h => h.habitId !== habit.habitId);
+    const updatedHabits = dailyHabits.filter((h) => h.habitId !== habit.habitId);
     set(dailyHabitAtom, updatedHabits);
     set(selectedHabitAtom, null);
     set(showDeleteModalAtom, false);

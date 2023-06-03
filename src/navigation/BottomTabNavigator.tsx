@@ -1,6 +1,7 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { useAtomValue } from 'jotai'
 import { ROUTES } from '../constants'
 import { HABIT_OPTION, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '../styles'
 import {
@@ -11,8 +12,6 @@ import {
 } from './ScreenNavigator'
 import { CustomTabItem } from '../components'
 import { selectedHabitAtom } from '../state/state'
-import { useAtomValue } from 'jotai'
-
 
 const Tab = createBottomTabNavigator()
 
@@ -53,7 +52,14 @@ export const BottomTabNavigator = () => {
             tabName = 'Create'
           }
 
-          return <CustomTabItem name={tabName} icon={iconName} size={22} color={color} />
+          return (
+            <CustomTabItem
+              name={tabName}
+              icon={iconName}
+              size={22}
+              color={color}
+            />
+          )
         }
       })}
     >
@@ -80,7 +86,6 @@ export const BottomTabNavigator = () => {
     </Tab.Navigator>
   )
 }
-
 
 const styles = StyleSheet.create({
   tabBarStyle: {
