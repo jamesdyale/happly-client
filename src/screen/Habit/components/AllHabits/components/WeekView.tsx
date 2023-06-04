@@ -19,7 +19,7 @@ export const WeekView = ({ habit }) => {
       <View style={styles.habitTitleContainer}>
         <View>
           <Text style={styles.title}>{habit.title}</Text>
-          {/* TODO: Add label for frrequency later in the future */}
+          {/* TODO: Add label for frequency later in the future */}
           {/*<View style={styles.labelContainer}>*/}
           {/*  <Text style={styles.label}>Everyday</Text>*/}
           {/*</View>*/}

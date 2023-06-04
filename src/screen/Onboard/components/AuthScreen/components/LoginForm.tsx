@@ -3,7 +3,7 @@ import { CustomButton, CustomTextInput } from '../../../../../components'
 import { APP_WHITE, MAIN_ACCENT_COLOR } from '../../../../../styles'
 import React from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { FIREBASE_AUTH } from '../../../../../db/firebaseConfig'
+import { FIREBASE_AUTH } from '@db/firebaseConfig'
 
 type IForm = {
   changeBetweenForms: () => void

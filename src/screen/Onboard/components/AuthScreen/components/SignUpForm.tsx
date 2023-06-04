@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
-import { APP_WHITE, MAIN_ACCENT_COLOR } from '../../../../../styles'
-import { CustomButton, CustomTextInput } from '../../../../../components'
+import { APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/colors'
 import React from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { FIREBASE_AUTH } from '../../../../../db/firebaseConfig'
+import { CustomButton } from '@components/CustomButton/CustomButton'
+import { CustomTextInput } from '@components/CustomTextInput/CustomTextInput'
+import { FIREBASE_AUTH } from '@db/firebaseConfig'
 
 type IForm = {
   changeBetweenForms: () => void

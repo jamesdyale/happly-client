@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.2",
-    "@react-native-async-storage/async-storage": "^1.18.1",
+    "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.5.4",
     "@react-navigation/drawer": "^6.5.8",
@@ -47,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "eslint": "^8.41.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
@@ -60,7 +61,8 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-native": "^4.0.0",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "react-native-dotenv": "^3.4.8"
   },
   "private": true
 }

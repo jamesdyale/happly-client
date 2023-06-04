@@ -1,4 +1,21 @@
 {
-  "compilerOptions": {},
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@env": [
+        "node_modules/<path to the module dist>"
+      ],
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@constant/*": ["./src/constant/*"],
+      "@db/*": ["./src/db/*"],
+      "@navigation/*": ["./src/navigation/*"],
+      "@screen/*": ["./src/screen/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@state/*": ["./src/state/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@types/*": ["./src/types/*"],
+    }
+  },
   "extends": "expo/tsconfig.base"
 }

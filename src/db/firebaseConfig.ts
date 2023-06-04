@@ -11,7 +11,7 @@ import {
   FIREBASE_APP_ID
 } from '@env'
 
-const index = {
+const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
   authDomain: FIREBASE_AUTH_DOMAIN,
   projectId: FIREBASE_PROJECT_ID,
@@ -20,7 +20,7 @@ const index = {
   appId: FIREBASE_APP_ID
 }
 
-export const FIREBASE_APP = initializeApp(index)
+export const FIREBASE_APP = initializeApp(firebaseConfig)
 export const FIREBASE_DB = getFirestore(FIREBASE_APP)
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP)
 
