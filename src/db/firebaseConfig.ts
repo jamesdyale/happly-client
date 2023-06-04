@@ -2,17 +2,25 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID
+} from '@env'
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyCl0OG3eBxxxSbudvl9t6QFqLroJ6sDR9Y',
-  authDomain: 'happly-5c322.firebaseapp.com',
-  projectId: 'happly-5c322',
-  storageBucket: 'happly-5c322.appspot.com',
-  messagingSenderId: '629862532573',
-  appId: '1:629862532573:web:0dfdfed4b790de8fa9a234'
+const index = {
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  appId: FIREBASE_APP_ID
 }
 
-export const FIREBASE_APP = initializeApp(firebaseConfig)
+export const FIREBASE_APP = initializeApp(index)
 export const FIREBASE_DB = getFirestore(FIREBASE_APP)
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP)
 
