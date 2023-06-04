@@ -8,6 +8,7 @@ export type RootStackParamList = {
   AllHabits: undefined;
   CreateHabit: undefined;
   SingleHabit: undefined;
+  AllRooms: { userId: string };
 };
 
 export type MessageNavProps<T extends keyof RootStackParamList> = {

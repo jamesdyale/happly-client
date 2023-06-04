@@ -5,7 +5,7 @@ import { WeekCalendar } from '../../../../components'
 import { WeekView } from './components/WeekView'
 
 
-export const AllHabits = ({ navigation }) => {
+export const AllHabits = () => {
 
   const allHabits = [
     {
@@ -44,7 +44,7 @@ export const AllHabits = ({ navigation }) => {
         <Text style={styles.headerText}>Habits</Text>
         <View>
           {allHabits.map((habit) => (
-            <WeekView habit={habit} navigation={navigation} />
+            <WeekView habit={habit} />
           ))}
         </View>
       </View>

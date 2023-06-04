@@ -12,13 +12,18 @@ import {
   MAIN_BG_COLOR
 } from '../../../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 
-export const AddHabit = ({ navigation }) => {
+export const AddHabit = () => {
   const [isEnabled, setIsEnabled] = React.useState(true)
   const [frequencyOption, setFrequencyOption] = React.useState('daily')
   const [dayOfTheWeek, setDayOfTheWeek] = React.useState([])
   const [timeOfDay, setTimeOfDay] = React.useState('night')
+
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
 
   const toggleSwitch = () => setIsEnabled(previousState => !previousState)
 
@@ -38,8 +43,20 @@ export const AddHabit = ({ navigation }) => {
             style={{ ...styles.headerText, color: '#9D9797' }}> Habit</Text></Text>
         </View>
         <View>
-          <CustomTextInput bigLabel='Title' placeholder='Enter the title' />
-          <CustomTextInput bigLabel='Description' placeholder='Enter the description' />
+          <CustomTextInput bigLabel='Title' placeholder='Enter the title'
+                           handleChange={() => {
+                           }}
+                           handleBlur={() => {
+                           }}
+                           value={''}
+          />
+          <CustomTextInput bigLabel='Description' placeholder='Enter the description'
+                           handleChange={() => {
+                           }}
+                           handleBlur={() => {
+                           }}
+                           value={''}
+          />
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>How often do you want to do it?</Text>
             <View style={styles.frequencyOptions}>

@@ -19,7 +19,8 @@ export function AuthScreen() {
     const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
       if (user) {
         console.log('user logged in')
-        navigate(ROUTES.MAIN_APP)
+        // navigate(ROUTES.MAIN_APP, { screen: ROUTES.HOME })
+        navigate('MainApp', { screen: 'Home' })
       } else {
         console.log('user logged out')
       }

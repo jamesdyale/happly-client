@@ -10,10 +10,7 @@ const Stack = createNativeStackNavigator()
 
 export const AppStack = () => {
   return (
-    <Stack.Navigator
-      initialRouteName='MainApp'
-      screenOptions={{ headerShown: false }}
-    >
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
       <Stack.Screen name={ROUTES.HABIT} component={HabitsScreenNavigator} />
       <Stack.Screen name={ROUTES.CUSTOM_MODAL} component={CustomModalStackNavigator} />

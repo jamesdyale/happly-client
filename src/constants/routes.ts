@@ -4,6 +4,7 @@ export default {
   BENEFIT: 'Benefit',
 
   HOME: 'Home',
+  MAIN_HOME: 'MainHome',
 
   ALL_HABIT: 'AllHabits',
   CREATE_HABIT: 'CreateHabit',
@@ -11,7 +12,7 @@ export default {
 
   SETTINGS: 'Settings',
 
-  ALL_ROOMS: 'All Rooms',
+  ALL_ROOMS: 'AllRooms',
   CREATE_ROOM: 'CreateRoom',
   SINGLE_ROOM: 'SingleRoom',
 

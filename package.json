@@ -27,6 +27,8 @@
     "jotai-optics": "^0.3.0",
     "moment": "^2.29.4",
     "optics-ts": "^2.4.0",
+    "patch-package": "^7.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "react": "18.0.0",
     "react-native": "0.69.9",
     "react-native-calendars": "^1.1275.0",

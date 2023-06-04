@@ -1,8 +1,12 @@
 import { View, Text, Button } from 'react-native'
 import React from 'react'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 
-export const CreateChallenge = ({ navigation }) => {
+export const CreateChallenge = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>CreateChallenge</Text>
