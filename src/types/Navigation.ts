@@ -1,12 +1,6 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 
-export type User = {
-  id: string;
-  email: string;
-  token: string;
-};
-
 export type RootStackParamList = {
   Auth: undefined;
   Home: undefined;
