@@ -24,5 +24,8 @@ export default {
   ONBOARD: 'Onboard',
   HABIT: 'Habit',
   CUSTOM_MODAL: 'CustomModal',
-  CUSTOM_STACK: 'CustomStack'
+  CUSTOM_STACK: 'CustomStack',
+
+  AUTHENTICATION_STACK: 'AuthenticationStack',
+  APP_STACK: 'AppStack'
 }

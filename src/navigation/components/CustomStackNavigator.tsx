@@ -1,6 +1,6 @@
-import { Settings, SingleHabit } from '../screen'
+import { Settings, SingleHabit } from '@screen/index'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { ROUTES } from '../constants'
+import { ROUTES } from '../../constants'
 
 const Stack = createNativeStackNavigator()
 

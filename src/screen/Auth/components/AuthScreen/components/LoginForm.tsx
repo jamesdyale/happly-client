@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
-import { CustomButton, CustomTextInput } from '../../../../../components'
-import { APP_WHITE, MAIN_ACCENT_COLOR } from '../../../../../styles'
+import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
+import { CustomButton, CustomTextInput } from '@components/index'
+import { APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/index'
 import React from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { FIREBASE_AUTH } from '@db/firebaseConfig'
@@ -15,6 +15,7 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
 
 
   const handleLogin = async () => {
+    // TODO: add loading state
     try {
       const foundUserPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
 
@@ -22,13 +23,15 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
         console.log('user found ', foundUserPromise)
       }
     } catch (error) {
-      console.log('error finding user', error)
+      alert(`Sign in failed: ${error.message}`)
+    } finally {
+      console.log('finally')
+      //   TODO: add loading state
     }
   }
 
   return (
-    <View
-      style={styles.AuthForm}>
+    <KeyboardAvoidingView behavior='padding' style={styles.AuthForm}>
       <View
         style={styles.AuthFormHeaderContainer}>
         <Text style={styles.AuthFormHeader}>Welcome Back ✌️</Text>
@@ -68,7 +71,7 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
             Password</Text>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

@@ -1,6 +1,1 @@
-export * from './NavigationRoutes'
-export * from './BottomTabNavigator'
-export * from './ScreenNavigator'
-export * from './CustomModalStackNavigator'
-export * from './CustomStackNavigator'
-export * from './OnboardNavigator'
+export * from './Navigation'

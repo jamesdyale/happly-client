@@ -31,6 +31,7 @@ export const WeekCalendar = () => {
         {week.map((day) => {
           return (
             <DayOfTheWeek
+              key={day.date.toString()}
               day={day}
               selectedDay={selectedDay}
               handleDayClick={handleDayClick}

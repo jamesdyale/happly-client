@@ -1,7 +1,6 @@
 import { registerRootComponent } from 'expo'
 import React from 'react'
-import { Provider as StateProvider, useAtomValue } from 'jotai'
-import { NavigationContainer } from '@react-navigation/native'
+import { Provider as StateProvider } from 'jotai'
 import {
   Inter_400Regular,
   Inter_500Medium,
@@ -11,15 +10,10 @@ import {
 } from '@expo-google-fonts/inter'
 import { ToastProvider } from 'react-native-toast-notifications'
 import { ActivityIndicator, View } from 'react-native'
-import { AuthStack } from '@navigation/AuthStack'
-import { userAtom } from '@state/state'
-import { AppStack } from '@navigation/AppStack'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
+import { Navigation } from '@navigation/Navigation'
 
 const App = () => {
   const isLoading = false
-  const isLoggedIn = true
 
   const [fontsLoaded] = useFonts({
     Inter_700Bold, Inter_600SemiBold, Inter_500Medium, Inter_400Regular
@@ -38,13 +32,11 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer>
-      <StateProvider>
-        <ToastProvider placement='top' offsetTop={100}>
-          {isLoggedIn ? <AppStack /> : <AuthStack />}
-        </ToastProvider>
-      </StateProvider>
-    </NavigationContainer>
+    <StateProvider>
+      <ToastProvider placement='top' offsetTop={100}>
+        <Navigation />
+      </ToastProvider>
+    </StateProvider>
   )
 }
 

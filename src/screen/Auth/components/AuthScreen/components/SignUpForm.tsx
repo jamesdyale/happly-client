@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
 import { APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/colors'
 import React from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
@@ -34,7 +34,7 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
 
 
   return (
-    <View style={styles.AuthForm}>
+    <KeyboardAvoidingView behavior='padding' style={styles.AuthForm}>
       <View style={styles.AuthFormHeaderContainer}>
         <Text style={styles.AuthFormHeader}>Create An Account️</Text>
         <Text style={styles.AuthFormInfo}>Provide required details and click the <Text
@@ -83,7 +83,7 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
           <Text style={styles.HighlightedText} onPress={changeBetweenForms}>Login</Text>
         </Text>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

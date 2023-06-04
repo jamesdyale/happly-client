@@ -8,26 +8,13 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { FIREBASE_AUTH } from '@db/firebaseConfig'
 import { ROUTES } from '../../../../constants'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { useAtomValue } from 'jotai'
+import { userAtom } from '@state/state'
 
 
 export function AuthScreen() {
   const [formType, setFormType] = React.useState('login')
 
-  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      if (user) {
-        console.log('user logged in')
-        // navigate(ROUTES.MAIN_APP, { screen: ROUTES.HOME })
-        navigate('MainApp', { screen: 'Home' })
-      } else {
-        console.log('user logged out')
-      }
-    })
-
-    return unsubscribe
-  }, [])
 
   const changeBetweenForms = () => {
     if (formType === 'login') {

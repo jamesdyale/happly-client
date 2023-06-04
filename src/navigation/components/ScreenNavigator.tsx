@@ -8,8 +8,8 @@ import {
   Room,
   Rooms,
   Settings
-} from '../screen'
-import { ROUTES } from '../constants'
+} from '@screen/index'
+import { ROUTES } from '../../constants'
 import React from 'react'
 
 const Stack = createStackNavigator()

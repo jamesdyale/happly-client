@@ -2,16 +2,16 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useAtomValue } from 'jotai'
-import { ROUTES } from '../constants'
-import { HABIT_OPTION, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '../styles'
+import { ROUTES } from '../../constants'
+import { HABIT_OPTION, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '@styles/index'
 import {
   ChallengesScreenNavigator,
   HabitsScreenNavigator,
   HomeScreenNavigator,
   RoomsScreenNavigator
 } from './ScreenNavigator'
-import { CustomTabItem } from '../components'
-import { selectedHabitAtom } from '../state/state'
+import { CustomTabItem } from '@components/index'
+import { selectedHabitAtom } from '@state/state'
 
 const Tab = createBottomTabNavigator()
 

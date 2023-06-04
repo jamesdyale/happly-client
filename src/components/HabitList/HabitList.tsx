@@ -61,7 +61,7 @@ export const HabitList = () => {
           </View>
           <ScrollView style={{ marginBottom: 40 }}>
             {habits.map((habit) => (
-              <SingleHabit habit={habit} />
+              <SingleHabit key={habit.id} habit={habit} />
             ))}
           </ScrollView>
         </>

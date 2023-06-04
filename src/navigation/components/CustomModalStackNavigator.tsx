@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { DeleteHabitModal, PauseHabitModal } from '../screen/Modals'
+import { DeleteHabitModal, PauseHabitModal } from '@screen/Modals'
 
 const Stack = createNativeStackNavigator()
 

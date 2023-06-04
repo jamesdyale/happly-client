@@ -19,7 +19,6 @@ export const DayOfTheWeek = (props: IDayOfTheWeek) => {
 
   return (
     <TouchableOpacity
-      key={day.date.toString()}
       onPress={() => handleDayClick(day.date)}
       style={{
         ...styles.day,
