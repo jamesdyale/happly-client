@@ -10,7 +10,8 @@ export const CustomTextInput = ({
                                   handleBlur,
                                   value,
                                   placeholder,
-                                  keyboardType
+                                  keyboardType,
+                                  secureTextEntry
                                 }: CustomTextInputType) => {
   return (
     <View style={styles.textInput}>
@@ -23,6 +24,7 @@ export const CustomTextInput = ({
         value={value}
         placeholder={placeholder}
         keyboardType={keyboardType}
+        secureTextEntry={secureTextEntry}
       />
     </View>
   )

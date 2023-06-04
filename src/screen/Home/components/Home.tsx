@@ -6,7 +6,7 @@ import { HabitList, UserProfile, WeekCalendar } from '../../../components'
 import { EditHabitModal } from '../../Modals'
 import { selectedHabitAtom, showDeleteModalAtom } from '../../../state/state'
 
-export const Home = ({ navigation }) => {
+export const Home = () => {
   const habitSelected = useAtomValue(selectedHabitAtom)
   const isDeleteHabitModalOpen = useAtomValue(showDeleteModalAtom)
 
@@ -16,7 +16,7 @@ export const Home = ({ navigation }) => {
       backgroundColor: MAIN_BG_COLOR
     }}
     >
-      <UserProfile navigation={navigation} />
+      <UserProfile />
       <WeekCalendar />
       <HabitList />
       {habitSelected ? <EditHabitModal /> : null}

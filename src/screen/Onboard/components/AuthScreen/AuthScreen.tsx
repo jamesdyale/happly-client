@@ -1,20 +1,42 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import { SECONDARY_BG_COLOR } from '../../../../styles';
-import { LoginForm } from './components/LoginForm';
-import { SignUpForm } from './components/SignUpForm';
+import React, { useEffect } from 'react'
+import { useNavigation, ParamListBase } from '@react-navigation/native'
+import { SafeAreaView, StyleSheet } from 'react-native'
+import { SECONDARY_BG_COLOR } from '../../../../styles'
+import { LoginForm } from './components/LoginForm'
+import { SignUpForm } from './components/SignUpForm'
+import { onAuthStateChanged } from 'firebase/auth'
+import { FIREBASE_AUTH } from '../../../../db/firebaseConfig'
+import { ROUTES } from '../../../../constants'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+
 
 export function AuthScreen() {
-  const [formType, setFormType] = React.useState('login');
-  
+  const [formType, setFormType] = React.useState('login')
+
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
+  useEffect(() => {
+    console.log('shit stuff going on here')
+    const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      if (user) {
+        console.log('user logged in')
+        navigate(ROUTES.MAIN_APP)
+      } else {
+        console.log('user logged out')
+      }
+    })
+
+    return unsubscribe
+  }, [])
+
   const changeBetweenForms = () => {
     if (formType === 'login') {
-      setFormType('register');
+      setFormType('register')
     }
     if (formType === 'register') {
-      setFormType('login');
+      setFormType('login')
     }
-  };
+  }
 
   return (
     <SafeAreaView style={styles.AuthScreenContainer}>
@@ -22,11 +44,11 @@ export function AuthScreen() {
         <LoginForm changeBetweenForms={changeBetweenForms} /> :
         <SignUpForm changeBetweenForms={changeBetweenForms} />}
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   AuthScreenContainer: {
-    backgroundColor: SECONDARY_BG_COLOR,
-  },
-});
+    backgroundColor: SECONDARY_BG_COLOR
+  }
+})

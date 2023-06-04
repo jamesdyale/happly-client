@@ -10,12 +10,18 @@ import {
 import { GRAY_TEXT, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '../../../../styles'
 import { CustomSlider } from '../../../../components'
 import { NextBtn, OnboardItem, screens } from './components/UtilsComponents'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { ROUTES } from '../../../../constants'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 
-export const OnboardScreen = ({ navigation }) => {
+export const OnboardScreen = () => {
   const slidesRef = React.useRef(null)
   const scrollX = React.useRef(new Animated.Value(0)).current
   const [currentScreen, setCurrentScreen] = React.useState<number>(0)
+
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
 
   const viewableItemsChanged = React.useRef(({ viewableItems }) => {
     setCurrentScreen(viewableItems[0].index)
@@ -24,14 +30,15 @@ export const OnboardScreen = ({ navigation }) => {
   const viewConfig = React.useRef({ viewAreaCoveragePercentThreshold: 50 }).current
 
   const handleSkip = () => {
-    navigation.navigate('MainApp')
+    navigate(ROUTES.MAIN_APP)
+
   }
 
   const handleNext = () => {
     if (currentScreen < screens.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentScreen + 1 })
     } else {
-      navigation.navigate('MainApp')
+      navigate(ROUTES.MAIN_APP)
     }
   }
 

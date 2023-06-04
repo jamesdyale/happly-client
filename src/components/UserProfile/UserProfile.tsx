@@ -1,8 +1,13 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { APP_BLACK, HABIT_OPTION } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { ROUTES } from '../../constants'
 
-export const UserProfile = ({ navigation }) => {
+export const UserProfile = () => {
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
   return (
     <View style={styles.container}>
       <View style={styles.left}>
@@ -15,7 +20,7 @@ export const UserProfile = ({ navigation }) => {
           <Text style={styles.username}>James Odeyale</Text>
         </View>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('CustomStack', { screen: 'Settings' })}>
+      <TouchableOpacity onPress={() => navigate(ROUTES.CUSTOM_STACK, { screen: 'Settings' })}>
         <Icon name='settings' size={25} color={APP_BLACK} />
       </TouchableOpacity>
     </View>

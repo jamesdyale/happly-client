@@ -5,8 +5,12 @@ import { APP_BLACK } from '../../../../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { getLast7Days } from '../../../../../shared/utils'
 import { StreakWeek } from './StreakWeek'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { ROUTES } from '../../../../../constants'
 
-export const WeekView = ({ navigation, habit }) => {
+export const WeekView = ({ habit }) => {
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
   const week = getLast7Days().reverse()
 
@@ -21,8 +25,8 @@ export const WeekView = ({ navigation, habit }) => {
           {/*</View>*/}
         </View>
         <Icon name='calendar-outline' size={25} color={APP_BLACK}
-              onPress={() => navigation.navigate('CustomStack', {
-                screen: 'SingleHabit',
+              onPress={() => navigate(ROUTES.CUSTOM_STACK, {
+                screen: ROUTES.SINGLE_HABIT,
                 params: {
                   habitId: habit.id
                 }
