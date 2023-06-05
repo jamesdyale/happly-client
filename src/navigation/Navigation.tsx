@@ -22,10 +22,9 @@ export const Navigation = () => {
     const unsubscribe =
       onAuthStateChanged(FIREBASE_AUTH, (user) => {
         if (user) {
-          console.log('user logged in')
-          // setUser(user)
+          setUser(user)
         } else {
-          console.log('user logged out')
+          setUser(null)
         }
       })
 
