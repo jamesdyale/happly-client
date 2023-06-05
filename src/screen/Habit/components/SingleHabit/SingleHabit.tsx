@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { CustomCalendar } from '../../../../components'
-import { APP_GRAY, APP_RED, APP_WHITE, GRAY_TEXT, HABIT_OPTION, MAIN_ACCENT_COLOR } from '../../../../styles'
+import { APP_BLACK, APP_GRAY, APP_RED, APP_WHITE, GRAY_TEXT, HABIT_OPTION, MAIN_ACCENT_COLOR } from '../../../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { StreakIcon } from '../../../../assets/svgs'
 
@@ -64,7 +64,8 @@ export const SingleHabit = ({ route, navigation }) => {
         <TouchableOpacity
           style={styles.createButton}
           onPress={() => console.log('Hey there')}>
-          <Text style={styles.createButtonText}>CREATE</Text>
+          <Icon name='checkbox-outline' size={25} color={APP_WHITE} />
+          <Text style={styles.createButtonText}>Mark as done</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -190,7 +191,11 @@ const styles = StyleSheet.create({
     backgroundColor: MAIN_ACCENT_COLOR,
     borderRadius: 8,
     color: APP_WHITE,
-    padding: 15
+    padding: 15,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   createButtonText: {
     color: APP_WHITE,
@@ -199,6 +204,8 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 18,
     lineHeight: 22,
-    textAlign: 'center'
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    marginLeft: 10
   }
 })
