@@ -13,7 +13,7 @@ import { userAtom } from '@state/state'
 
 
 export function AuthScreen() {
-  const [formType, setFormType] = React.useState('login')
+  const [formType, setFormType] = React.useState('register')
 
 
   const changeBetweenForms = () => {

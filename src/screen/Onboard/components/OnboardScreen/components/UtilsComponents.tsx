@@ -1,30 +1,29 @@
 import { FlatList, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import React from 'react'
-import { GRAY_TEXT, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '../../../../../styles'
+import { GRAY_TEXT, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '@styles/colors'
 import {
+  OnboardScreenFiveIcon,
+  OnboardScreenTwoIcon,
   OnboardScreenFourIcon,
-  OnboardScreenOneIcon,
   OnboardScreenThreeIcon,
-  OnboardScreenTwoIcon
-} from '../../../../../assets/svgs'
-
+  OnboardScreenOneIcon
+} from '@assets/svgs'
 
 const OnboardScreenOne = () => (
   <>
-    <View style={styles.OnboardScreen_Icon}>
+    <View style={{ ...styles.OnboardScreen_Icon, paddingTop: 50 }}>
       <OnboardScreenOneIcon />
     </View>
 
     <View style={styles.OnboardInformation}>
-      <Text style={styles.OnboardInformation_Title}>A better version of you</Text>
-      <Text style={styles.OnboardInformation_Text}>Having trouble sticking to your goals?
-        We’ve build an all in one self development
-        app to help you stay motivated and inspired
-        to stick to your goals!
+      <Text style={styles.OnboardInformation_Title}>Welcome to Happly</Text>
+      <Text style={styles.OnboardInformation_Text}>Build healthier habits with daily plans and mindful reminders that
+        will help you stay accountable.
       </Text>
     </View>
   </>
 )
+
 
 const OnboardScreenTwo = () => (
   <>
@@ -33,21 +32,10 @@ const OnboardScreenTwo = () => (
     </View>
 
     <View style={styles.OnboardInformation}>
-      <Text style={styles.OnboardInformation_Title}>Benefits of habits</Text>
-      <FlatList
-        data={[
-          { key: 1, text: 'Almost half of the actions you perform each day are habits' },
-          { key: 2, text: 'The right habits can help you reach your goals' },
-          { key: 3, text: 'Habits determine the quality of your life' }
-        ]}
-        renderItem={({ item }) => {
-          return (
-            <View key={item.key}>
-              <Text style={{ ...styles.OnboardInformation_Text }}>{`\u2022 ${item.text}`}</Text>
-            </View>
-          )
-        }}
-      />
+      <Text style={styles.OnboardInformation_Title}>A better version of you</Text>
+      <Text style={styles.OnboardInformation_Text}>
+        You can build up a new habit or quit an existing bad one with Happly.
+      </Text>
     </View>
   </>
 )
@@ -59,22 +47,10 @@ const OnboardScreenThree = () => (
     </View>
 
     <View style={styles.OnboardInformation}>
-      <Text style={styles.OnboardInformation_Title}>How do we help you stick to your habits</Text>
-      <FlatList
-        data={[
-          { key: 1, text: 'Easy habit tracking' },
-          { key: 2, text: 'Accountability room' },
-          { key: 3, text: 'Daily motivation message' },
-          { key: 4, text: 'End of day report' }
-        ]}
-        renderItem={({ item }) => {
-          return (
-            <View key={item.key}>
-              <Text style={{ ...styles.OnboardInformation_Text }}>{`\u2022 ${item.text}`}</Text>
-            </View>
-          )
-        }}
-      />
+      <Text style={styles.OnboardInformation_Title}>Visualize your efforts</Text>
+      <Text style={styles.OnboardInformation_Text}>
+        We provide you with a daily report of your progress and a weekly analysis of your results.
+      </Text>
     </View>
   </>
 )
@@ -86,7 +62,22 @@ const OnboardScreenFour = () => (
     </View>
 
     <View style={styles.OnboardInformation}>
-      <Text style={styles.OnboardInformation_Title}>Feeling motivated already</Text>
+      <Text style={styles.OnboardInformation_Title}>How do we help you stick to your habits</Text>
+      <Text style={styles.OnboardInformation_Text}>
+        We use a combination of psychology and technology to help you build healthier habits.
+      </Text>
+    </View>
+  </>
+)
+
+const OnboardScreenFive = () => (
+  <>
+    <View style={styles.OnboardScreen_Icon}>
+      <OnboardScreenFiveIcon />
+    </View>
+
+    <View style={styles.OnboardInformation}>
+      <Text style={styles.OnboardInformation_Title}>Feeling motivated already?</Text>
       <Text style={styles.OnboardInformation_Text}>
         “If you get better 1% every day for one year
         you will end up 37 times better by the time
@@ -113,6 +104,10 @@ export const screens = [
   {
     id: 4,
     component: <OnboardScreenFour />
+  },
+  {
+    id: 5,
+    component: <OnboardScreenFive />
   }
 ]
 
@@ -171,19 +166,21 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_700Bold',
     fontStyle: 'normal',
     fontWeight: '700',
-    fontSize: 32,
+    fontSize: 30,
     lineHeight: 34,
     color: '#000000',
-    marginBottom: 20
+    marginBottom: 20,
+    textAlign: 'center'
   },
   OnboardInformation_Text: {
     fontFamily: 'Inter_400Regular',
     fontStyle: 'normal',
     fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 20,
+    fontSize: 18,
+    lineHeight: 25,
     color: GRAY_TEXT,
-    marginBottom: 20
+    marginBottom: 20,
+    textAlign: 'center'
   },
   OnboardInformation_ActionBtn_NextBtn: {
     fontFamily: 'Inter_600SemiBold',

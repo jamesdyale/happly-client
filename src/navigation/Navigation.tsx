@@ -23,7 +23,7 @@ export const Navigation = () => {
       onAuthStateChanged(FIREBASE_AUTH, (user) => {
         if (user) {
           console.log('user logged in')
-          setUser(user)
+          // setUser(user)
         } else {
           console.log('user logged out')
         }
@@ -34,7 +34,7 @@ export const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={ROUTES.AUTH} screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName={ROUTES.BENEFIT} screenOptions={{ headerShown: false }}>
         {user ? (
           <>
             <Stack.Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />

@@ -7,7 +7,7 @@ import {
   Text,
   View
 } from 'react-native'
-import { GRAY_TEXT, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '../../../../styles'
+import { MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '@styles/colors'
 import { CustomSlider } from '../../../../components'
 import { NextBtn, OnboardItem, screens } from './components/UtilsComponents'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
@@ -30,15 +30,14 @@ export const OnboardScreen = () => {
   const viewConfig = React.useRef({ viewAreaCoveragePercentThreshold: 50 }).current
 
   const handleSkip = () => {
-    navigate(ROUTES.MAIN_APP)
-
+    navigate(ROUTES.AUTH)
   }
 
   const handleNext = () => {
     if (currentScreen < screens.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentScreen + 1 })
     } else {
-      navigate(ROUTES.MAIN_APP)
+      navigate(ROUTES.AUTH)
     }
   }
 
