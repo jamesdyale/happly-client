@@ -1,15 +1,8 @@
-import React, { useEffect } from 'react'
-import { useNavigation, ParamListBase } from '@react-navigation/native'
+import React from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { SECONDARY_BG_COLOR } from '@styles/colors'
 import { LoginForm } from './components/LoginForm'
 import { SignUpForm } from './components/SignUpForm'
-import { onAuthStateChanged } from 'firebase/auth'
-import { FIREBASE_AUTH } from '@db/firebaseConfig'
-import { ROUTES } from '../../../../constants'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { useAtomValue } from 'jotai'
-import { userAtom } from '@state/state'
 
 
 export function AuthScreen() {

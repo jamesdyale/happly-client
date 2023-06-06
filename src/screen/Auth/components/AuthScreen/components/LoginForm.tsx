@@ -3,29 +3,41 @@ import { CustomButton, CustomTextInput } from '@components/index'
 import { APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/index'
 import React from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { FIREBASE_AUTH } from '@db/firebaseConfig'
+import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
+import { useAtom } from 'jotai/index'
+import { userAtom } from '@state/state'
+import { doc, getDoc } from 'firebase/firestore'
 
 type IForm = {
   changeBetweenForms: () => void
 }
 
 export const LoginForm = ({ changeBetweenForms }: IForm) => {
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [email, setEmail] = React.useState('james124@gmail.com')
+  const [password, setPassword] = React.useState('asd123')
+  const [user, setUser] = useAtom(userAtom)
 
 
   const handleLogin = async () => {
     // TODO: add loading state
     try {
       const foundUserPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
-
       if (foundUserPromise && foundUserPromise.user) {
-        console.log('user found ', foundUserPromise)
+        console.log(foundUserPromise)
+        // const docRef = doc(FIREBASE_DB, 'users', 'Zn3hxpYgSmltSu6JHves')
+        // const documentSnapshot = await getDoc(docRef)
+        // if (documentSnapshot.exists()) {
+        //   console.log('documentSnapshot - ', documentSnapshot.data())
+        // } else {
+        //   console.log('documentSnapshot does not exist')
+        // }
+        // const docSnap = await getDoc(usersRef)
+        // console.log('docSnap - ', docSnap)
       }
     } catch (error) {
       alert(`Sign in failed: ${error.message}`)
     } finally {
-      console.log('finally')
+      // console.log('finally')
       //   TODO: add loading state
     }
   }

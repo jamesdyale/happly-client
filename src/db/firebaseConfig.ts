@@ -1,7 +1,6 @@
-// Your web app's Firebase configuration
 import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 import {
   FIREBASE_API_KEY,
   FIREBASE_AUTH_DOMAIN,

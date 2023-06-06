@@ -8,10 +8,12 @@ import { CustomStackNavigator } from '@navigation/components/CustomStackNavigato
 import { userAtom } from '@state/state'
 import React, { useEffect } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
-import { FIREBASE_AUTH } from '@db/firebaseConfig'
+import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
 import { useAtom } from 'jotai'
 import { AuthScreen } from '@screen/Auth/components/AuthScreen/AuthScreen'
 import { OnboardScreen, RecoveryScreen } from '@screen/Onboard'
+import { generateUserId } from '../generators/generateId'
+import { getDoc, doc } from 'firebase/firestore'
 
 const Stack = createNativeStackNavigator()
 
@@ -19,10 +21,22 @@ export const Navigation = () => {
   const [user, setUser] = useAtom(userAtom)
 
   useEffect(() => {
+    console.log('useEffect')
     const unsubscribe =
-      onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      onAuthStateChanged(FIREBASE_AUTH, async (user) => {
         if (user) {
-          setUser(user)
+          // const userId = generateUserId()
+          // const data = {
+          //   id: userId,
+          //   email: user.email,
+          //   name: user.displayName
+          // }
+          // console.log('data - ', data)
+          // const usersRef = doc(FIREBASE_DB, 'users', userId)
+          // const docSnap = await getDoc(usersRef)
+          // console.log('docSnap - ', docSnap)
+          // setUser(data)
+
         } else {
           setUser(null)
         }
@@ -33,7 +47,7 @@ export const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={ROUTES.BENEFIT} screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName={ROUTES.AUTH} screenOptions={{ headerShown: false }}>
         {user ? (
           <>
             <Stack.Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />

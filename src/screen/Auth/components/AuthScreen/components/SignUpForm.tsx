@@ -4,7 +4,11 @@ import React from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { CustomButton } from '@components/CustomButton/CustomButton'
 import { CustomTextInput } from '@components/CustomTextInput/CustomTextInput'
-import { FIREBASE_AUTH } from '@db/firebaseConfig'
+import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
+import { generateUserId } from '../../../../../generators/generateId'
+import { setDoc, doc } from 'firebase/firestore'
+import { useAtom } from 'jotai/index'
+import { userAtom } from '@state/state'
 
 type IForm = {
   changeBetweenForms: () => void
@@ -13,22 +17,30 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [confirmPassword, setConfirmPassword] = React.useState('')
+  const [user, setUser] = useAtom(userAtom)
+
 
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
       // TODO: show error message
-      console.log('passwords do not match')
+      alert('Passwords do not match')
       return
     }
 
     try {
       const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
-
-      if (userCredentialPromise) {
-        console.log('user created ', userCredentialPromise.user)
+      if (userCredentialPromise && userCredentialPromise.user) {
+        const data = {
+          id: userCredentialPromise.user.uid,
+          email: userCredentialPromise.user.email,
+          name: userCredentialPromise.user.displayName
+        }
+        await setDoc(doc(FIREBASE_DB, 'users', data.id), data)
+        setUser(data)
       }
     } catch (error) {
       console.log('error creating user', error)
+      alert(`Sign up failed: ${error.message}`)
     }
   }
 

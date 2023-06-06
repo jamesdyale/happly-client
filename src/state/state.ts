@@ -3,6 +3,7 @@ import { atomWithStorage } from 'jotai/utils'
 import * as O from 'optics-ts'
 import { atom } from 'jotai'
 import { DailyHabitType } from '../shared'
+import { User } from '@types/User'
 
 export const userAtom = atomWithStorage('user', null)
 
