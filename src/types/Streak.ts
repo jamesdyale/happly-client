@@ -1,8 +1,9 @@
-import { Habit } from '@types/Habit'
-import { User } from '@types/User'
+import { Habit } from './Habit'
+import { User } from './User'
+import { UniqueId } from '../generators/generateId'
 
 export type Streak = {
-  id: string;
+  id: UniqueId<'streak'>;
   habitId: Habit['id'];
   userId: User['id'];
   count: number;

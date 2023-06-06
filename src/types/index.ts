@@ -1,3 +1,6 @@
 export * from './User'
 export * from './Habit'
+export * from './Streak'
+export * from './Stats'
+export * from './Reminder'
 export * from './Navigation'

@@ -1,7 +1,8 @@
-import { Habit } from '@types/Habit'
+import { Habit } from './Habit'
+import { UniqueId } from '../generators/generateId'
 
 export type Reminder = {
-  id: string;
+  id: UniqueId<'reminder'>;
   reminderAt: string[];
   habitId: Habit['id'];
 };

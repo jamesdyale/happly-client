@@ -1,7 +1,8 @@
-import { User } from '@types/User'
+import { UniqueId } from '../generators/generateId'
+import { User } from './User'
 
 export type Habit = {
-  id: string;
+  id: UniqueId<'habit'>;
   name: string;
   description: string;
   userId: User['id'];
