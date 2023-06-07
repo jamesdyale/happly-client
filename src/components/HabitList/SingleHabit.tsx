@@ -3,12 +3,12 @@ import React from 'react'
 import { APP_BLACK, APP_GRAY, APP_GREEN, APP_WHITE } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useSetAtom } from 'jotai'
-import { useSetSelectedHabitAtom } from '../../state/state'
-import { Habit } from '../../types/Habit'
+import { selectedHabitAtom } from '@state/state'
 import { doc, setDoc } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
 import { generateStatsId } from '../../generators/generateId'
 import { useToast } from 'react-native-toast-notifications'
+import { Habit } from '../../types/Habit'
 import { Stats } from '../../types/Stats'
 
 type SingleHabitType = {
@@ -17,7 +17,7 @@ type SingleHabitType = {
 }
 
 export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
-  const setHabitSelected = useSetAtom(useSetSelectedHabitAtom)
+  const setHabitSelected = useSetAtom(selectedHabitAtom)
   const toast = useToast()
 
   const foundProgress = progress.find((stat) => stat.habitId === habit.id)
@@ -25,7 +25,7 @@ export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
   const handleHabitClick = () => {
     if (habit) {
       console.log(habit)
-      // setHabitSelected(habit.id)
+      setHabitSelected(habit)
     }
   }
 
