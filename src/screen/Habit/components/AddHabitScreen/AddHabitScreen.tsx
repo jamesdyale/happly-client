@@ -21,10 +21,15 @@ import { Habit } from '../../../../types/Habit'
 import { generateHabitId } from '../../../../generators/generateId'
 import { doc, setDoc } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
+import { useToast } from 'react-native-toast-notifications'
+import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 
 
 export const AddHabitScreen = () => {
+
   const [user] = useAtom(userAtom)
+  const toast = useToast()
+
 
   const [name, setName] = React.useState('Reading')
   const [description, setDescription] = React.useState('This is a book reading app')
@@ -53,7 +58,18 @@ export const AddHabitScreen = () => {
 
     await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
 
+    toast.show('Habit created successfully', { type: 'success', duration: 2000, placement: 'bottom' })
+
     navigation.goBack()
+  }
+
+  const [fontsLoaded] = useFonts({
+    Inter_600SemiBold,
+    Inter_700Bold
+  })
+
+  if (!fontsLoaded) {
+    return null
   }
 
 
@@ -292,8 +308,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   headerText: {
-    fontStyle: 'normal',
-    fontWeight: '700',
+    fontFamily: 'Inter_700Bold',
     fontSize: 30,
     lineHeight: 36,
     color: APP_BLACK,
@@ -303,9 +318,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   sectionTitle: {
-    fontFamily: 'Inter',
-    fontStyle: 'normal',
-    fontWeight: '600',
+    fontFamily: 'Inter_600SemiBold',
     fontSize: 18,
     lineHeight: 22,
     color: GRAY_TEXT,
@@ -326,9 +339,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   frequencyOptionTitle: {
-    fontFamily: 'Inter',
-    fontStyle: 'normal',
-    fontWeight: '600',
+    fontFamily: 'Inter_600SemiBold',
     fontSize: 14,
     lineHeight: 22,
     color: GRAY_TEXT
@@ -356,9 +367,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   periodOptionTitle: {
-    fontFamily: 'Inter',
-    fontStyle: 'normal',
-    fontWeight: '600',
+    fontFamily: 'Inter_600SemiBold',
     fontSize: 14,
     lineHeight: 22,
     color: GRAY_TEXT
@@ -387,10 +396,8 @@ const styles = StyleSheet.create({
     padding: 15
   },
   createButtonText: {
+    fontFamily: 'Inter_700Bold',
     color: APP_WHITE,
-    fontFamily: 'Inter',
-    fontStyle: 'normal',
-    fontWeight: '700',
     fontSize: 18,
     lineHeight: 22,
     textAlign: 'center'

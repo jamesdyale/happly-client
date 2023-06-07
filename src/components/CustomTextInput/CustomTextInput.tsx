@@ -13,6 +13,16 @@ export const CustomTextInput = ({
                                   keyboardType,
                                   secureTextEntry
                                 }: CustomTextInputType) => {
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold
+  })
+
+  if (!fontsLoaded) {
+    return null
+  }
+
   return (
     <View style={styles.textInput}>
       {label && <Text style={styles.label}>{label}</Text>}
@@ -36,14 +46,14 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: 'Inter_500Medium',
-    fontWeight: '500',
     fontStyle: 'normal',
+    fontWeight: '500',
     fontSize: 14,
     lineHeight: 19,
     color: '#0F0F0F'
   },
   bigLabel: {
-    fontFamily: 'Inter',
+    fontFamily: 'Inter_600SemiBold',
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: 18,

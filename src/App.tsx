@@ -33,7 +33,7 @@ const App = () => {
 
   return (
     <StateProvider>
-      <ToastProvider placement='top' offsetTop={100}>
+      <ToastProvider placement='top' offsetTop={100} offsetBottom={100}>
         <Navigation />
       </ToastProvider>
     </StateProvider>
