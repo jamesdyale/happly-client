@@ -27,18 +27,18 @@ export const WeekCalendar = () => {
         <Text style={styles.headerText}>{moment(day).format('Do MMMM YYYY')}</Text>
         <Icon name='calendar-outline' size={25} color={APP_BLACK} />
       </View>
-      <View style={styles.footer}>
-        {week.map((day) => {
-          return (
-            <DayOfTheWeek
-              key={day.date.toString()}
-              day={day}
-              selectedDay={selectedDay}
-              handleDayClick={handleDayClick}
-            />
-          )
-        })}
-      </View>
+      {/*<View style={styles.footer}>*/}
+      {/*  {week.map((day) => {*/}
+      {/*    return (*/}
+      {/*      <DayOfTheWeek*/}
+      {/*        key={day.date.toString()}*/}
+      {/*        day={day}*/}
+      {/*        selectedDay={selectedDay}*/}
+      {/*        handleDayClick={handleDayClick}*/}
+      {/*      />*/}
+      {/*    )*/}
+      {/*  })}*/}
+      {/*</View>*/}
     </View>
   )
 }

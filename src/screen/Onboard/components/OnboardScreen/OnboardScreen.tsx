@@ -13,9 +13,15 @@ import { NextBtn, OnboardItem, screens } from './components/UtilsComponents'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { ROUTES } from '../../../../constants'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useAtom } from 'jotai/index'
+import { authFlowAtom } from '@state/state'
 
 
 export const OnboardScreen = () => {
+  const [, setAuthFlow] = useAtom(authFlowAtom)
+
+  
   const slidesRef = React.useRef(null)
   const scrollX = React.useRef(new Animated.Value(0)).current
   const [currentScreen, setCurrentScreen] = React.useState<number>(0)
@@ -33,10 +39,12 @@ export const OnboardScreen = () => {
     navigate(ROUTES.AUTH)
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentScreen < screens.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentScreen + 1 })
     } else {
+      await AsyncStorage.setItem('ONBOARDED', 'true')
+      setAuthFlow('register')
       navigate(ROUTES.AUTH)
     }
   }

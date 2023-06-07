@@ -4,7 +4,7 @@ import { APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/index'
 import React from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
-import { useAtom } from 'jotai/index'
+import { useAtom } from 'jotai'
 import { userAtom } from '@state/state'
 import { doc, getDoc } from 'firebase/firestore'
 

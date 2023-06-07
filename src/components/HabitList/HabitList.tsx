@@ -16,7 +16,7 @@ import { CustomProgressBar } from '../CustomProgressBar/CustomProgressBar'
 
 export const HabitList = () => {
   const [habits] = useAtom(dailyHabitAtom)
-  const progressCount = habits.filter((habit) => habit.completed === true).length
+  // const progressCount = habits.filter((habit) => habit.completed === true).length
 
   return (
     <View style={styles.container}>
@@ -55,14 +55,14 @@ export const HabitList = () => {
             paddingBottom: 15
           }}
           >
-            <CustomProgressBar
-              progress={(progressCount / habits.length) * 100}
-            />
+            {/*<CustomProgressBar*/}
+            {/*  progress={(progressCount / habits.length) * 100}*/}
+            {/*/>*/}
           </View>
           <ScrollView style={{ marginBottom: 40 }}>
-            {habits.map((habit) => (
-              <SingleHabit key={habit.id} habit={habit} />
-            ))}
+            {/*{habits.map((habit) => (*/}
+            {/*  <SingleHabit key={habit.id} habit={habit} />*/}
+            {/*))}*/}
           </ScrollView>
         </>
       )}

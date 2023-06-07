@@ -7,7 +7,7 @@ import { CustomTextInput } from '@components/CustomTextInput/CustomTextInput'
 import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
 import { generateUserId } from '../../../../../generators/generateId'
 import { setDoc, doc } from 'firebase/firestore'
-import { useAtom } from 'jotai/index'
+import { useAtom } from 'jotai'
 import { userAtom } from '@state/state'
 
 type IForm = {
@@ -17,7 +17,7 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
   const [email, setEmail] = React.useState('jd123@gmail.com')
   const [password, setPassword] = React.useState('asd123')
   const [confirmPassword, setConfirmPassword] = React.useState('asd123')
-  const [user, setUser] = useAtom(userAtom)
+  const [, setUser] = useAtom(userAtom)
 
 
   const handleSignUp = async () => {
@@ -37,6 +37,7 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
         }
         await setDoc(doc(FIREBASE_DB, 'users', userCredentialPromise.user.uid), data)
         setUser(data)
+
       }
     } catch (error) {
       console.log('error creating user', error)

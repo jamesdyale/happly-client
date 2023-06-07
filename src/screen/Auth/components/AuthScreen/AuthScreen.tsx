@@ -3,24 +3,26 @@ import { SafeAreaView, StyleSheet } from 'react-native'
 import { SECONDARY_BG_COLOR } from '@styles/colors'
 import { LoginForm } from './components/LoginForm'
 import { SignUpForm } from './components/SignUpForm'
+import { useAtom } from 'jotai'
+import { authFlowAtom } from '@state/state'
 
 
 export function AuthScreen() {
-  const [formType, setFormType] = React.useState('register')
+  const [authFlow, setAuthFlow] = useAtom(authFlowAtom)
 
 
   const changeBetweenForms = () => {
-    if (formType === 'login') {
-      setFormType('register')
+    if (authFlow === 'login') {
+      setAuthFlow('register')
     }
-    if (formType === 'register') {
-      setFormType('login')
+    if (authFlow === 'register') {
+      setAuthFlow('login')
     }
   }
 
   return (
     <SafeAreaView style={styles.AuthScreenContainer}>
-      {formType === 'login' ?
+      {authFlow === 'login' ?
         <LoginForm changeBetweenForms={changeBetweenForms} /> :
         <SignUpForm changeBetweenForms={changeBetweenForms} />}
     </SafeAreaView>
