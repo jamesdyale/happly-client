@@ -8,6 +8,7 @@ export type Habit = {
   description: string;
   userId: User['id'];
   timeOfDay: TimeOfDay;
-  duration: string;
   dayOfWeek: DayOfTheWeek;
+  frequencyOption: string;
+  duration?: string;
 }

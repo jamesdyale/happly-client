@@ -90,3 +90,8 @@ export enum TimeOfDay {
   Afternoon = 'Afternoon',
   Evening = 'Evening'
 }
+
+export enum Frequency {
+  Daily = 'Daily',
+  Weekly = 'Weekly',
+}

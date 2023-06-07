@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, Image } from 'react-native'
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { CustomSwitch, CustomTextInput } from '../../../../components'
 import {
@@ -7,33 +7,53 @@ import {
   APP_GRAY,
   APP_PINK,
   APP_RED,
-  APP_WHITE, GRAY_TEXT,
-  MAIN_ACCENT_COLOR,
-  MAIN_BG_COLOR
+  APP_WHITE,
+  GRAY_TEXT,
+  MAIN_ACCENT_COLOR
 } from '../../../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
+import { useAtom } from 'jotai'
+import { userAtom } from '@state/state'
+import { Habit } from '../../../../types/Habit'
+import { generateHabitId } from '../../../../generators/generateId'
+import { doc, setDoc } from 'firebase/firestore'
+import { FIREBASE_DB } from '@db/firebaseConfig'
 
 
 export const AddHabitScreen = () => {
-  const [isEnabled, setIsEnabled] = React.useState(true)
-  const [frequencyOption, setFrequencyOption] = React.useState('daily')
-  const [dayOfTheWeek, setDayOfTheWeek] = React.useState([])
-  const [timeOfDay, setTimeOfDay] = React.useState('night')
+  const [user] = useAtom(userAtom)
 
-  const [name, setName] = React.useState('')
-  const [description, setDescription] = React.useState('')
-  const [name, setName] = React.useState('')
-  const [name, setName] = React.useState('')
+  const [name, setName] = React.useState('Reading')
+  const [description, setDescription] = React.useState('This is a book reading app')
+  const [timeOfDay, setTimeOfDay] = React.useState(TimeOfDay.Morning)
+  const [dayOfWeek, setDayOfWeek] = React.useState<DayOfTheWeek>(DayOfTheWeek.Monday)
+  const [frequencyOption, setFrequencyOption] = React.useState(Frequency.Daily)
+  const [isEnabled, setIsEnabled] = React.useState(false)
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
 
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState)
+  // FIXME: Add this to be able to add reminders once I am done with push notification
+  const toggleSwitch = () => setIsEnabled(false)
+  // const toggleSwitch = () => setIsEnabled(previousState => !previousState)
 
-  const createHabit = () => {
-    console.log('Creating habit')
+  const createHabit = async () => {
+    const habit: Habit = {
+      id: generateHabitId(),
+      name,
+      description,
+      userId: user.id,
+      timeOfDay,
+      dayOfWeek,
+      frequencyOption
+    }
+
+    await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
+
+    navigation.goBack()
   }
 
 
@@ -52,19 +72,17 @@ export const AddHabitScreen = () => {
             style={{ ...styles.headerText, color: '#9D9797' }}> Habit</Text></Text>
         </View>
         <View>
-          <CustomTextInput bigLabel='Title' placeholder='Enter the title'
-                           handleChange={() => {
-                           }}
+          <CustomTextInput bigLabel='Name' placeholder='Enter the name'
+                           handleChange={setName}
                            handleBlur={() => {
                            }}
-                           value={''}
+                           value={name}
           />
           <CustomTextInput bigLabel='Description' placeholder='Enter the description'
-                           handleChange={() => {
-                           }}
+                           handleChange={setDescription}
                            handleBlur={() => {
                            }}
-                           value={''}
+                           value={description}
           />
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>How often do you want to do it?</Text>
@@ -73,23 +91,23 @@ export const AddHabitScreen = () => {
                 style={{
                   ...styles.frequencyOption,
                   marginRight: 15,
-                  backgroundColor: frequencyOption === 'daily' ? APP_BLACK : APP_GRAY
+                  backgroundColor: frequencyOption === Frequency.Daily ? APP_BLACK : APP_GRAY
                 }}
-                onPress={() => setFrequencyOption('daily')}>
+                onPress={() => setFrequencyOption(Frequency.Daily)}>
                 <Text style={{
                   ...styles.frequencyOptionTitle,
-                  color: frequencyOption === 'daily' ? APP_WHITE : APP_BLACK
+                  color: frequencyOption === Frequency.Daily ? APP_WHITE : APP_BLACK
                 }}>Daily</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={{
                   ...styles.frequencyOption,
-                  backgroundColor: frequencyOption === 'weekly' ? APP_BLACK : APP_GRAY
+                  backgroundColor: frequencyOption === Frequency.Weekly ? APP_BLACK : APP_GRAY
                 }}
-                onPress={() => setFrequencyOption('weekly')}>
+                onPress={() => setFrequencyOption(Frequency.Weekly)}>
                 <Text style={{
                   ...styles.frequencyOptionTitle,
-                  color: frequencyOption === 'weekly' ? APP_WHITE : APP_BLACK
+                  color: frequencyOption === Frequency.Weekly ? APP_WHITE : APP_BLACK
                 }}>Weekly</Text>
               </TouchableOpacity>
 
@@ -124,8 +142,11 @@ export const AddHabitScreen = () => {
             <Text style={styles.sectionTitle}>In which time of the day would you like to do it?</Text>
             <View style={styles.periodContainer}>
               <TouchableOpacity
-                style={{ ...styles.periodOption, backgroundColor: timeOfDay === 'morning' ? APP_BLUE : APP_GRAY }}
-                onPress={() => setTimeOfDay('morning')}>
+                style={{
+                  ...styles.periodOption,
+                  backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY
+                }}
+                onPress={() => setTimeOfDay(TimeOfDay.Morning)}>
                 <Image style={{
                   width: 15,
                   height: 15,
@@ -133,13 +154,16 @@ export const AddHabitScreen = () => {
                 }} source={require('../../../../assets/svgs/sunrise1.png')} />
                 <Text style={{
                   ...styles.periodOptionTitle,
-                  color: timeOfDay === 'morning' ? APP_WHITE : APP_BLACK
+                  color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
                 }}>Morning</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={{ ...styles.periodOption, backgroundColor: timeOfDay === 'afternoon' ? APP_BLUE : APP_GRAY }}
-                onPress={() => setTimeOfDay('afternoon')}>
+                style={{
+                  ...styles.periodOption,
+                  backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
+                }}
+                onPress={() => setTimeOfDay(TimeOfDay.Afternoon)}>
                 <Image style={{
                   width: 15,
                   height: 15,
@@ -147,13 +171,16 @@ export const AddHabitScreen = () => {
                 }} source={require('../../../../assets/svgs/sun1.png')} />
                 <Text style={{
                   ...styles.periodOptionTitle,
-                  color: timeOfDay === 'afternoon' ? APP_WHITE : APP_BLACK
+                  color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
                 }}>Afternoon</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={{ ...styles.periodOption, backgroundColor: timeOfDay === 'night' ? APP_BLUE : APP_GRAY }}
-                onPress={() => setTimeOfDay('night')}>
+                style={{
+                  ...styles.periodOption,
+                  backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY
+                }}
+                onPress={() => setTimeOfDay(TimeOfDay.Evening)}>
                 <Image style={{
                   width: 15,
                   height: 15,
@@ -161,8 +188,8 @@ export const AddHabitScreen = () => {
                 }} source={require('../../../../assets/svgs/crescent-moon1.png')} />
                 <Text style={{
                   ...styles.periodOptionTitle,
-                  color: timeOfDay === 'night' ? APP_WHITE : APP_BLACK
-                }}>Night</Text>
+                  color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK
+                }}>Evening</Text>
               </TouchableOpacity>
             </View>
           </View>
