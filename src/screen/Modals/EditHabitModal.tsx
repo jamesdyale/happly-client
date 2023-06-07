@@ -17,7 +17,7 @@ export const EditHabitModal = () => {
   const habitSelected = useAtomValue(selectedHabitAtom)
 
   const handleOnPressCloseIcon = () => {
-    clearSelectedHabit()
+    // clearSelectedHabit()
   }
 
   const handleOnPressDelete = () => {
@@ -35,11 +35,10 @@ export const EditHabitModal = () => {
 
   return (
     <View style={styles.container}>
-
       <View style={styles.titleSection}>
         <View>
-          <Text style={styles.habitTitle}>{habitSelected?.title}</Text>
-          <Text style={styles.highlightText}>Reminder: {habitSelected?.reminderAt} (In
+          <Text style={styles.habitTitle}>{habitSelected.name}</Text>
+          <Text style={styles.highlightText}>Reminder: (In
             30mins) {/* TODO: write function to figure out the time difference consider a case where reminder is past */} </Text>
         </View>
         <TouchableOpacity onPress={handleOnPressCloseIcon}>
@@ -51,7 +50,7 @@ export const EditHabitModal = () => {
         <Icon style={styles.icon} name='notifications-outline' size={25} color={APP_BLACK} />
         <View>
           <Text style={styles.highlightText}>Reminders</Text>
-          <Text style={styles.infoText}>{habitSelected?.reminderAt}</Text>
+          {/*<Text style={styles.infoText}>{habitSelected?.reminderAt}</Text>*/}
         </View>
       </View>
 
@@ -59,7 +58,7 @@ export const EditHabitModal = () => {
         <Icon style={styles.icon} name='options-outline' size={25} color={APP_BLACK} />
         <View>
           <Text style={styles.highlightText}>Description</Text>
-          <Text style={styles.infoText}>{habitSelected?.description}</Text>
+          <Text style={styles.infoText}>{habitSelected.description}</Text>
         </View>
       </View>
 
