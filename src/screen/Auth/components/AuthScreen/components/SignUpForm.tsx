@@ -14,9 +14,9 @@ type IForm = {
   changeBetweenForms: () => void
 }
 export const SignUpForm = ({ changeBetweenForms }: IForm) => {
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [confirmPassword, setConfirmPassword] = React.useState('')
+  const [email, setEmail] = React.useState('jd123@gmail.com')
+  const [password, setPassword] = React.useState('asd123')
+  const [confirmPassword, setConfirmPassword] = React.useState('asd123')
   const [user, setUser] = useAtom(userAtom)
 
 
@@ -31,11 +31,11 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
       const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
       if (userCredentialPromise && userCredentialPromise.user) {
         const data = {
-          id: userCredentialPromise.user.uid,
+          id: generateUserId(),
           email: userCredentialPromise.user.email,
           name: userCredentialPromise.user.displayName
         }
-        await setDoc(doc(FIREBASE_DB, 'users', data.id), data)
+        await setDoc(doc(FIREBASE_DB, 'users', userCredentialPromise.user.uid), data)
         setUser(data)
       }
     } catch (error) {

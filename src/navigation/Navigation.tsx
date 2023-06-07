@@ -1,5 +1,5 @@
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { NavigationContainer, ParamListBase, useNavigation } from '@react-navigation/native'
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { ROUTES } from '../constants'
 import { BottomTabNavigator } from '@navigation/components/BottomTabNavigator'
 import { HabitsScreenNavigator } from '@navigation/components/ScreenNavigator'
@@ -14,31 +14,30 @@ import { AuthScreen } from '@screen/Auth/components/AuthScreen/AuthScreen'
 import { OnboardScreen, RecoveryScreen } from '@screen/Onboard'
 import { generateUserId } from '../generators/generateId'
 import { getDoc, doc } from 'firebase/firestore'
+import { User } from '../types/User'
 
 const Stack = createNativeStackNavigator()
 
 export const Navigation = () => {
   const [user, setUser] = useAtom(userAtom)
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
   useEffect(() => {
     console.log('useEffect')
     const unsubscribe =
       onAuthStateChanged(FIREBASE_AUTH, async (user) => {
-        if (user) {
-          // const userId = generateUserId()
-          // const data = {
-          //   id: userId,
-          //   email: user.email,
-          //   name: user.displayName
-          // }
-          // console.log('data - ', data)
-          // const usersRef = doc(FIREBASE_DB, 'users', userId)
-          // const docSnap = await getDoc(usersRef)
-          // console.log('docSnap - ', docSnap)
-          // setUser(data)
 
+        if (user) {
+          const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
+          if (dataDocumentSnapshot.exists()) {
+            setUser(dataDocumentSnapshot.data() as User)
+          } else {
+            alert('Your account doesn\'t exist. Please sign up.')
+          }
         } else {
           setUser(null)
+
+          navigation.navigate(ROUTES.AUTH)
         }
       })
 
@@ -47,7 +46,7 @@ export const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={ROUTES.AUTH} screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
           <>
             <Stack.Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />

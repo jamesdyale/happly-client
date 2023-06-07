@@ -13,9 +13,9 @@ type IForm = {
 }
 
 export const LoginForm = ({ changeBetweenForms }: IForm) => {
-  const [email, setEmail] = React.useState('james124@gmail.com')
+  const [email, setEmail] = React.useState('jd123@gmail.com')
   const [password, setPassword] = React.useState('asd123')
-  const [user, setUser] = useAtom(userAtom)
+  const [, setUser] = useAtom(userAtom)
 
 
   const handleLogin = async () => {
@@ -23,20 +23,16 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
     try {
       const foundUserPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
       if (foundUserPromise && foundUserPromise.user) {
-        console.log(foundUserPromise)
-        // const docRef = doc(FIREBASE_DB, 'users', 'Zn3hxpYgSmltSu6JHves')
-        // const documentSnapshot = await getDoc(docRef)
-        // if (documentSnapshot.exists()) {
-        //   console.log('documentSnapshot - ', documentSnapshot.data())
-        // } else {
-        //   console.log('documentSnapshot does not exist')
-        // }
-        // const docSnap = await getDoc(usersRef)
-        // console.log('docSnap - ', docSnap)
+        const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', foundUserPromise.user.uid))
+        if (dataDocumentSnapshot.exists()) {
+          setUser(dataDocumentSnapshot.data())
+        } else {
+          alert('Your account doesn\'t exist. Please sign up.')
+        }
       }
     } catch (error) {
       alert(`Sign in failed: ${error.message}`)
-    } finally {
+      // } finally {
       // console.log('finally')
       //   TODO: add loading state
     }
