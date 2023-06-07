@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 type IForm = {
   changeBetweenForms: () => void
 }
+
 export const SignUpForm = ({ changeBetweenForms }: IForm) => {
   const toast = useToast()
 

@@ -4,21 +4,23 @@ import { APP_BLACK, APP_GRAY, APP_GREEN, APP_WHITE } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useSetAtom } from 'jotai'
 import { useSetSelectedHabitAtom } from '../../state/state'
-import { DailyHabitType } from '../../shared'
 import { Habit } from '../../types/Habit'
 import { doc, setDoc } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
-import { generateStatsId, generateUserId } from '../../generators/generateId'
+import { generateStatsId } from '../../generators/generateId'
 import { useToast } from 'react-native-toast-notifications'
+import { Stats } from '../../types/Stats'
 
 type SingleHabitType = {
   habit: Habit;
+  progress: Stats[];
 }
 
-export const SingleHabit = ({ habit }: SingleHabitType) => {
+export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
   const setHabitSelected = useSetAtom(useSetSelectedHabitAtom)
   const toast = useToast()
 
+  const foundProgress = progress.find((stat) => stat.habitId === habit.id)
 
   const handleHabitClick = () => {
     if (habit) {
@@ -40,12 +42,18 @@ export const SingleHabit = ({ habit }: SingleHabitType) => {
       await setDoc(
         doc(FIREBASE_DB, 'stats', stat.id), stat
       )
+      toast.show('Congratulations.', {
+        type: 'success',
+        duration: 4000,
+        placement: 'bottom',
+        icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+      })
     } catch (e) {
       toast.show('An error happened when completing your habit. Please try again!', {
         type: 'danger',
         duration: 4000,
         placement: 'bottom',
-        icon: <Icon name='alert-circle' size={20} color={APP_BLACK} />
+        icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
       })
     }
 
@@ -59,25 +67,25 @@ export const SingleHabit = ({ habit }: SingleHabitType) => {
       </TouchableOpacity>
       <View style={styles.habitProgressContainer}>
         <View style={styles.habitProgress}>
-          {/*{habit.progress === 100 && (*/}
-          {/*  <View style={{*/}
-          {/*    width: 50,*/}
-          {/*    backgroundColor: 'white',*/}
-          {/*    borderRadius: 50*/}
-          {/*  }}>*/}
-          {/*    <Icon style={{*/}
-          {/*      marginTop: -9,*/}
-          {/*      marginLeft: -5,*/}
-          {/*      display: 'flex',*/}
-          {/*      justifyContent: 'center',*/}
-          {/*      alignItems: 'center'*/}
-          {/*    }}*/}
-          {/*          name='checkmark-circle' size={63} color={APP_GREEN} />*/}
-          {/*  </View>*/}
-          {/*)}*/}
-          {/*{habit.progress !== 100 && (*/}
-          <TouchableOpacity style={styles.habitProgressInner} onPress={handleCompletedHabit} />
-          {/*)}*/}
+          {foundProgress ? (
+              <View style={{
+                width: 50,
+                backgroundColor: 'white',
+                borderRadius: 50
+              }}>
+                <Icon style={{
+                  marginTop: -9,
+                  marginLeft: -5,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+                      name='checkmark-circle' size={63} color={APP_GREEN} />
+              </View>
+            ) :
+            (
+              <TouchableOpacity style={styles.habitProgressInner} onPress={handleCompletedHabit} />
+            )}
         </View>
       </View>
     </View>

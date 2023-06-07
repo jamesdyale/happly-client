@@ -17,24 +17,33 @@ export const Home = () => {
 
   useEffect(() => {
     let isMounted = true
-    getDocs(query(collection(FIREBASE_DB, 'habits'), where('userId', '==', user.id))).then((docs) => {
-        if (isMounted) {
-          const habits: Habit[] = []
-          docs.forEach((doc) => {
-              const data = doc.data() as Habit
-              habits.push(data)
-            }
-          )
-          setDailyHabit(habits)
-        }
-      }
-    )
+
+    if (isMounted) {
+      getHabitsForTheDay()
+    }
 
     return () => {
       isMounted = false
     }
 
   }, [])
+
+  const getHabitsForTheDay = async () => {
+    const docs = await getDocs(
+      query(
+        collection(FIREBASE_DB, 'habits'),
+        where('userId', '==', user.id)
+      )
+    )
+
+    const habits: Habit[] = []
+    docs.forEach((doc) => {
+        const data = doc.data() as unknown as Habit
+        habits.push(data)
+      }
+    )
+    setDailyHabit(habits)
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: MAIN_BG_COLOR }}>

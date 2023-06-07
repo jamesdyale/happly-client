@@ -29,7 +29,6 @@ export const HabitList = () => {
   )
 
   const getCompletedHabitForDay = async () => {
-    console.log(selectedDay.toDateString())
     const docs = await getDocs(
       query(
         collection(FIREBASE_DB, 'stats'),
@@ -38,11 +37,12 @@ export const HabitList = () => {
     )
 
     docs.forEach((doc) => {
-        const data = doc.data() as Stats
+        const data = doc.data() as unknown as Stats
         progress.push(data)
       }
     )
   }
+
 
   return (
     <View style={styles.container}>
@@ -88,7 +88,7 @@ export const HabitList = () => {
           </View>
           <ScrollView style={{ marginBottom: 40 }}>
             {habits.map((habit) => (
-              <SingleHabit key={habit.id} habit={habit} />
+              <SingleHabit key={habit.id} habit={habit} progress={progress} />
             ))}
           </ScrollView>
         </>
