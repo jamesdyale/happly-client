@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useFonts, Inter_600SemiBold } from '@expo-google-fonts/inter'
 import { APP_GRAY, HABIT_OPTION, MAIN_ACCENT_COLOR } from '../../styles'
 import { ProgressBarType } from '../../shared'
-import { progressBarStatus } from '../../shared/utils'
+import { progressBarStatus } from '@shared/utils'
 
 const styles = StyleSheet.create({
   container: {
@@ -41,9 +41,8 @@ const styles = StyleSheet.create({
   }
 })
 
-export const CustomProgressBar = ({ progress, habits }: ProgressBarType) => {
-  const progressCount = ((habits?.length / progress?.length) * 100)
-  console.log(progressCount)
+export const CustomProgressBar = ({ progress }: ProgressBarType) => {
+  console.log(progress)
   const [fontsLoaded] = useFonts({
     Inter_600SemiBold
   })
@@ -55,11 +54,11 @@ export const CustomProgressBar = ({ progress, habits }: ProgressBarType) => {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <Text style={styles.text}>{progressBarStatus(progressCount)}</Text>
-        <Text style={styles.text}>{progressCount}%</Text>
+        <Text style={styles.text}>{progressBarStatus(progress)}</Text>
+        <Text style={styles.text}>{progress}%</Text>
       </View>
       <View style={styles.bottom}>
-        <View style={{ ...styles.innerBottom, width: `${progressCount}%` }} />
+        <View style={{ ...styles.innerBottom, width: `${progress}%` }} />
       </View>
     </View>
   )

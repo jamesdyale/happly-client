@@ -1,7 +1,7 @@
 import {
   View, StyleSheet, Text, ScrollView
 } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useAtomValue } from 'jotai'
 import {
   APP_GRAY,
@@ -11,42 +11,18 @@ import {
 } from '../../styles'
 import { NoHabitIcon } from '../../assets/svgs'
 import { SingleHabit } from './SingleHabit'
-import { dailyHabitAtom, selectDayOfTheWeekAtom } from '@state/state'
+import { dailyHabitAtom, progressAtom } from '@state/state'
 import { CustomProgressBar } from '../CustomProgressBar/CustomProgressBar'
-import { collection, getDocs, query, where } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
-import { Stats } from '../../types/Stats'
+import { percentage } from '@shared/utils'
 
 export const HabitList = () => {
-  const habits = useAtomValue(dailyHabitAtom)
-  const selectedDay = useAtomValue(selectDayOfTheWeekAtom)
-
-  const progress: Stats[] = []
-
-  useEffect(() => {
-      getCompletedHabitForDay()
-    }, [habits, selectedDay]
-  )
-
-  const getCompletedHabitForDay = async () => {
-    const docs = await getDocs(
-      query(
-        collection(FIREBASE_DB, 'stats'),
-        where('completedAt', '==', selectedDay.toDateString())
-      )
-    )
-
-    docs.forEach((doc) => {
-        const data = doc.data() as unknown as Stats
-        progress.push(data)
-      }
-    )
-  }
+  const dailyHabit = useAtomValue(dailyHabitAtom)
+  const progress = useAtomValue(progressAtom)
 
 
   return (
     <View style={styles.container}>
-      {habits.length === 0 && (
+      {dailyHabit.length === 0 && (
         <View style={styles.noHabitIconContainer}>
           <View
             style={{
@@ -72,7 +48,7 @@ export const HabitList = () => {
         </View>
       )}
 
-      {habits.length > 0 && (
+      {dailyHabit.length > 0 && (
         <>
           <View style={{
             borderBottomWidth: 1,
@@ -81,13 +57,10 @@ export const HabitList = () => {
             paddingBottom: 15
           }}
           >
-            <CustomProgressBar
-              progress={progress}
-              habits={habits}
-            />
+            <CustomProgressBar progress={percentage(progress, dailyHabit)} />
           </View>
           <ScrollView style={{ marginBottom: 40 }}>
-            {habits.map((habit) => (
+            {dailyHabit.map((habit) => (
               <SingleHabit key={habit.id} habit={habit} progress={progress} />
             ))}
           </ScrollView>

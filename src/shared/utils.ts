@@ -27,6 +27,10 @@ export const progressBarStatus = (progress: number): string => {
   }
 }
 
+export const percentage = (partialValue, totalValue) => {
+  return Math.round((partialValue.length / totalValue.length) * 100)
+}
+
 export const progressBarCalculation = (habits: any[]): number => {
   //FIXME: change the habit type to HabitType instead of any
   const totalHabits = habits.length

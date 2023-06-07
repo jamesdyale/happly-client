@@ -42,8 +42,7 @@ export type ICustomSwitchType = {
 }
 
 export type ProgressBarType = {
-  progress: Stats[],
-  habits: Habit[]
+  progress: number,
 }
 
 export type WeeklyCalendarDateType = {

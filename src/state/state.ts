@@ -1,8 +1,8 @@
 import { atomWithStorage } from 'jotai/utils'
-import { atom } from 'jotai'
 import { DailyHabitType } from '../shared'
 import { User } from '../types/User'
 import { Habit } from '../types/Habit'
+import { Stats } from '../types/Stats'
 
 export const isFirstLaunchAtom = atomWithStorage('isFirstLaunch', null)
 export const authFlowAtom = atomWithStorage<'login' | 'register'>('authFlow', 'register')
@@ -13,6 +13,7 @@ export const userAtom = atomWithStorage<User | null>('user', null)
 export const selectDayOfTheWeekAtom = atomWithStorage('dayOfTheWeek', new Date())
 
 export const dailyHabitAtom = atomWithStorage<Habit[]>('habits', [])
+export const progressAtom = atomWithStorage<Stats[]>('stats', [])
 
 export const selectedHabitAtom = atomWithStorage<DailyHabitType | null>('habitSelected', null)
 
