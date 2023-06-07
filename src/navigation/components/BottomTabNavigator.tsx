@@ -5,8 +5,9 @@ import { useAtomValue } from 'jotai'
 import { ROUTES } from '../../constants'
 import { HABIT_OPTION, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '@styles/index'
 import {
+  AllHabitsScreenNavigator,
   ChallengesScreenNavigator,
-  HabitsScreenNavigator,
+  CreateHabitScreenNavigator,
   HomeScreenNavigator,
   RoomsScreenNavigator
 } from './ScreenNavigator'
@@ -69,11 +70,11 @@ export const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name={ROUTES.ALL_HABIT}
-        component={HabitsScreenNavigator}
+        component={AllHabitsScreenNavigator}
       />
       <Tab.Screen
         name={ROUTES.CREATE_HABIT}
-        component={HabitsScreenNavigator}
+        component={CreateHabitScreenNavigator}
       />
       <Tab.Screen
         name={ROUTES.ALL_CHALLENGES}

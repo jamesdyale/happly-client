@@ -1,8 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import {
-  AddHabit,
-  AllChallenges,
-  AllHabits,
+  AddHabitScreen,
+  AllChallenges, AllHabitsScreen,
   CreateChallenge,
   CreateRoom, Home,
   Room,
@@ -23,11 +22,18 @@ export const HomeScreenNavigator = () => {
   )
 }
 
-export const HabitsScreenNavigator = () => {
+export const AllHabitsScreenNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={ROUTES.ALL_HABIT} component={AllHabits} />
-      <Stack.Screen name={ROUTES.CREATE_HABIT} component={AddHabit} />
+      <Stack.Screen name={ROUTES.ALL_HABIT} component={AllHabitsScreen} />
+    </Stack.Navigator>
+  )
+}
+
+export const CreateHabitScreenNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={ROUTES.CREATE_HABIT} component={AddHabitScreen} />
     </Stack.Navigator>
   )
 }

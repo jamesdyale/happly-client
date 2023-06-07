@@ -1,11 +1,10 @@
-import { NavigationContainer, ParamListBase, useNavigation } from '@react-navigation/native'
-import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { ROUTES } from '../constants'
 import { BottomTabNavigator } from '@navigation/components/BottomTabNavigator'
-import { HabitsScreenNavigator } from '@navigation/components/ScreenNavigator'
 import { CustomModalStackNavigator } from '@navigation/components/CustomModalStackNavigator'
 import { CustomStackNavigator } from '@navigation/components/CustomStackNavigator'
-import { authFlowAtom, isFirstLaunchAtom, userAtom } from '@state/state'
+import { authFlowAtom, userAtom } from '@state/state'
 import React, { useEffect, useState } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
@@ -23,19 +22,9 @@ export const Navigation = () => {
   const [, setAuthFlow] = useAtom(authFlowAtom)
   const [onboarded, setOnboarded] = useState()
 
+  // TODO - add a loader to hide the screen until the user is loaded
+
   // — — — — — — — — — — EFFECTS — — — — — — — — — — //
-  useEffect(() => {
-    getStorage()
-  }, [])
-
-
-// — — — — — — — — — — ACTIONS — — — — — — — — — — //
-  const getStorage = async () => {
-    const onboarded = await AsyncStorage.getItem('ONBOARDED')
-    setOnboarded(JSON.parse(onboarded))
-  }
-
-
   useEffect(() => {
     const unsubscribe =
       onAuthStateChanged(FIREBASE_AUTH, async (user) => {
@@ -54,7 +43,17 @@ export const Navigation = () => {
     return unsubscribe
   }, [])
 
-  console.log({ user, onboarded })
+
+  useEffect(() => {
+    getStorage()
+  }, [])
+
+
+// — — — — — — — — — — ACTIONS — — — — — — — — — — //
+  const getStorage = async () => {
+    const onboarded = await AsyncStorage.getItem('ONBOARDED')
+    setOnboarded(JSON.parse(onboarded))
+  }
 
 
   return (
@@ -64,7 +63,6 @@ export const Navigation = () => {
         {user ? (
           <>
             <Stack.Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
-            <Stack.Screen name={ROUTES.HABIT} component={HabitsScreenNavigator} />
             <Stack.Screen name={ROUTES.CUSTOM_MODAL} component={CustomModalStackNavigator} />
             <Stack.Screen name={ROUTES.CUSTOM_STACK} component={CustomStackNavigator} />
           </>

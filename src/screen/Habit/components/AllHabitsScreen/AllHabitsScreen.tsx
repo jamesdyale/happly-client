@@ -5,7 +5,7 @@ import { WeekCalendar } from '../../../../components'
 import { WeekView } from './components/WeekView'
 
 
-export const AllHabits = () => {
+export const AllHabitsScreen = () => {
 
   const allHabits = [
     {

@@ -9,6 +9,7 @@ import { generateUserId } from '../../../../../generators/generateId'
 import { setDoc, doc } from 'firebase/firestore'
 import { useAtom } from 'jotai'
 import { userAtom } from '@state/state'
+import { User } from '../../../../../types/User'
 
 type IForm = {
   changeBetweenForms: () => void
@@ -30,7 +31,7 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
     try {
       const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
       if (userCredentialPromise && userCredentialPromise.user) {
-        const data = {
+        const data: User = {
           id: generateUserId(),
           email: userCredentialPromise.user.email,
           name: userCredentialPromise.user.displayName

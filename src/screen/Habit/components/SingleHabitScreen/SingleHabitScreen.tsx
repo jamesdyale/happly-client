@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { StreakIcon } from '../../../../assets/svgs'
 
 
-export const SingleHabit = ({ route, navigation }) => {
+export const SingleHabitScreen = ({ route, navigation }) => {
   const { habitId } = route.params
   const currentDate = new Date().toISOString().split('T')[0]
 

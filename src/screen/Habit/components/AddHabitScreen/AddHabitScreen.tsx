@@ -16,16 +16,25 @@ import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 
-export const AddHabit = () => {
+export const AddHabitScreen = () => {
   const [isEnabled, setIsEnabled] = React.useState(true)
   const [frequencyOption, setFrequencyOption] = React.useState('daily')
   const [dayOfTheWeek, setDayOfTheWeek] = React.useState([])
   const [timeOfDay, setTimeOfDay] = React.useState('night')
 
+  const [name, setName] = React.useState('')
+  const [description, setDescription] = React.useState('')
+  const [name, setName] = React.useState('')
+  const [name, setName] = React.useState('')
+
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
 
   const toggleSwitch = () => setIsEnabled(previousState => !previousState)
+
+  const createHabit = () => {
+    console.log('Creating habit')
+  }
 
 
   return (
@@ -223,7 +232,7 @@ export const AddHabit = () => {
         </View>
         <TouchableOpacity
           style={styles.createButton}
-          onPress={() => console.log('Hey there')}>
+          onPress={createHabit}>
           <Text style={styles.createButtonText}>CREATE</Text>
         </TouchableOpacity>
       </View>

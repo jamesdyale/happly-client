@@ -7,6 +7,7 @@ import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
 import { useAtom } from 'jotai'
 import { userAtom } from '@state/state'
 import { doc, getDoc } from 'firebase/firestore'
+import { User } from '../../../../../types/User'
 
 type IForm = {
   changeBetweenForms: () => void
@@ -25,7 +26,15 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
       if (foundUserPromise && foundUserPromise.user) {
         const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', foundUserPromise.user.uid))
         if (dataDocumentSnapshot.exists()) {
-          setUser(dataDocumentSnapshot.data())
+          const data = dataDocumentSnapshot.data() as User
+          if (data) {
+            const newUser = {
+              id: data.id,
+              email: data.email,
+              name: data.name
+            }
+            setUser(data)
+          }
         } else {
           alert('Your account doesn\'t exist. Please sign up.')
         }
