@@ -1,4 +1,6 @@
 import { KeyboardTypeOptions } from 'react-native'
+import { Stats } from '../types/Stats'
+import { Habit } from '../types/Habit'
 
 
 /**
@@ -40,7 +42,8 @@ export type ICustomSwitchType = {
 }
 
 export type ProgressBarType = {
-  progress: number
+  progress: Stats[],
+  habits: Habit[]
 }
 
 export type WeeklyCalendarDateType = {

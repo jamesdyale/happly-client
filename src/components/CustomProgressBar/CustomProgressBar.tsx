@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export const CustomProgressBar = ({ progress }: ProgressBarType) => {
+export const CustomProgressBar = ({ progress, habits }: ProgressBarType) => {
   const [fontsLoaded] = useFonts({
     Inter_600SemiBold
   })
@@ -49,18 +49,18 @@ export const CustomProgressBar = ({ progress }: ProgressBarType) => {
   if (!fontsLoaded) {
     return null
   }
+
+  const progressCount = ((habits?.length / progress?.length) * 100)
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <Text style={styles.text}>{progressBarStatus(progress)}</Text>
-        <Text style={styles.text}>
-          {progress}
-          %
-        </Text>
+        <Text style={styles.text}>{progressBarStatus(progressCount)}</Text>
+        <Text style={styles.text}>{progressCount}%</Text>
 
       </View>
       <View style={styles.bottom}>
-        <View style={{ ...styles.innerBottom, width: `${progress}%` }} />
+        <View style={{ ...styles.innerBottom, width: `${progressCount}%` }} />
       </View>
     </View>
   )

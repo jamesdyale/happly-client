@@ -1,8 +1,8 @@
 import {
   View, StyleSheet, Text, ScrollView
 } from 'react-native'
-import React from 'react'
-import { useAtom } from 'jotai'
+import React, { useEffect } from 'react'
+import { useAtomValue } from 'jotai'
 import {
   APP_GRAY,
   HABIT_OPTION,
@@ -11,12 +11,38 @@ import {
 } from '../../styles'
 import { NoHabitIcon } from '../../assets/svgs'
 import { SingleHabit } from './SingleHabit'
-import { dailyHabitAtom } from '../../state/state'
+import { dailyHabitAtom, selectDayOfTheWeekAtom } from '@state/state'
 import { CustomProgressBar } from '../CustomProgressBar/CustomProgressBar'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+import { FIREBASE_DB } from '@db/firebaseConfig'
+import { Stats } from '../../types/Stats'
 
 export const HabitList = () => {
-  const [habits] = useAtom(dailyHabitAtom)
-  // const progressCount = habits.filter((habit) => habit.completed === true).length
+  const habits = useAtomValue(dailyHabitAtom)
+  const selectedDay = useAtomValue(selectDayOfTheWeekAtom)
+
+  const progress: Stats[] = []
+
+  useEffect(() => {
+      getCompletedHabitForDay()
+    }, [habits, selectedDay]
+  )
+
+  const getCompletedHabitForDay = async () => {
+    console.log(selectedDay.toDateString())
+    const docs = await getDocs(
+      query(
+        collection(FIREBASE_DB, 'stats'),
+        where('completedAt', '==', selectedDay.toDateString())
+      )
+    )
+
+    docs.forEach((doc) => {
+        const data = doc.data() as Stats
+        progress.push(data)
+      }
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -55,14 +81,15 @@ export const HabitList = () => {
             paddingBottom: 15
           }}
           >
-            {/*<CustomProgressBar*/}
-            {/*  progress={(progressCount / habits.length) * 100}*/}
-            {/*/>*/}
+            <CustomProgressBar
+              progress={progress}
+              habits={habits}
+            />
           </View>
           <ScrollView style={{ marginBottom: 40 }}>
-            {/*{habits.map((habit) => (*/}
-            {/*  <SingleHabit key={habit.id} habit={habit} />*/}
-            {/*))}*/}
+            {habits.map((habit) => (
+              <SingleHabit key={habit.id} habit={habit} />
+            ))}
           </ScrollView>
         </>
       )}

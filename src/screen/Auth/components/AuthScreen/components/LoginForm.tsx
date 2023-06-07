@@ -1,22 +1,26 @@
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
 import { CustomButton, CustomTextInput } from '@components/index'
-import { APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/index'
+import { APP_BLACK, APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/index'
 import React from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
-import { useAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import { userAtom } from '@state/state'
 import { doc, getDoc } from 'firebase/firestore'
 import { User } from '../../../../../types/User'
+import { useToast } from 'react-native-toast-notifications'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 type IForm = {
   changeBetweenForms: () => void
 }
 
 export const LoginForm = ({ changeBetweenForms }: IForm) => {
+  const toast = useToast()
+
   const [email, setEmail] = React.useState('jd123@gmail.com')
   const [password, setPassword] = React.useState('asd123')
-  const [, setUser] = useAtom(userAtom)
+  const setUser = useSetAtom(userAtom)
 
 
   const handleLogin = async () => {
@@ -36,11 +40,21 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
             setUser(data)
           }
         } else {
-          alert('Your account doesn\'t exist. Please sign up.')
+          toast.show('Your account doesn\'t exist. Please sign up.', {
+            type: 'danger',
+            duration: 4000,
+            placement: 'bottom',
+            icon: <Icon name='alert-circle' size={20} color={APP_BLACK} />
+          })
         }
       }
     } catch (error) {
-      alert(`Sign in failed: ${error.message}`)
+      toast.show('Login failed. Please try again!.', {
+        type: 'danger',
+        duration: 4000,
+        placement: 'bottom',
+        icon: <Icon name='alert-circle' size={20} color={APP_BLACK} />
+      })
       // } finally {
       // console.log('finally')
       //   TODO: add loading state

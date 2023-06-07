@@ -18,13 +18,13 @@ export const selectedHabitAtom = atomWithStorage<DailyHabitType | null>('habitSe
 
 export const showDeleteModalAtom = atomWithStorage<boolean>('showDeleteModal', true)
 
-export const useSetSelectedHabitAtom = atomWithStorage(null, (get, set, habitId: string) => {
+export const useSetSelectedHabitAtom = atomWithStorage(null, (get, set, habitId: Habit['id']) => {
   const dailyHabits = get(dailyHabitAtom) // TODO: should be replaced with endpoint call
-  // const habit = dailyHabits.find((habit) => habit.habitId === habitId)
-  // if (habit) {
-  //   return set(selectedHabitAtom, habit)
-  // }
-  // return undefined
+  const habit = dailyHabits.find((habit) => habit.habitId === habitId)
+  if (habit) {
+    return set(selectedHabitAtom, habit)
+  }
+  return undefined
 })
 
 export const useClearSelectedHabitAtom = atomWithStorage(null, (get, set) => set(selectedHabitAtom, null))

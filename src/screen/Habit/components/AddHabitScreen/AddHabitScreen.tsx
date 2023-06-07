@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { userAtom } from '@state/state'
 import { Habit } from '../../../../types/Habit'
 import { generateHabitId } from '../../../../generators/generateId'
@@ -27,7 +27,7 @@ import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/i
 
 export const AddHabitScreen = () => {
 
-  const [user] = useAtom(userAtom)
+  const user = useAtomValue(userAtom)
   const toast = useToast()
 
 
@@ -58,7 +58,12 @@ export const AddHabitScreen = () => {
 
     await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
 
-    toast.show('Habit created successfully', { type: 'success', duration: 2000, placement: 'bottom' })
+    toast.show('Habit created successfully', {
+      type: 'success',
+      duration: 2000,
+      placement: 'bottom',
+      icon: <Icon name='checkmark-circle-sharp' size={20} color={APP_WHITE} />
+    })
 
     navigation.goBack()
   }

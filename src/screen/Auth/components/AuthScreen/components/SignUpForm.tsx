@@ -1,5 +1,5 @@
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
-import { APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/colors'
+import { APP_BLACK, APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/colors'
 import React from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { CustomButton } from '@components/CustomButton/CustomButton'
@@ -7,24 +7,32 @@ import { CustomTextInput } from '@components/CustomTextInput/CustomTextInput'
 import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
 import { generateUserId } from '../../../../../generators/generateId'
 import { setDoc, doc } from 'firebase/firestore'
-import { useAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import { userAtom } from '@state/state'
 import { User } from '../../../../../types/User'
+import { useToast } from 'react-native-toast-notifications'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 type IForm = {
   changeBetweenForms: () => void
 }
 export const SignUpForm = ({ changeBetweenForms }: IForm) => {
+  const toast = useToast()
+
   const [email, setEmail] = React.useState('jd123@gmail.com')
   const [password, setPassword] = React.useState('asd123')
   const [confirmPassword, setConfirmPassword] = React.useState('asd123')
-  const [, setUser] = useAtom(userAtom)
+  const setUser = useSetAtom(userAtom)
 
 
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
-      // TODO: show error message
-      alert('Passwords do not match')
+      toast.show('Passwords do not match', {
+        type: 'danger',
+        duration: 4000,
+        placement: 'bottom',
+        icon: <Icon name='alert-circle' size={20} color={APP_BLACK} />
+      })
       return
     }
 
@@ -41,8 +49,12 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
 
       }
     } catch (error) {
-      console.log('error creating user', error)
-      alert(`Sign up failed: ${error.message}`)
+      toast.show('Sign up failed. Please try again!', {
+        type: 'danger',
+        duration: 4000,
+        placement: 'bottom',
+        icon: <Icon name='alert-circle' size={20} color={APP_BLACK} />
+      })
     }
   }
 

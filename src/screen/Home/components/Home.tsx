@@ -1,14 +1,40 @@
 import { SafeAreaView } from 'react-native'
-import React from 'react'
-import { useAtomValue } from 'jotai'
+import React, { useEffect } from 'react'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { MAIN_BG_COLOR } from '@styles/colors'
 import { HabitList, UserProfile, WeekCalendar } from '../../../components'
 import { EditHabitModal } from '../../Modals'
-import { selectedHabitAtom, showDeleteModalAtom } from '@state/state'
+import { dailyHabitAtom, selectedHabitAtom, showDeleteModalAtom, userAtom } from '@state/state'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+import { FIREBASE_DB } from '@db/firebaseConfig'
+import { Habit } from '../../../types/Habit'
 
 export const Home = () => {
   const habitSelected = useAtomValue(selectedHabitAtom)
   const isDeleteHabitModalOpen = useAtomValue(showDeleteModalAtom)
+  const user = useAtomValue(userAtom)
+  const setDailyHabit = useSetAtom(dailyHabitAtom)
+
+  useEffect(() => {
+    let isMounted = true
+    getDocs(query(collection(FIREBASE_DB, 'habits'), where('userId', '==', user.id))).then((docs) => {
+        if (isMounted) {
+          const habits: Habit[] = []
+          docs.forEach((doc) => {
+              const data = doc.data() as Habit
+              habits.push(data)
+            }
+          )
+          setDailyHabit(habits)
+        }
+      }
+    )
+
+    return () => {
+      isMounted = false
+    }
+
+  }, [])
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: MAIN_BG_COLOR }}>

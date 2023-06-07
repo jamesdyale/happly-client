@@ -1,24 +1,37 @@
 import { View, StyleSheet, Text } from 'react-native'
-import { getWeekFromCurrentDate } from '../../shared/utils'
+import { getWeekFromCurrentDate } from '@shared/utils'
 import { DayOfTheWeek } from './components/DayOfTheWeek'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { APP_BLACK, GRAY_TEXT } from '../../styles'
 import moment from 'moment/moment'
-import { useAtom } from 'jotai'
-import { selectDayOfTheWeekAtom } from '../../state/state'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { dailyHabitAtom, selectDayOfTheWeekAtom, userAtom } from '@state/state'
+import { query, collection, where, getDocs } from 'firebase/firestore'
+import { FIREBASE_DB } from '@db/firebaseConfig'
+import { Habit } from '../../types/Habit'
 
 
 // make this into a reusable library
 export const WeekCalendar = () => {
   const [selectedDay, setSelectedDay] = useAtom(selectDayOfTheWeekAtom)
+  const user = useAtomValue(userAtom)
+  const setDailyHabit = useSetAtom(dailyHabitAtom)
 
 
   const week = getWeekFromCurrentDate()
   const day = new Date()
 
-  const handleDayClick = (day: Date) => {
+  const handleDayClick = async (day: Date) => {
     setSelectedDay(day)
-    // TODO: make api call to get habits for the day
+    // TODO: adding check for the day if it's the same as today
+    const docs = await getDocs(query(collection(FIREBASE_DB, 'habits'), where('userId', '==', user.id)))
+    const habits: Habit[] = []
+    docs.forEach((doc) => {
+        const data = doc.data() as Habit
+        habits.push(data)
+      }
+    )
+    setDailyHabit(habits)
   }
 
   return (
@@ -27,18 +40,18 @@ export const WeekCalendar = () => {
         <Text style={styles.headerText}>{moment(day).format('Do MMMM YYYY')}</Text>
         <Icon name='calendar-outline' size={25} color={APP_BLACK} />
       </View>
-      {/*<View style={styles.footer}>*/}
-      {/*  {week.map((day) => {*/}
-      {/*    return (*/}
-      {/*      <DayOfTheWeek*/}
-      {/*        key={day.date.toString()}*/}
-      {/*        day={day}*/}
-      {/*        selectedDay={selectedDay}*/}
-      {/*        handleDayClick={handleDayClick}*/}
-      {/*      />*/}
-      {/*    )*/}
-      {/*  })}*/}
-      {/*</View>*/}
+      <View style={styles.footer}>
+        {week.map((day) => {
+          return (
+            <DayOfTheWeek
+              key={day.date.toString()}
+              day={day}
+              selectedDay={selectedDay}
+              handleDayClick={handleDayClick}
+            />
+          )
+        })}
+      </View>
     </View>
   )
 }
