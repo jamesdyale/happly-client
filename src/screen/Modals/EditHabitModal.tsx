@@ -1,8 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useAtom, useSetAtom } from 'jotai'
 import {
-  dailyHabitsAtom,
-  editHabitAtom, progressAtom,
+  editHabitAtom,
   selectedHabitAtom, showDeleteModalAtom
 } from '../../state/state'
 import {
@@ -13,14 +12,13 @@ import {
 } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { generateStatsId } from '../../generators/generateId'
-import { collection, doc, getDocs, query, setDoc, where, deleteDoc, getDoc } from 'firebase/firestore'
+import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
 import React from 'react'
 import { useToast } from 'react-native-toast-notifications'
 import { ROUTES } from '../../constants'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { useAtomValue } from 'jotai/index'
 
 export const EditHabitModal = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
@@ -28,15 +26,13 @@ export const EditHabitModal = () => {
 
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
   const setEditHabit = useSetAtom(editHabitAtom)
-  const setProgress = useSetAtom(progressAtom)
-  const setDailyHabits = useSetAtom(dailyHabitsAtom)
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
 
   const handleOnPressCloseIcon = () => {
     setSelectedHabit(null)
   }
 
-  const handleOnPressDelete = async () => {
+  const handleOnPressDelete = () => {
     setDeleteModal(true)
   }
 

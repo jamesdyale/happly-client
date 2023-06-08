@@ -13,7 +13,6 @@ import { useAtomValue } from 'jotai'
 export const AllHabitsScreen = () => {
   const [allHabits, setHabits] = useAtom(habitsAtom)
   const user = useAtomValue(userAtom)
-  const progress = useAtomValue(progressAtom)
 
 
   useEffect(() => {

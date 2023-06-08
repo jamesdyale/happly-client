@@ -37,7 +37,7 @@ export const AddHabitScreen = () => {
   const [description, setDescription] = React.useState(editHabit?.description || '')
   const [timeOfDay, setTimeOfDay] = React.useState(editHabit?.timeOfDay || TimeOfDay.Morning)
   const [dayOfWeek, setDayOfWeek] = React.useState<DayOfTheWeek>(editHabit?.dayOfWeek || DayOfTheWeek.Monday)
-  const [frequencyOption, setFrequencyOption] = React.useState(editHabit?.frequencyOption || Frequency.Daily)
+  const [frequencyOption, setFrequencyOption] = React.useState<Frequency>(editHabit?.frequencyOption || Frequency.Daily)
   const [isEnabled, setIsEnabled] = React.useState(false)
 
   // FIXME: Add this to be able to add reminders once I am done with push notification

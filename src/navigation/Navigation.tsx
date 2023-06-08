@@ -26,26 +26,43 @@ export const Navigation = () => {
 
   // — — — — — — — — — — EFFECTS — — — — — — — — — — //
   useEffect(() => {
-    const unsubscribe =
-      onAuthStateChanged(FIREBASE_AUTH, async (user) => {
-        if (user) {
-          const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
-          if (dataDocumentSnapshot.exists()) {
-            setUser(dataDocumentSnapshot.data() as User)
-          }
-          // TODO: add error handling here
-        } else {
-          setUser(null)
-          setAuthFlow('register')
-        }
-      })
+    let isMounted = true
 
-    return unsubscribe
+    if (isMounted) {
+      const unsubscribe =
+        onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+          if (user) {
+            const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
+            if (dataDocumentSnapshot.exists()) {
+              setUser(dataDocumentSnapshot.data() as User)
+            }
+            // TODO: add error handling here
+          } else {
+            setUser(null)
+            setAuthFlow('register')
+          }
+        })
+
+      return unsubscribe
+    }
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
 
   useEffect(() => {
-    getStorage()
+    let isMounted = true
+
+    if (isMounted) {
+      getStorage()
+    }
+
+    return () => {
+      isMounted = false
+    }
+
   }, [])
 
 
@@ -58,7 +75,7 @@ export const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={user ? ROUTES.MAIN_APP : onboarded ? ROUTES.AUTH : ROUTES.BENEFIT}
+      <Stack.Navigator initialRouteName={user ? ROUTES.CUSTOM_STACK : onboarded ? ROUTES.AUTH : ROUTES.BENEFIT}
                        screenOptions={{ headerShown: false }}>
         {user ? (
           <>

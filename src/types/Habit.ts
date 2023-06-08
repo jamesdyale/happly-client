@@ -1,6 +1,6 @@
 import { UniqueId } from '../generators/generateId'
 import { User } from './User'
-import { DayOfTheWeek, TimeOfDay } from '@shared/types'
+import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
 
 export type Habit = {
   id: UniqueId<'habit'>;
@@ -9,6 +9,6 @@ export type Habit = {
   userId: User['id'];
   timeOfDay: TimeOfDay;
   dayOfWeek: DayOfTheWeek;
-  frequencyOption: string;
+  frequencyOption: Frequency;
   duration?: string;
 }

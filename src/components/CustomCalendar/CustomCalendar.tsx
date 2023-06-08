@@ -1,14 +1,25 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { Calendar } from 'react-native-calendars'
 import React from 'react'
-import { APP_BLACK, APP_GRAY } from '../../styles'
+import { APP_BLACK, APP_GRAY, MAIN_ACCENT_COLOR } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { Stats } from '../../types/Stats'
+import { useToast } from 'react-native-toast-notifications'
 
 const Arrow = ({ direction }) => {
   return direction === 'left' ?
     <Icon name='chevron-back' size={22} color={APP_GRAY} /> : <Icon name='chevron-forward' size={22} color={APP_GRAY} />
 }
-export const CustomCalendar = ({ currentDate }) => {
+export const CustomCalendar = ({ currentDate, streak }: {
+  currentDate: string
+  streak: Stats[] | null
+}) => {
+
+  const markedDates = streak.reduce((acc, stat) => {
+    acc[new Date(stat.completedAt).toISOString().split('T')[0]] = { selected: true, selectedColor: MAIN_ACCENT_COLOR }
+    return acc
+  }, {})
+
   return (
     <Calendar
       // // Initially visible month. Default = Date()
@@ -24,15 +35,7 @@ export const CustomCalendar = ({ currentDate }) => {
         console.log('selected day', day)
       }}
       // // render a look for the marked dates
-      // markedDates={
-      //   {
-      //     '2020-02-10': {selected: true, selectedColor: 'red'},
-      //     '2020-02-19': {selected: true, selectedColor: 'red'},
-      //     '2020-02-21': {selected: true, selectedColor: 'red'},
-      //     '2020-02-24': {selected: true, selectedColor: 'red'},
-      //     '2020-02-29': {selected: true, selectedColor: 'red'},
-      //   }
-      // }
+      markedDates={markedDates}
       // https://stackoverflow.com/questions/52090035/how-to-override-the-style-sheet-of-the-react-native-calendar
       // // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
       // monthFormat={'yyyy MM'}
