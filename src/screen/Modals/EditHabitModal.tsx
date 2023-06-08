@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import {
+  editHabitAtom,
   selectedHabitAtom,
   useClearSelectedHabitAtom
 } from '../../state/state'
@@ -11,26 +12,72 @@ import {
   SECONDARY_BG_COLOR
 } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { generateStatsId } from '../../generators/generateId'
+import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore'
+import { FIREBASE_DB } from '@db/firebaseConfig'
+import React from 'react'
+import { useToast } from 'react-native-toast-notifications'
+import { ROUTES } from '../../constants'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 export const EditHabitModal = () => {
-  const clearSelectedHabit = useSetAtom(useClearSelectedHabitAtom)
-  const habitSelected = useAtomValue(selectedHabitAtom)
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+  const toast = useToast()
+
+  const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
+  const setEditHabit = useSetAtom(editHabitAtom)
 
   const handleOnPressCloseIcon = () => {
-    // clearSelectedHabit()
+    setSelectedHabit(null)
   }
 
   const handleOnPressDelete = () => {
     // TODO: Open delete modal
-    console.log('deleting habit')
   }
 
   const handleOnPressEdit = () => {
-    // TODO: Open edit modal
+    setEditHabit(habitSelected)
+    setSelectedHabit(null)
+    navigate(ROUTES.CREATE_HABIT)
   }
 
-  const handleOnPressMarkAsDone = () => {
-    // TODO: Mark habit as done
+  const handleOnPressMarkAsDone = async () => {
+    const docs = await getDocs(
+      query(
+        collection(FIREBASE_DB, 'stats'),
+        where('habitId', '==', habitSelected.id)
+      )
+    )
+
+    if (docs.empty) {
+      const stat = {
+        id: generateStatsId(),
+        userId: habitSelected.userId,
+        habitId: habitSelected.id,
+        completedAt: new Date().toDateString(),
+        progress: 100
+      }
+
+      try {
+        await setDoc(
+          doc(FIREBASE_DB, 'stats', stat.id), stat
+        )
+        toast.show('Congratulations.', {
+          type: 'success',
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+        })
+      } catch (e) {
+        toast.show('An error happened when completing your habit. Please try again!', {
+          type: 'danger',
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+        })
+      }
+    }
   }
 
   return (
@@ -67,11 +114,11 @@ export const EditHabitModal = () => {
           <Icon name='trash' size={25} color={APP_BLACK} />
           <Text style={styles.infoText}>Delete</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionSectionButton}>
+        <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressEdit}>
           <Icon name='create-outline' size={25} color={APP_BLACK} />
           <Text style={styles.infoText}>Edit</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionSectionButton}>
+        <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressMarkAsDone}>
           <Icon name='checkbox-outline' size={25} color={APP_BLACK} />
           <Text style={styles.infoText}>Mark as done</Text>
         </TouchableOpacity>

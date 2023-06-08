@@ -16,6 +16,7 @@ export const dailyHabitAtom = atomWithStorage<Habit[]>('habits', [])
 export const progressAtom = atomWithStorage<Stats[]>('stats', [])
 
 export const selectedHabitAtom = atomWithStorage<Habit | null>('habitSelected', null)
+export const editHabitAtom = atomWithStorage<Habit | null>('editHabit', null)
 
 export const showDeleteModalAtom = atomWithStorage<boolean>('showDeleteModal', true)
 

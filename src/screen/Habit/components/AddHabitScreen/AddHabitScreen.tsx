@@ -12,11 +12,11 @@ import {
   MAIN_ACCENT_COLOR
 } from '../../../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { ParamListBase, useNavigation, useRoute } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
 import { useAtomValue } from 'jotai'
-import { userAtom } from '@state/state'
+import { editHabitAtom, userAtom } from '@state/state'
 import { Habit } from '../../../../types/Habit'
 import { generateHabitId } from '../../../../generators/generateId'
 import { doc, setDoc } from 'firebase/firestore'
@@ -26,20 +26,18 @@ import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/i
 
 
 export const AddHabitScreen = () => {
-
   const user = useAtomValue(userAtom)
   const toast = useToast()
 
-
-  const [name, setName] = React.useState('Reading')
-  const [description, setDescription] = React.useState('This is a book reading app')
-  const [timeOfDay, setTimeOfDay] = React.useState(TimeOfDay.Morning)
-  const [dayOfWeek, setDayOfWeek] = React.useState<DayOfTheWeek>(DayOfTheWeek.Monday)
-  const [frequencyOption, setFrequencyOption] = React.useState(Frequency.Daily)
-  const [isEnabled, setIsEnabled] = React.useState(false)
-
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+  const editHabit = useAtomValue(editHabitAtom)
 
+  const [name, setName] = React.useState(editHabit?.name || '')
+  const [description, setDescription] = React.useState(editHabit?.description || '')
+  const [timeOfDay, setTimeOfDay] = React.useState(editHabit?.timeOfDay || TimeOfDay.Morning)
+  const [dayOfWeek, setDayOfWeek] = React.useState<DayOfTheWeek>(editHabit?.dayOfWeek || DayOfTheWeek.Monday)
+  const [frequencyOption, setFrequencyOption] = React.useState(editHabit?.frequencyOption || Frequency.Daily)
+  const [isEnabled, setIsEnabled] = React.useState(false)
 
   // FIXME: Add this to be able to add reminders once I am done with push notification
   const toggleSwitch = () => setIsEnabled(false)
