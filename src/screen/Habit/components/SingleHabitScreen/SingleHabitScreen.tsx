@@ -167,11 +167,12 @@ export const SingleHabitScreen = ({ route, navigation }) => {
         <View style={styles.streakContainer}>
           <View style={styles.streakVSLongestStreak}>
             <View>
-              <Text style={styles.streakDay}>0 DAYS</Text>
+              <Text style={styles.streakDay}>{streak?.length} DAYS</Text>
               <Text style={styles.streakLabel}>Your Current Streak</Text>
             </View>
             <View>
-              <Text style={styles.longestStreak}>0 days</Text>
+              {/* TODO: Fixing longest streak logic */}
+              <Text style={styles.longestStreak}>{streak?.length} days</Text>
               <Text style={styles.longestStreakLabel}>Your longest streak</Text>
             </View>
           </View>
