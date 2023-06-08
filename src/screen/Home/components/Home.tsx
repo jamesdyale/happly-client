@@ -38,9 +38,10 @@ export const Home = () => {
       isMounted = false
     }
 
-  }, [])
+  }, [selectedDay])
 
   const getHabitsForTheDay = async () => {
+    console.log('getDailyHabits')
     const docs = await getDocs(
       query(
         collection(FIREBASE_DB, 'habits'),

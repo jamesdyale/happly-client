@@ -4,7 +4,6 @@ import React from 'react'
 import { APP_BLACK, APP_GRAY, MAIN_ACCENT_COLOR } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Stats } from '../../types/Stats'
-import { useToast } from 'react-native-toast-notifications'
 
 const Arrow = ({ direction }) => {
   return direction === 'left' ?

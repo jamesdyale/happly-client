@@ -12,10 +12,10 @@ import {
   MAIN_ACCENT_COLOR
 } from '../../../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { ParamListBase, useNavigation, useRoute } from '@react-navigation/native'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { dailyHabitsAtom, editHabitAtom, userAtom } from '@state/state'
 import { Habit } from '../../../../types/Habit'
 import { generateHabitId } from '../../../../generators/generateId'
@@ -30,7 +30,7 @@ export const AddHabitScreen = () => {
   const toast = useToast()
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
-  const editHabit = useAtomValue(editHabitAtom)
+  const [editHabit, setEditHabit] = useAtom(editHabitAtom)
   const setDailyHabits = useSetAtom(dailyHabitsAtom)
 
   const [name, setName] = React.useState(editHabit?.name || '')
@@ -59,6 +59,7 @@ export const AddHabitScreen = () => {
 
     // TODO: Add logic to check if we should add the new habit to daily habits atom
     setDailyHabits((prev) => [...prev, habit])
+    setEditHabit(null)
 
     toast.show('Habit created successfully', {
       type: 'success',
@@ -87,6 +88,7 @@ export const AddHabitScreen = () => {
           <TouchableOpacity
             style={styles.closeButton}
             onPress={() => {
+              setEditHabit(null)
               navigation.goBack()
             }}>
             <Icon name='close' size={25} color={APP_RED} />
