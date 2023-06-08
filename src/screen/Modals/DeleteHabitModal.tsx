@@ -1,10 +1,10 @@
 import React from 'react'
 import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Modal } from 'react-native'
-import { APP_BLACK, APP_RED, APP_WHITE, GRAY_TEXT, SECONDARY_BG_COLOR } from '../../styles'
+import { APP_BLACK, APP_RED, APP_WHITE, GRAY_TEXT } from '../../styles'
 import { deleteDoc, doc, getDoc } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai/index'
+import { useAtom, useSetAtom } from 'jotai'
 import { dailyHabitsAtom, progressAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
 import { useToast } from 'react-native-toast-notifications'
 

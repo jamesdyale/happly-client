@@ -1,9 +1,9 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { CustomButton, CustomTextInput } from '../../../../components'
-import { APP_WHITE, MAIN_ACCENT_COLOR } from '../../../../styles'
 import React from 'react'
+import { APP_WHITE, MAIN_ACCENT_COLOR } from '../../../../styles'
 
-export const RecoveryScreen = ({ navigation }) => {
+export const RecoveryScreen = () => {
   return (
     <SafeAreaView>
       <View style={styles.AuthForm}>
@@ -11,12 +11,22 @@ export const RecoveryScreen = ({ navigation }) => {
           <Text style={styles.AuthFormHeader}>Recover Password️</Text>
           <Text style={styles.AuthFormInfo}>Kindly enter email address you signed up with.</Text>
           <View style={styles.AuthFormBody}>
-            <CustomTextInput label='Email Address' placeholder='Enter Email Address' />
+            <CustomTextInput
+              label='Email Address'
+              placeholder='Enter Email Address'
+              handleChange={() => console.log('hey there')}
+              handleBlur={() => console.log('blur')}
+              value={''}
+            />
           </View>
         </View>
         <View style={styles.AuthFormActionBtn}>
-          <CustomButton bgColor={MAIN_ACCENT_COLOR} color={APP_WHITE} text={'Get Reset Link'}
-                        onClick={() => console.log('hey there')} />
+          <CustomButton
+            bgColor={MAIN_ACCENT_COLOR}
+            color={APP_WHITE}
+            text='Get Reset Link'
+            onClick={() => console.log('hey there')}
+          />
         </View>
       </View>
     </SafeAreaView>

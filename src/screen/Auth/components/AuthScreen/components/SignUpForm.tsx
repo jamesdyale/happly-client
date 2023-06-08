@@ -9,9 +9,9 @@ import { generateUserId } from '../../../../../generators/generateId'
 import { setDoc, doc } from 'firebase/firestore'
 import { useSetAtom } from 'jotai'
 import { userAtom } from '@state/state'
-import { User } from '../../../../../types/User'
 import { useToast } from 'react-native-toast-notifications'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { User } from '../../../../../types/User'
 
 type IForm = {
   changeBetweenForms: () => void

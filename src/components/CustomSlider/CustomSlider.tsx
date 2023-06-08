@@ -1,6 +1,5 @@
 import { StyleSheet, View, Animated, useWindowDimensions } from 'react-native'
-import { APP_GRAY, MAIN_ACCENT_COLOR } from '../../styles'
-import { useFonts, Inter_600SemiBold } from '@expo-google-fonts/inter'
+import { MAIN_ACCENT_COLOR } from '../../styles'
 
 export const CustomSlider = ({ data, scrollX }) => {
   const { width } = useWindowDimensions()

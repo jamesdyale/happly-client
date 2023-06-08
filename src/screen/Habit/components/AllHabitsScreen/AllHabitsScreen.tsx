@@ -6,8 +6,8 @@ import { collection, getDocs, query, where } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
 import { useAtom } from 'jotai'
 import { habitsAtom, userAtom } from '@state/state'
-import { Habit } from '../../../../types/Habit'
 import { useAtomValue } from 'jotai'
+import { Habit } from '../../../../types/Habit'
 
 
 export const AllHabitsScreen = () => {

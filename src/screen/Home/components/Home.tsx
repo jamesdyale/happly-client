@@ -1,6 +1,6 @@
 import { SafeAreaView } from 'react-native'
 import React, { useEffect } from 'react'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { MAIN_BG_COLOR } from '@styles/colors'
 import { HabitList, UserProfile, WeekCalendar } from '../../../components'
 import { DeleteHabitModal, EditHabitModal } from '../../Modals'
@@ -41,7 +41,6 @@ export const Home = () => {
   }, [selectedDay])
 
   const getHabitsForTheDay = async () => {
-    console.log('getDailyHabits')
     const docs = await getDocs(
       query(
         collection(FIREBASE_DB, 'habits'),

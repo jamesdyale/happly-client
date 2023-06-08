@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import { Calendar } from 'react-native-calendars'
 import React from 'react'
-import { APP_BLACK, APP_GRAY, MAIN_ACCENT_COLOR } from '../../styles'
+import { APP_BLACK, APP_GRAY, APP_WHITE, MAIN_ACCENT_COLOR } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Stats } from '../../types/Stats'
 
@@ -61,16 +61,16 @@ export const CustomCalendar = ({ currentDate, streak }: {
 }
 
 const theme: any = {
-  backgroundColor: '#ffffff',
-  calendarBackground: '#ffffff',
+  backgroundColor: APP_WHITE,
+  calendarBackground: APP_WHITE,
   textSectionTitleColor: '#b6c1cd',
   selectedDayBackgroundColor: 'red',
-  selectedDayTextColor: '#ffffff',
+  selectedDayTextColor: APP_WHITE,
   todayTextColor: APP_BLACK,
   dayTextColor: '#2d4150',
   textDisabledColor: '#d9e1e8',
   dotColor: '#00adf5',
-  arrowColor: 'orange',
+  arrowColor: MAIN_ACCENT_COLOR,
   monthTextColor: APP_BLACK,
   textDayFontSize: 16,
   textMonthFontSize: 18,

@@ -1,9 +1,9 @@
 import { View, Text, Image, StyleSheet, SafeAreaView } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { APP_BLACK, APP_BLUE, APP_GREEN, APP_WHITE, MAIN_ACCENT_COLOR } from '../../../styles'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { APP_BLACK, APP_BLUE, APP_GREEN, APP_WHITE, MAIN_ACCENT_COLOR } from '../../../styles'
 
 
 export const Settings = () => {

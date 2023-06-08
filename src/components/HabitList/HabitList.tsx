@@ -9,7 +9,7 @@ import {
   MAIN_ACCENT_COLOR,
   MAIN_BG_COLOR
 } from '../../styles'
-import { NoHabitIcon } from '../../assets/svgs'
+import { NoHabitIcon } from '@assets/svgs'
 import { SingleHabit } from './SingleHabit'
 import { dailyHabitsAtom, progressAtom } from '@state/state'
 import { CustomProgressBar } from '../CustomProgressBar/CustomProgressBar'
@@ -18,7 +18,7 @@ import { percentage } from '@shared/utils'
 export const HabitList = () => {
   const dailyHabit = useAtomValue(dailyHabitsAtom)
   const progress = useAtomValue(progressAtom)
-  
+
   return (
     <View style={styles.container}>
       {dailyHabit.length === 0 && (

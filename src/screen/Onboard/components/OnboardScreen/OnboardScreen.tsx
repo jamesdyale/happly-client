@@ -14,14 +14,14 @@ import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { ROUTES } from '../../../../constants'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useAtom } from 'jotai/index'
+import { useAtom } from 'jotai'
 import { authFlowAtom } from '@state/state'
 
 
 export const OnboardScreen = () => {
   const [, setAuthFlow] = useAtom(authFlowAtom)
 
-  
+
   const slidesRef = React.useRef(null)
   const scrollX = React.useRef(new Animated.Value(0)).current
   const [currentScreen, setCurrentScreen] = React.useState<number>(0)

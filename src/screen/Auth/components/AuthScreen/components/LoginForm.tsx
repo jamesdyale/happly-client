@@ -7,9 +7,9 @@ import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
 import { useSetAtom } from 'jotai'
 import { userAtom } from '@state/state'
 import { doc, getDoc } from 'firebase/firestore'
-import { User } from '../../../../../types/User'
 import { useToast } from 'react-native-toast-notifications'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { User } from '../../../../../types/User'
 
 type IForm = {
   changeBetweenForms: () => void

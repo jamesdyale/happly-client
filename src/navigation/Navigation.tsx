@@ -12,8 +12,8 @@ import { useAtom } from 'jotai'
 import { AuthScreen } from '@screen/Auth/components/AuthScreen/AuthScreen'
 import { OnboardScreen, RecoveryScreen } from '@screen/Onboard'
 import { getDoc, doc } from 'firebase/firestore'
-import { User } from '../types/User'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { User } from '../types/User'
 
 const Stack = createNativeStackNavigator()
 
@@ -75,7 +75,7 @@ export const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={user ? ROUTES.CUSTOM_STACK : onboarded ? ROUTES.AUTH : ROUTES.BENEFIT}
+      <Stack.Navigator initialRouteName={user ? ROUTES.MAIN_APP : onboarded ? ROUTES.AUTH : ROUTES.BENEFIT}
                        screenOptions={{ headerShown: false }}>
         {user ? (
           <>

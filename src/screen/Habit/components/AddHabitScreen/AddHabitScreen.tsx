@@ -1,6 +1,17 @@
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { CustomSwitch, CustomTextInput } from '../../../../components'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { dailyHabitsAtom, editHabitAtom, userAtom } from '@state/state'
+import { generateHabitId } from '../../../../generators/generateId'
+import { doc, setDoc } from 'firebase/firestore'
+import { FIREBASE_DB } from '@db/firebaseConfig'
+import { useToast } from 'react-native-toast-notifications'
+import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 import {
   APP_BLACK,
   APP_BLUE,
@@ -11,18 +22,7 @@ import {
   GRAY_TEXT,
   MAIN_ACCENT_COLOR
 } from '../../../../styles'
-import Icon from 'react-native-vector-icons/Ionicons'
-import { ParamListBase, useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { dailyHabitsAtom, editHabitAtom, userAtom } from '@state/state'
 import { Habit } from '../../../../types/Habit'
-import { generateHabitId } from '../../../../generators/generateId'
-import { doc, setDoc } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
-import { useToast } from 'react-native-toast-notifications'
-import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 
 
 export const AddHabitScreen = () => {
