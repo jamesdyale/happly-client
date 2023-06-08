@@ -18,7 +18,7 @@ import { percentage } from '@shared/utils'
 export const HabitList = () => {
   const dailyHabit = useAtomValue(dailyHabitsAtom)
   const progress = useAtomValue(progressAtom)
-  console.log('progress', progress)
+  
   return (
     <View style={styles.container}>
       {dailyHabit.length === 0 && (

@@ -1,39 +1,66 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import moment from 'moment/moment'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { WeeklyCalendarDateType } from '../../../../../shared'
 import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '../../../../../styles'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+import { FIREBASE_DB } from '@db/firebaseConfig'
 
 interface IDayOfTheWeek {
   day: WeeklyCalendarDateType
-  handleDayClick: (day: Date) => void;
-  isHighlighed: boolean;
 }
 
 export const StreakWeek = (props: IDayOfTheWeek) => {
-  const { day, handleDayClick, isHighlighed } = props
+  const { day } = props
+  const [isHighlighted, setIsHighlighted] = useState(false)
+
+  useEffect(() => {
+    // TODO: Add loading state
+    let isMounted = true
+
+    if (isMounted) {
+      getProgress()
+    }
+
+    return () => {
+      isMounted = false
+    }
+
+  }, [])
+
+  const getProgress = async () => {
+    const docs = await getDocs(
+      query(
+        collection(FIREBASE_DB, 'stats'),
+        where('completedAt', '==', day.date.toDateString())
+      )
+    )
+
+    if (docs.size > 0) {
+      setIsHighlighted(true)
+    }
+  }
 
 
   return (
-    <TouchableOpacity
+    <View
       key={day.date.toString()}
-      onPress={() => handleDayClick(day.date)}
       style={{
         ...styles.day,
-        backgroundColor: isHighlighed ? MAIN_ACCENT_COLOR : APP_WHITE,
-        borderColor: isHighlighed ? MAIN_ACCENT_COLOR : APP_GRAY
+        backgroundColor: isHighlighted ? MAIN_ACCENT_COLOR : APP_WHITE,
+        borderColor: isHighlighted ? MAIN_ACCENT_COLOR : APP_GRAY
       }}
     >
       <Text style={{
-        ...styles.dayText, color: isHighlighed ? APP_WHITE : HABIT_OPTION
+        ...styles.dayText, color: isHighlighted ? APP_WHITE : HABIT_OPTION
       }}>
         {day.day}
       </Text>
       <Text style={{
         ...styles.dayNumber,
-        color: isHighlighed ? APP_WHITE : HABIT_OPTION
+        color: isHighlighted ? APP_WHITE : HABIT_OPTION
       }}>{moment(day.date).format('DD')}</Text>
-    </TouchableOpacity>
+    </View>
 
   )
 }

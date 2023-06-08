@@ -11,9 +11,9 @@ import { useToast } from 'react-native-toast-notifications'
 export const DeleteHabitModal = () => {
   const toast = useToast()
 
-  const setProgress = useSetAtom(progressAtom)
   const setDailyHabits = useSetAtom(dailyHabitsAtom)
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
+  const [progress, setProgress] = useAtom(progressAtom)
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
 
   const handleOnPressDelete = async () => {
@@ -27,9 +27,17 @@ export const DeleteHabitModal = () => {
           doc(FIREBASE_DB, 'habits', habitSelected.id)
         )
 
+        const habitStat = progress.find((stat) => stat.habitId === habitSelected.id)
+
+        if (habitStat) {
+          await deleteDoc(
+            doc(FIREBASE_DB, 'stats', habitStat.id)
+          )
+          setProgress((prev) => prev.filter((stat) => stat.id !== habitStat.id))
+        }
+
         // TODO: Improve this logic
         setDailyHabits((prev) => prev.filter((habit) => habit.id !== habitSelected.id))
-        setProgress((prev) => prev.filter((stat) => stat.habitId !== habitSelected.id))
 
         setSelectedHabit(null)
         setDeleteModal(false)

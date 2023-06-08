@@ -71,7 +71,6 @@ export const Home = () => {
         progress.push(data)
       }
     )
-    console.log(progress)
     setProgress(progress)
   }
 

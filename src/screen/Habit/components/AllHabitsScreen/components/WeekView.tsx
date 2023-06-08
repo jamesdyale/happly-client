@@ -1,24 +1,27 @@
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { WeekCalendar } from '../../../../../components'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { APP_BLACK } from '../../../../../styles'
+import { APP_BLACK } from '@styles/colors'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { getLast7Days } from '../../../../../shared/utils'
+import { getLast7Days } from '@shared/utils'
 import { StreakWeek } from './StreakWeek'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { ROUTES } from '../../../../../constants'
+import { Habit } from '../../../../../types/Habit'
 
-export const WeekView = ({ habit }) => {
+export const WeekView = ({ habit }: {
+  habit: Habit
+}) => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
   const week = getLast7Days().reverse()
+
 
   return (
     <View style={styles.container}>
       <View style={styles.habitTitleContainer}>
         <View>
-          <Text style={styles.title}>{habit.title}</Text>
+          <Text style={styles.title}>{habit.name}</Text>
           {/* TODO: Add label for frequency later in the future */}
           {/*<View style={styles.labelContainer}>*/}
           {/*  <Text style={styles.label}>Everyday</Text>*/}
@@ -36,9 +39,8 @@ export const WeekView = ({ habit }) => {
         {week.map((day, index) => {
           return (
             <StreakWeek
+              key={index}
               day={day}
-              handleDayClick={() => console.log('clicked')}
-              isHighlighed={habit.last7days[index]}
             />
           )
         })}
