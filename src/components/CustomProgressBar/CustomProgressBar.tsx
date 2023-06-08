@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
 })
 
 export const CustomProgressBar = ({ progress }: ProgressBarType) => {
-  console.log(progress)
   const [fontsLoaded] = useFonts({
     Inter_600SemiBold
   })
