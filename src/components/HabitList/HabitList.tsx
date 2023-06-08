@@ -11,14 +11,14 @@ import {
 } from '../../styles'
 import { NoHabitIcon } from '../../assets/svgs'
 import { SingleHabit } from './SingleHabit'
-import { dailyHabitAtom, progressAtom } from '@state/state'
+import { dailyHabitsAtom, progressAtom } from '@state/state'
 import { CustomProgressBar } from '../CustomProgressBar/CustomProgressBar'
 import { percentage } from '@shared/utils'
 
 export const HabitList = () => {
-  const dailyHabit = useAtomValue(dailyHabitAtom)
+  const dailyHabit = useAtomValue(dailyHabitsAtom)
   const progress = useAtomValue(progressAtom)
-  
+  console.log('progress', progress)
   return (
     <View style={styles.container}>
       {dailyHabit.length === 0 && (

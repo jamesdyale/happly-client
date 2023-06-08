@@ -1,8 +1,58 @@
 import React from 'react'
 import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Modal } from 'react-native'
 import { APP_BLACK, APP_RED, APP_WHITE, GRAY_TEXT, SECONDARY_BG_COLOR } from '../../styles'
+import { deleteDoc, doc, getDoc } from 'firebase/firestore'
+import { FIREBASE_DB } from '@db/firebaseConfig'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai/index'
+import { dailyHabitsAtom, progressAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
+import { useToast } from 'react-native-toast-notifications'
 
 export const DeleteHabitModal = () => {
+  const toast = useToast()
+
+  const setProgress = useSetAtom(progressAtom)
+  const setDailyHabits = useSetAtom(dailyHabitsAtom)
+  const setDeleteModal = useSetAtom(showDeleteModalAtom)
+  const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
+
+  const handleOnPressDelete = async () => {
+    const dataDocumentSnapshot = await getDoc(
+      doc(FIREBASE_DB, 'habits', habitSelected.id)
+    )
+
+    if (dataDocumentSnapshot.exists()) {
+      try {
+        await deleteDoc(
+          doc(FIREBASE_DB, 'habits', habitSelected.id)
+        )
+
+        // TODO: Improve this logic
+        setDailyHabits((prev) => prev.filter((habit) => habit.id !== habitSelected.id))
+        setProgress((prev) => prev.filter((stat) => stat.habitId !== habitSelected.id))
+
+        setSelectedHabit(null)
+        setDeleteModal(false)
+
+        toast.show('Habit Deleted.', {
+          type: 'danger',
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='trash' size={20} color={APP_WHITE} />
+        })
+      } catch (e) {
+        toast.show('An error happened when completing your habit. Please try again!', {
+          type: 'danger',
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+        })
+      }
+    }
+
+    setSelectedHabit(null)
+  }
+
   return (
     <View style={styles.container}>
       <Modal animationType='slide' transparent={true} visible={true}>
@@ -14,10 +64,13 @@ export const DeleteHabitModal = () => {
               <Text style={styles.mainBodyHeader}>Delete Habit?</Text>
             </View>
             <View style={styles.actionSection}>
-              <TouchableOpacity style={{ ...styles.actionSectionButton, ...styles.exitBtn }}>
+              <TouchableOpacity style={{ ...styles.actionSectionButton, ...styles.exitBtn }}
+                                onPress={() => setDeleteModal(false)}>
                 <Text style={{ color: APP_BLACK, ...styles.infoText }}>No, Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{ ...styles.actionSectionButton, ...styles.goForwardWithActionBtn }}>
+              <TouchableOpacity
+                style={{ ...styles.actionSectionButton, ...styles.goForwardWithActionBtn }}
+                onPress={handleOnPressDelete}>
                 <Text style={{ color: APP_WHITE, ...styles.infoText }}>Yes, Delete</Text>
               </TouchableOpacity>
             </View>
@@ -30,16 +83,12 @@ export const DeleteHabitModal = () => {
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: SECONDARY_BG_COLOR,
-    opacity: 0.3
-  },
+  container: {},
   bodySectionContainer: {
     width: '80%',
     marginTop: 30,
     position: 'absolute',
-    bottom: 150,
+    bottom: 100,
     backgroundColor: APP_WHITE,
     borderRadius: 20,
     padding: 30,

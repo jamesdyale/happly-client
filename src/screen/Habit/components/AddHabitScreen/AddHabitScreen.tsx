@@ -15,8 +15,8 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation, useRoute } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
-import { useAtomValue } from 'jotai'
-import { editHabitAtom, userAtom } from '@state/state'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { dailyHabitsAtom, editHabitAtom, userAtom } from '@state/state'
 import { Habit } from '../../../../types/Habit'
 import { generateHabitId } from '../../../../generators/generateId'
 import { doc, setDoc } from 'firebase/firestore'
@@ -31,6 +31,7 @@ export const AddHabitScreen = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const editHabit = useAtomValue(editHabitAtom)
+  const setDailyHabits = useSetAtom(dailyHabitsAtom)
 
   const [name, setName] = React.useState(editHabit?.name || '')
   const [description, setDescription] = React.useState(editHabit?.description || '')
@@ -55,6 +56,9 @@ export const AddHabitScreen = () => {
     }
 
     await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
+
+    // TODO: Add logic to check if we should add the new habit to daily habits atom
+    setDailyHabits((prev) => [...prev, habit])
 
     toast.show('Habit created successfully', {
       type: 'success',

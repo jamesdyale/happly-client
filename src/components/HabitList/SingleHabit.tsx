@@ -3,7 +3,7 @@ import React from 'react'
 import { APP_BLACK, APP_GRAY, APP_GREEN, APP_WHITE } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useSetAtom } from 'jotai'
-import { selectedHabitAtom } from '@state/state'
+import { progressAtom, selectedHabitAtom } from '@state/state'
 import { doc, setDoc } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
 import { generateStatsId } from '../../generators/generateId'
@@ -17,14 +17,14 @@ type SingleHabitType = {
 }
 
 export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
-  const setHabitSelected = useSetAtom(selectedHabitAtom)
   const toast = useToast()
+  const setHabitSelected = useSetAtom(selectedHabitAtom)
+  const setProgress = useSetAtom(progressAtom)
 
   const foundProgress = progress.find((stat) => stat.habitId === habit.id)
 
   const handleHabitClick = () => {
     if (habit) {
-      console.log(habit)
       setHabitSelected(habit)
     }
   }
@@ -42,6 +42,10 @@ export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
       await setDoc(
         doc(FIREBASE_DB, 'stats', stat.id), stat
       )
+
+      // TODO: Add logic to check the stats and update the habit accordingly
+      setProgress((prev) => [...prev, stat])
+
       toast.show('Congratulations.', {
         type: 'success',
         duration: 4000,

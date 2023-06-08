@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { APP_BLACK, GRAY_TEXT } from '../../styles'
 import moment from 'moment/moment'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { dailyHabitAtom, selectDayOfTheWeekAtom, userAtom } from '@state/state'
+import { dailyHabitsAtom, selectDayOfTheWeekAtom, userAtom } from '@state/state'
 import { query, collection, where, getDocs } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
 import { Habit } from '../../types/Habit'
@@ -15,7 +15,7 @@ import { Habit } from '../../types/Habit'
 export const WeekCalendar = () => {
   const [selectedDay, setSelectedDay] = useAtom(selectDayOfTheWeekAtom)
   const user = useAtomValue(userAtom)
-  const setDailyHabit = useSetAtom(dailyHabitAtom)
+  const setDailyHabit = useSetAtom(dailyHabitsAtom)
 
 
   const week = getWeekFromCurrentDate()

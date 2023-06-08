@@ -3,9 +3,9 @@ import React, { useEffect } from 'react'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { MAIN_BG_COLOR } from '@styles/colors'
 import { HabitList, UserProfile, WeekCalendar } from '../../../components'
-import { EditHabitModal } from '../../Modals'
+import { DeleteHabitModal, EditHabitModal } from '../../Modals'
 import {
-  dailyHabitAtom,
+  dailyHabitsAtom,
   progressAtom,
   selectDayOfTheWeekAtom,
   selectedHabitAtom,
@@ -21,7 +21,7 @@ export const Home = () => {
   const habitSelected = useAtomValue(selectedHabitAtom)
   const isDeleteHabitModalOpen = useAtomValue(showDeleteModalAtom)
   const user = useAtomValue(userAtom)
-  const setDailyHabit = useSetAtom(dailyHabitAtom)
+  const setDailyHabit = useSetAtom(dailyHabitsAtom)
   const setProgress = useSetAtom(progressAtom)
   const selectedDay = useAtomValue(selectDayOfTheWeekAtom)
 
@@ -81,8 +81,8 @@ export const Home = () => {
       <UserProfile />
       <WeekCalendar />
       <HabitList />
-      {habitSelected ? <EditHabitModal /> : null}
-      {/* {isDeleteHabitModalOpen ? <DeleteHabitModal /> : null} */}
+      {habitSelected && !isDeleteHabitModalOpen ? <EditHabitModal /> : null}
+      {isDeleteHabitModalOpen ? <DeleteHabitModal /> : null}
     </SafeAreaView>
   )
 }
