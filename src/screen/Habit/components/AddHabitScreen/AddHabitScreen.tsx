@@ -52,7 +52,8 @@ export const AddHabitScreen = () => {
       userId: user.id,
       timeOfDay,
       dayOfWeek,
-      frequencyOption
+      frequencyOption,
+      longestStreak: 0
     }
 
     await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
