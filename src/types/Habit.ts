@@ -10,6 +10,5 @@ export type Habit = {
   timeOfDay: TimeOfDay;
   dayOfWeek: DayOfTheWeek;
   frequencyOption: Frequency;
-  longestStreak: number;
   duration?: string;
 }

@@ -53,8 +53,7 @@ export const AddHabitScreen = () => {
         userId: user.id,
         timeOfDay,
         dayOfWeek,
-        frequencyOption,
-        longestStreak: 0
+        frequencyOption
       }
 
       await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
@@ -76,8 +75,7 @@ export const AddHabitScreen = () => {
         userId: user.id,
         timeOfDay,
         dayOfWeek,
-        frequencyOption,
-        longestStreak: editHabit.longestStreak
+        frequencyOption
       }
 
       await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)

@@ -12,7 +12,7 @@ import {
 } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { generateStatsId } from '../../generators/generateId'
-import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
 import React from 'react'
 import { useToast } from 'react-native-toast-notifications'
@@ -63,6 +63,7 @@ export const EditHabitModal = () => {
         await setDoc(
           doc(FIREBASE_DB, 'stats', stat.id), stat
         )
+
         toast.show('Congratulations.', {
           type: 'success',
           duration: 4000,
