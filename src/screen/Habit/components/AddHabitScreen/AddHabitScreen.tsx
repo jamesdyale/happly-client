@@ -45,29 +45,50 @@ export const AddHabitScreen = () => {
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState)
 
   const createHabit = async () => {
-    const habit: Habit = {
-      id: generateHabitId(),
-      name,
-      description,
-      userId: user.id,
-      timeOfDay,
-      dayOfWeek,
-      frequencyOption,
-      longestStreak: 0
+    if (!editHabit) {
+      const habit: Habit = {
+        id: generateHabitId(),
+        name,
+        description,
+        userId: user.id,
+        timeOfDay,
+        dayOfWeek,
+        frequencyOption,
+        longestStreak: 0
+      }
+
+      await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
+
+      // TODO: Add logic to check if we should add the new habit to daily habits atom
+      setDailyHabits((prev) => [...prev, habit])
+
+      toast.show('Habit created successfully', {
+        type: 'success',
+        duration: 2000,
+        placement: 'bottom',
+        icon: <Icon name='checkmark-circle-sharp' size={20} color={APP_WHITE} />
+      })
+    } else {
+      const habit: Habit = {
+        id: editHabit.id,
+        name,
+        description,
+        userId: user.id,
+        timeOfDay,
+        dayOfWeek,
+        frequencyOption,
+        longestStreak: editHabit.longestStreak
+      }
+
+      await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
+
+      setDailyHabits((prev) => {
+        const index = prev.findIndex((h) => h.id === habit.id)
+        prev[index] = habit
+        return prev
+      })
+      setEditHabit(null)
     }
-
-    await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
-
-    // TODO: Add logic to check if we should add the new habit to daily habits atom
-    setDailyHabits((prev) => [...prev, habit])
-    setEditHabit(null)
-
-    toast.show('Habit created successfully', {
-      type: 'success',
-      duration: 2000,
-      placement: 'bottom',
-      icon: <Icon name='checkmark-circle-sharp' size={20} color={APP_WHITE} />
-    })
 
     navigation.goBack()
   }
