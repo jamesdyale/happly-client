@@ -12,17 +12,17 @@ import {
 } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { generateStatsId } from '../../generators/generateId'
-import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
 import React from 'react'
-import { useToast } from 'react-native-toast-notifications'
 import { ROUTES } from '../../constants'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { ActionCreateStat } from '../../actions/actionCreateStat'
+import { useToast } from '../../utils'
 
 export const EditHabitModal = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
-  const toast = useToast()
 
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
   const setEditHabit = useSetAtom(editHabitAtom)
@@ -60,22 +60,18 @@ export const EditHabitModal = () => {
       }
 
       try {
-        await setDoc(
-          doc(FIREBASE_DB, 'stats', stat.id), stat
-        )
+        await ActionCreateStat(stat)
 
-        toast.show('Congratulations.', {
+        useToast({
+          message: 'Congratulations',
           type: 'success',
-          duration: 4000,
-          placement: 'bottom',
-          icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+          icon: 'trending-up'
         })
       } catch (e) {
-        toast.show('An error happened when completing your habit. Please try again!', {
+        useToast({
+          message: 'An error happened when completing your habit. Please try again!',
           type: 'danger',
-          duration: 4000,
-          placement: 'bottom',
-          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+          icon: 'alert-circle'
         })
       }
     }

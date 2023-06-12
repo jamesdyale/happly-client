@@ -4,7 +4,7 @@ import { CustomCalendar } from '../../../../components'
 import { APP_WHITE, GRAY_TEXT, HABIT_OPTION, MAIN_ACCENT_COLOR } from '@styles/colors'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { StreakIcon } from '@assets/svgs'
-import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
 import { ROUTES } from '../../../../constants'
 import { useSetAtom } from 'jotai'
@@ -14,13 +14,13 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Habit } from '../../../../types/Habit'
 import { Stats } from '../../../../types/Stats'
 import { generateStatsId } from '../../../../generators/generateId'
-import { useToast } from 'react-native-toast-notifications'
+import { ActionGetStatsByHabitId } from '../../../../actions/actionGetStatsByHabitId'
+import { ActionCreateStat } from '../../../../actions/actionCreateStat'
+import { useToast } from '../../../../utils'
 
 
 export const SingleHabitScreen = ({ route, navigation }) => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
-  const toast = useToast()
-
   const { habitId } = route.params
   const currentDate = new Date().toISOString().split('T')[0]
   const setSelectedHabit = useSetAtom(selectedHabitAtom)
@@ -56,12 +56,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
 
   // TODO: function to get habit streak from habitId for the entire month
   const getHabitStreak = async () => {
-    const docs = await getDocs(
-      query(
-        collection(FIREBASE_DB, 'stats'),
-        where('habitId', '==', habitId)
-      )
-    )
+    const docs = await ActionGetStatsByHabitId(habitId)
 
     const progress: Stats[] = []
     docs.forEach((doc) => {
@@ -90,12 +85,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
   }
 
   const handleOnPressMarkAsDone = async () => {
-    const docs = await getDocs(
-      query(
-        collection(FIREBASE_DB, 'stats'),
-        where('habitId', '==', habitId)
-      )
-    )
+    const docs = await ActionGetStatsByHabitId(habitId)
 
     if (docs.empty) {
       const stat = {
@@ -107,21 +97,19 @@ export const SingleHabitScreen = ({ route, navigation }) => {
       }
 
       try {
-        await setDoc(
-          doc(FIREBASE_DB, 'stats', stat.id), stat
-        )
-        toast.show('Congratulations.', {
+        await ActionCreateStat(stat)
+
+        useToast({
+          message: 'Congratulations',
           type: 'success',
-          duration: 4000,
-          placement: 'bottom',
-          icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+          icon: 'trending-up'
         })
+
       } catch (e) {
-        toast.show('An error happened when completing your habit. Please try again!', {
+        useToast({
+          message: 'An error happened when completing your habit. Please try again!',
           type: 'danger',
-          duration: 4000,
-          placement: 'bottom',
-          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+          icon: 'alert-circle'
         })
       }
     }

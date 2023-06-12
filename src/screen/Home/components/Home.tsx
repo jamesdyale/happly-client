@@ -12,10 +12,10 @@ import {
   showDeleteModalAtom,
   userAtom
 } from '@state/state'
-import { collection, getDocs, query, where } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
 import { Habit } from '../../../types/Habit'
 import { Stats } from '../../../types/Stats'
+import { ActionGetUserHabitsForDay } from '../../../actions/actionGetUserHabitsForDay'
+import { ActionGetCompletedHabitForDay } from '../../../actions/actionGetCompletedHabitForDay'
 
 export const Home = () => {
   const habitSelected = useAtomValue(selectedHabitAtom)
@@ -41,12 +41,7 @@ export const Home = () => {
   }, [selectedDay])
 
   const getHabitsForTheDay = async () => {
-    const docs = await getDocs(
-      query(
-        collection(FIREBASE_DB, 'habits'),
-        where('userId', '==', user.id)
-      )
-    )
+    const docs = await ActionGetUserHabitsForDay(user.id)
 
     const habits: Habit[] = []
     docs.forEach((doc) => {
@@ -58,12 +53,7 @@ export const Home = () => {
   }
 
   const getCompletedHabitForDay = async () => {
-    const docs = await getDocs(
-      query(
-        collection(FIREBASE_DB, 'stats'),
-        where('completedAt', '==', selectedDay.toDateString())
-      )
-    )
+    const docs = await ActionGetCompletedHabitForDay(user.id)
 
     const progress: Stats[] = []
     docs.forEach((doc) => {

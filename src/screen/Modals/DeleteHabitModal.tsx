@@ -1,15 +1,14 @@
 import React from 'react'
 import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Modal } from 'react-native'
 import { APP_BLACK, APP_RED, APP_WHITE, GRAY_TEXT } from '../../styles'
-import { deleteDoc, doc, getDoc } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
-import Icon from 'react-native-vector-icons/Ionicons'
 import { useAtom, useSetAtom } from 'jotai'
 import { dailyHabitsAtom, progressAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
-import { useToast } from 'react-native-toast-notifications'
+import { ActionGetUserHabitById } from '../../actions/actionGetUserHabitById'
+import { useToast } from '../../utils'
+import { ActionDeleteHabitById } from '../../actions/actionDeleteHabitById'
+import { ActionDeleteStatsById } from '../../actions/actionDeleteStatsById'
 
 export const DeleteHabitModal = () => {
-  const toast = useToast()
 
   const setDailyHabits = useSetAtom(dailyHabitsAtom)
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
@@ -17,22 +16,16 @@ export const DeleteHabitModal = () => {
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
 
   const handleOnPressDelete = async () => {
-    const dataDocumentSnapshot = await getDoc(
-      doc(FIREBASE_DB, 'habits', habitSelected.id)
-    )
+    const dataDocumentSnapshot = await ActionGetUserHabitById(habitSelected.id)
 
     if (dataDocumentSnapshot.exists()) {
       try {
-        await deleteDoc(
-          doc(FIREBASE_DB, 'habits', habitSelected.id)
-        )
+        await ActionDeleteHabitById(habitSelected.id)
 
         const habitStat = progress.find((stat) => stat.habitId === habitSelected.id)
 
         if (habitStat) {
-          await deleteDoc(
-            doc(FIREBASE_DB, 'stats', habitStat.id)
-          )
+          await ActionDeleteStatsById(habitStat.id)
           setProgress((prev) => prev.filter((stat) => stat.id !== habitStat.id))
         }
 
@@ -42,18 +35,16 @@ export const DeleteHabitModal = () => {
         setSelectedHabit(null)
         setDeleteModal(false)
 
-        toast.show('Habit Deleted.', {
+        useToast({
+          message: 'Habit Deleted',
           type: 'danger',
-          duration: 4000,
-          placement: 'bottom',
-          icon: <Icon name='trash' size={20} color={APP_WHITE} />
+          icon: 'trash'
         })
       } catch (e) {
-        toast.show('An error happened when completing your habit. Please try again!', {
+        useToast({
+          message: 'An error happened when completing your habit. Please try again!',
           type: 'danger',
-          duration: 4000,
-          placement: 'bottom',
-          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+          icon: 'alert-circle'
         })
       }
     }

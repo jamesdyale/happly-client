@@ -8,6 +8,9 @@
       "@assets/*": [
         "./src/assets/*"
       ],
+      "@actions/*": [
+        "./src/actions/*"
+      ],
       "@components/*": [
         "./src/components/*"
       ],
@@ -34,6 +37,9 @@
       ],
       "@types/*": [
         "./src/types/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
       ]
     }
   },

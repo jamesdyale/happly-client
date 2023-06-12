@@ -8,9 +8,7 @@ import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { dailyHabitsAtom, editHabitAtom, userAtom } from '@state/state'
 import { generateHabitId } from '../../../../generators/generateId'
-import { doc, setDoc } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
-import { useToast } from 'react-native-toast-notifications'
+import { useToast } from '../../../../utils/useToast'
 import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 import {
   APP_BLACK,
@@ -22,12 +20,11 @@ import {
   GRAY_TEXT,
   MAIN_ACCENT_COLOR
 } from '../../../../styles'
-import { Habit } from '../../../../types/Habit'
+import { ActionCreateHabit } from '../../../../actions'
 
 
 export const AddHabitScreen = () => {
   const user = useAtomValue(userAtom)
-  const toast = useToast()
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const [editHabit, setEditHabit] = useAtom(editHabitAtom)
@@ -46,7 +43,8 @@ export const AddHabitScreen = () => {
 
   const createHabit = async () => {
     if (!editHabit) {
-      const habit: Habit = {
+
+      const habit = await ActionCreateHabit({
         id: generateHabitId(),
         name,
         description,
@@ -54,31 +52,27 @@ export const AddHabitScreen = () => {
         timeOfDay,
         dayOfWeek,
         frequencyOption
-      }
-
-      await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
+      })
 
       // TODO: Add logic to check if we should add the new habit to daily habits atom
       setDailyHabits((prev) => [...prev, habit])
 
-      toast.show('Habit created successfully', {
+      useToast({
+        message: 'Habit created successfully',
         type: 'success',
-        duration: 2000,
-        placement: 'bottom',
-        icon: <Icon name='checkmark-circle-sharp' size={20} color={APP_WHITE} />
+        icon: 'checkmark-circle-sharp'
       })
     } else {
-      const habit: Habit = {
-        id: editHabit.id,
-        name,
-        description,
-        userId: user.id,
-        timeOfDay,
-        dayOfWeek,
-        frequencyOption
-      }
-
-      await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
+      const habit = await ActionCreateHabit({
+          id: editHabit.id,
+          name,
+          description,
+          userId: user.id,
+          timeOfDay,
+          dayOfWeek,
+          frequencyOption
+        }
+      )
 
       setDailyHabits((prev) => {
         const index = prev.findIndex((h) => h.id === habit.id)

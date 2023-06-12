@@ -13,6 +13,7 @@ module.exports = (api) => {
         'module-resolver',
         {
           alias: {
+            '@actions': './src/actions',
             '@assets': './src/assets',
             '@components': './src/components',
             '@constant': './src/constant',
@@ -22,7 +23,8 @@ module.exports = (api) => {
             '@shared': './src/shared',
             '@state': './src/state',
             '@styles': './src/styles',
-            '@types': './src/types'
+            '@types': './src/types',
+            '@utils': './src/utils'
           }
         }
       ]

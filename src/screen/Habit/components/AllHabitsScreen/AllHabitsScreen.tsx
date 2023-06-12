@@ -2,11 +2,9 @@ import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
 import { APP_BLACK } from '@styles/colors'
 import { WeekView } from './components/WeekView'
-import { collection, getDocs, query, where } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
-import { useAtom } from 'jotai'
 import { habitsAtom, userAtom } from '@state/state'
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
+import { ActionGetStatsByUserId } from '@actions/index'
 import { Habit } from '../../../../types/Habit'
 
 
@@ -30,13 +28,7 @@ export const AllHabitsScreen = () => {
   }, [])
 
   const getHabits = async () => {
-    const docs = await getDocs(
-      query(
-        collection(FIREBASE_DB, 'habits'),
-        where('userId', '==', user.id)
-      )
-    )
-
+    const docs = await ActionGetStatsByUserId(user.id)
     const habits: Habit[] = []
     docs.forEach((doc) => {
         const data = doc.data() as unknown as Habit
