@@ -35,7 +35,6 @@ export const AllHabitsScreen = () => {
         habits.push(data)
       }
     )
-    console.log(habits)
     setHabits(habits)
   }
 
