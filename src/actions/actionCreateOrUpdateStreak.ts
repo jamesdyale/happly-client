@@ -1,10 +1,8 @@
 import { doc, setDoc } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
+import { FIREBASE_DB } from '@data/firebaseConfig'
 import { ActionGetStreakByHabitId } from '@actions/actionGetStreakByHabitId'
-import { Streak } from '../data/types/Streak'
 import { generateStreakId } from '../generators/generateId'
-import { Habit } from '../data/types/Habit'
-import { User } from '../data/types/User'
+import { Habit, User, Streak } from '@data/types'
 
 export const ActionCreateOrUpdateStreak = async (habitId: Habit['id'], userId: User['id']) => {
   try {

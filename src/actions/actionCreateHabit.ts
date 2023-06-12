@@ -1,6 +1,6 @@
 import { doc, setDoc } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
-import { Habit } from '../data/types/Habit'
+import { FIREBASE_DB } from '@data/firebaseConfig'
+import { Habit } from '@data/types'
 
 export const ActionCreateHabit = async ({
                                           id,

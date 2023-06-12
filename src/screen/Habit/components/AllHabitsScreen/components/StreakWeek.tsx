@@ -1,10 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import moment from 'moment/moment'
 import { useEffect, useState } from 'react'
-import { WeeklyCalendarDateType } from '../../../../../shared'
-import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '../../../../../styles'
+import { WeeklyCalendarDateType } from '@shared/types'
+import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '@styles/colors'
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
+import { FIREBASE_DB } from '@data/firebaseConfig'
 
 interface IDayOfTheWeek {
   day: WeeklyCalendarDateType

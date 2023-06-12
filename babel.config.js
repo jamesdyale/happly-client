@@ -17,7 +17,7 @@ module.exports = (api) => {
             '@assets': './src/assets',
             '@components': './src/components',
             '@constant': './src/constant',
-            '@db': './src/db',
+            '@data': './src/data',
             '@navigation': './src/navigation',
             '@screen': './src/screen',
             '@shared': './src/shared',

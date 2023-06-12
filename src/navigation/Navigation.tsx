@@ -7,13 +7,13 @@ import { CustomStackNavigator } from '@navigation/components/CustomStackNavigato
 import { authFlowAtom, userAtom } from '@state/state'
 import React, { useEffect, useState } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
-import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
+import { FIREBASE_AUTH, FIREBASE_DB } from '@data/firebaseConfig'
 import { useAtom } from 'jotai'
 import { AuthScreen } from '@screen/Auth/components/AuthScreen/AuthScreen'
 import { OnboardScreen, RecoveryScreen } from '@screen/Onboard'
 import { getDoc, doc } from 'firebase/firestore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { User } from '../data/types/User'
+import { User } from '@data/types'
 
 const Stack = createNativeStackNavigator()
 

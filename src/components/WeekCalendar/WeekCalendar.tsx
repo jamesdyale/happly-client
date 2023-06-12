@@ -6,9 +6,8 @@ import { APP_BLACK, GRAY_TEXT } from '../../styles'
 import moment from 'moment/moment'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { dailyHabitsAtom, selectDayOfTheWeekAtom, userAtom } from '@state/state'
-import { query, collection, where, getDocs } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
-import { Habit } from '../../data/types/Habit'
+import { Habit } from '@data/types'
+import { ActionGetHabitsByUserId } from '@actions/actionGetHabitsByUserId'
 
 
 // make this into a reusable library
@@ -24,7 +23,7 @@ export const WeekCalendar = () => {
   const handleDayClick = async (day: Date) => {
     setSelectedDay(day)
     // TODO: adding check for the day if it's the same as today
-    const docs = await getDocs(query(collection(FIREBASE_DB, 'habits'), where('userId', '==', user.id)))
+    const docs = await ActionGetHabitsByUserId(user.id)
     const habits: Habit[] = []
     docs.forEach((doc) => {
         const data = doc.data() as Habit

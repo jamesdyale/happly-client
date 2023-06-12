@@ -12,8 +12,7 @@ import {
   showDeleteModalAtom,
   userAtom
 } from '@state/state'
-import { Habit } from '../../../data/types/Habit'
-import { Stats } from '../../../data/types/Stats'
+import { Habit, Stats } from '@data/types'
 import { ActionGetUserHabitsForDay } from '@actions/actionGetUserHabitsForDay'
 import { ActionGetCompletedHabitForDay } from '@actions/actionGetCompletedHabitForDay'
 

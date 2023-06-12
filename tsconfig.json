@@ -17,8 +17,8 @@
       "@constant/*": [
         "./src/constant/*"
       ],
-      "@db/*": [
-        "./src/db/*"
+      "@data/*": [
+        "./src/data/*"
       ],
       "@navigation/*": [
         "./src/navigation/*"

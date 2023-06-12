@@ -1,16 +1,16 @@
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
-import { APP_BLACK, APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/colors'
+import { APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/colors'
 import React from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { CustomButton } from '@components/CustomButton/CustomButton'
 import { CustomTextInput } from '@components/CustomTextInput/CustomTextInput'
-import { FIREBASE_AUTH } from '@db/firebaseConfig'
+import { FIREBASE_AUTH } from '@data/firebaseConfig'
 import { generateUserId } from '../../../../../generators/generateId'
 import { useSetAtom } from 'jotai'
 import { userAtom } from '@state/state'
 import { useToast } from '@utils/useToast'
 import { ActionCreateUser } from '@actions/index'
-import { User } from '../../../../../data/types/User'
+import { User } from '@data/types'
 
 type IForm = {
   changeBetweenForms: () => void

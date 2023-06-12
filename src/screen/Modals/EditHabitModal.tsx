@@ -3,7 +3,7 @@ import { useAtom, useSetAtom } from 'jotai'
 import {
   editHabitAtom,
   selectedHabitAtom, showDeleteModalAtom
-} from '../../state/state'
+} from '@state/state'
 import {
   APP_BLACK,
   APP_WHITE, GRAY_TEXT,
@@ -13,7 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons'
 import { generateStatId } from '../../generators/generateId'
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
+import { FIREBASE_DB } from '@data/firebaseConfig'
 import React from 'react'
 import { ROUTES } from '../../constants'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
