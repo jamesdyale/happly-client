@@ -25,6 +25,9 @@ export const WeekCalendar = () => {
     // TODO: adding check for the day if it's the same as today
     const docs = await ActionGetHabitsByUserId(user.id)
     const habits: Habit[] = []
+
+    if (!docs) return
+
     docs.forEach((doc) => {
         const data = doc.data() as Habit
         habits.push(data)

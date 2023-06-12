@@ -13,8 +13,8 @@ import {
   userAtom
 } from '@state/state'
 import { Habit, Stats } from '@data/types'
-import { ActionGetUserHabitsForDay } from '@actions/actionGetUserHabitsForDay'
-import { ActionGetCompletedHabitForDay } from '@actions/actionGetCompletedHabitForDay'
+import { ActionGetUserHabitsByUserId } from '@actions/actionGetUserHabitsByUserId'
+import { ActionGetCompletedStatForDay } from '@actions/actionGetCompletedStatForDay'
 
 export const Home = () => {
   const habitSelected = useAtomValue(selectedHabitAtom)
@@ -29,6 +29,7 @@ export const Home = () => {
     let isMounted = true
 
     if (isMounted) {
+      console.log('selectedDay', selectedDay)
       getHabitsForTheDay()
       getCompletedHabitForDay()
     }
@@ -40,7 +41,9 @@ export const Home = () => {
   }, [selectedDay])
 
   const getHabitsForTheDay = async () => {
-    const docs = await ActionGetUserHabitsForDay(user.id)
+    const docs = await ActionGetUserHabitsByUserId(user.id)
+
+    if (!docs) return
 
     const habits: Habit[] = []
     docs.forEach((doc) => {
@@ -52,7 +55,9 @@ export const Home = () => {
   }
 
   const getCompletedHabitForDay = async () => {
-    const docs = await ActionGetCompletedHabitForDay(user.id)
+    const docs = await ActionGetCompletedStatForDay(selectedDay)
+    console.log(docs.empty)
+    if (!docs) return
 
     const progress: Stats[] = []
     docs.forEach((doc) => {

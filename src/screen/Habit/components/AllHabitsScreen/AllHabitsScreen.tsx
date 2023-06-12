@@ -29,6 +29,8 @@ export const AllHabitsScreen = () => {
 
   const getHabits = async () => {
     const docs = await ActionGetHabitsByUserId(user.id)
+    if (!docs) return
+
     const habits: Habit[] = []
     docs.forEach((doc) => {
         const data = doc.data() as unknown as Habit

@@ -13,7 +13,7 @@ export const CustomCalendar = ({ currentDate, stats }: {
   currentDate: string
   stats: Stats[] | null
 }) => {
-  const markedDates = stats.reduce((acc, stat) => {
+  const markedDates = stats?.reduce((acc, stat) => {
     acc[new Date(stat.completedAt).toISOString().split('T')[0]] = { selected: true, selectedColor: MAIN_ACCENT_COLOR }
     return acc
   }, {})

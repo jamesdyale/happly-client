@@ -3,9 +3,7 @@ import moment from 'moment/moment'
 import { useEffect, useState } from 'react'
 import { WeeklyCalendarDateType } from '@shared/types'
 import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '@styles/colors'
-import { collection, getDocs, query, where } from 'firebase/firestore'
-import { FIREBASE_DB } from '@data/firebaseConfig'
-import { ActionGetCompletedHabitForDay } from '@actions/actionGetCompletedHabitForDay'
+import { ActionGetCompletedStatForDay } from '@actions/actionGetCompletedStatForDay'
 
 interface IDayOfTheWeek {
   day: WeeklyCalendarDateType
@@ -30,7 +28,7 @@ export const StreakWeek = (props: IDayOfTheWeek) => {
   }, [])
 
   const getProgress = async () => {
-    const docs = await ActionGetCompletedHabitForDay(day.date)
+    const docs = await ActionGetCompletedStatForDay(day.date)
     if (docs.size > 0) {
       setIsHighlighted(true)
     }

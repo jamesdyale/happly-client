@@ -38,7 +38,6 @@ export const SingleHabitScreen = ({ route, navigation }) => {
     if (isMounted) {
       getHabitId()
       getHabitStats()
-
       getHabitStreak()
     }
 
@@ -60,6 +59,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
   // TODO: function to get habit streak from habitId for the entire month
   const getHabitStats = async () => {
     const docs = await ActionGetStatsByHabitId(habitId)
+    if (!docs) return
 
     const progress: Stats[] = []
     docs.forEach((doc) => {
@@ -74,9 +74,9 @@ export const SingleHabitScreen = ({ route, navigation }) => {
 
   const getHabitStreak = async () => {
     const docs = await ActionGetStreakByHabitId(habitId)
+    if (!docs) return
+
     const streak: Streak[] = []
-
-
     docs.forEach((doc) => {
         const data = doc.data() as unknown as Streak
         streak.push(data)
