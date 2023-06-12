@@ -13,14 +13,15 @@ import { Habit, Stats, Streak } from '@data/types'
 import { generateStatId } from '../../../../generators/generateId'
 import { ActionGetStatsByHabitId } from '@actions/actionGetStatsByHabitId'
 import { ActionCreateStat } from '@actions/actionCreateStat'
-import { useToast } from '@utils/useToast'
 import { ActionGetStreakByHabitId } from '@actions/actionGetStreakByHabitId'
 import { ActionGetUserHabitById } from '@actions/actionGetUserHabitById'
 import { ActionUpdateStreak } from '@actions/actionUpdateStreak'
 import { checkIfStreakIsValid } from '@utils/compareDates'
+import { useToast } from 'react-native-toast-notifications'
 
 
 export const SingleHabitScreen = ({ route, navigation }) => {
+  const toast = useToast()
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const { habitId } = route.params
   const currentDate = new Date().toISOString().split('T')[0]
@@ -85,7 +86,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
     const currentStreak = streak[0]
 
     const validStreak = checkIfStreakIsValid(currentStreak.lastUpdated.split('T')[0], currentDate)
-    
+
     if (!validStreak) {
       const newStreak: Streak = {
         ...currentStreak,
@@ -131,18 +132,19 @@ export const SingleHabitScreen = ({ route, navigation }) => {
 
       try {
         await ActionCreateStat(stat)
-
-        useToast({
-          message: 'Congratulations',
+        toast.show('Congratulations', {
           type: 'success',
-          icon: 'trending-up'
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
         })
 
       } catch (e) {
-        useToast({
-          message: 'An error happened when completing your habit. Please try again!',
+        toast.show('An error happened when completing your habit. Please try again!', {
           type: 'danger',
-          icon: 'alert-circle'
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
         })
       }
     }

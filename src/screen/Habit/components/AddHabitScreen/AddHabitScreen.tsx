@@ -20,12 +20,13 @@ import {
   MAIN_ACCENT_COLOR
 } from '../../../../styles'
 import { ActionCreateHabit } from '../../../../actions'
-import { useToast } from '@utils/index'
+import { useToast } from 'react-native-toast-notifications'
 
 
 export const AddHabitScreen = () => {
-  const user = useAtomValue(userAtom)
+  const toast = useToast()
 
+  const user = useAtomValue(userAtom)
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const [editHabit, setEditHabit] = useAtom(editHabitAtom)
   const setDailyHabits = useSetAtom(dailyHabitsAtom)
@@ -54,13 +55,24 @@ export const AddHabitScreen = () => {
         frequencyOption
       })
 
+      if (!habit) {
+        toast.show('Something went wrong', {
+          type: 'danger',
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='alert-circle-sharp' size={20} color={APP_WHITE} />
+        })
+        return
+      }
+
       // TODO: Add logic to check if we should add the new habit to daily habits atom
       setDailyHabits((prev) => [...prev, habit])
 
-      useToast({
-        message: 'Habit created successfully',
+      toast.show('Habit created successfully', {
         type: 'success',
-        icon: 'checkmark-circle-sharp'
+        duration: 4000,
+        placement: 'bottom',
+        icon: <Icon name='checkmark-circle-sharp' size={20} color={APP_WHITE} />
       })
     } else {
       const habit = await ActionCreateHabit({
@@ -82,7 +94,16 @@ export const AddHabitScreen = () => {
       setEditHabit(null)
     }
 
+    clearStates()
     navigation.goBack()
+  }
+
+  const clearStates = () => {
+    setName('')
+    setDescription('')
+    setTimeOfDay(TimeOfDay.Morning)
+    setDayOfWeek(DayOfTheWeek.Monday)
+    setFrequencyOption(Frequency.Daily)
   }
 
   const [fontsLoaded] = useFonts({

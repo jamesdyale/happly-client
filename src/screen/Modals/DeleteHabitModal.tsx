@@ -3,12 +3,14 @@ import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Modal } from 'r
 import { APP_BLACK, APP_RED, APP_WHITE, GRAY_TEXT } from '../../styles'
 import { useAtom, useSetAtom } from 'jotai'
 import { dailyHabitsAtom, progressAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
-import { ActionGetUserHabitById } from '../../actions/actionGetUserHabitById'
-import { useToast } from '../../utils'
-import { ActionDeleteHabitById } from '../../actions/actionDeleteHabitById'
-import { ActionDeleteStatsById } from '../../actions/actionDeleteStatsById'
+import { ActionGetUserHabitById } from '@actions/actionGetUserHabitById'
+import { ActionDeleteHabitById } from '@actions/actionDeleteHabitById'
+import { ActionDeleteStatsById } from '@actions/actionDeleteStatsById'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { useToast } from 'react-native-toast-notifications'
 
 export const DeleteHabitModal = () => {
+  const toast = useToast()
 
   const setDailyHabits = useSetAtom(dailyHabitsAtom)
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
@@ -35,16 +37,18 @@ export const DeleteHabitModal = () => {
         setSelectedHabit(null)
         setDeleteModal(false)
 
-        useToast({
-          message: 'Habit Deleted',
+        toast.show('Habit Deleted', {
           type: 'danger',
-          icon: 'trash'
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='trash' size={20} color={APP_WHITE} />
         })
       } catch (e) {
-        useToast({
-          message: 'An error happened when completing your habit. Please try again!',
+        toast.show('An error happened when deleting your habit. Please try again!', {
           type: 'danger',
-          icon: 'alert-circle'
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
         })
       }
     }

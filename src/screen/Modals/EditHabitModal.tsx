@@ -18,10 +18,12 @@ import React from 'react'
 import { ROUTES } from '../../constants'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { ActionCreateStat } from '../../actions/actionCreateStat'
-import { useToast } from '../../utils'
+import { ActionCreateStat } from '@actions/actionCreateStat'
+import { useToast } from 'react-native-toast-notifications'
+
 
 export const EditHabitModal = () => {
+  const toast = useToast()
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
@@ -61,17 +63,19 @@ export const EditHabitModal = () => {
 
       try {
         await ActionCreateStat(stat)
-
-        useToast({
-          message: 'Congratulations',
+        toast.show('Congratulations', {
           type: 'success',
-          icon: 'trending-up'
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
         })
+
       } catch (e) {
-        useToast({
-          message: 'An error happened when completing your habit. Please try again!',
+        toast.show('An error happened when completing your habit. Please try again!', {
           type: 'danger',
-          icon: 'alert-circle'
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
         })
       }
     }

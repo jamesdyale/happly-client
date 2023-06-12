@@ -11,17 +11,21 @@ export const ActionCreateHabit = async ({
                                           dayOfWeek,
                                           frequencyOption
                                         }) => {
-  const habit: Habit = {
-    id,
-    name,
-    description,
-    userId,
-    timeOfDay,
-    dayOfWeek,
-    frequencyOption
+  try {
+    const habit: Habit = {
+      id,
+      name,
+      description,
+      userId,
+      timeOfDay,
+      dayOfWeek,
+      frequencyOption
+    }
+
+    await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
+
+    return habit
+  } catch (e) {
+    console.error(e)
   }
-
-  await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)
-
-  return habit
 }

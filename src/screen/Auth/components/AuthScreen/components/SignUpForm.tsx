@@ -8,15 +8,17 @@ import { FIREBASE_AUTH } from '@data/firebaseConfig'
 import { generateUserId } from '../../../../../generators/generateId'
 import { useSetAtom } from 'jotai'
 import { userAtom } from '@state/state'
-import { useToast } from '@utils/useToast'
+import { useToast } from 'react-native-toast-notifications'
 import { ActionCreateUser } from '@actions/index'
 import { User } from '@data/types'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 type IForm = {
   changeBetweenForms: () => void
 }
 
 export const SignUpForm = ({ changeBetweenForms }: IForm) => {
+  const toast = useToast()
   const [email, setEmail] = React.useState('jd123@gmail.com')
   const [password, setPassword] = React.useState('asd123')
   const [confirmPassword, setConfirmPassword] = React.useState('asd123')
@@ -25,10 +27,11 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
 
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
-      useToast({
-        message: 'Passwords do not match',
+      toast.show('Passwords do not match', {
         type: 'danger',
-        icon: 'alert-circle'
+        duration: 4000,
+        placement: 'bottom',
+        icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
       })
       return
     }
@@ -45,10 +48,11 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
         setUser(data)
       }
     } catch (error) {
-      useToast({
-        message: 'Sign up failed. Please try again!',
+      toast.show('Sign up failed. Please try again!', {
         type: 'danger',
-        icon: 'alert-circle'
+        duration: 4000,
+        placement: 'bottom',
+        icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
       })
     }
   }

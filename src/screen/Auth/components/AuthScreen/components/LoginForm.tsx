@@ -7,15 +7,16 @@ import { FIREBASE_AUTH } from '@data/firebaseConfig'
 import { useSetAtom } from 'jotai'
 import { userAtom } from '@state/state'
 import { User } from '@data/types'
-import { useToast } from '@utils/useToast'
 import { ActionGetUserByUID } from '@actions/index'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { useToast } from 'react-native-toast-notifications'
 
 type IForm = {
   changeBetweenForms: () => void
 }
 
 export const LoginForm = ({ changeBetweenForms }: IForm) => {
-
+  const toast = useToast()
   const [email, setEmail] = React.useState('jd123@gmail.com')
   const [password, setPassword] = React.useState('asd123')
   const setUser = useSetAtom(userAtom)
@@ -38,18 +39,20 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
             setUser(data)
           }
         } else {
-          useToast({
-            message: 'Your account doesn\'t exist. Please sign up',
+          toast.show('\'Your account doesn\'t exist. Please sign up\'', {
             type: 'danger',
-            icon: 'alert-circle'
+            duration: 4000,
+            placement: 'bottom',
+            icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
           })
         }
       }
     } catch (error) {
-      useToast({
-        message: 'Login failed. Please try again!',
+      toast.show('Login failed. Please try again!', {
         type: 'danger',
-        icon: 'alert-circle'
+        duration: 4000,
+        placement: 'bottom',
+        icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
       })
 
       // } finally {
