@@ -40,7 +40,19 @@ export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
 
     try {
       // TODO: check if it was successfully added to the database
-      // await ActionCreateStat(stat)
+      const createdStat = await ActionCreateStat(stat)
+
+      if (!createdStat) {
+        toast.show('An error happened when completing your habit. Please try again!', {
+          type: 'danger',
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+        })
+
+        return
+      }
+
       await ActionCreateOrUpdateStreak(habit.id, habit.userId)
 
       // TODO: Add logic to check the stats and update the habit accordingly
