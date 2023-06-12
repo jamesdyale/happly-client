@@ -6,7 +6,6 @@ import { SignUpForm } from './components/SignUpForm'
 import { useAtom } from 'jotai'
 import { authFlowAtom } from '@state/state'
 
-
 export function AuthScreen() {
   const [authFlow, setAuthFlow] = useAtom(authFlowAtom)
 
