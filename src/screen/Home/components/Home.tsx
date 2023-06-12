@@ -12,10 +12,10 @@ import {
   showDeleteModalAtom,
   userAtom
 } from '@state/state'
-import { Habit } from '../../../types/Habit'
-import { Stats } from '../../../types/Stats'
-import { ActionGetUserHabitsForDay } from '../../../actions/actionGetUserHabitsForDay'
-import { ActionGetCompletedHabitForDay } from '../../../actions/actionGetCompletedHabitForDay'
+import { Habit } from '../../../data/types/Habit'
+import { Stats } from '../../../data/types/Stats'
+import { ActionGetUserHabitsForDay } from '@actions/actionGetUserHabitsForDay'
+import { ActionGetCompletedHabitForDay } from '@actions/actionGetCompletedHabitForDay'
 
 export const Home = () => {
   const habitSelected = useAtomValue(selectedHabitAtom)

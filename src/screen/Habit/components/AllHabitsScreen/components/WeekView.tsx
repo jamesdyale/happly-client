@@ -7,7 +7,7 @@ import { StreakWeek } from './StreakWeek'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { ROUTES } from '../../../../../constants'
-import { Habit } from '../../../../../types/Habit'
+import { Habit } from '../../../../../data/types/Habit'
 
 export const WeekView = ({ habit }: {
   habit: Habit

@@ -1,6 +1,6 @@
 import { Habit } from './Habit'
 import { User } from './User'
-import { UniqueId } from '../generators/generateId'
+import { UniqueId } from '../../generators/generateId'
 
 export type Streak = {
   id: UniqueId<'streak'>;

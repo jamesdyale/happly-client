@@ -6,7 +6,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { FIREBASE_AUTH } from '@db/firebaseConfig'
 import { useSetAtom } from 'jotai'
 import { userAtom } from '@state/state'
-import { User } from '../../../../../types/User'
+import { User } from '../../../../../data/types/User'
 import { useToast } from '@utils/useToast'
 import { ActionGetUserByUID } from '@actions/index'
 

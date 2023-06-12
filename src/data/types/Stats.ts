@@ -1,9 +1,9 @@
-import { UniqueId } from '../generators/generateId'
+import { UniqueId } from '../../generators/generateId'
 import { User } from './User'
 import { Habit } from './Habit'
 
 export type Stats = {
-  id: UniqueId<'habit-stats'>;
+  id: UniqueId<'stat'>;
   userId: User['id'];
   habitId: Habit['id'];
   completedAt: string;

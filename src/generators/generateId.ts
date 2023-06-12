@@ -8,5 +8,6 @@ export const generateId = <Id extends string>(id: Id): UniqueId<Id> => {
 }
 
 export const generateUserId = () => generateId('user')
-export const generateStatsId = () => generateId('habit-stats')
+export const generateStatId = () => generateId('stat')
+export const generateStreakId = () => generateId('streak')
 export const generateHabitId = () => generateId('habit')

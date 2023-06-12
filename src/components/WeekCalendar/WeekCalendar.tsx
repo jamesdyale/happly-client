@@ -8,7 +8,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { dailyHabitsAtom, selectDayOfTheWeekAtom, userAtom } from '@state/state'
 import { query, collection, where, getDocs } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
-import { Habit } from '../../types/Habit'
+import { Habit } from '../../data/types/Habit'
 
 
 // make this into a reusable library

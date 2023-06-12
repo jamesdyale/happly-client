@@ -1,4 +1,4 @@
-import { UniqueId } from '../generators/generateId'
+import { UniqueId } from '../../generators/generateId'
 
 export type User = {
   id: UniqueId<'user'>;

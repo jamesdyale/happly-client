@@ -11,7 +11,7 @@ import {
   SECONDARY_BG_COLOR
 } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { generateStatsId } from '../../generators/generateId'
+import { generateStatId } from '../../generators/generateId'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { FIREBASE_DB } from '@db/firebaseConfig'
 import React from 'react'
@@ -52,7 +52,7 @@ export const EditHabitModal = () => {
 
     if (docs.empty) {
       const stat = {
-        id: generateStatsId(),
+        id: generateStatId(),
         userId: habitSelected.userId,
         habitId: habitSelected.id,
         completedAt: new Date().toDateString(),

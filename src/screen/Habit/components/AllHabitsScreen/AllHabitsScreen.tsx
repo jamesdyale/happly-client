@@ -5,7 +5,7 @@ import { WeekView } from './components/WeekView'
 import { habitsAtom, userAtom } from '@state/state'
 import { useAtom, useAtomValue } from 'jotai'
 import { ActionGetStatsByUserId } from '@actions/index'
-import { Habit } from '../../../../types/Habit'
+import { Habit } from '../../../../data/types/Habit'
 
 
 export const AllHabitsScreen = () => {

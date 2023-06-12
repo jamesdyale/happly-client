@@ -3,7 +3,7 @@ import { Calendar } from 'react-native-calendars'
 import React from 'react'
 import { APP_BLACK, APP_GRAY, APP_WHITE, MAIN_ACCENT_COLOR } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { Stats } from '../../types/Stats'
+import { Stats } from '../../data/types/Stats'
 
 const Arrow = ({ direction }) => {
   return direction === 'left' ?

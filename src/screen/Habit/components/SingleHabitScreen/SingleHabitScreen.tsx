@@ -11,9 +11,9 @@ import { useSetAtom } from 'jotai'
 import { editHabitAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { Habit } from '../../../../types/Habit'
-import { Stats } from '../../../../types/Stats'
-import { generateStatsId } from '../../../../generators/generateId'
+import { Habit } from '../../../../data/types/Habit'
+import { Stats } from '../../../../data/types/Stats'
+import { generateStatId } from '../../../../generators/generateId'
 import { ActionGetStatsByHabitId } from '../../../../actions/actionGetStatsByHabitId'
 import { ActionCreateStat } from '../../../../actions/actionCreateStat'
 import { useToast } from '../../../../utils'
@@ -89,7 +89,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
 
     if (docs.empty) {
       const stat = {
-        id: generateStatsId(),
+        id: generateStatId(),
         userId: habit.userId,
         habitId: habit.id,
         completedAt: new Date().toDateString(),

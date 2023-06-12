@@ -10,7 +10,7 @@ import { useSetAtom } from 'jotai'
 import { userAtom } from '@state/state'
 import { useToast } from '@utils/useToast'
 import { ActionCreateUser } from '@actions/index'
-import { User } from '../../../../../types/User'
+import { User } from '../../../../../data/types/User'
 
 type IForm = {
   changeBetweenForms: () => void

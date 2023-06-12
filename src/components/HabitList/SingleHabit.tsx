@@ -4,12 +4,12 @@ import { APP_GRAY, APP_GREEN, APP_WHITE } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useSetAtom } from 'jotai'
 import { progressAtom, selectedHabitAtom } from '@state/state'
-import { doc, setDoc } from 'firebase/firestore'
-import { FIREBASE_DB } from '@db/firebaseConfig'
-import { generateStatsId } from '../../generators/generateId'
+import { generateStatId } from '../../generators/generateId'
 import { useToast } from 'react-native-toast-notifications'
-import { Habit } from '../../types/Habit'
-import { Stats } from '../../types/Stats'
+import { Habit } from '../../data/types/Habit'
+import { Stats } from '../../data/types/Stats'
+import { ActionCreateStat } from '@actions/actionCreateStat'
+import { ActionCreateOrUpdateStreak } from '@actions/actionCreateOrUpdateStreak'
 
 type SingleHabitType = {
   habit: Habit;
@@ -31,7 +31,7 @@ export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
 
   const handleCompletedHabit = async () => {
     const stat = {
-      id: generateStatsId(),
+      id: generateStatId(),
       userId: habit.userId,
       habitId: habit.id,
       completedAt: new Date().toDateString(),
@@ -39,9 +39,9 @@ export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
     }
 
     try {
-      await setDoc(
-        doc(FIREBASE_DB, 'stats', stat.id), stat
-      )
+      // TODO: check if it was successfully added to the database
+      // await ActionCreateStat(stat)
+      await ActionCreateOrUpdateStreak(habit.id, habit.userId)
 
       // TODO: Add logic to check the stats and update the habit accordingly
       setProgress((prev) => [...prev, stat])

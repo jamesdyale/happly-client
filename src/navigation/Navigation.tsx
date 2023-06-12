@@ -13,7 +13,7 @@ import { AuthScreen } from '@screen/Auth/components/AuthScreen/AuthScreen'
 import { OnboardScreen, RecoveryScreen } from '@screen/Onboard'
 import { getDoc, doc } from 'firebase/firestore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { User } from '../types/User'
+import { User } from '../data/types/User'
 
 const Stack = createNativeStackNavigator()
 
