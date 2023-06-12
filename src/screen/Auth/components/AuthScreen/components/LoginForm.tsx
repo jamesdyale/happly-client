@@ -1,22 +1,21 @@
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
 import { CustomButton, CustomTextInput } from '@components/index'
-import { APP_BLACK, APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/index'
+import { APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/index'
 import React from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
 import { useSetAtom } from 'jotai'
 import { userAtom } from '@state/state'
 import { doc, getDoc } from 'firebase/firestore'
-import { useToast } from 'react-native-toast-notifications'
-import Icon from 'react-native-vector-icons/Ionicons'
 import { User } from '../../../../../types/User'
+import { useToast } from '@utils/useToast'
+import { ActionGetUserByUID } from '@actions/actionGetUserByUID'
 
 type IForm = {
   changeBetweenForms: () => void
 }
 
 export const LoginForm = ({ changeBetweenForms }: IForm) => {
-  const toast = useToast()
 
   const [email, setEmail] = React.useState('jd123@gmail.com')
   const [password, setPassword] = React.useState('asd123')
@@ -28,33 +27,32 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
     try {
       const foundUserPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
       if (foundUserPromise && foundUserPromise.user) {
-        const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', foundUserPromise.user.uid))
+        const dataDocumentSnapshot = await ActionGetUserByUID(foundUserPromise.user.uid)
         if (dataDocumentSnapshot.exists()) {
           const data = dataDocumentSnapshot.data() as User
           if (data) {
-            const newUser = {
-              id: data.id,
-              email: data.email,
-              name: data.name
-            }
+            // const newUser = {
+            //   id: data.id,
+            //   email: data.email,
+            //   name: data.name
+            // }
             setUser(data)
           }
         } else {
-          toast.show('Your account doesn\'t exist. Please sign up.', {
+          useToast({
+            message: 'Your account doesn\'t exist. Please sign up',
             type: 'danger',
-            duration: 4000,
-            placement: 'bottom',
-            icon: <Icon name='alert-circle' size={20} color={APP_BLACK} />
+            icon: 'alert-circle'
           })
         }
       }
     } catch (error) {
-      toast.show('Login failed. Please try again!.', {
+      useToast({
+        message: 'Login failed. Please try again!',
         type: 'danger',
-        duration: 4000,
-        placement: 'bottom',
-        icon: <Icon name='alert-circle' size={20} color={APP_BLACK} />
+        icon: 'alert-circle'
       })
+
       // } finally {
       // console.log('finally')
       //   TODO: add loading state

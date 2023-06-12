@@ -4,13 +4,12 @@ import React from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { CustomButton } from '@components/CustomButton/CustomButton'
 import { CustomTextInput } from '@components/CustomTextInput/CustomTextInput'
-import { FIREBASE_AUTH, FIREBASE_DB } from '@db/firebaseConfig'
+import { FIREBASE_AUTH } from '@db/firebaseConfig'
 import { generateUserId } from '../../../../../generators/generateId'
-import { setDoc, doc } from 'firebase/firestore'
 import { useSetAtom } from 'jotai'
 import { userAtom } from '@state/state'
-import { useToast } from 'react-native-toast-notifications'
-import Icon from 'react-native-vector-icons/Ionicons'
+import { useToast } from '@utils/useToast'
+import { ActionCreateUser } from '@actions/index'
 import { User } from '../../../../../types/User'
 
 type IForm = {
@@ -18,8 +17,6 @@ type IForm = {
 }
 
 export const SignUpForm = ({ changeBetweenForms }: IForm) => {
-  const toast = useToast()
-
   const [email, setEmail] = React.useState('jd123@gmail.com')
   const [password, setPassword] = React.useState('asd123')
   const [confirmPassword, setConfirmPassword] = React.useState('asd123')
@@ -28,11 +25,10 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
 
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
-      toast.show('Passwords do not match', {
+      useToast({
+        message: 'Passwords do not match',
         type: 'danger',
-        duration: 4000,
-        placement: 'bottom',
-        icon: <Icon name='alert-circle' size={20} color={APP_BLACK} />
+        icon: 'alert-circle'
       })
       return
     }
@@ -45,16 +41,14 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
           email: userCredentialPromise.user.email,
           name: userCredentialPromise.user.displayName
         }
-        await setDoc(doc(FIREBASE_DB, 'users', userCredentialPromise.user.uid), data)
+        await ActionCreateUser(data, userCredentialPromise.user.uid)
         setUser(data)
-
       }
     } catch (error) {
-      toast.show('Sign up failed. Please try again!', {
+      useToast({
+        message: 'Sign up failed. Please try again!',
         type: 'danger',
-        duration: 4000,
-        placement: 'bottom',
-        icon: <Icon name='alert-circle' size={20} color={APP_BLACK} />
+        icon: 'alert-circle'
       })
     }
   }
