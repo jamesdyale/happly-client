@@ -8,7 +8,6 @@ import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { dailyHabitsAtom, editHabitAtom, userAtom } from '@state/state'
 import { generateHabitId } from '../../../../generators/generateId'
-import { useToast } from '../../../../utils/useToast'
 import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 import {
   APP_BLACK,
@@ -21,6 +20,7 @@ import {
   MAIN_ACCENT_COLOR
 } from '../../../../styles'
 import { ActionCreateHabit } from '../../../../actions'
+import { useToast } from '@utils/index'
 
 
 export const AddHabitScreen = () => {
