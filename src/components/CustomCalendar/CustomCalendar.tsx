@@ -9,12 +9,11 @@ const Arrow = ({ direction }) => {
   return direction === 'left' ?
     <Icon name='chevron-back' size={22} color={APP_GRAY} /> : <Icon name='chevron-forward' size={22} color={APP_GRAY} />
 }
-export const CustomCalendar = ({ currentDate, streak }: {
+export const CustomCalendar = ({ currentDate, stats }: {
   currentDate: string
-  streak: Stats[] | null
+  stats: Stats[] | null
 }) => {
-
-  const markedDates = streak.reduce((acc, stat) => {
+  const markedDates = stats.reduce((acc, stat) => {
     acc[new Date(stat.completedAt).toISOString().split('T')[0]] = { selected: true, selectedColor: MAIN_ACCENT_COLOR }
     return acc
   }, {})

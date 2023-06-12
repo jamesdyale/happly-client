@@ -11,11 +11,13 @@ import { useSetAtom } from 'jotai'
 import { editHabitAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { Habit, Stats } from '@data/types'
+import { Habit, Stats, Streak } from '@data/types'
 import { generateStatId } from '../../../../generators/generateId'
-import { ActionGetStatsByHabitId } from '../../../../actions/actionGetStatsByHabitId'
-import { ActionCreateStat } from '../../../../actions/actionCreateStat'
-import { useToast } from '../../../../utils'
+import { ActionGetStatsByHabitId } from '@actions/actionGetStatsByHabitId'
+import { ActionCreateStat } from '@actions/actionCreateStat'
+import { useToast } from '@utils/useToast'
+import { ActionGetStreakByHabitId } from '@actions/actionGetStreakByHabitId'
+import { ActionGetUserHabitById } from '@actions/actionGetUserHabitById'
 
 
 export const SingleHabitScreen = ({ route, navigation }) => {
@@ -27,14 +29,16 @@ export const SingleHabitScreen = ({ route, navigation }) => {
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
 
   const [habit, setHabit] = useState<Habit | null>(null)
-  const [streak, setStreak] = useState<Stats[] | null>(null)
+  const [stats, setStats] = useState<Stats[] | null>(null)
+  const [streak, setStreak] = useState<Streak | null>(null)
 
   useEffect(() => {
     // TODO: Add loading state
     let isMounted = true
-
     if (isMounted) {
       getHabitId()
+      getHabitStats()
+
       getHabitStreak()
     }
 
@@ -45,7 +49,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
   }, [])
 
   const getHabitId = async () => {
-    const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'habits', habitId))
+    const dataDocumentSnapshot = await ActionGetUserHabitById(habitId)
     const data = dataDocumentSnapshot.data() as unknown as Habit
 
     if (data) {
@@ -54,7 +58,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
   }
 
   // TODO: function to get habit streak from habitId for the entire month
-  const getHabitStreak = async () => {
+  const getHabitStats = async () => {
     const docs = await ActionGetStatsByHabitId(habitId)
 
     const progress: Stats[] = []
@@ -64,8 +68,21 @@ export const SingleHabitScreen = ({ route, navigation }) => {
       }
     )
 
-    setStreak(progress.filter((stat) =>
+    setStats(progress.filter((stat) =>
       new Date(stat.completedAt).getMonth() + 1 === new Date(currentDate).getMonth() + 1))
+  }
+
+  const getHabitStreak = async () => {
+    const docs = await ActionGetStreakByHabitId(habitId)
+    const streak: Streak[] = []
+
+
+    docs.forEach((doc) => {
+        const data = doc.data() as unknown as Streak
+        streak.push(data)
+      }
+    )
+    setStreak(streak[0])
   }
 
 
@@ -145,21 +162,21 @@ export const SingleHabitScreen = ({ route, navigation }) => {
           <View>
             <Text style={styles.habitInfoText}>Remind:</Text>
             {/* TODO: Add reminder logic here */}
-            <Text style={styles.habitInfoText_Frequency}>01:30 PM</Text>
+            <Text style={styles.habitInfoText_Frequency}>Coming soon!</Text>
           </View>
         </View>
 
-        <CustomCalendar currentDate={currentDate} streak={streak} />
+        <CustomCalendar currentDate={currentDate} stats={stats} />
 
         <View style={styles.streakContainer}>
           <View style={styles.streakVSLongestStreak}>
             <View>
-              <Text style={styles.streakDay}>{streak?.length} DAYS</Text>
+              <Text style={styles.streakDay}>{streak?.count} DAYS</Text>
               <Text style={styles.streakLabel}>Your Current Streak</Text>
             </View>
             <View>
               {/* TODO: Fixing longest streak logic */}
-              <Text style={styles.longestStreak}>{streak?.length} days</Text>
+              <Text style={styles.longestStreak}>{streak?.longestStreak} days</Text>
               <Text style={styles.longestStreakLabel}>Your longest streak</Text>
             </View>
           </View>

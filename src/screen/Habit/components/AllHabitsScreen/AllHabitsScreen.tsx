@@ -4,8 +4,8 @@ import { APP_BLACK } from '@styles/colors'
 import { WeekView } from './components/WeekView'
 import { habitsAtom, userAtom } from '@state/state'
 import { useAtom, useAtomValue } from 'jotai'
-import { ActionGetStatsByUserId } from '@actions/index'
-import { Habit } from '../../../../data/types/Habit'
+import { Habit } from '@data/types'
+import { ActionGetHabitsByUserId } from '@actions/actionGetHabitsByUserId'
 
 
 export const AllHabitsScreen = () => {
@@ -28,13 +28,14 @@ export const AllHabitsScreen = () => {
   }, [])
 
   const getHabits = async () => {
-    const docs = await ActionGetStatsByUserId(user.id)
+    const docs = await ActionGetHabitsByUserId(user.id)
     const habits: Habit[] = []
     docs.forEach((doc) => {
         const data = doc.data() as unknown as Habit
         habits.push(data)
       }
     )
+    console.log(habits)
     setHabits(habits)
   }
 
