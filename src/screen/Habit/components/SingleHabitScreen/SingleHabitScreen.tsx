@@ -16,6 +16,8 @@ import { ActionCreateStat } from '@actions/actionCreateStat'
 import { useToast } from '@utils/useToast'
 import { ActionGetStreakByHabitId } from '@actions/actionGetStreakByHabitId'
 import { ActionGetUserHabitById } from '@actions/actionGetUserHabitById'
+import { ActionUpdateStreak } from '@actions/actionUpdateStreak'
+import { checkIfStreakIsValid } from '@utils/compareDates'
 
 
 export const SingleHabitScreen = ({ route, navigation }) => {
@@ -73,14 +75,31 @@ export const SingleHabitScreen = ({ route, navigation }) => {
   const getHabitStreak = async () => {
     const docs = await ActionGetStreakByHabitId(habitId)
     if (!docs) return
-
     const streak: Streak[] = []
     docs.forEach((doc) => {
         const data = doc.data() as unknown as Streak
         streak.push(data)
       }
     )
-    setStreak(streak[0])
+
+    const currentStreak = streak[0]
+
+    const validStreak = checkIfStreakIsValid(currentStreak.lastUpdated.split('T')[0], currentDate)
+    
+    if (!validStreak) {
+      const newStreak: Streak = {
+        ...currentStreak,
+        count: 0
+      }
+
+      await ActionUpdateStreak(newStreak)
+
+      setStreak(newStreak)
+    } else {
+      // if they didn't then keep the streak going
+      setStreak(currentStreak)
+    }
+
   }
 
 

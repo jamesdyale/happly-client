@@ -8,10 +8,15 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { dailyHabitsAtom, selectDayOfTheWeekAtom, userAtom } from '@state/state'
 import { Habit } from '@data/types'
 import { ActionGetHabitsByUserId } from '@actions/actionGetHabitsByUserId'
+import { ROUTES } from '../../constants'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 
 // make this into a reusable library
 export const WeekCalendar = () => {
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
   const [selectedDay, setSelectedDay] = useAtom(selectDayOfTheWeekAtom)
   const user = useAtomValue(userAtom)
   const setDailyHabit = useSetAtom(dailyHabitsAtom)
@@ -40,7 +45,9 @@ export const WeekCalendar = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>{moment(day).format('Do MMMM YYYY')}</Text>
-        <Icon name='calendar-outline' size={25} color={APP_BLACK} />
+        <Icon name='calendar-outline' size={25} color={APP_BLACK}
+              onPress={() => navigate(ROUTES.ALL_HABIT)}
+        />
       </View>
       <View style={styles.footer}>
         {week.map((day) => {

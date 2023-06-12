@@ -29,7 +29,6 @@ export const Home = () => {
     let isMounted = true
 
     if (isMounted) {
-      console.log('selectedDay', selectedDay)
       getHabitsForTheDay()
       getCompletedHabitForDay()
     }
@@ -56,7 +55,6 @@ export const Home = () => {
 
   const getCompletedHabitForDay = async () => {
     const docs = await ActionGetCompletedStatForDay(selectedDay)
-    console.log(docs.empty)
     if (!docs) return
 
     const progress: Stats[] = []
