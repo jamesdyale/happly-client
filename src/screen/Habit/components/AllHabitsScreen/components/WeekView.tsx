@@ -41,6 +41,7 @@ export const WeekView = ({ habit }: {
             <StreakWeek
               key={index}
               day={day}
+              habitId={habit.id}
             />
           )
         })}

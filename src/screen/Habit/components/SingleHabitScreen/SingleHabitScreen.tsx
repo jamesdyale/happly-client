@@ -85,7 +85,10 @@ export const SingleHabitScreen = ({ route, navigation }) => {
 
     const currentStreak = streak[0]
 
-    const validStreak = checkIfStreakIsValid(currentStreak.lastUpdated.split('T')[0], currentDate)
+    const validStreak = checkIfStreakIsValid(
+      currentStreak.lastUpdated.split('T')[0],
+      currentDate
+    )
 
     if (!validStreak) {
       const newStreak: Streak = {

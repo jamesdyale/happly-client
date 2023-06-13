@@ -4,13 +4,15 @@ import { useEffect, useState } from 'react'
 import { WeeklyCalendarDateType } from '@shared/types'
 import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '@styles/colors'
 import { ActionGetCompletedStatForDay } from '@actions/actionGetCompletedStatForDay'
+import { Habit } from '@data/types'
 
 interface IDayOfTheWeek {
-  day: WeeklyCalendarDateType
+  day: WeeklyCalendarDateType,
+  habitId: Habit['id']
 }
 
 export const StreakWeek = (props: IDayOfTheWeek) => {
-  const { day } = props
+  const { day, habitId } = props
   const [isHighlighted, setIsHighlighted] = useState(false)
 
   useEffect(() => {
@@ -30,7 +32,9 @@ export const StreakWeek = (props: IDayOfTheWeek) => {
   const getProgress = async () => {
     const docs = await ActionGetCompletedStatForDay(day.date)
     if (docs.size > 0) {
-      setIsHighlighted(true)
+      docs.forEach((doc) => {
+        if (doc.data().habitId === habitId) setIsHighlighted(true)
+      })
     }
   }
 

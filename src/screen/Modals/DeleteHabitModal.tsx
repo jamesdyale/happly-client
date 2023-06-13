@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Modal } from 'react-native'
 import { APP_BLACK, APP_RED, APP_WHITE, GRAY_TEXT } from '../../styles'
 import { useAtom, useSetAtom } from 'jotai'
-import { dailyHabitsAtom, progressAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
+import { dailyHabitsAtom, habitsAtom, progressAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
 import { ActionGetUserHabitById } from '@actions/actionGetUserHabitById'
 import { ActionDeleteHabitById } from '@actions/actionDeleteHabitById'
 import { ActionDeleteStatsById } from '@actions/actionDeleteStatsById'
@@ -14,6 +14,8 @@ export const DeleteHabitModal = () => {
 
   const setDailyHabits = useSetAtom(dailyHabitsAtom)
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
+  const setHabits = useSetAtom(habitsAtom)
+  
   const [progress, setProgress] = useAtom(progressAtom)
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
 
@@ -33,6 +35,7 @@ export const DeleteHabitModal = () => {
 
         // TODO: Improve this logic
         setDailyHabits((prev) => prev.filter((habit) => habit.id !== habitSelected.id))
+        setHabits(((prev) => prev.filter((habit) => habit.id !== habitSelected.id)))
 
         setSelectedHabit(null)
         setDeleteModal(false)

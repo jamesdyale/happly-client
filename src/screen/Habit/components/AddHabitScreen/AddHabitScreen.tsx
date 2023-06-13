@@ -6,7 +6,7 @@ import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { dailyHabitsAtom, editHabitAtom, userAtom } from '@state/state'
+import { dailyHabitsAtom, editHabitAtom, habitsAtom, userAtom } from '@state/state'
 import { generateHabitId } from '../../../../generators/generateId'
 import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 import {
@@ -19,7 +19,7 @@ import {
   GRAY_TEXT,
   MAIN_ACCENT_COLOR
 } from '../../../../styles'
-import { ActionCreateHabit } from '../../../../actions'
+import { ActionCreateHabit, ActionCreateOrUpdateStreak } from '../../../../actions'
 import { useToast } from 'react-native-toast-notifications'
 
 
@@ -30,6 +30,7 @@ export const AddHabitScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const [editHabit, setEditHabit] = useAtom(editHabitAtom)
   const setDailyHabits = useSetAtom(dailyHabitsAtom)
+  const setHabits = useSetAtom(habitsAtom)
 
   const [name, setName] = React.useState(editHabit?.name || '')
   const [description, setDescription] = React.useState(editHabit?.description || '')
@@ -67,6 +68,9 @@ export const AddHabitScreen = () => {
 
       // TODO: Add logic to check if we should add the new habit to daily habits atom
       setDailyHabits((prev) => [...prev, habit])
+      setHabits((prev) => [...prev, habit])
+
+      await ActionCreateOrUpdateStreak(habit.id, habit.userId)
 
       toast.show('Habit created successfully', {
         type: 'success',
