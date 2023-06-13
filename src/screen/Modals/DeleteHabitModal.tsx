@@ -8,6 +8,7 @@ import { ActionDeleteHabitById } from '@actions/actionDeleteHabitById'
 import { ActionDeleteStatsById } from '@actions/actionDeleteStatsById'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useToast } from 'react-native-toast-notifications'
+import { ActionDeleteStreakByHabitId } from '@actions/actionDeleteStreakByHabitId'
 
 export const DeleteHabitModal = () => {
   const toast = useToast()
@@ -15,7 +16,7 @@ export const DeleteHabitModal = () => {
   const setDailyHabits = useSetAtom(dailyHabitsAtom)
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
   const setHabits = useSetAtom(habitsAtom)
-  
+
   const [progress, setProgress] = useAtom(progressAtom)
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
 
@@ -31,6 +32,8 @@ export const DeleteHabitModal = () => {
         if (habitStat) {
           await ActionDeleteStatsById(habitStat.id)
           setProgress((prev) => prev.filter((stat) => stat.id !== habitStat.id))
+
+          await ActionDeleteStreakByHabitId(habitSelected.id)
         }
 
         // TODO: Improve this logic
