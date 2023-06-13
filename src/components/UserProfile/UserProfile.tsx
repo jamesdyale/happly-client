@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { APP_BLACK, HABIT_OPTION } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
@@ -11,8 +11,6 @@ export const UserProfile = () => {
   return (
     <View style={styles.container}>
       <View style={styles.left}>
-        <Image style={styles.image} source={require('../../assets/channels4_profile.png')}
-        />
         <View>
           <View style={styles.welcomeContainer}>
             <Text style={styles.welcomeText}>Welcome</Text><Text>👋</Text>
