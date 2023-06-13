@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react'
 import { WeeklyCalendarDateType } from '@shared/types'
 import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '@styles/colors'
 import { Habit } from '@data/types'
-import { ActionGetCompletedStatForHabitIdUserIdAndDate } from '@actions/actionGetCompletedStatForHabitIdUserIdAndDate'
-import { useAtomValue } from 'jotai/index'
+import { useAtomValue } from 'jotai'
 import { userAtom } from '@state/state'
+import { ActionPollHabitStatsQuery } from '@actions/actionPollHabitStatsQuery'
+import { onSnapshot } from 'firebase/firestore'
 
 interface IDayOfTheWeek {
   day: WeeklyCalendarDateType,
@@ -16,30 +17,43 @@ interface IDayOfTheWeek {
 export const StreakWeek = (props: IDayOfTheWeek) => {
   const { day, habitId } = props
   const [isHighlighted, setIsHighlighted] = useState(false)
-
   const user = useAtomValue(userAtom)
+
+  const [isLoading, setIsLoading] = useState(true)
+
+
+  const getStat = async () => {
+    const q = ActionPollHabitStatsQuery(
+      habitId,
+      user.id,
+      day.date.toDateString()
+    )
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.data().habitId === habitId) setIsHighlighted(true)
+        })
+      }
+    )
+
+    return () => unsubscribe()
+  }
 
   useEffect(() => {
     // TODO: Add loading state
     let isMounted = true
+
     if (isMounted) {
       getStat()
+        .then(
+          () => {
+            setIsLoading(false)
+          }
+        )
     }
 
-    return () => {
-      isMounted = false
-    }
+
   }, [])
-
-  const getStat = async () => {
-    const docs = await ActionGetCompletedStatForHabitIdUserIdAndDate(habitId, day.date, user.id)
-
-    if (docs.size > 0) {
-      docs.forEach((doc) => {
-        if (doc.data().habitId === habitId) setIsHighlighted(true)
-      })
-    }
-  }
 
 
   return (

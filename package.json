@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.2",
+    "@expo/html-elements": "^0.4.2",
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "^0.1.11",
@@ -22,7 +23,10 @@
     "@types/react-native": "~0.69.1",
     "expo": "^46.0.21",
     "expo-font": "~10.2.0",
+    "expo-linking": "~3.2.4",
     "expo-status-bar": "~1.4.2",
+    "expo-store-review": "~5.3.0",
+    "expo-web-browser": "~11.0.0",
     "firebase": "^9.22.1",
     "jotai": "^2.0.0",
     "jotai-optics": "^0.3.0",

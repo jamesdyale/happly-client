@@ -32,7 +32,7 @@ export const AddHabitScreen = () => {
   const setDailyHabits = useSetAtom(dailyHabitsAtom)
   const setHabits = useSetAtom(habitsAtom)
 
-  const [name, setName] = React.useState(editHabit?.name || '')
+  const [name, setName] = React.useState(editHabit?.name || 'Hey there 1')
   const [description, setDescription] = React.useState(editHabit?.description || '')
   const [timeOfDay, setTimeOfDay] = React.useState(editHabit?.timeOfDay || TimeOfDay.Morning)
   const [dayOfWeek, setDayOfWeek] = React.useState<DayOfTheWeek>(editHabit?.dayOfWeek || DayOfTheWeek.Monday)

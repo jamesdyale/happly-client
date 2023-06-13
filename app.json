@@ -19,9 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "infoPlist": {
-        "NSFaceIDUsageDescription": "This app uses Face ID and Touch ID to verify the user's identity and protect sensitive data."
-      }
+      "infoPlist": {}
     },
     "android": {
       "adaptiveIcon": {
