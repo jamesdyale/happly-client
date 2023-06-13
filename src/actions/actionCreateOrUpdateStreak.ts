@@ -7,7 +7,6 @@ import { checkIfStreakIsValid } from '@utils/compareDates'
 
 export const ActionCreateOrUpdateStreak = async (habitId: Habit['id'], userId: User['id']) => {
   try {
-    console.log('hey there')
     // get the streak for this habit
     const streakQuerySnapshot = await ActionGetStreakByHabitId(habitId)
 
@@ -31,9 +30,6 @@ export const ActionCreateOrUpdateStreak = async (habitId: Habit['id'], userId: U
     // check if the current date is one day after the last day of the streak
     const currentDate = new Date()
     const lastUpdatedDate = new Date(streak.lastUpdated)
-    const isOneDayAfterLastUpdatedDate = currentDate.getDate() - lastUpdatedDate.getDate() === 1
-    console.log('currentDate', currentDate)
-    console.log('lastUpdatedDate', lastUpdatedDate)
 
     const validStreak = checkIfStreakIsValid(
       lastUpdatedDate.toISOString().split('T')[0],

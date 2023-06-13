@@ -3,8 +3,10 @@ import moment from 'moment/moment'
 import { useEffect, useState } from 'react'
 import { WeeklyCalendarDateType } from '@shared/types'
 import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '@styles/colors'
-import { ActionGetCompletedStatForDay } from '@actions/actionGetCompletedStatForDay'
 import { Habit } from '@data/types'
+import { ActionGetCompletedStatForHabitIdUserIdAndDate } from '@actions/actionGetCompletedStatForHabitIdUserIdAndDate'
+import { useAtomValue } from 'jotai/index'
+import { userAtom } from '@state/state'
 
 interface IDayOfTheWeek {
   day: WeeklyCalendarDateType,
@@ -15,22 +17,23 @@ export const StreakWeek = (props: IDayOfTheWeek) => {
   const { day, habitId } = props
   const [isHighlighted, setIsHighlighted] = useState(false)
 
+  const user = useAtomValue(userAtom)
+
   useEffect(() => {
     // TODO: Add loading state
     let isMounted = true
-
     if (isMounted) {
-      getProgress()
+      getStat()
     }
 
     return () => {
       isMounted = false
     }
-
   }, [])
 
-  const getProgress = async () => {
-    const docs = await ActionGetCompletedStatForDay(day.date)
+  const getStat = async () => {
+    const docs = await ActionGetCompletedStatForHabitIdUserIdAndDate(habitId, day.date, user.id)
+
     if (docs.size > 0) {
       docs.forEach((doc) => {
         if (doc.data().habitId === habitId) setIsHighlighted(true)

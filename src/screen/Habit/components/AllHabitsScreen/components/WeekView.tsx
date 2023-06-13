@@ -7,7 +7,7 @@ import { StreakWeek } from './StreakWeek'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { ROUTES } from '../../../../../constants'
-import { Habit } from '../../../../../data/types/Habit'
+import { Habit } from '@data/types'
 
 export const WeekView = ({ habit }: {
   habit: Habit
@@ -15,7 +15,6 @@ export const WeekView = ({ habit }: {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
   const week = getLast7Days().reverse()
-
 
   return (
     <View style={styles.container}>

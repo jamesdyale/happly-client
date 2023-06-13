@@ -28,7 +28,6 @@ export const AllHabitsScreen = () => {
   }, [])
 
   const getHabits = async () => {
-    console.log('user', user)
     const docs = await ActionGetHabitsByUserId(user.id)
 
     if (!docs) return
