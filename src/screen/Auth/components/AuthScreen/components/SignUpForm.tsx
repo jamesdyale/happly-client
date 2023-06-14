@@ -12,6 +12,7 @@ import { useToast } from 'react-native-toast-notifications'
 import { ActionCreateUser } from '@actions/index'
 import { User } from '@data/types'
 import Icon from 'react-native-vector-icons/Ionicons'
+import * as WebBrowser from 'expo-web-browser'
 
 type IForm = {
   changeBetweenForms: () => void
@@ -94,10 +95,13 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
       <View style={styles.AuthFormActionBtn}>
         <Text style={styles.ActionTextContainer}>
           <Text style={styles.ActionText}>By clicking the "Sign Up" button, you accept the </Text>
-          <Text style={styles.HighlightedText} onPress={() => console.log('navigate to terms of use')}>Terms of
-            Use</Text>
+          <Text style={styles.HighlightedText}
+                onPress={() => WebBrowser.openBrowserAsync('https://jamesodeyale.github.io/happly-docs/terms_and_conditions')}>Terms
+            and Conditions
+          </Text>
           <Text style={styles.ActionText}> and </Text>
-          <Text style={styles.HighlightedText} onPress={() => console.log('navigate to privacy policy')}>privacy
+          <Text style={styles.HighlightedText}
+                onPress={() => WebBrowser.openBrowserAsync('https://jamesodeyale.github.io/happly-docs/privacy')}>privacy
             policy</Text>
         </Text>
         <CustomButton bgColor={MAIN_ACCENT_COLOR} color={APP_WHITE}
