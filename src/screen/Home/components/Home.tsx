@@ -66,14 +66,13 @@ export const Home = () => {
     setProgress(progress)
   }
 
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: MAIN_BG_COLOR }}>
       <UserProfile />
       <WeekCalendar />
       <HabitList />
       {habitSelected && !isDeleteHabitModalOpen ? <EditHabitModal /> : null}
-      {isDeleteHabitModalOpen ? <DeleteHabitModal /> : null}
+      <DeleteHabitModal />
     </SafeAreaView>
   )
 }

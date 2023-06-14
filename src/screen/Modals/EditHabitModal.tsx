@@ -1,4 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { useToast } from 'react-native-toast-notifications'
+import Modal from 'react-native-modal'
 import { useAtom, useSetAtom } from 'jotai'
 import {
   editHabitAtom,
@@ -19,12 +21,11 @@ import { ROUTES } from '../../constants'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { ActionCreateStat } from '@actions/actionCreateStat'
-import { useToast } from 'react-native-toast-notifications'
 
 
 export const EditHabitModal = () => {
-  const toast = useToast()
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+  const toast = useToast()
 
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
   const setEditHabit = useSetAtom(editHabitAtom)

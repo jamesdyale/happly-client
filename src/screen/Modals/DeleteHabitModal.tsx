@@ -1,7 +1,8 @@
 import React from 'react'
-import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Modal } from 'react-native'
+import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView } from 'react-native'
+import Modal from 'react-native-modal'
 import { APP_BLACK, APP_RED, APP_WHITE, GRAY_TEXT } from '../../styles'
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { dailyHabitsAtom, habitsAtom, progressAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
 import { ActionGetUserHabitById } from '@actions/actionGetUserHabitById'
 import { ActionDeleteHabitById } from '@actions/actionDeleteHabitById'
@@ -16,6 +17,7 @@ export const DeleteHabitModal = () => {
   const setDailyHabits = useSetAtom(dailyHabitsAtom)
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
   const setHabits = useSetAtom(habitsAtom)
+  const isDeleteHabitModalOpen = useAtomValue(showDeleteModalAtom)
 
   const [progress, setProgress] = useAtom(progressAtom)
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
@@ -64,7 +66,7 @@ export const DeleteHabitModal = () => {
 
   return (
     <View style={styles.container}>
-      <Modal animationType='slide' transparent={true} visible={true}>
+      <Modal isVisible={isDeleteHabitModalOpen}>
         <SafeAreaView
           style={{ display: 'flex', flex: 1, position: 'relative', alignItems: 'center' }}>
           <View

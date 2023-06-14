@@ -5,7 +5,7 @@ import { APP_WHITE, GRAY_TEXT, HABIT_OPTION, MAIN_ACCENT_COLOR } from '@styles/c
 import Icon from 'react-native-vector-icons/Ionicons'
 import { StreakIcon } from '@assets/svgs'
 import { ROUTES } from '../../../../constants'
-import { useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { editHabitAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -18,6 +18,7 @@ import { ActionGetUserHabitById } from '@actions/actionGetUserHabitById'
 import { ActionUpdateStreak } from '@actions/actionUpdateStreak'
 import { checkIfStreakIsValid } from '@utils/compareDates'
 import { useToast } from 'react-native-toast-notifications'
+import { DeleteHabitModal } from '@screen/Modals'
 
 
 export const SingleHabitScreen = ({ route, navigation }) => {
@@ -27,7 +28,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
   const currentDate = new Date().toISOString().split('T')[0]
   const setSelectedHabit = useSetAtom(selectedHabitAtom)
   const setEditHabit = useSetAtom(editHabitAtom)
-  const setDeleteModal = useSetAtom(showDeleteModalAtom)
+  const [isDeleteModal, setDeleteModal] = useAtom(showDeleteModalAtom)
 
   const [habit, setHabit] = useState<Habit | null>(null)
   const [stats, setStats] = useState<Stats[] | null>(null)
@@ -160,7 +161,10 @@ export const SingleHabitScreen = ({ route, navigation }) => {
           <Icon name='chevron-back-outline'
                 size={25}
                 color={HABIT_OPTION}
-                onPress={() => navigation.goBack()}
+                onPress={() => {
+                  setDeleteModal(false)
+                  navigation.goBack()
+                }}
           />
 
           <View style={styles.headerOptions}>
@@ -213,6 +217,8 @@ export const SingleHabitScreen = ({ route, navigation }) => {
           <Text style={styles.createButtonText}>Mark as done</Text>
         </TouchableOpacity>
       </View>
+
+      <DeleteHabitModal />
     </SafeAreaView>
   )
 }
