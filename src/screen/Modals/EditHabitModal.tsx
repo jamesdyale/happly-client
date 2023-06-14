@@ -84,47 +84,49 @@ export const EditHabitModal = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.titleSection}>
-        <View>
-          <Text style={styles.habitTitle}>{habitSelected.name}</Text>
-          <Text style={styles.highlightText}>Reminder: (In
-            30mins) {/* TODO: write function to figure out the time difference consider a case where reminder is past */} </Text>
+      <Modal isVisible={true}>
+        <View style={styles.titleSection}>
+          <View>
+            <Text style={styles.habitTitle}>{habitSelected.name}</Text>
+            <Text style={styles.highlightText}>Reminder: (In
+              30mins) {/* TODO: write function to figure out the time difference consider a case where reminder is past */} </Text>
+          </View>
+          <TouchableOpacity onPress={handleOnPressCloseIcon}>
+            <Icon style={styles.closeIcon} name='close' size={25} color={APP_WHITE} />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={handleOnPressCloseIcon}>
-          <Icon style={styles.closeIcon} name='close' size={25} color={APP_WHITE} />
-        </TouchableOpacity>
-      </View>
 
-      <View style={styles.bodySection}>
-        <Icon style={styles.icon} name='notifications-outline' size={25} color={APP_BLACK} />
-        <View>
-          <Text style={styles.highlightText}>Reminders</Text>
-          {/*<Text style={styles.infoText}>{habitSelected?.reminderAt}</Text>*/}
+        <View style={styles.bodySection}>
+          <Icon style={styles.icon} name='notifications-outline' size={25} color={APP_BLACK} />
+          <View>
+            <Text style={styles.highlightText}>Reminders</Text>
+            {/*<Text style={styles.infoText}>{habitSelected?.reminderAt}</Text>*/}
+          </View>
         </View>
-      </View>
 
-      <View style={styles.bodySection}>
-        <Icon style={styles.icon} name='options-outline' size={25} color={APP_BLACK} />
-        <View>
-          <Text style={styles.highlightText}>Description</Text>
-          <Text style={styles.infoText}>{habitSelected.description}</Text>
+        <View style={styles.bodySection}>
+          <Icon style={styles.icon} name='options-outline' size={25} color={APP_BLACK} />
+          <View>
+            <Text style={styles.highlightText}>Description</Text>
+            <Text style={styles.infoText}>{habitSelected.description}</Text>
+          </View>
         </View>
-      </View>
 
-      <View style={styles.actionSection}>
-        <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressDelete}>
-          <Icon name='trash' size={25} color={APP_BLACK} />
-          <Text style={styles.infoText}>Delete</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressEdit}>
-          <Icon name='create-outline' size={25} color={APP_BLACK} />
-          <Text style={styles.infoText}>Edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressMarkAsDone}>
-          <Icon name='checkbox-outline' size={25} color={APP_BLACK} />
-          <Text style={styles.infoText}>Mark as done</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.actionSection}>
+          <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressDelete}>
+            <Icon name='trash' size={25} color={APP_BLACK} />
+            <Text style={styles.infoText}>Delete</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressEdit}>
+            <Icon name='create-outline' size={25} color={APP_BLACK} />
+            <Text style={styles.infoText}>Edit</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressMarkAsDone}>
+            <Icon name='checkbox-outline' size={25} color={APP_BLACK} />
+            <Text style={styles.infoText}>Mark as done</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   )
 }

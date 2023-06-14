@@ -66,7 +66,7 @@ export const DeleteHabitModal = () => {
 
   return (
     <View style={styles.container}>
-      <Modal isVisible={isDeleteHabitModalOpen}>
+      <Modal isVisible={isDeleteHabitModalOpen} onBackdropPress={() => setDeleteModal(false)}>
         <SafeAreaView
           style={{ display: 'flex', flex: 1, position: 'relative', alignItems: 'center' }}>
           <View
