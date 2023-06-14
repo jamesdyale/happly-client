@@ -1,4 +1,4 @@
-import { SafeAreaView } from 'react-native'
+import { SafeAreaView, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { MAIN_BG_COLOR } from '@styles/colors'
@@ -65,14 +65,13 @@ export const Home = () => {
     )
     setProgress(progress)
   }
-
+  console.log('isDeleteHabitModalOpen - ', isDeleteHabitModalOpen)
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: MAIN_BG_COLOR }}>
       <UserProfile />
       <WeekCalendar />
       <HabitList />
-      {habitSelected && !isDeleteHabitModalOpen ? <EditHabitModal /> : null}
-      <DeleteHabitModal />
+      <EditHabitModal />
     </SafeAreaView>
   )
 }

@@ -25,10 +25,7 @@ export const BottomTabNavigator = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarInactiveTintColor: HABIT_OPTION,
-        tabBarStyle: {
-          ...styles.tabBarStyle,
-          display: selectedHabit ? 'none' : 'flex'
-        },
+        tabBarStyle: styles.tabBarStyle,
         tabBarActiveTintColor: MAIN_ACCENT_COLOR,
         tabBarIcon: ({ color, size, focused }) => {
           let iconName
@@ -90,6 +87,7 @@ export const BottomTabNavigator = () => {
 
 const styles = StyleSheet.create({
   tabBarStyle: {
+    display: 'flex',
     position: 'absolute',
     backgroundColor: SECONDARY_BG_COLOR,
     borderTopWidth: 0,

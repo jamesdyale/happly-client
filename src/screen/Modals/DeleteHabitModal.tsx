@@ -13,7 +13,7 @@ import { ActionDeleteStreakByHabitId } from '@actions/actionDeleteStreakByHabitI
 
 export const DeleteHabitModal = () => {
   const toast = useToast()
-
+  
   const setDailyHabits = useSetAtom(dailyHabitsAtom)
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
   const setHabits = useSetAtom(habitsAtom)
@@ -66,7 +66,9 @@ export const DeleteHabitModal = () => {
 
   return (
     <View style={styles.container}>
-      <Modal isVisible={isDeleteHabitModalOpen} onBackdropPress={() => setDeleteModal(false)}>
+      <Modal
+        isVisible={isDeleteHabitModalOpen}
+        onBackdropPress={() => setDeleteModal(false)}>
         <SafeAreaView
           style={{ display: 'flex', flex: 1, position: 'relative', alignItems: 'center' }}>
           <View
