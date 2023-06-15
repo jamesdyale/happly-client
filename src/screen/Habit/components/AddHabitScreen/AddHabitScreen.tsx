@@ -44,6 +44,16 @@ export const AddHabitScreen = () => {
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState)
 
   const createHabit = async () => {
+    if (!name) {
+      toast.show('Please enter a name', {
+        type: 'danger',
+        duration: 4000,
+        placement: 'bottom',
+        icon: <Icon name='alert-circle-sharp' size={20} color={APP_WHITE} />
+      })
+      return
+    }
+    
     if (!editHabit) {
 
       const habit = await ActionCreateHabit({
