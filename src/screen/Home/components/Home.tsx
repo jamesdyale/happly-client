@@ -65,7 +65,7 @@ export const Home = () => {
     )
     setProgress(progress)
   }
-  console.log('isDeleteHabitModalOpen - ', isDeleteHabitModalOpen)
+  
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: MAIN_BG_COLOR }}>
       <UserProfile />

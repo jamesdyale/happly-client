@@ -1,7 +1,9 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { CustomTextInputType } from '../../shared'
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, useFonts } from '@expo-google-fonts/inter'
-import { GRAY_TEXT } from '../../styles'
+import { APP_RED, APP_WHITE, GRAY_TEXT } from '../../styles'
+import Icon from 'react-native-vector-icons/Ionicons'
+import React from 'react'
 
 export const CustomTextInput = ({
                                   bigLabel,
@@ -11,7 +13,8 @@ export const CustomTextInput = ({
                                   value,
                                   placeholder,
                                   keyboardType,
-                                  secureTextEntry
+                                  secureTextEntry,
+                                  error
                                 }: CustomTextInputType) => {
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
@@ -28,7 +31,7 @@ export const CustomTextInput = ({
       {label && <Text style={styles.label}>{label}</Text>}
       {bigLabel && <Text style={styles.bigLabel}>{bigLabel}</Text>}
       <TextInput
-        style={styles.input}
+        style={{ ...styles.input, borderColor: error ? 'red' : '#B0C1CB' }}
         onChangeText={handleChange}
         onBlur={handleBlur}
         value={value}
@@ -36,6 +39,9 @@ export const CustomTextInput = ({
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
       />
+      {error && <Text style={styles.error}>
+        {error}
+      </Text>}
     </View>
   )
 }
@@ -78,5 +84,15 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8
+  },
+  error: {
+    display: 'flex',
+    alignItems: 'center',
+    fontFamily: 'Inter_400Regular',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 12,
+    lineHeight: 16,
+    color: 'red'
   }
 })

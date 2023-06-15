@@ -15,6 +15,7 @@ export type CustomTextInputType = {
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: boolean;
+  error?: string;
 }
 
 /**

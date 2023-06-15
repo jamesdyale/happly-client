@@ -18,7 +18,7 @@ import {
   APP_WHITE,
   GRAY_TEXT,
   MAIN_ACCENT_COLOR
-} from '../../../../styles'
+} from '@styles/colors'
 import { ActionCreateHabit, ActionCreateOrUpdateStreak } from '../../../../actions'
 import { useToast } from 'react-native-toast-notifications'
 
@@ -39,23 +39,28 @@ export const AddHabitScreen = () => {
   const [frequencyOption, setFrequencyOption] = React.useState<Frequency>(editHabit?.frequencyOption || Frequency.Daily)
   const [isEnabled, setIsEnabled] = React.useState(false)
 
+  const [nameError, setNameError] = React.useState('')
   // FIXME: Add this to be able to add reminders once I am done with push notification
   const toggleSwitch = () => setIsEnabled(false)
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState)
 
   const createHabit = async () => {
     if (!name) {
-      toast.show('Please enter a name', {
-        type: 'danger',
-        duration: 4000,
-        placement: 'bottom',
-        icon: <Icon name='alert-circle-sharp' size={20} color={APP_WHITE} />
-      })
+      setNameError('Please enter a name')
+      // toast.show('Please enter a name', {
+      //   type: 'danger',
+      //   duration: 4000,
+      //   placement: 'bottom',
+      //   icon: <Icon name='alert-circle-sharp' size={20} color={APP_WHITE} />
+      // })
       return
     }
-    
-    if (!editHabit) {
 
+    if (nameError.length > 0) {
+      setNameError('Please enter a name')
+    }
+
+    if (!editHabit) {
       const habit = await ActionCreateHabit({
         id: generateHabitId(),
         name,
@@ -151,6 +156,7 @@ export const AddHabitScreen = () => {
                            handleBlur={() => {
                            }}
                            value={name}
+                           error={nameError}
           />
           <CustomTextInput bigLabel='Description' placeholder='Enter the description'
                            handleChange={setDescription}
