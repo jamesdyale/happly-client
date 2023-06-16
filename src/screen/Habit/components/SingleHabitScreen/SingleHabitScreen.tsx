@@ -14,11 +14,12 @@ import { generateStatId } from '../../../../generators/generateId'
 import { ActionGetStatsByHabitId } from '@actions/actionGetStatsByHabitId'
 import { ActionCreateStat } from '@actions/actionCreateStat'
 import { ActionGetStreakByHabitId } from '@actions/actionGetStreakByHabitId'
-import { ActionGetUserHabitById } from '@actions/actionGetUserHabitById'
 import { ActionUpdateStreak } from '@actions/actionUpdateStreak'
 import { checkIfStreakIsValid } from '@utils/compareDates'
 import { useToast } from 'react-native-toast-notifications'
 import { DeleteHabitModal } from '@screen/Modals'
+import { onSnapshot } from 'firebase/firestore'
+import { ActionGetUserHabitByIdDoc } from '@actions/actionGetUserHabitByIdDoc'
 
 
 export const SingleHabitScreen = ({ route, navigation }) => {
@@ -50,12 +51,21 @@ export const SingleHabitScreen = ({ route, navigation }) => {
   }, [])
 
   const getHabitId = async () => {
-    const dataDocumentSnapshot = await ActionGetUserHabitById(habitId)
-    const data = dataDocumentSnapshot.data() as unknown as Habit
+    const dataDocumentSnapshot = ActionGetUserHabitByIdDoc(habitId)
 
-    if (data) {
-      setHabit(data)
-    }
+    const subscription = onSnapshot(dataDocumentSnapshot, (doc) => {
+      if (!doc.exists) {
+        return
+      }
+
+      const data = doc.data() as unknown as Habit
+
+      if (data) {
+        setHabit(data)
+      }
+    })
+
+    return () => subscription()
   }
 
   // TODO: function to get habit streak from habitId for the entire month
@@ -110,7 +120,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
 
   const handleOnPressEdit = () => {
     setEditHabit(habit)
-    setSelectedHabit(null)
+    // setSelectedHabit(null)
     navigate(ROUTES.CREATE_HABIT)
   }
 

@@ -9,7 +9,8 @@ export const ActionCreateHabit = async ({
                                           userId,
                                           timeOfDay,
                                           dayOfWeek,
-                                          frequencyOption
+                                          frequencyOption,
+                                          createdAt
                                         }) => {
   try {
     const habit: Habit = {
@@ -20,7 +21,7 @@ export const ActionCreateHabit = async ({
       timeOfDay,
       dayOfWeek,
       frequencyOption,
-      createdAt: new Date()
+      createdAt
     }
 
     await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)

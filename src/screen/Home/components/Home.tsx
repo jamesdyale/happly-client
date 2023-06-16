@@ -5,7 +5,7 @@ import { MAIN_BG_COLOR } from '@styles/colors'
 import { HabitList, UserProfile, WeekCalendar } from '../../../components'
 import { EditHabitModal } from '../../Modals'
 import {
-  dailyHabitsAtom,
+  dailyHabitsAtom, editHabitAtom,
   progressAtom, selectedDayOfTheWeekAtom, selectedTimeOfDayAtom,
   userAtom
 } from '@state/state'
@@ -21,6 +21,7 @@ export const Home = () => {
   const setProgress = useSetAtom(progressAtom)
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
   const [timeOfDay, setTimeOfDay] = useAtom(selectedTimeOfDayAtom)
+  const editHabit = useAtomValue(editHabitAtom)
 
   useEffect(() => {
     // TODO: Add loading state
@@ -35,7 +36,7 @@ export const Home = () => {
       isMounted = false
     }
 
-  }, [selectedDay, timeOfDay])
+  }, [selectedDay, timeOfDay, editHabit])
 
   useEffect(() => {
     let isMounted = true
@@ -51,7 +52,6 @@ export const Home = () => {
 
   const getHabitsForTheDay = async () => {
     const dailyHabitsQuery = ActionGetUserHabitsByUserId(user.id, selectedDay, timeOfDay)
-
     const unsubscribe = onSnapshot(dailyHabitsQuery, (querySnapshot) => {
         const habits: Habit[] = []
         querySnapshot.forEach((doc) => {

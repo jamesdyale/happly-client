@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
-import { useAtom, useAtomValue } from 'jotai'
-import { editHabitAtom, userAtom } from '@state/state'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { editHabitAtom, selectedDayOfTheWeekAtom, userAtom } from '@state/state'
 import { generateHabitId } from '../../../../generators/generateId'
 import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 import {
@@ -19,7 +19,8 @@ import {
   GRAY_TEXT,
   MAIN_ACCENT_COLOR
 } from '@styles/colors'
-import { ActionCreateHabit, ActionCreateOrUpdateStreak } from '../../../../actions'
+import { ActionCreateHabit } from '@actions/actionCreateHabit'
+import { ActionCreateOrUpdateStreak } from '@actions/actionCreateOrUpdateStreak'
 import { useToast } from 'react-native-toast-notifications'
 
 
@@ -30,7 +31,7 @@ export const AddHabitScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const [editHabit, setEditHabit] = useAtom(editHabitAtom)
 
-  const [name, setName] = React.useState(editHabit?.name || 'Hey there 1')
+  const [name, setName] = React.useState(editHabit?.name || '')
   const [description, setDescription] = React.useState(editHabit?.description || '')
   const [timeOfDay, setTimeOfDay] = React.useState(editHabit?.timeOfDay || TimeOfDay.Morning)
   const [dayOfWeek, setDayOfWeek] = React.useState<DayOfTheWeek>(editHabit?.dayOfWeek || DayOfTheWeek.Monday)
@@ -41,6 +42,7 @@ export const AddHabitScreen = () => {
   // FIXME: Add this to be able to add reminders once I am done with push notification
   const toggleSwitch = () => setIsEnabled(false)
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState)
+
 
   const createHabit = async () => {
     if (!name) {
@@ -60,7 +62,8 @@ export const AddHabitScreen = () => {
         userId: user.id,
         timeOfDay,
         dayOfWeek,
-        frequencyOption
+        frequencyOption,
+        createdAt: new Date()
       })
 
       if (!habit) {
@@ -74,6 +77,7 @@ export const AddHabitScreen = () => {
       }
 
       await ActionCreateOrUpdateStreak(habit.id, habit.userId)
+
 
       toast.show('Habit created successfully', {
         type: 'success',
@@ -89,7 +93,8 @@ export const AddHabitScreen = () => {
           userId: user.id,
           timeOfDay,
           dayOfWeek,
-          frequencyOption
+          frequencyOption,
+          createdAt: editHabit?.createdAt
         }
       )
 
