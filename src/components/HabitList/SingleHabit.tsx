@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
   habitNameContainer: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    width: '80%'
   },
   habitName: {
     fontSize: 18,
