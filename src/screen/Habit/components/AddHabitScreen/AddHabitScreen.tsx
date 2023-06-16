@@ -47,12 +47,6 @@ export const AddHabitScreen = () => {
   const createHabit = async () => {
     if (!name) {
       setNameError('Please enter a name')
-      // toast.show('Please enter a name', {
-      //   type: 'danger',
-      //   duration: 4000,
-      //   placement: 'bottom',
-      //   icon: <Icon name='alert-circle-sharp' size={20} color={APP_WHITE} />
-      // })
       return
     }
 

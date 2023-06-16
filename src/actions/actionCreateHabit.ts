@@ -19,7 +19,8 @@ export const ActionCreateHabit = async ({
       userId,
       timeOfDay,
       dayOfWeek,
-      frequencyOption
+      frequencyOption,
+      createdAt: new Date()
     }
 
     await setDoc(doc(FIREBASE_DB, 'habits', habit.id), habit)

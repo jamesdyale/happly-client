@@ -4,10 +4,8 @@ import { DayOfTheWeek } from './components/DayOfTheWeek'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { APP_BLACK, GRAY_TEXT } from '../../styles'
 import moment from 'moment/moment'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { dailyHabitsAtom, selectDayOfTheWeekAtom, userAtom } from '@state/state'
-import { Habit } from '@data/types'
-import { ActionGetHabitsByUserId } from '@actions/actionGetHabitsByUserId'
+import { useAtom } from 'jotai'
+import { selectedDayOfTheWeekAtom } from '@state/state'
 import { ROUTES } from '../../constants'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -17,28 +15,14 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 export const WeekCalendar = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
-  const [selectedDay, setSelectedDay] = useAtom(selectDayOfTheWeekAtom)
-  const user = useAtomValue(userAtom)
-  const setDailyHabit = useSetAtom(dailyHabitsAtom)
-
+  const [selectedDay, setSelectedDay] = useAtom(selectedDayOfTheWeekAtom)
 
   const week = getWeekFromCurrentDate()
   const day = new Date()
 
+
   const handleDayClick = async (day: Date) => {
     setSelectedDay(day)
-    // TODO: adding check for the day if it's the same as today
-    const docs = await ActionGetHabitsByUserId(user.id)
-    const habits: Habit[] = []
-
-    if (!docs) return
-
-    docs.forEach((doc) => {
-        const data = doc.data() as Habit
-        habits.push(data)
-      }
-    )
-    setDailyHabit(habits)
   }
 
   return (

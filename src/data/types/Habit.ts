@@ -11,4 +11,5 @@ export type Habit = {
   dayOfWeek: DayOfTheWeek;
   frequencyOption: Frequency;
   duration?: string;
+  createdAt: Date;
 }

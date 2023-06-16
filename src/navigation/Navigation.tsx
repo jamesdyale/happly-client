@@ -11,7 +11,7 @@ import { FIREBASE_AUTH, FIREBASE_DB } from '@data/firebaseConfig'
 import { useAtom } from 'jotai'
 import { AuthScreen } from '@screen/Auth/components/AuthScreen/AuthScreen'
 import { OnboardScreen, RecoveryScreen } from '@screen/Onboard'
-import { getDoc, doc } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { User } from '@data/types'
 
@@ -29,21 +29,18 @@ export const Navigation = () => {
     let isMounted = true
 
     if (isMounted) {
-      const unsubscribe =
-        onAuthStateChanged(FIREBASE_AUTH, async (user) => {
-          if (user) {
-            const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
-            if (dataDocumentSnapshot.exists()) {
-              setUser(dataDocumentSnapshot.data() as User)
-            }
-            // TODO: add error handling here
-          } else {
-            setUser(null)
-            setAuthFlow('register')
+      return onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+        if (user) {
+          const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
+          if (dataDocumentSnapshot.exists()) {
+            setUser(dataDocumentSnapshot.data() as User)
           }
-        })
-
-      return unsubscribe
+          // TODO: add error handling here
+        } else {
+          setUser(null)
+          setAuthFlow('register')
+        }
+      })
     }
 
     return () => {

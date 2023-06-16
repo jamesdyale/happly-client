@@ -1,28 +1,24 @@
-import { SafeAreaView, View } from 'react-native'
+import { SafeAreaView } from 'react-native'
 import React, { useEffect } from 'react'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { MAIN_BG_COLOR } from '@styles/colors'
 import { HabitList, UserProfile, WeekCalendar } from '../../../components'
-import { DeleteHabitModal, EditHabitModal } from '../../Modals'
+import { EditHabitModal } from '../../Modals'
 import {
   dailyHabitsAtom,
-  progressAtom,
-  selectDayOfTheWeekAtom,
-  selectedHabitAtom,
-  showDeleteModalAtom,
+  progressAtom, selectedDayOfTheWeekAtom,
   userAtom
 } from '@state/state'
 import { Habit, Stats } from '@data/types'
 import { ActionGetUserHabitsByUserId } from '@actions/actionGetUserHabitsByUserId'
 import { ActionGetCompletedStatForDay } from '@actions/actionGetCompletedStatForDay'
+import { checkIfHabitCreatedDateIsBeforeSelectedDate } from '@utils/compareDates'
 
 export const Home = () => {
-  const habitSelected = useAtomValue(selectedHabitAtom)
-  const isDeleteHabitModalOpen = useAtomValue(showDeleteModalAtom)
   const user = useAtomValue(userAtom)
   const setDailyHabit = useSetAtom(dailyHabitsAtom)
   const setProgress = useSetAtom(progressAtom)
-  const selectedDay = useAtomValue(selectDayOfTheWeekAtom)
+  const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
 
   useEffect(() => {
     // TODO: Add loading state
@@ -40,8 +36,8 @@ export const Home = () => {
   }, [selectedDay])
 
   const getHabitsForTheDay = async () => {
-    const docs = await ActionGetUserHabitsByUserId(user.id)
-
+    const docs = await ActionGetUserHabitsByUserId(user.id, selectedDay)
+    console.log('shit =', docs)
     if (!docs) return
 
     const habits: Habit[] = []
@@ -65,7 +61,7 @@ export const Home = () => {
     )
     setProgress(progress)
   }
-  
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: MAIN_BG_COLOR }}>
       <UserProfile />
