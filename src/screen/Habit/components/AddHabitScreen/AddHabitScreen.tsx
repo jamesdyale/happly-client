@@ -1,5 +1,5 @@
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CustomSwitch, CustomTextInput } from '../../../../components'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
@@ -31,18 +31,29 @@ export const AddHabitScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const [editHabit, setEditHabit] = useAtom(editHabitAtom)
 
-  const [name, setName] = React.useState(editHabit?.name || '')
-  const [description, setDescription] = React.useState(editHabit?.description || '')
-  const [timeOfDay, setTimeOfDay] = React.useState(editHabit?.timeOfDay || TimeOfDay.Morning)
-  const [dayOfWeek, setDayOfWeek] = React.useState<DayOfTheWeek>(editHabit?.dayOfWeek || DayOfTheWeek.Monday)
-  const [frequencyOption, setFrequencyOption] = React.useState<Frequency>(editHabit?.frequencyOption || Frequency.Daily)
-  const [isEnabled, setIsEnabled] = React.useState(false)
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [timeOfDay, setTimeOfDay] = useState(TimeOfDay.Morning)
+  const [dayOfWeek, setDayOfWeek] = useState<DayOfTheWeek>(DayOfTheWeek.Monday)
+  const [frequencyOption, setFrequencyOption] = useState<Frequency>(Frequency.Daily)
+  const [isEnabled, setIsEnabled] = useState(false)
 
-  const [nameError, setNameError] = React.useState('')
+  const [nameError, setNameError] = useState('')
+
   // FIXME: Add this to be able to add reminders once I am done with push notification
   const toggleSwitch = () => setIsEnabled(false)
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState)
 
+  useEffect(() => {
+      if (editHabit) {
+        setName(editHabit.name)
+        setDescription(editHabit.description)
+        setTimeOfDay(editHabit.timeOfDay)
+        setDayOfWeek(editHabit.dayOfWeek)
+        setFrequencyOption(editHabit.frequencyOption)
+      }
+    },
+    [editHabit])
 
   const createHabit = async () => {
     if (!name) {
