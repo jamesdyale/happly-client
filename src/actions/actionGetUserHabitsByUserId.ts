@@ -3,7 +3,6 @@ import { FIREBASE_DB } from '@data/firebaseConfig'
 import { User } from '@data/types'
 import { TimeOfDay } from '@shared/types'
 
-
 export const ActionGetUserHabitsByUserId = (userId: User['id'], selectedDay: Date, timeOfDay: TimeOfDay) => {
   try {
     if (timeOfDay === TimeOfDay.All) {

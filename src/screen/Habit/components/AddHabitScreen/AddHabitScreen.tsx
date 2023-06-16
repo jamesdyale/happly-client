@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
-import { useAtom, useAtomValue } from 'jotai'
-import { editHabitAtom, userAtom } from '@state/state'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { editHabitAtom, selectedDayOfTheWeekAtom, userAtom } from '@state/state'
 import { generateHabitId } from '../../../../generators/generateId'
 import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 import {
@@ -30,6 +30,8 @@ export const AddHabitScreen = () => {
   const user = useAtomValue(userAtom)
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const [editHabit, setEditHabit] = useAtom(editHabitAtom)
+  const setSelectedDay = useSetAtom(selectedDayOfTheWeekAtom)
+
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -109,6 +111,7 @@ export const AddHabitScreen = () => {
     }
 
     clearStates()
+    setSelectedDay(new Date())
     navigation.goBack()
   }
 
