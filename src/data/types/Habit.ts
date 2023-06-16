@@ -10,6 +10,6 @@ export type Habit = {
   timeOfDay: TimeOfDay;
   dayOfWeek: DayOfTheWeek;
   frequencyOption: Frequency;
-  duration?: string;
   createdAt: Date;
+  reminderAt: string[];
 }

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { APP_GRAY, APP_GREEN, APP_WHITE } from '../../styles'
+import { APP_GRAY, APP_GREEN, APP_WHITE } from '@styles/index'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useSetAtom } from 'jotai'
 import { progressAtom, selectedHabitAtom } from '@state/state'

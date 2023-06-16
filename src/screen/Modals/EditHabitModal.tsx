@@ -175,7 +175,8 @@ export const EditHabitModal = () => {
               <Icon style={styles.icon} name='options-outline' size={25} color={APP_BLACK} />
               <View>
                 <Text style={styles.highlightText}>Description</Text>
-                <Text style={styles.infoText}>{habitSelected.description}</Text>
+                <Text
+                  style={styles.infoText}>{habitSelected.description.length > 0 ? habitSelected.description : 'None'}</Text>
               </View>
             </View>
 

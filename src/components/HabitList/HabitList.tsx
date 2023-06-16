@@ -16,7 +16,7 @@ import { dailyHabitsAtom, progressAtom, selectedTimeOfDayAtom } from '@state/sta
 import { CustomProgressBar } from '../CustomProgressBar/CustomProgressBar'
 import { percentage } from '@shared/utils'
 import { TimeOfDay } from '@shared/types'
-import { SingleHabit } from './SingleHabit'
+import { SingleHabit } from '../SingleHabit/SingleHabit'
 
 export const HabitList = () => {
   const dailyHabit = useAtomValue(dailyHabitsAtom)

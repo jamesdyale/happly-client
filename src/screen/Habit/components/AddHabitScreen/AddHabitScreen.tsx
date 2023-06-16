@@ -1,4 +1,4 @@
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { CustomSwitch, CustomTextInput } from '../../../../components'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -22,6 +22,7 @@ import {
 import { ActionCreateHabit } from '@actions/actionCreateHabit'
 import { ActionCreateOrUpdateStreak } from '@actions/actionCreateOrUpdateStreak'
 import { useToast } from 'react-native-toast-notifications'
+import { GetReminderTimesFromCurrentTime } from '@utils/timeUtils'
 
 
 export const AddHabitScreen = () => {
@@ -32,19 +33,18 @@ export const AddHabitScreen = () => {
   const [editHabit, setEditHabit] = useAtom(editHabitAtom)
   const setSelectedDay = useSetAtom(selectedDayOfTheWeekAtom)
 
-
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [timeOfDay, setTimeOfDay] = useState(TimeOfDay.Morning)
   const [dayOfWeek, setDayOfWeek] = useState<DayOfTheWeek>(DayOfTheWeek.Monday)
   const [frequencyOption, setFrequencyOption] = useState<Frequency>(Frequency.Daily)
-  const [isEnabled, setIsEnabled] = useState(false)
+  const [isEnabled, setIsEnabled] = useState(true)
+  const [reminderAt, setReminderAt] = useState<string[]>([])
 
   const [nameError, setNameError] = useState('')
 
-  // FIXME: Add this to be able to add reminders once I am done with push notification
-  const toggleSwitch = () => setIsEnabled(false)
-  // const toggleSwitch = () => setIsEnabled(previousState => !previousState)
+  const reminderTimes = GetReminderTimesFromCurrentTime()
+
 
   useEffect(() => {
       if (editHabit) {
@@ -53,6 +53,7 @@ export const AddHabitScreen = () => {
         setTimeOfDay(editHabit.timeOfDay)
         setDayOfWeek(editHabit.dayOfWeek)
         setFrequencyOption(editHabit.frequencyOption)
+        setReminderAt(editHabit.reminderAt)
       }
     },
     [editHabit])
@@ -72,7 +73,8 @@ export const AddHabitScreen = () => {
         timeOfDay,
         dayOfWeek,
         frequencyOption,
-        createdAt: new Date()
+        createdAt: new Date(),
+        reminderAt
       })
 
       if (!habit) {
@@ -103,7 +105,8 @@ export const AddHabitScreen = () => {
           timeOfDay,
           dayOfWeek,
           frequencyOption,
-          createdAt: editHabit?.createdAt
+          createdAt: editHabit?.createdAt,
+          reminderAt
         }
       )
 
@@ -124,6 +127,24 @@ export const AddHabitScreen = () => {
     setNameError('')
   }
 
+  const toggleSwitch = (isEnabled: boolean) => {
+    if (!isEnabled) {
+      setReminderAt([])
+    }
+    setIsEnabled(isEnabled)
+  }
+
+  const handleReminderAt = (time: string) => {
+    const doesExist = reminderAt.includes(time)
+
+    if (doesExist) {
+      const filtered = reminderAt.filter((item) => item !== time)
+      setReminderAt(filtered)
+    } else {
+      setReminderAt([...reminderAt, time])
+    }
+  }
+
   const [fontsLoaded] = useFonts({
     Inter_600SemiBold,
     Inter_700Bold
@@ -133,216 +154,199 @@ export const AddHabitScreen = () => {
     return null
   }
 
-
   return (
-    <SafeAreaView style={styles.wrapper}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={() => {
-              setEditHabit(null)
-              navigation.goBack()
-            }}>
-            <Icon name='close' size={25} color={APP_RED} />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>New <Text
-            style={{ ...styles.headerText, color: '#9D9797' }}> Habit</Text></Text>
-        </View>
-        <View>
-          <CustomTextInput bigLabel='Name' placeholder='Enter the name'
-                           handleChange={setName}
-                           handleBlur={() => {
-                           }}
-                           value={name}
-                           error={nameError}
-          />
-          <CustomTextInput bigLabel='Description' placeholder='Enter the description'
-                           handleChange={setDescription}
-                           handleBlur={() => {
-                           }}
-                           value={description}
-          />
-          <View style={styles.sectionContainer}>
-            <Text style={styles.sectionTitle}>How often do you want to do it?</Text>
-            <View style={styles.frequencyOptions}>
-              <TouchableOpacity
-                style={{
-                  ...styles.frequencyOption,
-                  marginRight: 15,
-                  backgroundColor: frequencyOption === Frequency.Daily ? APP_BLACK : APP_GRAY
-                }}
-                onPress={() => setFrequencyOption(Frequency.Daily)}>
-                <Text style={{
-                  ...styles.frequencyOptionTitle,
-                  color: frequencyOption === Frequency.Daily ? APP_WHITE : APP_BLACK
-                }}>Daily</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  ...styles.frequencyOption,
-                  backgroundColor: frequencyOption === Frequency.Weekly ? APP_BLACK : APP_GRAY
-                }}
-                onPress={() => setFrequencyOption(Frequency.Weekly)}>
-                <Text style={{
-                  ...styles.frequencyOptionTitle,
-                  color: frequencyOption === Frequency.Weekly ? APP_WHITE : APP_BLACK
-                }}>Weekly</Text>
-              </TouchableOpacity>
-
-            </View>
-          </View>
-          {/*<View style={styles.sectionContainer}>*/}
-          {/*  <Text style={styles.sectionTitle}>Every?</Text>*/}
-          {/*  <View style={styles.everyOption}>*/}
-          {/*    <TouchableOpacity*/}
-          {/*      style={{*/}
-          {/*        ...styles.frequencyOption,*/}
-          {/*        width: 35,*/}
-          {/*        height: 35*/}
-          {/*      }}*/}
-          {/*      onPress={() => setFrequencyOption('daily')}><Icon name='remove-outline' size={20} color={APP_BLACK} />*/}
-          {/*    </TouchableOpacity>*/}
-
-          {/*    <Text style={{ marginRight: 10, marginLeft: 10 }}>1 week</Text>*/}
-          {/*    <TouchableOpacity*/}
-          {/*      style={{*/}
-          {/*        ...styles.frequencyOption,*/}
-          {/*        backgroundColor: APP_BLACK,*/}
-          {/*        width: 35,*/}
-          {/*        height: 35*/}
-          {/*      }}*/}
-          {/*      onPress={() => setFrequencyOption('daily')}><Icon name='ios-add-sharp' size={20} color={APP_WHITE} />*/}
-          {/*    </TouchableOpacity>*/}
-
-          {/*  </View>*/}
-          {/*</View>*/}
-          <View style={styles.sectionContainer}>
-            <Text style={styles.sectionTitle}>In which time of the day would you like to do it?</Text>
-            <View style={styles.periodContainer}>
-              <TouchableOpacity
-                style={{
-                  ...styles.periodOption,
-                  backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY
-                }}
-                onPress={() => setTimeOfDay(TimeOfDay.Morning)}>
-                <Image style={{
-                  width: 15,
-                  height: 15,
-                  marginRight: 8
-                }} source={require('../../../../assets/svgs/sunrise1.png')} />
-                <Text style={{
-                  ...styles.periodOptionTitle,
-                  color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
-                }}>Morning</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={{
-                  ...styles.periodOption,
-                  backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
-                }}
-                onPress={() => setTimeOfDay(TimeOfDay.Afternoon)}>
-                <Image style={{
-                  width: 15,
-                  height: 15,
-                  marginRight: 8
-                }} source={require('../../../../assets/svgs/sun1.png')} />
-                <Text style={{
-                  ...styles.periodOptionTitle,
-                  color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
-                }}>Afternoon</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={{
-                  ...styles.periodOption,
-                  backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY
-                }}
-                onPress={() => setTimeOfDay(TimeOfDay.Evening)}>
-                <Image style={{
-                  width: 15,
-                  height: 15,
-                  marginRight: 8
-                }} source={require('../../../../assets/svgs/crescent-moon1.png')} />
-                <Text style={{
-                  ...styles.periodOptionTitle,
-                  color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK
-                }}>Evening</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.sectionContainer}>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: 10
+    <ScrollView style={{ marginBottom: 110 }}>
+      <SafeAreaView style={styles.wrapper}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => {
+                setEditHabit(null)
+                navigation.goBack()
               }}>
-              <Text style={styles.sectionTitle}>Should we remind you?</Text>
-              <CustomSwitch isEnabled={isEnabled}
-                            toggleSwitch={toggleSwitch}
-                            thumbEnabledColor={APP_WHITE}
-                            thumbNonEnabledColor={APP_WHITE}
-                            falseTrackColor={APP_WHITE}
-                            trueTrackColor={MAIN_ACCENT_COLOR}
-                            iosBackgroundColor={APP_GRAY}
-              />
-            </View>
-            {isEnabled && <View style={styles.reminderContainer}>
-              <TouchableOpacity
-                style={styles.reminderTime}
-                onPress={() => console.log('custom time')}>
-                <Text style={styles.periodOptionTitle}>Custom</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.reminderTime}
-                onPress={() => console.log('6:00pm')}>
-                <Text style={styles.periodOptionTitle}>6:00pm</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.reminderTime}
-                onPress={() => console.log('6:30pm')}>
-                <Text style={styles.periodOptionTitle}>6:30pm</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.reminderTime}
-                onPress={() => console.log('7:00pm')}>
-                <Text style={styles.periodOptionTitle}>7:00pm</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.reminderTime}
-                onPress={() => console.log('7:30pm')}>
-                <Text style={styles.periodOptionTitle}>7:30pm</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.reminderTime}
-                onPress={() => console.log('8:00pm')}>
-                <Text style={styles.periodOptionTitle}>8:00pm</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.reminderTime}
-                onPress={() => console.log('8:30pm')}>
-                <Text style={styles.periodOptionTitle}>8:30pm</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.reminderTime}
-                onPress={() => console.log('9:00pm')}>
-                <Text style={styles.periodOptionTitle}>9:00pm</Text>
-              </TouchableOpacity>
-
-            </View>}
+              <Icon name='close' size={25} color={APP_RED} />
+            </TouchableOpacity>
+            <Text style={styles.headerText}>New <Text
+              style={{ ...styles.headerText, color: '#9D9797' }}> Habit</Text></Text>
           </View>
+          <View>
+            <CustomTextInput bigLabel='Name' placeholder='Enter the name'
+                             handleChange={setName}
+                             handleBlur={() => {
+                             }}
+                             value={name}
+                             error={nameError}
+            />
+            <CustomTextInput bigLabel='Description' placeholder='Enter the description'
+                             handleChange={setDescription}
+                             handleBlur={() => {
+                             }}
+                             value={description}
+            />
+            <View style={styles.sectionContainer}>
+              <Text style={styles.sectionTitle}>How often do you want to do it?</Text>
+              <View style={styles.frequencyOptions}>
+                <TouchableOpacity
+                  style={{
+                    ...styles.frequencyOption,
+                    marginRight: 15,
+                    backgroundColor: frequencyOption === Frequency.Daily ? APP_BLACK : APP_GRAY
+                  }}
+                  onPress={() => setFrequencyOption(Frequency.Daily)}>
+                  <Text style={{
+                    ...styles.frequencyOptionTitle,
+                    color: frequencyOption === Frequency.Daily ? APP_WHITE : APP_BLACK
+                  }}>Daily</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    ...styles.frequencyOption,
+                    backgroundColor: frequencyOption === Frequency.Weekly ? APP_BLACK : APP_GRAY
+                  }}
+                  onPress={() => setFrequencyOption(Frequency.Weekly)}>
+                  <Text style={{
+                    ...styles.frequencyOptionTitle,
+                    color: frequencyOption === Frequency.Weekly ? APP_WHITE : APP_BLACK
+                  }}>Weekly</Text>
+                </TouchableOpacity>
+
+              </View>
+            </View>
+
+            {/*<View style={styles.sectionContainer}>*/}
+            {/*  <Text style={styles.sectionTitle}>Every?</Text>*/}
+            {/*  <View style={styles.everyOption}>*/}
+            {/*    <TouchableOpacity*/}
+            {/*      style={{*/}
+            {/*        ...styles.frequencyOption,*/}
+            {/*        width: 35,*/}
+            {/*        height: 35*/}
+            {/*      }}*/}
+            {/*      onPress={() => setFrequencyOption('daily')}><Icon name='remove-outline' size={20} color={APP_BLACK} />*/}
+            {/*    </TouchableOpacity>*/}
+
+            {/*    <Text style={{ marginRight: 10, marginLeft: 10 }}>1 week</Text>*/}
+            {/*    <TouchableOpacity*/}
+            {/*      style={{*/}
+            {/*        ...styles.frequencyOption,*/}
+            {/*        backgroundColor: APP_BLACK,*/}
+            {/*        width: 35,*/}
+            {/*        height: 35*/}
+            {/*      }}*/}
+            {/*      onPress={() => setFrequencyOption('daily')}><Icon name='ios-add-sharp' size={20} color={APP_WHITE} />*/}
+            {/*    </TouchableOpacity>*/}
+
+            {/*  </View>*/}
+            {/*</View>*/}
+            <View style={styles.sectionContainer}>
+              <Text style={styles.sectionTitle}>In which time of the day would you like to do it?</Text>
+              <View style={styles.periodContainer}>
+                <TouchableOpacity
+                  style={{
+                    ...styles.periodOption,
+                    backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY
+                  }}
+                  onPress={() => setTimeOfDay(TimeOfDay.Morning)}>
+                  <Image style={{
+                    width: 15,
+                    height: 15,
+                    marginRight: 8
+                  }} source={require('../../../../assets/svgs/sunrise1.png')} />
+                  <Text style={{
+                    ...styles.periodOptionTitle,
+                    color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
+                  }}>Morning</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={{
+                    ...styles.periodOption,
+                    backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
+                  }}
+                  onPress={() => setTimeOfDay(TimeOfDay.Afternoon)}>
+                  <Image style={{
+                    width: 15,
+                    height: 15,
+                    marginRight: 8
+                  }} source={require('../../../../assets/svgs/sun1.png')} />
+                  <Text style={{
+                    ...styles.periodOptionTitle,
+                    color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
+                  }}>Afternoon</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={{
+                    ...styles.periodOption,
+                    backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY
+                  }}
+                  onPress={() => setTimeOfDay(TimeOfDay.Evening)}>
+                  <Image style={{
+                    width: 15,
+                    height: 15,
+                    marginRight: 8
+                  }} source={require('../../../../assets/svgs/crescent-moon1.png')} />
+                  <Text style={{
+                    ...styles.periodOptionTitle,
+                    color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK
+                  }}>Evening</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.sectionContainer}>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 10
+                }}>
+                <Text style={styles.sectionTitle}>Should we remind you?</Text>
+                <CustomSwitch isEnabled={isEnabled}
+                              toggleSwitch={() => toggleSwitch(!isEnabled)}
+                              thumbEnabledColor={APP_WHITE}
+                              thumbNonEnabledColor={APP_WHITE}
+                              falseTrackColor={APP_WHITE}
+                              trueTrackColor={MAIN_ACCENT_COLOR}
+                              iosBackgroundColor={APP_GRAY}
+                />
+              </View>
+
+              {isEnabled && <View style={styles.reminderContainer}>
+                <TouchableOpacity
+                  style={styles.reminderTime}
+                  onPress={() => console.log('custom time')}>
+                  <Text style={styles.periodOptionTitle}>Custom</Text>
+                </TouchableOpacity>
+
+                {reminderTimes.map((time, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={{
+                      ...styles.reminderTime,
+                      backgroundColor: reminderAt.includes(time) ? MAIN_ACCENT_COLOR : APP_GRAY
+                    }}
+                    onPress={() => handleReminderAt(time)}>
+                    <Text style={{
+                      ...styles.periodOptionTitle,
+                      color: reminderAt.includes(time) ? APP_WHITE : GRAY_TEXT
+                    }}>{time}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>}
+            </View>
+          </View>
+          <TouchableOpacity
+            style={styles.createButton}
+            onPress={createHabit}>
+            <Text style={styles.createButtonText}>CREATE</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.createButton}
-          onPress={createHabit}>
-          <Text style={styles.createButtonText}>CREATE</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   )
 }
 
