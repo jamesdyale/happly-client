@@ -1,19 +1,15 @@
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { getWeekFromCurrentDate } from '@shared/utils'
 import { DayOfTheWeek } from './components/DayOfTheWeek'
-import Icon from 'react-native-vector-icons/Ionicons'
-import { APP_BLACK, GRAY_TEXT } from '../../styles'
-import moment from 'moment/moment'
+import { GRAY_TEXT } from '../../styles'
 import { useAtom } from 'jotai'
 import { selectedDayOfTheWeekAtom } from '@state/state'
-import { ROUTES } from '../../constants'
-import { ParamListBase, useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import React from 'react'
 
 
 // make this into a reusable library
 export const WeekCalendar = () => {
-  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+  // const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
   const [selectedDay, setSelectedDay] = useAtom(selectedDayOfTheWeekAtom)
 
@@ -27,12 +23,14 @@ export const WeekCalendar = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>{moment(day).format('Do MMMM YYYY')}</Text>
-        <Icon name='calendar-outline' size={25} color={APP_BLACK}
-              onPress={() => navigate(ROUTES.ALL_HABIT)}
-        />
-      </View>
+      {/*<View style={styles.header}>*/}
+      {/*  <Text style={styles.headerText}>{moment(day).format('Do MMMM YYYY')}</Text>*/}
+      {/*  <Icon name='calendar-outline' size={25} color={APP_BLACK}*/}
+      {/*        onPress={() => navigate(ROUTES.ALL_HABIT)}*/}
+      {/*  />*/}
+      {/*</View>*/}
+
+
       <View style={styles.footer}>
         {week.map((day) => {
           return (

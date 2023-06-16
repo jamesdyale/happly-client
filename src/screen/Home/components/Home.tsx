@@ -6,7 +6,7 @@ import { HabitList, UserProfile, WeekCalendar } from '../../../components'
 import { EditHabitModal } from '../../Modals'
 import {
   dailyHabitsAtom,
-  progressAtom, selectedDayOfTheWeekAtom,
+  progressAtom, selectedDayOfTheWeekAtom, selectedTimeOfDayAtom,
   userAtom
 } from '@state/state'
 import { Habit, Stats } from '@data/types'
@@ -18,6 +18,7 @@ export const Home = () => {
   const setDailyHabit = useSetAtom(dailyHabitsAtom)
   const setProgress = useSetAtom(progressAtom)
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
+  const timeOfDay = useAtomValue(selectedTimeOfDayAtom)
 
   useEffect(() => {
     // TODO: Add loading state
@@ -32,10 +33,10 @@ export const Home = () => {
       isMounted = false
     }
 
-  }, [selectedDay])
+  }, [selectedDay, timeOfDay])
 
   const getHabitsForTheDay = async () => {
-    const docs = await ActionGetUserHabitsByUserId(user.id, selectedDay)
+    const docs = await ActionGetUserHabitsByUserId(user.id, selectedDay, timeOfDay)
 
     if (!docs) return
 

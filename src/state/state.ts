@@ -1,5 +1,6 @@
 import { atomWithStorage } from 'jotai/utils'
-import { User, Habit, Stats } from '@data/types'
+import { Habit, Stats, User } from '@data/types'
+import { TimeOfDay } from '@shared/types'
 
 export const authFlowAtom = atomWithStorage<'login' | 'register'>('authFlow', 'register')
 export const userAtom = atomWithStorage<User | null>('user', null)
@@ -10,3 +11,4 @@ export const progressAtom = atomWithStorage<Stats[]>('stats', [])
 export const selectedHabitAtom = atomWithStorage<Habit | null>('habitSelected', null)
 export const editHabitAtom = atomWithStorage<Habit | null>('editHabit', null)
 export const showDeleteModalAtom = atomWithStorage<boolean>('showDeleteModal', false)
+export const selectedTimeOfDayAtom = atomWithStorage<TimeOfDay>('timeOfDay', TimeOfDay.All)
