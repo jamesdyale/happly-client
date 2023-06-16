@@ -51,7 +51,7 @@ export const AddHabitScreen = () => {
     }
 
     if (nameError.length > 0) {
-      setNameError('Please enter a name')
+      setNameError('')
     }
 
     if (!editHabit) {

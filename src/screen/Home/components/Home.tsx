@@ -12,7 +12,6 @@ import {
 import { Habit, Stats } from '@data/types'
 import { ActionGetUserHabitsByUserId } from '@actions/actionGetUserHabitsByUserId'
 import { ActionGetCompletedStatForDay } from '@actions/actionGetCompletedStatForDay'
-import { checkIfHabitCreatedDateIsBeforeSelectedDate } from '@utils/compareDates'
 
 export const Home = () => {
   const user = useAtomValue(userAtom)
@@ -37,7 +36,7 @@ export const Home = () => {
 
   const getHabitsForTheDay = async () => {
     const docs = await ActionGetUserHabitsByUserId(user.id, selectedDay)
-    console.log('shit =', docs)
+
     if (!docs) return
 
     const habits: Habit[] = []
@@ -51,6 +50,7 @@ export const Home = () => {
 
   const getCompletedHabitForDay = async () => {
     const docs = await ActionGetCompletedStatForDay(selectedDay)
+
     if (!docs) return
 
     const progress: Stats[] = []
