@@ -10,13 +10,13 @@ import {
   HABIT_OPTION,
   MAIN_ACCENT_COLOR,
   MAIN_BG_COLOR
-} from '../../styles'
+} from '@styles/colors'
 import { NoHabitIcon } from '@assets/svgs'
-import { SingleHabit } from './SingleHabit'
 import { dailyHabitsAtom, progressAtom, selectedTimeOfDayAtom } from '@state/state'
 import { CustomProgressBar } from '../CustomProgressBar/CustomProgressBar'
 import { percentage } from '@shared/utils'
 import { TimeOfDay } from '@shared/types'
+import { SingleHabit } from './SingleHabit'
 
 export const HabitList = () => {
   const dailyHabit = useAtomValue(dailyHabitsAtom)

@@ -1,6 +1,4 @@
 import { KeyboardTypeOptions } from 'react-native'
-import { Stats } from '../data/types/Stats'
-import { Habit } from '../data/types/Habit'
 
 
 /**
