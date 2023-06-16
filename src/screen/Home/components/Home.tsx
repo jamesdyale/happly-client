@@ -1,6 +1,6 @@
 import { SafeAreaView } from 'react-native'
 import React, { useEffect } from 'react'
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { MAIN_BG_COLOR } from '@styles/colors'
 import { HabitList, UserProfile, WeekCalendar } from '../../../components'
 import { EditHabitModal } from '../../Modals'
@@ -12,13 +12,15 @@ import {
 import { Habit, Stats } from '@data/types'
 import { ActionGetUserHabitsByUserId } from '@actions/actionGetUserHabitsByUserId'
 import { ActionGetCompletedStatForDay } from '@actions/actionGetCompletedStatForDay'
+import { onSnapshot } from 'firebase/firestore'
+import { GetCurrentTimeOfDay } from '@utils/timeUtils'
 
 export const Home = () => {
   const user = useAtomValue(userAtom)
   const setDailyHabit = useSetAtom(dailyHabitsAtom)
   const setProgress = useSetAtom(progressAtom)
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
-  const timeOfDay = useAtomValue(selectedTimeOfDayAtom)
+  const [timeOfDay, setTimeOfDay] = useAtom(selectedTimeOfDayAtom)
 
   useEffect(() => {
     // TODO: Add loading state
@@ -35,32 +37,51 @@ export const Home = () => {
 
   }, [selectedDay, timeOfDay])
 
+  useEffect(() => {
+    let isMounted = true
+
+    if (isMounted) {
+      setTimeOfDay(GetCurrentTimeOfDay())
+    }
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+
   const getHabitsForTheDay = async () => {
-    const docs = await ActionGetUserHabitsByUserId(user.id, selectedDay, timeOfDay)
+    const dailyHabitsQuery = ActionGetUserHabitsByUserId(user.id, selectedDay, timeOfDay)
 
-    if (!docs) return
-
-    const habits: Habit[] = []
-    docs.forEach((doc) => {
-        const data = doc.data() as unknown as Habit
-        habits.push(data)
+    const unsubscribe = onSnapshot(dailyHabitsQuery, (querySnapshot) => {
+        const habits: Habit[] = []
+        querySnapshot.forEach((doc) => {
+            const data = doc.data() as unknown as Habit
+            habits.push(data)
+          }
+        )
+        setDailyHabit(habits)
       }
     )
-    setDailyHabit(habits)
+
+    return () => unsubscribe()
   }
 
+
   const getCompletedHabitForDay = async () => {
-    const docs = await ActionGetCompletedStatForDay(selectedDay)
+    const completedHabitQuery = ActionGetCompletedStatForDay(selectedDay)
 
-    if (!docs) return
-
-    const progress: Stats[] = []
-    docs.forEach((doc) => {
-        const data = doc.data() as unknown as Stats
-        progress.push(data)
+    const unsubscribe = onSnapshot(completedHabitQuery, (querySnapshot) => {
+        const progress: Stats[] = []
+        querySnapshot.forEach((doc) => {
+            const data = doc.data() as unknown as Stats
+            progress.push(data)
+          }
+        )
+        setProgress(progress)
       }
     )
-    setProgress(progress)
+
+    return () => unsubscribe()
   }
 
   return (

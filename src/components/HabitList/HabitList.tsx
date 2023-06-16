@@ -33,6 +33,63 @@ export const HabitList = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.periodContainer}>
+        <TouchableOpacity
+          style={{
+            ...styles.periodOption,
+            backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY
+          }}
+          onPress={() => handleChangeTimeOfDay(TimeOfDay.Morning)}
+        >
+          <Image style={{
+            width: 15,
+            height: 15,
+            marginRight: 8
+          }} source={require('../../assets/svgs/sunrise1.png')} />
+          <Text style={{
+            ...styles.periodOptionTitle,
+            color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
+          }}>Morning</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{
+            ...styles.periodOption,
+            backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
+          }}
+          onPress={() => handleChangeTimeOfDay(TimeOfDay.Afternoon)}
+        >
+          <Image style={{
+            width: 15,
+            height: 15,
+            marginRight: 8
+          }} source={require('../../assets/svgs/sun1.png')} />
+          <Text style={{
+            ...styles.periodOptionTitle,
+            color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
+          }}>Afternoon</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{
+            ...styles.periodOption,
+            backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY
+          }}
+          onPress={() => handleChangeTimeOfDay(TimeOfDay.Evening)}
+        >
+          <Image style={{
+            width: 15,
+            height: 15,
+            marginRight: 8
+          }} source={require('../../assets/svgs/crescent-moon1.png')} />
+          <Text style={{
+            ...styles.periodOptionTitle,
+            color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK
+          }}>Evening</Text>
+        </TouchableOpacity>
+      </View>
+
+
       {dailyHabit.length === 0 && (
         <View style={styles.noHabitIconContainer}>
           <View
@@ -70,63 +127,6 @@ export const HabitList = () => {
           >
             <CustomProgressBar progress={percentage(progress, dailyHabit)} />
           </View>
-
-          <View style={styles.periodContainer}>
-            <TouchableOpacity
-              style={{
-                ...styles.periodOption,
-                backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY
-              }}
-              onPress={() => handleChangeTimeOfDay(TimeOfDay.Morning)}
-            >
-              <Image style={{
-                width: 15,
-                height: 15,
-                marginRight: 8
-              }} source={require('../../assets/svgs/sunrise1.png')} />
-              <Text style={{
-                ...styles.periodOptionTitle,
-                color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
-              }}>Morning</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{
-                ...styles.periodOption,
-                backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
-              }}
-              onPress={() => handleChangeTimeOfDay(TimeOfDay.Afternoon)}
-            >
-              <Image style={{
-                width: 15,
-                height: 15,
-                marginRight: 8
-              }} source={require('../../assets/svgs/sun1.png')} />
-              <Text style={{
-                ...styles.periodOptionTitle,
-                color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
-              }}>Afternoon</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{
-                ...styles.periodOption,
-                backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY
-              }}
-              onPress={() => handleChangeTimeOfDay(TimeOfDay.Evening)}
-            >
-              <Image style={{
-                width: 15,
-                height: 15,
-                marginRight: 8
-              }} source={require('../../assets/svgs/crescent-moon1.png')} />
-              <Text style={{
-                ...styles.periodOptionTitle,
-                color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK
-              }}>Evening</Text>
-            </TouchableOpacity>
-          </View>
-
           <ScrollView style={{ marginBottom: 40 }}>
             {dailyHabit.map((habit) => (
               <SingleHabit key={habit.id} habit={habit} progress={progress} />

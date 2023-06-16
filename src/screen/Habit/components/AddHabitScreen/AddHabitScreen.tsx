@@ -76,7 +76,7 @@ export const AddHabitScreen = () => {
       }
 
       // TODO: Add logic to check if we should add the new habit to daily habits atom
-      setDailyHabits((prev) => [...prev, habit])
+      // setDailyHabits((prev) => [...prev, habit])
       setHabits((prev) => [...prev, habit])
 
       await ActionCreateOrUpdateStreak(habit.id, habit.userId)
