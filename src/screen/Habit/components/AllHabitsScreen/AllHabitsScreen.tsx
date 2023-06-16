@@ -6,6 +6,7 @@ import { habitsAtom, userAtom } from '@state/state'
 import { useAtom, useAtomValue } from 'jotai'
 import { Habit } from '@data/types'
 import { ActionGetHabitsByUserId } from '@actions/actionGetHabitsByUserId'
+import { onSnapshot } from 'firebase/firestore'
 
 
 export const AllHabitsScreen = () => {
@@ -28,17 +29,20 @@ export const AllHabitsScreen = () => {
   }, [])
 
   const getHabits = async () => {
-    const docs = await ActionGetHabitsByUserId(user.id)
+    const habitsQuery = ActionGetHabitsByUserId(user.id)
 
-    if (!docs) return
-
-    const habits: Habit[] = []
-    docs.forEach((doc) => {
-        const data = doc.data() as unknown as Habit
-        habits.push(data)
+    const unsubscribe = onSnapshot(habitsQuery, (querySnapshot) => {
+        const habits: Habit[] = []
+        querySnapshot.forEach((doc) => {
+            const data = doc.data() as unknown as Habit
+            habits.push(data)
+          }
+        )
+        setHabits(habits)
       }
     )
-    setHabits(habits)
+
+    return () => unsubscribe()
   }
 
 

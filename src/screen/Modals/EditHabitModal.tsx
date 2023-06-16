@@ -3,8 +3,7 @@ import { useToast } from 'react-native-toast-notifications'
 import Modal from 'react-native-modal'
 import { useAtom, useSetAtom } from 'jotai'
 import {
-  dailyHabitsAtom,
-  editHabitAtom, habitsAtom, progressAtom,
+  editHabitAtom, progressAtom,
   selectedHabitAtom, showDeleteModalAtom
 } from '@state/state'
 import {
@@ -33,8 +32,6 @@ export const EditHabitModal = () => {
 
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
   const [progress, setProgress] = useAtom(progressAtom)
-  const setDailyHabits = useSetAtom(dailyHabitsAtom)
-  const setHabits = useSetAtom(habitsAtom)
   const setEditHabit = useSetAtom(editHabitAtom)
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
 
@@ -53,10 +50,6 @@ export const EditHabitModal = () => {
 
           await ActionDeleteStreakByHabitId(habitSelected.id)
         }
-
-        // TODO: Improve this logic
-        setDailyHabits((prev) => prev.filter((habit) => habit.id !== habitSelected.id))
-        setHabits(((prev) => prev.filter((habit) => habit.id !== habitSelected.id)))
 
         setSelectedHabit(null)
         setDeleteModal(false)

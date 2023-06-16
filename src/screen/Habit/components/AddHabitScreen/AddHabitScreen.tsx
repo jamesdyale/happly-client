@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { DayOfTheWeek, Frequency, TimeOfDay } from '@shared/types'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { dailyHabitsAtom, editHabitAtom, habitsAtom, userAtom } from '@state/state'
+import { useAtom, useAtomValue } from 'jotai'
+import { editHabitAtom, userAtom } from '@state/state'
 import { generateHabitId } from '../../../../generators/generateId'
 import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 import {
@@ -29,8 +29,6 @@ export const AddHabitScreen = () => {
   const user = useAtomValue(userAtom)
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const [editHabit, setEditHabit] = useAtom(editHabitAtom)
-  const setDailyHabits = useSetAtom(dailyHabitsAtom)
-  const setHabits = useSetAtom(habitsAtom)
 
   const [name, setName] = React.useState(editHabit?.name || 'Hey there 1')
   const [description, setDescription] = React.useState(editHabit?.description || '')
@@ -75,10 +73,6 @@ export const AddHabitScreen = () => {
         return
       }
 
-      // TODO: Add logic to check if we should add the new habit to daily habits atom
-      // setDailyHabits((prev) => [...prev, habit])
-      setHabits((prev) => [...prev, habit])
-
       await ActionCreateOrUpdateStreak(habit.id, habit.userId)
 
       toast.show('Habit created successfully', {
@@ -88,7 +82,7 @@ export const AddHabitScreen = () => {
         icon: <Icon name='checkmark-circle-sharp' size={20} color={APP_WHITE} />
       })
     } else {
-      const habit = await ActionCreateHabit({
+      await ActionCreateHabit({
           id: editHabit.id,
           name,
           description,
@@ -99,11 +93,6 @@ export const AddHabitScreen = () => {
         }
       )
 
-      setDailyHabits((prev) => {
-        const index = prev.findIndex((h) => h.id === habit.id)
-        prev[index] = habit
-        return prev
-      })
       setEditHabit(null)
     }
 

@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView } from 'react-na
 import Modal from 'react-native-modal'
 import { APP_BLACK, APP_RED, APP_WHITE, GRAY_TEXT } from '../../styles'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { dailyHabitsAtom, habitsAtom, progressAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
+import { progressAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
 import { ActionGetUserHabitById } from '@actions/actionGetUserHabitById'
 import { ActionDeleteHabitById } from '@actions/actionDeleteHabitById'
 import { ActionDeleteStatsById } from '@actions/actionDeleteStatsById'
@@ -13,10 +13,8 @@ import { ActionDeleteStreakByHabitId } from '@actions/actionDeleteStreakByHabitI
 
 export const DeleteHabitModal = () => {
   const toast = useToast()
-  
-  const setDailyHabits = useSetAtom(dailyHabitsAtom)
+
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
-  const setHabits = useSetAtom(habitsAtom)
   const isDeleteHabitModalOpen = useAtomValue(showDeleteModalAtom)
 
   const [progress, setProgress] = useAtom(progressAtom)
@@ -37,10 +35,6 @@ export const DeleteHabitModal = () => {
 
           await ActionDeleteStreakByHabitId(habitSelected.id)
         }
-
-        // TODO: Improve this logic
-        setDailyHabits((prev) => prev.filter((habit) => habit.id !== habitSelected.id))
-        setHabits(((prev) => prev.filter((habit) => habit.id !== habitSelected.id)))
 
         setSelectedHabit(null)
         setDeleteModal(false)
