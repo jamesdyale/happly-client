@@ -120,7 +120,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
 
   const handleOnPressEdit = () => {
     setEditHabit(habit)
-    // setSelectedHabit(null)
+    setSelectedHabit(null)
     navigate(ROUTES.CREATE_HABIT)
   }
 
@@ -130,6 +130,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
 
   const handleOnPressDelete = () => {
     setDeleteModal(true)
+    setSelectedHabit(habit)
   }
 
   const handleOnPressMarkAsDone = async () => {

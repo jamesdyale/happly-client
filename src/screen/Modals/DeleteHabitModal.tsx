@@ -10,9 +10,14 @@ import { ActionDeleteStatsById } from '@actions/actionDeleteStatsById'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useToast } from 'react-native-toast-notifications'
 import { ActionDeleteStreakByHabitId } from '@actions/actionDeleteStreakByHabitId'
+import { ROUTES } from '../../constants'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 export const DeleteHabitModal = () => {
   const toast = useToast()
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
 
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
   const isDeleteHabitModalOpen = useAtomValue(showDeleteModalAtom)
@@ -22,7 +27,7 @@ export const DeleteHabitModal = () => {
 
   const handleOnPressDelete = async () => {
     const dataDocumentSnapshot = await ActionGetUserHabitById(habitSelected.id)
-
+    console.log('dataDocumentSnapshot', dataDocumentSnapshot)
     if (dataDocumentSnapshot.exists()) {
       try {
         await ActionDeleteHabitById(habitSelected.id)
@@ -45,6 +50,8 @@ export const DeleteHabitModal = () => {
           placement: 'bottom',
           icon: <Icon name='trash' size={20} color={APP_WHITE} />
         })
+
+        navigate(ROUTES.MAIN_HOME)
       } catch (e) {
         toast.show('An error happened when deleting your habit. Please try again!', {
           type: 'danger',
