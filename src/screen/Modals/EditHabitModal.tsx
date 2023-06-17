@@ -167,7 +167,14 @@ export const EditHabitModal = () => {
               <Icon style={styles.icon} name='notifications-outline' size={25} color={APP_BLACK} />
               <View>
                 <Text style={styles.highlightText}>Reminders</Text>
-                {/*<Text style={styles.infoText}>{habitSelected?.reminderAt}</Text>*/}
+                {habitSelected.reminderAt.length > 0 && habitSelected.reminderAt.map(
+                  (reminder, index) => (
+                    <Text key={index} style={styles.infoText}>{reminder}</Text>
+                  )
+                )}
+                {habitSelected.reminderAt.length === 0 && (
+                  <Text style={styles.infoText}>None</Text>
+                )}
               </View>
             </View>
 
