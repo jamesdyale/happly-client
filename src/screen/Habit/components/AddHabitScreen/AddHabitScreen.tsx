@@ -160,8 +160,8 @@ export const AddHabitScreen = () => {
 
   return (
     <>
-      <ScrollView style={{ marginBottom: 110 }}>
-        <SafeAreaView style={styles.wrapper}>
+      <SafeAreaView style={styles.wrapper}>
+        <ScrollView style={{ marginBottom: 10 }}>
           <View style={styles.container}>
             <View style={styles.header}>
               <TouchableOpacity
@@ -343,8 +343,8 @@ export const AddHabitScreen = () => {
               <Text style={styles.createButtonText}>{editHabit ? 'SAVE' : 'CREATE'}</Text>
             </TouchableOpacity>
           </View>
-        </SafeAreaView>
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
       {showNotificationModal && <NotificationModal
         handleTimeSelected={handleTimeSelected}
         closeNotificationModal={() => setShowNotificationModal(false)} />

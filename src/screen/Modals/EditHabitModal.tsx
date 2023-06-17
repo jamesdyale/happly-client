@@ -24,6 +24,7 @@ import { ActionGetUserHabitById } from '@actions/actionGetUserHabitById'
 import { ActionDeleteHabitById } from '@actions/actionDeleteHabitById'
 import { ActionDeleteStatsById } from '@actions/actionDeleteStatsById'
 import { ActionDeleteStreakByHabitId } from '@actions/actionDeleteStreakByHabitId'
+import { findClosestReminder } from '@utils/timeUtils'
 
 
 export const EditHabitModal = () => {
@@ -136,6 +137,7 @@ export const EditHabitModal = () => {
     }
   }
 
+
   if (habitSelected === null) {
     return null
   }
@@ -155,8 +157,10 @@ export const EditHabitModal = () => {
             <View style={styles.titleSection}>
               <View>
                 <Text style={styles.habitTitle}>{habitSelected.name}</Text>
-                <Text style={styles.highlightText}>Reminder: (In
-                  30mins) {/* TODO: write function to figure out the time difference consider a case where reminder is past */} </Text>
+                <Text style={styles.highlightText}>
+                  {habitSelected.reminderAt.length > 0 && `Closest Reminder is at ${findClosestReminder(habitSelected.reminderAt)}`}
+                  {habitSelected.reminderAt.length < 1 && 'No Reminders Set'}
+                </Text>
               </View>
               <TouchableOpacity onPress={handleOnPressCloseIcon}>
                 <Icon style={styles.closeIcon} name='close' size={25} color={APP_WHITE} />
