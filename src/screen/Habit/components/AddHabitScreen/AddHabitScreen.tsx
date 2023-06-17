@@ -1,6 +1,6 @@
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { CustomSwitch, CustomTextInput } from '../../../../components'
+import { CustomTextInput } from '../../../../components'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -12,7 +12,7 @@ import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/i
 import {
   APP_BLACK,
   APP_BLUE,
-  APP_GRAY,
+  APP_GRAY, APP_LIGHT_GRAY,
   APP_PINK,
   APP_RED,
   APP_WHITE,
@@ -22,7 +22,8 @@ import {
 import { ActionCreateHabit } from '@actions/actionCreateHabit'
 import { ActionCreateOrUpdateStreak } from '@actions/actionCreateOrUpdateStreak'
 import { useToast } from 'react-native-toast-notifications'
-import { GetReminderTimesFromCurrentTime } from '@utils/timeUtils'
+import { NotificationModal } from '@screen/Modals'
+import { formatAMPM } from '@utils/timeUtils'
 
 
 export const AddHabitScreen = () => {
@@ -42,9 +43,7 @@ export const AddHabitScreen = () => {
   const [reminderAt, setReminderAt] = useState<string[]>([])
 
   const [nameError, setNameError] = useState('')
-
-  const reminderTimes = GetReminderTimesFromCurrentTime()
-
+  const [showNotificationModal, setShowNotificationModal] = useState(false)
 
   useEffect(() => {
       if (editHabit) {
@@ -127,6 +126,23 @@ export const AddHabitScreen = () => {
     setNameError('')
   }
 
+  const handleTimeSelected = (selectedDate: Date) => {
+    const selectedTime = formatAMPM(selectedDate)
+    const doesExist = reminderAt.includes(selectedTime)
+
+    if (!doesExist) {
+      setReminderAt([...reminderAt, selectedTime])
+    } else {
+      Alert.alert('Time has been previously selected')
+    }
+    setShowNotificationModal(false)
+  }
+
+  const removeReminder = (reminder: string) => {
+    const filtered = reminderAt.filter((item) => item !== reminder)
+    setReminderAt(filtered)
+  }
+
   const toggleSwitch = (isEnabled: boolean) => {
     if (!isEnabled) {
       setReminderAt([])
@@ -155,202 +171,233 @@ export const AddHabitScreen = () => {
   }
 
   return (
-    <ScrollView style={{ marginBottom: 110 }}>
-      <SafeAreaView style={styles.wrapper}>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => {
-                setEditHabit(null)
-                navigation.goBack()
-              }}>
-              <Icon name='close' size={25} color={APP_RED} />
-            </TouchableOpacity>
-            <Text style={styles.headerText}>New <Text
-              style={{ ...styles.headerText, color: '#9D9797' }}> Habit</Text></Text>
-          </View>
-          <View>
-            <CustomTextInput bigLabel='Name' placeholder='Enter the name'
-                             handleChange={setName}
-                             handleBlur={() => {
-                             }}
-                             value={name}
-                             error={nameError}
-            />
-            <CustomTextInput bigLabel='Description' placeholder='Enter the description'
-                             handleChange={setDescription}
-                             handleBlur={() => {
-                             }}
-                             value={description}
-            />
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>How often do you want to do it?</Text>
-              <View style={styles.frequencyOptions}>
-                <TouchableOpacity
-                  style={{
-                    ...styles.frequencyOption,
-                    marginRight: 15,
-                    backgroundColor: frequencyOption === Frequency.Daily ? APP_BLACK : APP_GRAY
-                  }}
-                  onPress={() => setFrequencyOption(Frequency.Daily)}>
-                  <Text style={{
-                    ...styles.frequencyOptionTitle,
-                    color: frequencyOption === Frequency.Daily ? APP_WHITE : APP_BLACK
-                  }}>Daily</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    ...styles.frequencyOption,
-                    backgroundColor: frequencyOption === Frequency.Weekly ? APP_BLACK : APP_GRAY
-                  }}
-                  onPress={() => setFrequencyOption(Frequency.Weekly)}>
-                  <Text style={{
-                    ...styles.frequencyOptionTitle,
-                    color: frequencyOption === Frequency.Weekly ? APP_WHITE : APP_BLACK
-                  }}>Weekly</Text>
-                </TouchableOpacity>
-
-              </View>
-            </View>
-
-            {/*<View style={styles.sectionContainer}>*/}
-            {/*  <Text style={styles.sectionTitle}>Every?</Text>*/}
-            {/*  <View style={styles.everyOption}>*/}
-            {/*    <TouchableOpacity*/}
-            {/*      style={{*/}
-            {/*        ...styles.frequencyOption,*/}
-            {/*        width: 35,*/}
-            {/*        height: 35*/}
-            {/*      }}*/}
-            {/*      onPress={() => setFrequencyOption('daily')}><Icon name='remove-outline' size={20} color={APP_BLACK} />*/}
-            {/*    </TouchableOpacity>*/}
-
-            {/*    <Text style={{ marginRight: 10, marginLeft: 10 }}>1 week</Text>*/}
-            {/*    <TouchableOpacity*/}
-            {/*      style={{*/}
-            {/*        ...styles.frequencyOption,*/}
-            {/*        backgroundColor: APP_BLACK,*/}
-            {/*        width: 35,*/}
-            {/*        height: 35*/}
-            {/*      }}*/}
-            {/*      onPress={() => setFrequencyOption('daily')}><Icon name='ios-add-sharp' size={20} color={APP_WHITE} />*/}
-            {/*    </TouchableOpacity>*/}
-
-            {/*  </View>*/}
-            {/*</View>*/}
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>In which time of the day would you like to do it?</Text>
-              <View style={styles.periodContainer}>
-                <TouchableOpacity
-                  style={{
-                    ...styles.periodOption,
-                    backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY
-                  }}
-                  onPress={() => setTimeOfDay(TimeOfDay.Morning)}>
-                  <Image style={{
-                    width: 15,
-                    height: 15,
-                    marginRight: 8
-                  }} source={require('../../../../assets/svgs/sunrise1.png')} />
-                  <Text style={{
-                    ...styles.periodOptionTitle,
-                    color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
-                  }}>Morning</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={{
-                    ...styles.periodOption,
-                    backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
-                  }}
-                  onPress={() => setTimeOfDay(TimeOfDay.Afternoon)}>
-                  <Image style={{
-                    width: 15,
-                    height: 15,
-                    marginRight: 8
-                  }} source={require('../../../../assets/svgs/sun1.png')} />
-                  <Text style={{
-                    ...styles.periodOptionTitle,
-                    color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
-                  }}>Afternoon</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={{
-                    ...styles.periodOption,
-                    backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY
-                  }}
-                  onPress={() => setTimeOfDay(TimeOfDay.Evening)}>
-                  <Image style={{
-                    width: 15,
-                    height: 15,
-                    marginRight: 8
-                  }} source={require('../../../../assets/svgs/crescent-moon1.png')} />
-                  <Text style={{
-                    ...styles.periodOptionTitle,
-                    color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK
-                  }}>Evening</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <View style={styles.sectionContainer}>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: 10
+    <>
+      <ScrollView style={{ marginBottom: 110 }}>
+        <SafeAreaView style={styles.wrapper}>
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => {
+                  setEditHabit(null)
+                  navigation.goBack()
                 }}>
-                <Text style={styles.sectionTitle}>Should we remind you?</Text>
-                <CustomSwitch isEnabled={isEnabled}
-                              toggleSwitch={() => toggleSwitch(!isEnabled)}
-                              thumbEnabledColor={APP_WHITE}
-                              thumbNonEnabledColor={APP_WHITE}
-                              falseTrackColor={APP_WHITE}
-                              trueTrackColor={MAIN_ACCENT_COLOR}
-                              iosBackgroundColor={APP_GRAY}
-                />
+                <Icon name='close' size={25} color={APP_RED} />
+              </TouchableOpacity>
+              <Text style={styles.headerText}>New <Text
+                style={{ ...styles.headerText, color: '#9D9797' }}> Habit</Text></Text>
+            </View>
+            <View>
+              <CustomTextInput bigLabel='Name' placeholder='Enter the name'
+                               handleChange={setName}
+                               handleBlur={() => {
+                               }}
+                               value={name}
+                               error={nameError}
+              />
+              <CustomTextInput bigLabel='Description' placeholder='Enter the description'
+                               handleChange={setDescription}
+                               handleBlur={() => {
+                               }}
+                               value={description}
+              />
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>How often do you want to do it?</Text>
+                <View style={styles.frequencyOptions}>
+                  <TouchableOpacity
+                    style={{
+                      ...styles.frequencyOption,
+                      marginRight: 15,
+                      backgroundColor: frequencyOption === Frequency.Daily ? APP_BLACK : APP_GRAY
+                    }}
+                    onPress={() => setFrequencyOption(Frequency.Daily)}>
+                    <Text style={{
+                      ...styles.frequencyOptionTitle,
+                      color: frequencyOption === Frequency.Daily ? APP_WHITE : APP_BLACK
+                    }}>Daily</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      ...styles.frequencyOption,
+                      backgroundColor: frequencyOption === Frequency.Weekly ? APP_BLACK : APP_GRAY
+                    }}
+                    onPress={() => setFrequencyOption(Frequency.Weekly)}>
+                    <Text style={{
+                      ...styles.frequencyOptionTitle,
+                      color: frequencyOption === Frequency.Weekly ? APP_WHITE : APP_BLACK
+                    }}>Weekly</Text>
+                  </TouchableOpacity>
+
+                </View>
               </View>
 
-              {isEnabled && <View style={styles.reminderContainer}>
-                <TouchableOpacity
-                  style={styles.reminderTime}
-                  onPress={() => console.log('custom time')}>
-                  <Text style={styles.periodOptionTitle}>Custom</Text>
-                </TouchableOpacity>
+              {/*<View style={styles.sectionContainer}>*/}
+              {/*  <Text style={styles.sectionTitle}>Every?</Text>*/}
+              {/*  <View style={styles.everyOption}>*/}
+              {/*    <TouchableOpacity*/}
+              {/*      style={{*/}
+              {/*        ...styles.frequencyOption,*/}
+              {/*        width: 35,*/}
+              {/*        height: 35*/}
+              {/*      }}*/}
+              {/*      onPress={() => setFrequencyOption('daily')}><Icon name='remove-outline' size={20} color={APP_BLACK} />*/}
+              {/*    </TouchableOpacity>*/}
 
-                {reminderTimes.map((time, index) => (
+              {/*    <Text style={{ marginRight: 10, marginLeft: 10 }}>1 week</Text>*/}
+              {/*    <TouchableOpacity*/}
+              {/*      style={{*/}
+              {/*        ...styles.frequencyOption,*/}
+              {/*        backgroundColor: APP_BLACK,*/}
+              {/*        width: 35,*/}
+              {/*        height: 35*/}
+              {/*      }}*/}
+              {/*      onPress={() => setFrequencyOption('daily')}><Icon name='ios-add-sharp' size={20} color={APP_WHITE} />*/}
+              {/*    </TouchableOpacity>*/}
+
+              {/*  </View>*/}
+              {/*</View>*/}
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>In which time of the day would you like to do it?</Text>
+                <View style={styles.periodContainer}>
                   <TouchableOpacity
-                    key={index}
                     style={{
-                      ...styles.reminderTime,
-                      backgroundColor: reminderAt.includes(time) ? MAIN_ACCENT_COLOR : APP_GRAY
+                      ...styles.periodOption,
+                      backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY
                     }}
-                    onPress={() => handleReminderAt(time)}>
+                    onPress={() => setTimeOfDay(TimeOfDay.Morning)}>
+                    <Image style={{
+                      width: 15,
+                      height: 15,
+                      marginRight: 8
+                    }} source={require('../../../../assets/svgs/sunrise1.png')} />
                     <Text style={{
                       ...styles.periodOptionTitle,
-                      color: reminderAt.includes(time) ? APP_WHITE : GRAY_TEXT
-                    }}>{time}</Text>
+                      color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
+                    }}>Morning</Text>
                   </TouchableOpacity>
-                ))}
-              </View>}
+
+                  <TouchableOpacity
+                    style={{
+                      ...styles.periodOption,
+                      backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
+                    }}
+                    onPress={() => setTimeOfDay(TimeOfDay.Afternoon)}>
+                    <Image style={{
+                      width: 15,
+                      height: 15,
+                      marginRight: 8
+                    }} source={require('../../../../assets/svgs/sun1.png')} />
+                    <Text style={{
+                      ...styles.periodOptionTitle,
+                      color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
+                    }}>Afternoon</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={{
+                      ...styles.periodOption,
+                      backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY
+                    }}
+                    onPress={() => setTimeOfDay(TimeOfDay.Evening)}>
+                    <Image style={{
+                      width: 15,
+                      height: 15,
+                      marginRight: 8
+                    }} source={require('../../../../assets/svgs/crescent-moon1.png')} />
+                    <Text style={{
+                      ...styles.periodOptionTitle,
+                      color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK
+                    }}>Evening</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View style={styles.sectionContainer}>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 10
+                  }}>
+                  <Text style={styles.sectionTitle}>Should we remind you?</Text>
+                </View>
+
+                <View style={styles.reminderContainer}>
+                  <View style={styles.reminderTimeContainer}>
+                    {reminderAt.map((reminder, index) => (
+                      <View key={index} style={styles.reminderWrapper}>
+                        <View style={styles.reminderTextContainer}>
+                          <Icon name='alarm-outline' size={20} color={APP_BLACK} style={{ marginRight: 5 }} />
+                          <Text style={styles.reminderText}>{reminder}</Text>
+                        </View>
+                        <TouchableOpacity onPress={() => removeReminder(reminder)}>
+                          <Icon name='ios-close-circle-outline' size={20} color={APP_BLACK} />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                  </View>
+
+                  <TouchableOpacity
+                    style={styles.reminderTime}
+                    onPress={() => setShowNotificationModal(true)}>
+                    <Icon name='ios-add-circle-sharp' size={20} color={APP_BLACK} style={{ marginRight: 5 }} />
+                    <Text style={styles.periodOptionTitle}>
+                      {reminderAt.length < 1 ? 'Add a reminder' : 'Add another reminder'}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
+            <TouchableOpacity
+              style={styles.createButton}
+              onPress={createHabit}>
+              <Text style={styles.createButtonText}>CREATE</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={styles.createButton}
-            onPress={createHabit}>
-            <Text style={styles.createButtonText}>CREATE</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+        </SafeAreaView>
+      </ScrollView>
+      {showNotificationModal && <NotificationModal
+        handleTimeSelected={handleTimeSelected}
+        closeNotificationModal={() => setShowNotificationModal(false)} />
+      }
+    </>
   )
 }
 
+
 const styles = StyleSheet.create({
+  reminderTimeContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    borderTopRightRadius: 6,
+    borderTopLeftRadius: 6,
+    backgroundColor: APP_GRAY,
+    width: '100%'
+  },
+  reminderWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: APP_LIGHT_GRAY,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 10
+  },
+  reminderTextContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    width: '90%'
+  },
+  reminderText: {
+    fontFamily: 'Inter_400Regular',
+    fontSize: 16,
+    lineHeight: 19,
+    color: APP_BLACK,
+    marginLeft: 5
+  },
   wrapper: {
     backgroundColor: '#F4F3F3',
     flex: 1
@@ -437,24 +484,34 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_600SemiBold',
     fontSize: 14,
     lineHeight: 22,
-    color: GRAY_TEXT
+    color: GRAY_TEXT,
+    textAlign: 'center',
+    display: 'flex'
   },
   reminderContainer: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
     width: '100%'
   },
   reminderTime: {
     backgroundColor: APP_GRAY,
-    borderRadius: 5,
-    width: 80,
-    height: 30,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
+    width: '100%',
+    height: 40,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10
+    flexDirection: 'row',
+    paddingHorizontal: 10
+  },
+  reminderTimeText: {
+    fontFamily: 'Inter_600SemiBold',
+    fontSize: 14,
+    lineHeight: 22,
+    color: GRAY_TEXT,
+    marginRight: 5
   },
   createButton: {
     backgroundColor: MAIN_ACCENT_COLOR,
@@ -468,6 +525,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 22,
     textAlign: 'center'
-
   }
 })
