@@ -38,17 +38,6 @@ export const Home = () => {
 
   }, [selectedDay, timeOfDay, editHabit])
 
-  useEffect(() => {
-    let isMounted = true
-
-    if (isMounted) {
-      setTimeOfDay(GetCurrentTimeOfDay())
-    }
-    return () => {
-      isMounted = false
-    }
-  }, [])
-
 
   const getHabitsForTheDay = async () => {
     const dailyHabitsQuery = ActionGetUserHabitsByUserId(user.id, selectedDay, timeOfDay)

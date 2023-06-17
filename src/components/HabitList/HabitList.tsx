@@ -1,5 +1,5 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { useAtom, useAtomValue } from 'jotai'
 import {
   APP_BLACK,
@@ -17,19 +17,25 @@ import { CustomProgressBar } from '../CustomProgressBar/CustomProgressBar'
 import { percentage } from '@shared/utils'
 import { TimeOfDay } from '@shared/types'
 import { SingleHabit } from '../SingleHabit/SingleHabit'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { GetCurrentTimeOfDay } from '@utils/timeUtils'
 
 export const HabitList = () => {
   const dailyHabit = useAtomValue(dailyHabitsAtom)
   const progress = useAtomValue(progressAtom)
   const [timeOfDay, setTimeOfDay] = useAtom(selectedTimeOfDayAtom)
+  const [currentTimeOfDay, setCurrentTimeOfDay] = useState<TimeOfDay>(TimeOfDay.All)
 
-  const handleChangeTimeOfDay = (selectedTimeOfDay: TimeOfDay) => {
-    if (timeOfDay === selectedTimeOfDay) {
-      setTimeOfDay(TimeOfDay.All)
-    } else {
-      setTimeOfDay(selectedTimeOfDay)
+  useEffect(() => {
+    let isMounted = true
+
+    if (isMounted) {
+      setCurrentTimeOfDay(GetCurrentTimeOfDay())
     }
-  }
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -37,56 +43,74 @@ export const HabitList = () => {
         <TouchableOpacity
           style={{
             ...styles.periodOption,
-            backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY
+            backgroundColor: timeOfDay === TimeOfDay.All ? APP_BLUE : APP_GRAY
           }}
-          onPress={() => handleChangeTimeOfDay(TimeOfDay.Morning)}
+          onPress={() => setTimeOfDay(TimeOfDay.All)}
         >
-          <Image style={{
-            width: 15,
-            height: 15,
-            marginRight: 8
-          }} source={require('../../assets/svgs/sunrise1.png')} />
+          <Icon name='file-tray-full-sharp' size={18} color={timeOfDay === TimeOfDay.All ? APP_WHITE : APP_BLACK}
+                style={{ marginRight: 8 }} />
           <Text style={{
             ...styles.periodOptionTitle,
-            color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
-          }}>Morning</Text>
+            color: timeOfDay === TimeOfDay.All ? APP_WHITE : APP_BLACK
+          }}>All Habits</Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           style={{
             ...styles.periodOption,
-            backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
+            backgroundColor: timeOfDay === currentTimeOfDay ? APP_BLUE : APP_GRAY
           }}
-          onPress={() => handleChangeTimeOfDay(TimeOfDay.Afternoon)}
+          onPress={() => setTimeOfDay(currentTimeOfDay)}
         >
-          <Image style={{
-            width: 15,
-            height: 15,
-            marginRight: 8
-          }} source={require('../../assets/svgs/sun1.png')} />
+          <Icon
+            name={
+              currentTimeOfDay === TimeOfDay.Morning ? 'ios-partly-sunny-sharp'
+                : currentTimeOfDay === TimeOfDay.Afternoon ? 'ios-sunny-sharp'
+                  : 'ios-moon-sharp'}
+            size={15}
+            color={timeOfDay === currentTimeOfDay ? APP_WHITE : APP_BLACK}
+            style={{ marginRight: 8 }}
+          />
           <Text style={{
             ...styles.periodOptionTitle,
-            color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
-          }}>Afternoon</Text>
+            color: timeOfDay === currentTimeOfDay ? APP_WHITE : APP_BLACK
+          }}>{currentTimeOfDay}</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={{
-            ...styles.periodOption,
-            backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY
-          }}
-          onPress={() => handleChangeTimeOfDay(TimeOfDay.Evening)}
-        >
-          <Image style={{
-            width: 15,
-            height: 15,
-            marginRight: 8
-          }} source={require('../../assets/svgs/crescent-moon1.png')} />
-          <Text style={{
-            ...styles.periodOptionTitle,
-            color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK
-          }}>Evening</Text>
-        </TouchableOpacity>
+        {/*<TouchableOpacity*/}
+        {/*  style={{*/}
+        {/*    ...styles.periodOption,*/}
+        {/*    backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY*/}
+        {/*  }}*/}
+        {/*  onPress={() => handleChangeTimeOfDay(TimeOfDay.Afternoon)}*/}
+        {/*>*/}
+        {/*  <Image style={{*/}
+        {/*    width: 15,*/}
+        {/*    height: 15,*/}
+        {/*    marginRight: 8*/}
+        {/*  }} source={require('../../assets/svgs/sun1.png')} />*/}
+        {/*  <Text style={{*/}
+        {/*    ...styles.periodOptionTitle,*/}
+        {/*    color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK*/}
+        {/*  }}>Afternoon</Text>*/}
+        {/*</TouchableOpacity>*/}
+
+        {/*<TouchableOpacity*/}
+        {/*  style={{*/}
+        {/*    ...styles.periodOption,*/}
+        {/*    backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY*/}
+        {/*  }}*/}
+        {/*  onPress={() => handleChangeTimeOfDay(TimeOfDay.Evening)}*/}
+        {/*>*/}
+        {/*  <Image style={{*/}
+        {/*    width: 15,*/}
+        {/*    height: 15,*/}
+        {/*    marginRight: 8*/}
+        {/*  }} source={require('../../assets/svgs/crescent-moon1.png')} />*/}
+        {/*  <Text style={{*/}
+        {/*    ...styles.periodOptionTitle,*/}
+        {/*    color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK*/}
+        {/*  }}>Evening</Text>*/}
+        {/*</TouchableOpacity>*/}
       </View>
 
 
@@ -184,7 +208,7 @@ const styles = StyleSheet.create({
   periodOption: {
     backgroundColor: APP_GRAY,
     borderRadius: 10,
-    width: 120,
+    width: '48%',
     height: 40,
     display: 'flex',
     flexDirection: 'row',
