@@ -29,7 +29,7 @@ export const SingleHabitScreen = ({ route, navigation }) => {
   const currentDate = new Date().toISOString().split('T')[0]
   const setSelectedHabit = useSetAtom(selectedHabitAtom)
   const setEditHabit = useSetAtom(editHabitAtom)
-  const [isDeleteModal, setDeleteModal] = useAtom(showDeleteModalAtom)
+  const [, setDeleteModal] = useAtom(showDeleteModalAtom)
 
   const [habit, setHabit] = useState<Habit | null>(null)
   const [stats, setStats] = useState<Stats[] | null>(null)
@@ -68,7 +68,6 @@ export const SingleHabitScreen = ({ route, navigation }) => {
     return () => subscription()
   }
 
-  // TODO: function to get habit streak from habitId for the entire month
   const getHabitStats = async () => {
     const docs = await ActionGetStatsByHabitId(habitId)
     if (!docs) return
