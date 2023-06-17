@@ -110,6 +110,12 @@ export const AddHabitScreen = () => {
       )
 
       setEditHabit(null)
+      toast.show('Habit saved!', {
+        type: 'success',
+        duration: 4000,
+        placement: 'bottom',
+        icon: <Icon name='checkmark-circle-sharp' size={20} color={APP_WHITE} />
+      })
     }
 
     clearStates()
@@ -141,24 +147,6 @@ export const AddHabitScreen = () => {
   const removeReminder = (reminder: string) => {
     const filtered = reminderAt.filter((item) => item !== reminder)
     setReminderAt(filtered)
-  }
-
-  const toggleSwitch = (isEnabled: boolean) => {
-    if (!isEnabled) {
-      setReminderAt([])
-    }
-    setIsEnabled(isEnabled)
-  }
-
-  const handleReminderAt = (time: string) => {
-    const doesExist = reminderAt.includes(time)
-
-    if (doesExist) {
-      const filtered = reminderAt.filter((item) => item !== time)
-      setReminderAt(filtered)
-    } else {
-      setReminderAt([...reminderAt, time])
-    }
   }
 
   const [fontsLoaded] = useFonts({
@@ -352,7 +340,7 @@ export const AddHabitScreen = () => {
             <TouchableOpacity
               style={styles.createButton}
               onPress={createHabit}>
-              <Text style={styles.createButtonText}>CREATE</Text>
+              <Text style={styles.createButtonText}>{editHabit ? 'SAVE' : 'CREATE'}</Text>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -367,37 +355,6 @@ export const AddHabitScreen = () => {
 
 
 const styles = StyleSheet.create({
-  reminderTimeContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    borderTopRightRadius: 6,
-    borderTopLeftRadius: 6,
-    backgroundColor: APP_GRAY,
-    width: '100%'
-  },
-  reminderWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: APP_LIGHT_GRAY,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 10
-  },
-  reminderTextContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    width: '90%'
-  },
-  reminderText: {
-    fontFamily: 'Inter_400Regular',
-    fontSize: 16,
-    lineHeight: 19,
-    color: APP_BLACK,
-    marginLeft: 5
-  },
   wrapper: {
     backgroundColor: '#F4F3F3',
     flex: 1
@@ -487,6 +444,37 @@ const styles = StyleSheet.create({
     color: GRAY_TEXT,
     textAlign: 'center',
     display: 'flex'
+  },
+  reminderTimeContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    borderTopRightRadius: 6,
+    borderTopLeftRadius: 6,
+    backgroundColor: APP_GRAY,
+    width: '100%'
+  },
+  reminderWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: APP_LIGHT_GRAY,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 10
+  },
+  reminderTextContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    width: '90%'
+  },
+  reminderText: {
+    fontFamily: 'Inter_400Regular',
+    fontSize: 16,
+    lineHeight: 19,
+    color: APP_BLACK,
+    marginLeft: 5
   },
   reminderContainer: {
     display: 'flex',
