@@ -23,7 +23,7 @@ import { ActionCreateHabit } from '@actions/actionCreateHabit'
 import { ActionCreateOrUpdateStreak } from '@actions/actionCreateOrUpdateStreak'
 import { useToast } from 'react-native-toast-notifications'
 import { NotificationModal } from '@screen/Modals'
-import { formatAMPM } from '@utils/timeUtils'
+import moment from 'moment/moment'
 
 
 export const AddHabitScreen = () => {
@@ -137,11 +137,12 @@ export const AddHabitScreen = () => {
   }
 
   const handleTimeSelected = (selectedDate: Date) => {
-    const selectedTime = formatAMPM(selectedDate)
-    const doesExist = reminderAt.includes(selectedTime)
+    const formattedDate = moment(selectedDate).format('YYYY-MM-DDTHH:mm:ss')
+
+    const doesExist = reminderAt.includes(formattedDate)
 
     if (!doesExist) {
-      setReminderAt([...reminderAt, selectedTime])
+      setReminderAt([...reminderAt, formattedDate])
     } else {
       Alert.alert('Time has been previously selected')
     }
@@ -322,7 +323,7 @@ export const AddHabitScreen = () => {
                       <View key={index} style={styles.reminderWrapper}>
                         <View style={styles.reminderTextContainer}>
                           <Icon name='alarm-outline' size={20} color={APP_BLACK} style={{ marginRight: 5 }} />
-                          <Text style={styles.reminderText}>{reminder}</Text>
+                          <Text style={styles.reminderText}>{moment(reminder).format('h:mm a')}</Text>
                         </View>
                         <TouchableOpacity onPress={() => removeReminder(reminder)}>
                           <Icon name='ios-close-circle-outline' size={20} color={APP_BLACK} />

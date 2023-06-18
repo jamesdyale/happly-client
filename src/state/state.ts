@@ -14,3 +14,15 @@ export const showDeleteModalAtom = atomWithStorage<boolean>('showDeleteModal', f
 export const selectedTimeOfDayAtom = atomWithStorage<TimeOfDay>('timeOfDay', TimeOfDay.All)
 export const loadingAtom = atomWithStorage<boolean>('loading', false)
 export const pushTokenAtom = atomWithStorage<string | null>('pushToken', null)
+
+// {
+//   'createdAt': { 'nanoseconds': 611000000, 'seconds': 1687123844 },
+//   'dayOfWeek': 'Monday',
+//   'description': 'Everyday I want to study Typescript for the next 2 months',
+//   'frequencyOption': 'Daily',
+//   'id': 'habit-s23F3L2JrlBSD3_f',
+//   'name': 'Studying TypeScript',
+//   'reminderAt': ['2023-06-18T13:00:00'],
+//   'timeOfDay': 'Evening',
+//   'userId': 'user-CZJBzF5_PYqkkUfw'
+// }

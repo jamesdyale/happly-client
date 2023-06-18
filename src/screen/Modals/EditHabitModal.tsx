@@ -25,6 +25,7 @@ import { ActionDeleteHabitById } from '@actions/actionDeleteHabitById'
 import { ActionDeleteStatsById } from '@actions/actionDeleteStatsById'
 import { ActionDeleteStreakByHabitId } from '@actions/actionDeleteStreakByHabitId'
 import { findClosestReminder } from '@utils/timeUtils'
+import moment from 'moment/moment'
 
 
 export const EditHabitModal = () => {
@@ -186,7 +187,7 @@ export const EditHabitModal = () => {
                 <Text style={styles.highlightText}>Reminders</Text>
                 {habitSelected.reminderAt.length > 0 && habitSelected.reminderAt.map(
                   (reminder, index) => (
-                    <Text key={index} style={styles.infoText}>{reminder}</Text>
+                    <Text key={index} style={styles.infoText}>{moment(reminder).format('h:mm a')}</Text>
                   )
                 )}
                 {habitSelected.reminderAt.length === 0 && (

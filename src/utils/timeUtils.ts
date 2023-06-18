@@ -1,4 +1,5 @@
 import { TimeOfDay } from '@shared/types'
+import moment from 'moment/moment'
 
 export const GetCurrentTimeOfDay = () => {
   const currentTime = new Date().getHours()
@@ -19,60 +20,32 @@ export const GetCurrentTimeOfDay = () => {
   return timeOfDay
 }
 
-export const formatAMPM = (date) => {
-  let hours = date.getHours(),
-    minutes = date.getMinutes(),
-    ampm = hours >= 12 ? 'pm' : 'am'
-  hours = hours % 12
-  hours = hours ? hours : 12 // the hour '0' should be '12'
-  minutes = minutes < 10 ? '0' + minutes : minutes
-  return hours + ':' + minutes + ' ' + ampm
-}
 
 export const findClosestReminder = (reminders) => {
-  const now = new Date()
-  const nowTime = now.getTime()
+  const currentTime = moment()
 
-  let convertedReminders = []
+  let closestTime
+  let minDifference = Infinity
 
   reminders.map((reminder) => {
-    let parts = reminder.split(/\s/)
-    let hour = parseInt(parts[0].split(':')[0])
-    let minute = parseInt(parts[0].split(':')[1])
-    let AMPM = parts[1]
+    const difference = moment(reminder).diff(currentTime)
 
-    if (AMPM == 'pm' && hour < 12) hour += 12
-    if (AMPM == 'am' && hour == 12) hour -= 12
+    if (difference < 0) {
+      const dayPlusOne = moment(reminder).add(1, 'days')
+      const difference = moment(dayPlusOne).diff(currentTime)
 
-    let reminderTime = new Date()
-    reminderTime.setHours(hour)
-    reminderTime.setMinutes(minute)
-    reminderTime.setSeconds(0)
-    reminderTime.setMilliseconds(0)
-
-    convertedReminders.push(reminderTime.getTime())
-  })
-
-  let closestReminderDifference = convertedReminders[0] - nowTime
-  let closestReminder = 0
-
-  convertedReminders.map((reminder, index) => {
-    if (index == 0) return
-
-    const reminderDifference = reminder - nowTime
-
-    if (closestReminderDifference < 0 && reminderDifference > 0) {
-      closestReminderDifference = reminderDifference
-      closestReminder = reminder
+      if (difference < minDifference) {
+        minDifference = difference
+        closestTime = reminder
+      }
+    } else {
+      if (difference < minDifference) {
+        minDifference = difference
+        closestTime = reminder
+      }
     }
 
-    if (reminderDifference < closestReminderDifference && reminderDifference > 0) {
-      closestReminderDifference = reminderDifference
-      closestReminder = reminder
-    }
   })
 
-  let closestReminderTime = formatAMPM(new Date(closestReminder))
-
-  return closestReminderTime
+  return `${moment(closestTime).format('h:mm a')}`
 }
