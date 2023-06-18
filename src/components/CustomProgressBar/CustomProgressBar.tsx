@@ -1,5 +1,6 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { Button, StyleSheet, Text, View } from 'react-native'
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useFonts, Inter_600SemiBold } from '@expo-google-fonts/inter'
 import { APP_GRAY, HABIT_OPTION, MAIN_ACCENT_COLOR } from '../../styles'
 import { ProgressBarType } from '../../shared'
@@ -42,9 +43,24 @@ const styles = StyleSheet.create({
 })
 
 export const CustomProgressBar = ({ progress }: ProgressBarType) => {
+  const sharedValueWidth = useSharedValue(progress)
+
+  const style = useAnimatedStyle(() => {
+    return {
+      width: withTiming(`${sharedValueWidth.value}%`, {
+        duration: 500,
+        easing: Easing.bezier(0.5, 0.01, 0, 1)
+      })
+    }
+  })
+
   const [fontsLoaded] = useFonts({
     Inter_600SemiBold
   })
+
+  useEffect(() => {
+    sharedValueWidth.value = progress
+  }, [progress])
 
   if (!fontsLoaded) {
     return null
@@ -57,7 +73,7 @@ export const CustomProgressBar = ({ progress }: ProgressBarType) => {
         <Text style={styles.text}>{progress}%</Text>
       </View>
       <View style={styles.bottom}>
-        <View style={{ ...styles.innerBottom, width: `${progress}%` }} />
+        <Animated.View style={[styles.innerBottom, style]} />
       </View>
     </View>
   )
