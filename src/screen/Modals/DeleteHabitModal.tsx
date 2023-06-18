@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView } from 'react-na
 import Modal from 'react-native-modal'
 import { APP_BLACK, APP_RED, APP_WHITE, GRAY_TEXT } from '../../styles'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { progressAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
+import { loadingAtom, progressAtom, selectedHabitAtom, showDeleteModalAtom } from '@state/state'
 import { ActionGetUserHabitById } from '@actions/actionGetUserHabitById'
 import { ActionDeleteHabitById } from '@actions/actionDeleteHabitById'
 import { ActionDeleteStatsById } from '@actions/actionDeleteStatsById'
@@ -18,16 +18,19 @@ export const DeleteHabitModal = () => {
   const toast = useToast()
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
-
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
   const isDeleteHabitModalOpen = useAtomValue(showDeleteModalAtom)
 
   const [progress, setProgress] = useAtom(progressAtom)
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
+  const setLoading = useSetAtom(loadingAtom)
+
 
   const handleOnPressDelete = async () => {
+    setLoading(true)
+
     const dataDocumentSnapshot = await ActionGetUserHabitById(habitSelected.id)
-    console.log('dataDocumentSnapshot', dataDocumentSnapshot)
+
     if (dataDocumentSnapshot.exists()) {
       try {
         await ActionDeleteHabitById(habitSelected.id)
@@ -59,9 +62,12 @@ export const DeleteHabitModal = () => {
           placement: 'bottom',
           icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
         })
+      } finally {
+        setLoading(false)
       }
     }
 
+    setLoading(false)
     setSelectedHabit(null)
   }
 

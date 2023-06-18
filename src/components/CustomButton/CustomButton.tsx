@@ -1,15 +1,23 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { ButtonType } from '../../shared'
 
-export const CustomButton = ({ icon, text, onClick, bgColor, color }: ButtonType) => {
+export const CustomButton = ({ icon, text, onClick, bgColor, color, disabled = false }: ButtonType) => {
   return (
-    <TouchableOpacity style={{ ...styles.container, backgroundColor: bgColor }} onPress={onClick}>
-      <View style={styles.buttonContainer}>
+    <TouchableOpacity style={{ ...styles.container, backgroundColor: bgColor }}
+                      onPress={onClick}
+                      disabled={disabled}
+    >
+      {disabled &&
+        <View style={styles.buttonContainer}>
+          <ActivityIndicator size='small' color={color} />
+        </View>
+      }
+      {!disabled && <View style={styles.buttonContainer}>
         {icon ? <View style={styles.icon}>
           {icon}
         </View> : null}
         <Text style={{ ...styles.text, color }}>{text}</Text>
-      </View>
+      </View>}
     </TouchableOpacity>
   )
 }

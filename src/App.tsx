@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo'
 import React from 'react'
-import { Provider as StateProvider } from 'jotai'
+import { Provider as StateProvider, useAtomValue } from 'jotai'
 import {
   Inter_400Regular,
   Inter_500Medium,
@@ -11,9 +11,10 @@ import {
 import { ToastProvider } from 'react-native-toast-notifications'
 import { ActivityIndicator, View } from 'react-native'
 import { Navigation } from '@navigation/Navigation'
+import { loadingAtom } from '@state/state'
 
 const App = () => {
-  const isLoading = false
+  const isLoading = useAtomValue(loadingAtom)
 
   const [fontsLoaded] = useFonts({
     Inter_700Bold, Inter_600SemiBold, Inter_500Medium, Inter_400Regular

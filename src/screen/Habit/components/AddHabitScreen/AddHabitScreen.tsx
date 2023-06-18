@@ -1,6 +1,6 @@
 import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { CustomTextInput } from '../../../../components'
+import { CustomButton, CustomTextInput } from '../../../../components'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -45,6 +45,8 @@ export const AddHabitScreen = () => {
   const [nameError, setNameError] = useState('')
   const [showNotificationModal, setShowNotificationModal] = useState(false)
 
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
       if (editHabit) {
         setName(editHabit.name)
@@ -58,6 +60,8 @@ export const AddHabitScreen = () => {
     [editHabit])
 
   const createHabit = async () => {
+    setLoading(true)
+
     if (!name) {
       setNameError('Please enter a name')
       return
@@ -120,6 +124,7 @@ export const AddHabitScreen = () => {
 
     clearStates()
     setSelectedDay(new Date())
+    setLoading(false)
     navigation.goBack()
   }
 
@@ -337,11 +342,13 @@ export const AddHabitScreen = () => {
                 </View>
               </View>
             </View>
-            <TouchableOpacity
-              style={styles.createButton}
-              onPress={createHabit}>
-              <Text style={styles.createButtonText}>{editHabit ? 'SAVE' : 'CREATE'}</Text>
-            </TouchableOpacity>
+            <CustomButton
+              bgColor={MAIN_ACCENT_COLOR}
+              color={APP_WHITE}
+              text={editHabit ? 'SAVE' : 'CREATE'}
+              onClick={createHabit}
+              disabled={loading}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>

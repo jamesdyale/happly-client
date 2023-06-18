@@ -24,7 +24,8 @@ export type ButtonType = {
   bgColor: string,
   color: string,
   text: string,
-  onClick: (e) => void
+  onClick: (e) => void,
+  disabled?: boolean,
 }
 
 /**

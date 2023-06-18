@@ -1,9 +1,11 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { CustomButton, CustomTextInput } from '../../../../components'
-import React from 'react'
+import React, { useState } from 'react'
 import { APP_WHITE, MAIN_ACCENT_COLOR } from '../../../../styles'
 
 export const RecoveryScreen = () => {
+  const [loading, setLoading] = useState(false)
+
   return (
     <SafeAreaView>
       <View style={styles.AuthForm}>
@@ -26,6 +28,7 @@ export const RecoveryScreen = () => {
             color={APP_WHITE}
             text='Get Reset Link'
             onClick={() => console.log('hey there')}
+            disabled={loading}
           />
         </View>
       </View>

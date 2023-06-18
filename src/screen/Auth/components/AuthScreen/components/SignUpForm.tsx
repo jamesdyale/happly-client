@@ -1,6 +1,6 @@
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
 import { APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/colors'
-import React from 'react'
+import React, { useState } from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { CustomButton } from '@components/CustomButton/CustomButton'
 import { CustomTextInput } from '@components/CustomTextInput/CustomTextInput'
@@ -20,13 +20,18 @@ type IForm = {
 
 export const SignUpForm = ({ changeBetweenForms }: IForm) => {
   const toast = useToast()
-  const [email, setEmail] = React.useState('jd123@gmail.com')
-  const [password, setPassword] = React.useState('asd123')
-  const [confirmPassword, setConfirmPassword] = React.useState('asd123')
+
+  const [email, setEmail] = useState('jd123@gmail.com')
+  const [password, setPassword] = useState('asd123')
+  const [confirmPassword, setConfirmPassword] = useState('asd123')
+  const [loading, setLoading] = useState(false)
+
   const setUser = useSetAtom(userAtom)
 
 
   const handleSignUp = async () => {
+    setLoading(true)
+
     if (password !== confirmPassword) {
       toast.show('Passwords do not match', {
         type: 'danger',
@@ -34,6 +39,7 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
         placement: 'bottom',
         icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
       })
+      setLoading(false)
       return
     }
 
@@ -55,6 +61,8 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
         placement: 'bottom',
         icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
       })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -104,9 +112,13 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
                 onPress={() => WebBrowser.openBrowserAsync('https://jamesodeyale.github.io/happly-docs/privacy')}>privacy
             policy</Text>
         </Text>
-        <CustomButton bgColor={MAIN_ACCENT_COLOR} color={APP_WHITE}
-                      text='Sign Up'
-                      onClick={handleSignUp} />
+        <CustomButton
+          bgColor={MAIN_ACCENT_COLOR}
+          color={APP_WHITE}
+          text='Sign Up'
+          onClick={handleSignUp}
+          disabled={loading}
+        />
         <Text style={styles.ActionTextContainer}>
           <Text style={styles.ActionText}>Already have an account? </Text>
           <Text style={styles.HighlightedText} onPress={changeBetweenForms}>Login</Text>

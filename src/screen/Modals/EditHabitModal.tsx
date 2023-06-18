@@ -3,7 +3,7 @@ import { useToast } from 'react-native-toast-notifications'
 import Modal from 'react-native-modal'
 import { useAtom, useSetAtom } from 'jotai'
 import {
-  editHabitAtom, progressAtom,
+  editHabitAtom, loadingAtom, progressAtom,
   selectedHabitAtom, showDeleteModalAtom
 } from '@state/state'
 import {
@@ -36,7 +36,11 @@ export const EditHabitModal = () => {
   const setEditHabit = useSetAtom(editHabitAtom)
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
 
+  const setLoading = useSetAtom(loadingAtom)
+
   const deleteHabit = async () => {
+    setLoading(true)
+
     const dataDocumentSnapshot = await ActionGetUserHabitById(habitSelected.id)
 
     if (dataDocumentSnapshot.exists()) {
@@ -68,9 +72,12 @@ export const EditHabitModal = () => {
           placement: 'bottom',
           icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
         })
+      } finally {
+        setLoading(false)
       }
     }
 
+    setLoading(false)
     setSelectedHabit(null)
   }
 
@@ -101,6 +108,8 @@ export const EditHabitModal = () => {
   }
 
   const handleOnPressMarkAsDone = async () => {
+    setLoading(true)
+
     const docs = await getDocs(
       query(
         collection(FIREBASE_DB, 'stats'),
@@ -133,8 +142,12 @@ export const EditHabitModal = () => {
           placement: 'bottom',
           icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
         })
+      } finally {
+        setLoading(false)
       }
     }
+
+    setLoading(false)
   }
 
 

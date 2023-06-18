@@ -1,7 +1,7 @@
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
 import { CustomButton, CustomTextInput } from '@components/index'
 import { APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/index'
-import React from 'react'
+import React, { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { FIREBASE_AUTH } from '@data/firebaseConfig'
 import { useSetAtom } from 'jotai'
@@ -17,13 +17,17 @@ type IForm = {
 
 export const LoginForm = ({ changeBetweenForms }: IForm) => {
   const toast = useToast()
-  const [email, setEmail] = React.useState('jd123@gmail.com')
-  const [password, setPassword] = React.useState('asd123')
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+
   const setUser = useSetAtom(userAtom)
 
 
   const handleLogin = async () => {
-    // TODO: add loading state
+    setLoading(true)
+
     try {
       const foundUserPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
       if (foundUserPromise && foundUserPromise.user) {
@@ -45,6 +49,7 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
             placement: 'bottom',
             icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
           })
+
         }
       }
     } catch (error) {
@@ -55,9 +60,8 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
         icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
       })
 
-      // } finally {
-      // console.log('finally')
-      //   TODO: add loading state
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -93,8 +97,9 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
         <CustomButton
           bgColor={MAIN_ACCENT_COLOR}
           color={APP_WHITE}
-          text={'Login'}
+          text='Login'
           onClick={handleLogin}
+          disabled={loading}
         />
         <View style={styles.ActionTextContainer}>
           <Text style={styles.ActionText}>Forgot Password? </Text>
