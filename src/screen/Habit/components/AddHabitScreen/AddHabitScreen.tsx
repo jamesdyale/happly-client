@@ -39,7 +39,6 @@ export const AddHabitScreen = () => {
   const [timeOfDay, setTimeOfDay] = useState(TimeOfDay.Morning)
   const [dayOfWeek, setDayOfWeek] = useState<DayOfTheWeek>(DayOfTheWeek.Monday)
   const [frequencyOption, setFrequencyOption] = useState<Frequency>(Frequency.Daily)
-  const [isEnabled, setIsEnabled] = useState(true)
   const [reminderAt, setReminderAt] = useState<string[]>([])
 
   const [nameError, setNameError] = useState('')
