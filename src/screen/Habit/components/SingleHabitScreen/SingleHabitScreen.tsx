@@ -20,6 +20,7 @@ import { useToast } from 'react-native-toast-notifications'
 import { DeleteHabitModal } from '@screen/Modals'
 import { onSnapshot } from 'firebase/firestore'
 import { ActionGetUserHabitByIdDoc } from '@actions/actionGetUserHabitByIdDoc'
+import { findClosestReminder } from '@utils/timeUtils'
 
 
 export const SingleHabitScreen = ({ route, navigation }) => {
@@ -196,9 +197,12 @@ export const SingleHabitScreen = ({ route, navigation }) => {
             <Text style={styles.habitInfoText_Frequency}>{habit?.frequencyOption}</Text>
           </View>
           <View>
-            <Text style={styles.habitInfoText}>Remind:</Text>
+            <Text style={styles.habitInfoText}>Closest Remind:</Text>
             {/* TODO: Add reminder logic here */}
-            <Text style={styles.habitInfoText_Frequency}>Coming soon!</Text>
+            <Text style={styles.habitInfoText_Frequency}>
+              {habit?.reminderAt.length > 0 && findClosestReminder(habit?.reminderAt)}
+              {habit?.reminderAt.length < 1 && 'None'}
+            </Text>
           </View>
         </View>
 
