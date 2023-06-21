@@ -215,7 +215,6 @@ export const SingleHabitScreen = ({ route, navigation }) => {
               <Text style={styles.streakLabel}>Your Current Streak</Text>
             </View>
             <View>
-              {/* TODO: Fixing longest streak logic */}
               <Text
                 style={styles.longestStreak}>{streak?.longestStreak} {streak?.longestStreak > 1 ? 'days' : 'day'}</Text>
               <Text style={styles.longestStreakLabel}>Your longest streak</Text>

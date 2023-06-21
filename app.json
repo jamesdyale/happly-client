@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "happly-client",
-    "slug": "happly-client",
+    "name": "Happly-",
+    "slug": "happly",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -19,7 +19,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "infoPlist": {}
+      "infoPlist": {},
+      "bundleIdentifier": "com.happly"
     },
     "android": {
       "package": "com.happly.client",
@@ -34,6 +35,11 @@
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f406c3e0-9ff2-4994-9b73-566fdabcfaed"
+      }
     }
   }
 }

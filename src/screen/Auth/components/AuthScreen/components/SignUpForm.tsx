@@ -21,9 +21,9 @@ type IForm = {
 export const SignUpForm = ({ changeBetweenForms }: IForm) => {
   const toast = useToast()
 
-  const [email, setEmail] = useState('jd123@gmail.com')
-  const [password, setPassword] = useState('asd123')
-  const [confirmPassword, setConfirmPassword] = useState('asd123')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
   const setUser = useSetAtom(userAtom)
