@@ -1,4 +1,3 @@
-import { registerRootComponent } from 'expo'
 import React from 'react'
 import { Provider as StateProvider, useAtomValue } from 'jotai'
 import {
@@ -41,4 +40,4 @@ const App = () => {
   )
 }
 
-registerRootComponent(App)
+export default App

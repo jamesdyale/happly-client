@@ -2,20 +2,19 @@ import { TimeOfDay } from '@shared/types'
 import moment from 'moment/moment'
 
 export const GetCurrentTimeOfDay = () => {
-  const currentTime = new Date().getHours()
+  const currentTime = parseInt(moment().format('HH'))
   let timeOfDay: TimeOfDay = TimeOfDay.All
-  if (currentTime >= 5 && currentTime < 12) {
+
+  if (currentTime >= 0 && currentTime < 12) {
     timeOfDay = TimeOfDay.Morning
-  }
-  if (currentTime >= 12 && currentTime < 17) {
+  } else if (currentTime >= 12 && currentTime < 17) {
     timeOfDay = TimeOfDay.Afternoon
-  }
-  if (currentTime >= 17 && currentTime < 21) {
+  } else if (currentTime >= 17 && currentTime < 21) {
+    timeOfDay = TimeOfDay.Evening
+  } else if (currentTime >= 21 && currentTime < 24) {
     timeOfDay = TimeOfDay.Evening
   }
-  if (currentTime >= 21 || currentTime < 5) {
-    timeOfDay = TimeOfDay.Morning
-  }
+
 
   return timeOfDay
 }
