@@ -36,64 +36,68 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
   const setUser = useSetAtom(userAtom)
 
   const validateForm = () => {
+    let valid = true
     if (fullName === '') {
       setFullNameError('Please enter your full name')
       setLoading(false)
-      return
+      valid = false
     }
 
     if (email === '') {
       setEmailError('Please enter your email address')
       setLoading(false)
-      return
+      valid = false
     }
 
     if (password === '') {
       setPasswordError('Please enter your password')
       setLoading(false)
-      return
+      valid = false
     }
 
     if (confirmPassword === '') {
       setConfirmPasswordError('Please confirm your password')
       setLoading(false)
-      return
+      valid = false
     }
 
     if (password !== confirmPassword) {
       setPasswordError('Passwords do not match')
       setLoading(false)
-      return
+      valid = false
     }
 
+    return valid
   }
 
 
   const handleSignUp = async () => {
     setLoading(true)
 
-    validateForm()
+    const isFormValid = validateForm()
 
-    try {
-      const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
-      if (userCredentialPromise && userCredentialPromise.user) {
-        const data: User = {
-          id: generateUserId(),
-          email: userCredentialPromise.user.email,
-          name: fullName
+    if (isFormValid) {
+      try {
+        const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
+        if (userCredentialPromise && userCredentialPromise.user) {
+          const data: User = {
+            id: generateUserId(),
+            email: userCredentialPromise.user.email,
+            name: fullName
+          }
+          await ActionCreateUser(data, userCredentialPromise.user.uid)
+          setUser(data)
         }
-        await ActionCreateUser(data, userCredentialPromise.user.uid)
-        setUser(data)
+      } catch (error) {
+        toast.show('Sign up failed. Please try again!', {
+          type: 'danger',
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+        })
+      } finally {
+        setLoading(false)
       }
-    } catch (error) {
-      toast.show('Sign up failed. Please try again!', {
-        type: 'danger',
-        duration: 4000,
-        placement: 'bottom',
-        icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-      })
-    } finally {
-      setLoading(false)
     }
   }
 
