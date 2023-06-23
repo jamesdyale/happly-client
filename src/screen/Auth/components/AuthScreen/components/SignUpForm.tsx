@@ -21,27 +21,58 @@ type IForm = {
 export const SignUpForm = ({ changeBetweenForms }: IForm) => {
   const toast = useToast()
 
+  const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+
+  const [fullNameError, setFullNameError] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [confirmPasswordError, setConfirmPasswordError] = useState('')
+
   const [loading, setLoading] = useState(false)
 
   const setUser = useSetAtom(userAtom)
+
+  const validateForm = () => {
+    if (fullName === '') {
+      setFullNameError('Please enter your full name')
+      setLoading(false)
+      return
+    }
+
+    if (email === '') {
+      setEmailError('Please enter your email address')
+      setLoading(false)
+      return
+    }
+
+    if (password === '') {
+      setPasswordError('Please enter your password')
+      setLoading(false)
+      return
+    }
+
+    if (confirmPassword === '') {
+      setConfirmPasswordError('Please confirm your password')
+      setLoading(false)
+      return
+    }
+
+    if (password !== confirmPassword) {
+      setPasswordError('Passwords do not match')
+      setLoading(false)
+      return
+    }
+
+  }
 
 
   const handleSignUp = async () => {
     setLoading(true)
 
-    if (password !== confirmPassword) {
-      toast.show('Passwords do not match', {
-        type: 'danger',
-        duration: 4000,
-        placement: 'bottom',
-        icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-      })
-      setLoading(false)
-      return
-    }
+    validateForm()
 
     try {
       const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
@@ -49,7 +80,7 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
         const data: User = {
           id: generateUserId(),
           email: userCredentialPromise.user.email,
-          name: userCredentialPromise.user.displayName
+          name: fullName
         }
         await ActionCreateUser(data, userCredentialPromise.user.uid)
         setUser(data)
@@ -76,27 +107,38 @@ export const SignUpForm = ({ changeBetweenForms }: IForm) => {
           below.</Text>
         <View style={styles.AuthFormBody}>
           <CustomTextInput
-            label='Email Address'
-            placeholder='Enter Email Address'
+            label='Full Name'
+            placeholder='Enter your full name'
             handleChange={setEmail}
             handleBlur={() => console.log('blur')}
             value={email}
+            error={fullNameError}
+          />
+          <CustomTextInput
+            label='Email Address'
+            placeholder='Enter your email address'
+            handleChange={setEmail}
+            handleBlur={() => console.log('blur')}
+            value={email}
+            error={emailError}
           />
           <CustomTextInput
             label='Password'
-            placeholder='Enter Password'
+            placeholder='Enter a password'
             handleChange={setPassword}
             handleBlur={() => console.log('blur')}
             value={password}
             secureTextEntry={true}
+            error={passwordError}
           />
           <CustomTextInput
             label='Confirm password'
-            placeholder='Re-enter Password'
+            placeholder='Re-enter your password'
             handleChange={setConfirmPassword}
             handleBlur={() => console.log('blur')}
             value={confirmPassword}
             secureTextEntry={true}
+            error={confirmPasswordError}
           />
         </View>
       </View>
