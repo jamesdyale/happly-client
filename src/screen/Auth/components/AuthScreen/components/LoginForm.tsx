@@ -30,59 +30,63 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
 
 
   const validateForm = () => {
-
+    let valid = true
     if (password === '') {
       setPasswordError('Please enter your password')
       setLoading(false)
-      return
+      valid = false
     }
 
     if (email === '') {
       setEmailError('Please enter your email address')
       setLoading(false)
-      return
+      valid = false
     }
+
+    return valid
   }
 
   const handleLogin = async () => {
     setLoading(true)
 
-    validateForm()
+    const isFormValid = validateForm()
 
-    try {
-      const foundUserPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
-      if (foundUserPromise && foundUserPromise.user) {
-        const dataDocumentSnapshot = await ActionGetUserByUID(foundUserPromise.user.uid)
-        if (dataDocumentSnapshot.exists()) {
-          const data = dataDocumentSnapshot.data() as User
-          if (data) {
-            // const newUser = {
-            //   id: data.id,
-            //   email: data.email,
-            //   name: data.name
-            // }
-            setUser(data)
+    if (isFormValid) {
+      try {
+        const foundUserPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
+        if (foundUserPromise && foundUserPromise.user) {
+          const dataDocumentSnapshot = await ActionGetUserByUID(foundUserPromise.user.uid)
+          if (dataDocumentSnapshot.exists()) {
+            const data = dataDocumentSnapshot.data() as User
+            if (data) {
+              // const newUser = {
+              //   id: data.id,
+              //   email: data.email,
+              //   name: data.name
+              // }
+              setUser(data)
+            }
+          } else {
+            toast.show('\'Your account doesn\'t exist. Please sign up\'', {
+              type: 'danger',
+              duration: 4000,
+              placement: 'bottom',
+              icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+            })
+
           }
-        } else {
-          toast.show('\'Your account doesn\'t exist. Please sign up\'', {
-            type: 'danger',
-            duration: 4000,
-            placement: 'bottom',
-            icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-          })
-
         }
-      }
-    } catch (error) {
-      toast.show('Login failed. Please try again!', {
-        type: 'danger',
-        duration: 4000,
-        placement: 'bottom',
-        icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-      })
+      } catch (error) {
+        toast.show('Login failed. Please try again!', {
+          type: 'danger',
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+        })
 
-    } finally {
-      setLoading(false)
+      } finally {
+        setLoading(false)
+      }
     }
   }
 
