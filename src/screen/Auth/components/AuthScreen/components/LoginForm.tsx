@@ -20,13 +20,34 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+
   const [loading, setLoading] = useState(false)
 
   const setUser = useSetAtom(userAtom)
 
 
+  const validateForm = () => {
+
+    if (password === '') {
+      setPasswordError('Please enter your password')
+      setLoading(false)
+      return
+    }
+
+    if (email === '') {
+      setEmailError('Please enter your email address')
+      setLoading(false)
+      return
+    }
+  }
+
   const handleLogin = async () => {
     setLoading(true)
+
+    validateForm()
 
     try {
       const foundUserPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
@@ -78,6 +99,7 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
             handleChange={setEmail}
             handleBlur={() => console.log('blur')}
             value={email}
+            error={emailError}
           />
           <CustomTextInput
             label='Password'
@@ -86,6 +108,7 @@ export const LoginForm = ({ changeBetweenForms }: IForm) => {
             handleBlur={() => console.log('blur')}
             value={password}
             secureTextEntry={true}
+            error={passwordError}
           />
         </View>
       </View>
