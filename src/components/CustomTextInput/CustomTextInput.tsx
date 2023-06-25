@@ -8,7 +8,7 @@ export const CustomTextInput = ({
                                   bigLabel,
                                   label,
                                   handleChange,
-                                  handleBlur,
+                                  handleBlur = () => null,
                                   value,
                                   placeholder,
                                   keyboardType,

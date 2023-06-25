@@ -5,7 +5,7 @@ import { BottomTabNavigator } from '@navigation/components/BottomTabNavigator'
 import { CustomModalStackNavigator } from '@navigation/components/CustomModalStackNavigator'
 import { CustomStackNavigator } from '@navigation/components/CustomStackNavigator'
 import { authFlowAtom, pushTokenAtom, userAtom } from '@state/state'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import { FIREBASE_AUTH, FIREBASE_DB } from '@data/firebaseConfig'
 import { useAtom, useSetAtom } from 'jotai'
@@ -78,6 +78,8 @@ export const Navigation = () => {
 
     if (isMounted) {
       return onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+        const a = await AsyncStorage.getItem('user')
+        console.log(a)
         if (user) {
           const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
           if (dataDocumentSnapshot.exists()) {

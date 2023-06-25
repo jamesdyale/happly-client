@@ -136,6 +136,16 @@ export const AddHabitScreen = () => {
     setNameError('')
   }
 
+  const checkValidation = (field) => {
+    if (field === 'name') {
+      if (!name || name.length === 0) {
+        setNameError('Please enter a name')
+      } else {
+        setNameError('')
+      }
+    }
+  }
+
   const handleTimeSelected = (selectedDate: Date) => {
     const formattedDate = moment(selectedDate).format('YYYY-MM-DDTHH:mm:ss')
 
@@ -183,15 +193,12 @@ export const AddHabitScreen = () => {
             <View>
               <CustomTextInput bigLabel='Name' placeholder='Enter the name'
                                handleChange={setName}
-                               handleBlur={() => {
-                               }}
+                               handleBlur={() => checkValidation('name')}
                                value={name}
                                error={nameError}
               />
               <CustomTextInput bigLabel='Description' placeholder='Enter the description'
                                handleChange={setDescription}
-                               handleBlur={() => {
-                               }}
                                value={description}
               />
               <View style={styles.sectionContainer}>
