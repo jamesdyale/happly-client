@@ -10,13 +10,13 @@ import {
   HABIT_OPTION,
   MAIN_ACCENT_COLOR,
   MAIN_BG_COLOR
-} from '@styles/colors'
-import { NoHabitIcon } from '@assets/svgs'
-import { dailyHabitsAtom, progressAtom, selectedTimeOfDayAtom } from '@state/state'
-import { CustomProgressBar } from '../CustomProgressBar/CustomProgressBar'
+} from '~styles'
+import { NoHabitIcon } from '../../../assets/svgs'
+import { dailyHabitsAtom, progressAtom, selectedTimeOfDayAtom } from '~state'
+import { CustomProgressBar } from '~components'
 import { percentage } from '@shared/utils'
 import { TimeOfDay } from '@shared/types'
-import { SingleHabit } from '../SingleHabit/SingleHabit'
+import { SingleHabit } from '~components'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { GetCurrentTimeOfDay } from '@utils/timeUtils'
 

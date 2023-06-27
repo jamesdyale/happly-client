@@ -11,20 +11,24 @@ module.exports = (api) => {
       [
         'module-resolver',
         {
+          root: ['./'],
           alias: {
-            '@actions': './src/actions',
-            '@assets': './src/assets',
-            '@components': './src/components',
-            '@constant': './src/constant',
-            '@data': './src/data',
-            '@navigation': './src/navigation',
-            '@screen': './src/screen',
-            '@shared': './src/shared',
-            '@state': './src/state',
-            '@styles': './src/styles',
-            '@types': './src/types',
-            '@utils': './src/utils'
-          }
+            /**
+             * Regular expression is used to match all files inside `./src` directory and map each `.src/folder/[..]` to `~folder/[..]` path
+             */
+            '~assets': './assets',
+            '^~(.+)': './src/\\1'
+          },
+          extensions: [
+            '.ios.js',
+            '.android.js',
+            '.js',
+            '.jsx',
+            '.json',
+            '.tsx',
+            '.ts',
+            '.native.js'
+          ]
         }
       ],
       '@babel/plugin-proposal-export-namespace-from',

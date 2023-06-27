@@ -2,44 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@env": [
-        "node_modules/<path to the module dist>"
+      "~*": [
+        "src/*"
       ],
-      "@assets/*": [
-        "./src/assets/*"
-      ],
-      "@actions/*": [
-        "./src/actions/*"
-      ],
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@constant/*": [
-        "./src/constant/*"
-      ],
-      "@data/*": [
-        "./src/data/*"
-      ],
-      "@navigation/*": [
-        "./src/navigation/*"
-      ],
-      "@screen/*": [
-        "./src/screen/*"
-      ],
-      "@shared/*": [
-        "./src/shared/*"
-      ],
-      "@state/*": [
-        "./src/state/*"
-      ],
-      "@styles/*": [
-        "./src/styles/*"
-      ],
-      "@types/*": [
-        "./src/types/*"
-      ],
-      "@utils/*": [
-        "./src/utils/*"
+      "~assets": [
+        "assets"
       ]
     }
   },

@@ -9,8 +9,8 @@ import {
 } from '@expo-google-fonts/inter'
 import { ToastProvider } from 'react-native-toast-notifications'
 import { ActivityIndicator, View } from 'react-native'
-import { Navigation } from '@navigation/Navigation'
-import { loadingAtom } from '@state/state'
+import { Navigation } from '~navigation'
+import { loadingAtom } from '~state'
 
 const App = () => {
   const isLoading = useAtomValue(loadingAtom)

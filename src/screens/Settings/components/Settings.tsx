@@ -3,7 +3,7 @@ import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { APP_BLACK, APP_BLUE, APP_WHITE, MAIN_ACCENT_COLOR } from '@styles/colors'
+import { APP_BLACK, APP_BLUE, APP_WHITE, MAIN_ACCENT_COLOR } from '~styles'
 import * as WebBrowser from 'expo-web-browser'
 
 export const Settings = () => {
