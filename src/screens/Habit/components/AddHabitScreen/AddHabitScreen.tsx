@@ -228,6 +228,7 @@ export const AddHabitScreen = () => {
                     }}>Weekly</Text>
                   </TouchableOpacity>
 
+
                 </View>
               </View>
 
@@ -269,7 +270,7 @@ export const AddHabitScreen = () => {
                       width: 15,
                       height: 15,
                       marginRight: 8
-                    }} source={require('../../../../assets/svgs/sunrise1.png')} />
+                    }} source={require('../../../../../assets/svgs/sunrise1.png')} />
                     <Text style={{
                       ...styles.periodOptionTitle,
                       color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
@@ -286,7 +287,7 @@ export const AddHabitScreen = () => {
                       width: 15,
                       height: 15,
                       marginRight: 8
-                    }} source={require('../../../../assets/svgs/sun1.png')} />
+                    }} source={require('../../../../../assets/svgs/sun1.png')} />
                     <Text style={{
                       ...styles.periodOptionTitle,
                       color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
@@ -303,7 +304,7 @@ export const AddHabitScreen = () => {
                       width: 15,
                       height: 15,
                       marginRight: 8
-                    }} source={require('../../../../assets/svgs/crescent-moon1.png')} />
+                    }} source={require('../../../../../assets/svgs/crescent-moon1.png')} />
                     <Text style={{
                       ...styles.periodOptionTitle,
                       color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK

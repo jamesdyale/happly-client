@@ -7,7 +7,7 @@ import {
   OnboardScreenFourIcon,
   OnboardScreenThreeIcon,
   OnboardScreenOneIcon
-} from '@assets/svgs'
+} from '../../../../../../assets/svgs'
 
 const OnboardScreenOne = () => (
   <>
