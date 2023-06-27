@@ -3,14 +3,11 @@ import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { ROUTES } from '~constants'
 import { HABIT_OPTION, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '~styles'
-import {
-  AllHabitsScreenNavigator,
-  ChallengesScreenNavigator,
-  CreateHabitScreenNavigator,
-  HomeScreenNavigator,
-  RoomsScreenNavigator
-} from './ScreenNavigator'
 import { CustomTabItem } from '~components'
+import { HomeStack } from '~navigation/HomeStack'
+import { HabitStack } from '~navigation/HabitStack'
+import { ChallengeStack } from '~navigation/ChallengeStack'
+import { RoomStack } from '~navigation/RoomStack'
 
 const { Navigator, Screen } = createBottomTabNavigator()
 
@@ -62,23 +59,19 @@ export const BottomTabNavigator = () => {
     >
       <Screen
         name={ROUTES.HOME}
-        component={HomeScreenNavigator}
+        component={HomeStack}
       />
       <Screen
         name={ROUTES.ALL_HABIT}
-        component={AllHabitsScreenNavigator}
+        component={HabitStack}
       />
       <Screen
-        name={ROUTES.CREATE_HABIT}
-        component={CreateHabitScreenNavigator}
+        name={ROUTES.CHALLENGES}
+        component={ChallengeStack}
       />
       <Screen
-        name={ROUTES.ALL_CHALLENGES}
-        component={ChallengesScreenNavigator}
-      />
-      <Screen
-        name={ROUTES.ALL_ROOMS}
-        component={RoomsScreenNavigator}
+        name={ROUTES.ROOMS}
+        component={RoomStack}
       />
     </Navigator>
   )

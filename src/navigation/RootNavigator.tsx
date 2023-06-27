@@ -1,4 +1,3 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { ROUTES } from '../constants'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
@@ -11,15 +10,13 @@ import { User } from '~types'
 import { createStackNavigator } from '@react-navigation/stack'
 import { OnboardScreen, AccountRecoveryScreen } from '~screens'
 import { BottomTabNavigator } from '~navigation/BottomTabNavigator'
-import { CustomModalStackNavigator } from '~navigation/CustomModalStackNavigator'
-import { CustomStackNavigator } from '~navigation/CustomStackNavigator'
 import { LoginScreen } from '~screens/LoginScreen'
 import { SignUpScreen } from '~screens/SignUpScreen'
+import { ModalStack } from '~navigation/ModalStack'
 // import * as Notifications from 'expo-notifications'
 // import * as Device from 'expo-device'
 // import { Platform } from 'react-native'
 
-const Stack = createNativeStackNavigator()
 const { Navigator, Screen, Group } = createStackNavigator()
 // TODO: Add TypeScript Support to Navigator - const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>()
 
@@ -156,12 +153,11 @@ export const RootNavigator = () => {
         </Group>
       ) : (
         <Group key='authorized'>
-          <Stack.Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
+          <Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
         </Group>
       )}
       <Group key='modals' screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name={ROUTES.CUSTOM_MODAL} component={CustomModalStackNavigator} />
-        <Stack.Screen name={ROUTES.CUSTOM_STACK} component={CustomStackNavigator} />
+        <Screen name={ROUTES.MODAL} component={ModalStack} />
       </Group>
     </Navigator>
   )
