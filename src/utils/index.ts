@@ -1,2 +1,7 @@
 export * from './compareDates'
 export * from './wait'
+export * from './getWeekFromCurrentDate'
+export * from './getLast7Days'
+export * from './percentage'
+export * from './progressBarCalculation'
+export * from './progressBarStatus'
