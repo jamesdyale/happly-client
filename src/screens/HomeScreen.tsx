@@ -35,7 +35,7 @@ import { onSnapshot } from 'firebase/firestore'
 // }
 
 
-export const Home = () => {
+export const HomeScreen = () => {
   const user = useAtomValue(userAtom)
   const setDailyHabit = useSetAtom(dailyHabitsAtom)
   const setProgress = useSetAtom(progressAtom)

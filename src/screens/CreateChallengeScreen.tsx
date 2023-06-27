@@ -4,7 +4,7 @@ import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 
-export const CreateChallenge = () => {
+export const CreateChallengeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
   return (

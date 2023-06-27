@@ -12,12 +12,18 @@ import { ActionCreateUser } from '~actions'
 import { User } from '~types'
 import Icon from 'react-native-vector-icons/Ionicons'
 import * as WebBrowser from 'expo-web-browser'
+import { formValidationOnBlur } from '~utils'
+import { ROUTES } from '~constants'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 type IForm = {
   changeBetweenForms: () => void
 }
 
-export const SignUpScreen = ({ changeBetweenForms }: IForm) => {
+export const SignUpScreen = () => {
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
   const toast = useToast()
 
   const [fullName, setFullName] = useState('')
@@ -35,6 +41,7 @@ export const SignUpScreen = ({ changeBetweenForms }: IForm) => {
   const setUser = useSetAtom(userAtom)
 
   const validateForm = () => {
+    // TODO: Add a global validation
     let valid = true
     if (fullName === '') {
       setFullNameError('Please enter your full name')
@@ -114,7 +121,7 @@ export const SignUpScreen = ({ changeBetweenForms }: IForm) => {
               label='Full Name'
               placeholder='Enter your full name'
               handleChange={setEmail}
-              handleBlur={() => console.log('blur')}
+              handleBlur={() => setFullNameError(formValidationOnBlur('fullName', fullName))}
               value={email}
               error={fullNameError}
             />
@@ -122,7 +129,7 @@ export const SignUpScreen = ({ changeBetweenForms }: IForm) => {
               label='Email Address'
               placeholder='Enter your email address'
               handleChange={setEmail}
-              handleBlur={() => console.log('blur')}
+              handleBlur={() => setEmailError(formValidationOnBlur('email', email))}
               value={email}
               error={emailError}
             />
@@ -130,7 +137,7 @@ export const SignUpScreen = ({ changeBetweenForms }: IForm) => {
               label='Password'
               placeholder='Enter a password'
               handleChange={setPassword}
-              handleBlur={() => console.log('blur')}
+              handleBlur={() => setPassword(formValidationOnBlur('password', password))}
               value={password}
               secureTextEntry={true}
               error={passwordError}
@@ -139,7 +146,7 @@ export const SignUpScreen = ({ changeBetweenForms }: IForm) => {
               label='Confirm password'
               placeholder='Re-enter your password'
               handleChange={setConfirmPassword}
-              handleBlur={() => console.log('blur')}
+              handleBlur={() => setConfirmPasswordError(formValidationOnBlur('password', password))}
               value={confirmPassword}
               secureTextEntry={true}
               error={confirmPasswordError}
@@ -167,7 +174,7 @@ export const SignUpScreen = ({ changeBetweenForms }: IForm) => {
           />
           <Text style={styles.ActionTextContainer}>
             <Text style={styles.ActionText}>Already have an account? </Text>
-            <Text style={styles.HighlightedText} onPress={changeBetweenForms}>Login</Text>
+            <Text style={styles.HighlightedText} onPress={() => navigate(ROUTES.LOGIN)}>Login</Text>
           </Text>
         </View>
       </KeyboardAvoidingView>

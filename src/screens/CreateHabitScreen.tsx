@@ -23,9 +23,10 @@ import { useToast } from 'react-native-toast-notifications'
 import moment from 'moment/moment'
 import { generateHabitId } from '~generators'
 import { NotificationModal } from '~modals'
+import { formValidationOnBlur } from '~utils'
 
 
-export const AddHabitScreen = () => {
+export const CreateHabitScreen = () => {
   const toast = useToast()
 
   const user = useAtomValue(userAtom)
@@ -192,7 +193,7 @@ export const AddHabitScreen = () => {
             <View>
               <CustomTextInput bigLabel='Name' placeholder='Enter the name'
                                handleChange={setName}
-                               handleBlur={() => checkValidation('name')}
+                               handleBlur={() => setNameError(formValidationOnBlur('name', name))}
                                value={name}
                                error={nameError}
               />

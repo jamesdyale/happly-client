@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { APP_BLACK, APP_BLUE, APP_WHITE, MAIN_ACCENT_COLOR } from '~styles'
 import * as WebBrowser from 'expo-web-browser'
 
-export const Settings = () => {
+export const SettingsScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   return (
     <SafeAreaView style={styles.container}>

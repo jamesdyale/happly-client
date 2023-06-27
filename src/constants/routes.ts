@@ -13,10 +13,12 @@ export default {
 
   SETTINGS: 'Settings',
 
+  ROOMS: 'Rooms',
   ALL_ROOMS: 'AllRooms',
   CREATE_ROOM: 'CreateRoom',
   SINGLE_ROOM: 'SingleRoom',
 
+  CHALLENGES: 'Challenges',
   ALL_CHALLENGES: 'AllChallenges',
   CREATE_CHALLENGE: 'Create Challenge',
 
@@ -24,7 +26,7 @@ export default {
   MAIN_APP: 'MainApp',
   ONBOARD: 'Onboard',
   HABIT: 'Habit',
-  CUSTOM_MODAL: 'CustomModal',
+  MODAL: 'Modal',
   CUSTOM_STACK: 'CustomStack',
 
   AUTHENTICATION_STACK: 'AuthenticationStack',

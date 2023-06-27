@@ -9,7 +9,7 @@ import { Habit } from '~types'
 import { CalendarWeekView } from '~components'
 
 
-export const AllHabitsScreen = () => {
+export const HabitsScreen = () => {
   const [allHabits, setHabits] = useAtom(habitsAtom)
   const user = useAtomValue(userAtom)
 

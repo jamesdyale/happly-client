@@ -10,12 +10,18 @@ import { User } from '~types'
 import { ActionGetUserByUID } from '~actions'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useToast } from 'react-native-toast-notifications'
+import { formValidationOnBlur } from '~utils'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { ROUTES } from '~constants'
 
 type IForm = {
   changeBetweenForms: () => void
 }
 
-export const LoginScreen = ({ changeBetweenForms }: IForm) => {
+export const LoginScreen = () => {
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
   const toast = useToast()
 
   const [email, setEmail] = useState('')
@@ -102,7 +108,7 @@ export const LoginScreen = ({ changeBetweenForms }: IForm) => {
               label='Email Address'
               placeholder='Enter Email Address'
               handleChange={setEmail}
-              handleBlur={() => console.log('blur')}
+              handleBlur={() => setEmailError(formValidationOnBlur('email', email))}
               value={email}
               error={emailError}
             />
@@ -110,7 +116,7 @@ export const LoginScreen = ({ changeBetweenForms }: IForm) => {
               label='Password'
               placeholder='Enter Password'
               handleChange={setPassword}
-              handleBlur={() => console.log('blur')}
+              handleBlur={() => setPasswordError(formValidationOnBlur('password', password))}
               value={password}
               secureTextEntry={true}
               error={passwordError}
@@ -120,7 +126,7 @@ export const LoginScreen = ({ changeBetweenForms }: IForm) => {
         <View style={styles.AuthFormActionBtn}>
           <Text style={styles.ActionTextContainer}>
             <Text style={styles.ActionText}>Don't have an account? </Text>
-            <Text style={styles.HighlightedText} onPress={changeBetweenForms}>Sign Up</Text>
+            <Text style={styles.HighlightedText} onPress={() => navigate(ROUTES.SIGNUP)}>Sign Up</Text>
           </Text>
           <CustomButton
             bgColor={MAIN_ACCENT_COLOR}
