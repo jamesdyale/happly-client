@@ -1,5 +1,5 @@
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { ButtonType } from '../../shared'
+import { ButtonType } from '~types'
 
 export const CustomButton = ({ icon, text, onClick, bgColor, color, disabled = false }: ButtonType) => {
   return (

@@ -11,14 +11,14 @@ import {
   MAIN_ACCENT_COLOR,
   MAIN_BG_COLOR
 } from '~styles'
-import { NoHabitIcon } from '../../../assets/svgs'
+import { NoHabitIcon } from '../../assets/svgs'
 import { dailyHabitsAtom, progressAtom, selectedTimeOfDayAtom } from '~state'
-import { CustomProgressBar } from '~components'
-import { percentage } from '@shared/utils'
-import { TimeOfDay } from '@shared/types'
-import { SingleHabit } from '~components'
+import { CustomProgressBar } from '~components/index'
+import { SingleHabit } from '~components/index'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { GetCurrentTimeOfDay } from '@utils/timeUtils'
+import { TimeOfDay } from '~types'
+import { GetCurrentTimeOfDay } from '~utils/timeUtils'
+import { percentage } from '~utils'
 
 export const HabitList = () => {
   const dailyHabit = useAtomValue(dailyHabitsAtom)

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react'
-import { Button, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useFonts, Inter_600SemiBold } from '@expo-google-fonts/inter'
-import { APP_GRAY, HABIT_OPTION, MAIN_ACCENT_COLOR } from '../../styles'
-import { ProgressBarType } from '../../shared'
-import { progressBarStatus } from '@shared/utils'
+import { APP_GRAY, HABIT_OPTION, MAIN_ACCENT_COLOR } from '~styles'
+import { ProgressBarType } from '~types'
+import { progressBarStatus } from '~utils'
 
 const styles = StyleSheet.create({
   container: {

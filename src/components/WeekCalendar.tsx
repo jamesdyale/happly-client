@@ -1,16 +1,16 @@
 import { View, StyleSheet } from 'react-native'
-import { getWeekFromCurrentDate } from '@shared/utils'
-import { DayOfTheWeek } from './components/DayOfTheWeek'
+import { DayOfTheWeek } from './DayOfTheWeek'
 import { useAtom } from 'jotai'
-import { selectedDayOfTheWeekAtom } from '@state/state'
+import { selectedDayOfTheWeekAtom } from '~state'
 import React from 'react'
+import { getWeekFromCurrentDate } from '~utils'
 
 // make this into a reusable library
 export const WeekCalendar = () => {
   const [selectedDay, setSelectedDay] = useAtom(selectedDayOfTheWeekAtom)
 
   const week = getWeekFromCurrentDate()
-  
+
   const handleDayClick = async (day: Date) => {
     setSelectedDay(day)
   }

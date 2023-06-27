@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
-import { CustomTextInputType } from '../../shared'
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, useFonts } from '@expo-google-fonts/inter'
-import { GRAY_TEXT } from '../../styles'
 import React from 'react'
+import { CustomTextInputType } from '~types'
+import { GRAY_TEXT } from '~styles'
 
 export const CustomTextInput = ({
                                   bigLabel,

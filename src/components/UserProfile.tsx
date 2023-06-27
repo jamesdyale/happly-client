@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { APP_BLACK, HABIT_OPTION } from '../../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { ROUTES } from '../../constants'
-import { userAtom } from '@state/state'
+import { ROUTES } from '../constants'
 import { useAtomValue } from 'jotai'
+import { userAtom } from '~state'
+import { APP_BLACK, HABIT_OPTION } from '~styles'
 
 export const UserProfile = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()

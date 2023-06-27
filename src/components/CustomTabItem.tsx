@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import React from 'react'
-import { SECONDARY_BG_COLOR } from '../../styles'
-import { AddHabitIcon } from '../../../assets/svgs'
+import { SECONDARY_BG_COLOR } from '../styles'
+import { AddHabitIcon } from '../../assets/svgs'
 
 
 export const CustomTabItem = (props) => {

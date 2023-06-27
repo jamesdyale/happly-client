@@ -1,5 +1,5 @@
 import { StyleSheet, View, Animated, useWindowDimensions } from 'react-native'
-import { MAIN_ACCENT_COLOR } from '../../styles'
+import { MAIN_ACCENT_COLOR } from '../styles'
 
 export const CustomSlider = ({ data, scrollX }) => {
   const { width } = useWindowDimensions()

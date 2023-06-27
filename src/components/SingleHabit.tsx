@@ -1,14 +1,13 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { APP_GRAY, APP_GREEN, APP_WHITE } from '@styles/index'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useSetAtom } from 'jotai'
-import { progressAtom, selectedHabitAtom } from '@state/state'
-import { generateStatId } from '../../generators/generateId'
 import { useToast } from 'react-native-toast-notifications'
-import { Habit, Stats } from '@data/types'
-import { ActionCreateStat } from '@actions/actionCreateStat'
-import { ActionCreateOrUpdateStreak } from '@actions/actionCreateOrUpdateStreak'
+import { Habit, Stats } from '~types'
+import { progressAtom, selectedHabitAtom } from '~state'
+import { ActionCreateOrUpdateStreak, ActionCreateStat } from '~actions'
+import { APP_GRAY, APP_GREEN, APP_WHITE } from '~styles'
+import { generateStatId } from '~generators/generateId'
 
 type SingleHabitType = {
   habit: Habit;

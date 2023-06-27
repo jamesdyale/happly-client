@@ -1,6 +1,6 @@
 import { Switch } from 'react-native'
 import React from 'react'
-import { ICustomSwitchType } from '../../shared'
+import { ICustomSwitchType } from '~types'
 
 export const CustomSwitch = ({
                                isEnabled,

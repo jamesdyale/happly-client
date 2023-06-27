@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native'
 import { Calendar } from 'react-native-calendars'
 import React from 'react'
-import { APP_BLACK, APP_GRAY, APP_WHITE, MAIN_ACCENT_COLOR } from '../../styles'
+import { APP_BLACK, APP_GRAY, APP_WHITE, MAIN_ACCENT_COLOR } from '~styles'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { Stats } from '@data/types'
+import { Stats } from '~types'
 
 const Arrow = ({ direction }) => {
   return direction === 'left' ?

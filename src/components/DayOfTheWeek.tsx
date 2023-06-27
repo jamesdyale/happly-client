@@ -1,7 +1,7 @@
-import { WeeklyCalendarDateType } from '@shared/types'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '@styles/colors'
 import moment from 'moment/moment'
+import { WeeklyCalendarDateType } from '~types'
+import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '~styles'
 
 interface IDayOfTheWeek {
   day: WeeklyCalendarDateType

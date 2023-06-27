@@ -1,5 +1,5 @@
-import { TimeOfDay } from '@shared/types'
 import moment from 'moment/moment'
+import { TimeOfDay } from '~types'
 
 export const GetCurrentTimeOfDay = () => {
   const currentTime = parseInt(moment().format('HH'))
