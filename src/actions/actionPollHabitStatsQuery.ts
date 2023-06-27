@@ -1,6 +1,6 @@
 import { and, collection, query, where } from 'firebase/firestore'
-import { FIREBASE_DB } from '@data/firebaseConfig'
-import { Habit, User } from '@data/types'
+import { Habit, User } from '~types'
+import { FIREBASE_DB } from '~data'
 
 export const ActionPollHabitStatsQuery = (habitId: Habit['id'], userId: User['id'], day) => {
   return query(

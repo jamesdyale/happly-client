@@ -1,9 +1,10 @@
 import { doc, setDoc } from 'firebase/firestore'
-import { ActionGetStreakByHabitId } from '@actions/actionGetStreakByHabitId'
-import { generateStreakId } from '../generators/generateId'
-import { Habit, User, Streak } from '@data/types'
-import { FIREBASE_DB } from '@data/firebaseConfig'
-import { checkIfStreakIsValid } from '@utils/compareDates'
+import { Habit, Streak, User } from '~types'
+import { ActionGetStreakByHabitId } from '~actions/actionGetStreakByHabitId'
+import { generateStreakId } from '~generators/generateId'
+import { FIREBASE_DB } from '~data'
+import { checkIfStreakIsValid } from '~utils'
+
 
 export const ActionCreateOrUpdateStreak = async (habitId: Habit['id'], userId: User['id']) => {
   try {

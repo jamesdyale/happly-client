@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { FIREBASE_DB } from '@data/firebaseConfig'
+import { FIREBASE_DB } from '~data'
 
 export const ActionGetStatsByUserId = async (userId) => {
   return await getDocs(

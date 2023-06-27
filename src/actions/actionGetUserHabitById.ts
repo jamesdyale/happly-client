@@ -1,5 +1,5 @@
 import { doc, getDoc } from 'firebase/firestore'
-import { FIREBASE_DB } from '@data/firebaseConfig'
+import { FIREBASE_DB } from '~data'
 
 export const ActionGetUserHabitById = async (habitId) => {
   return await getDoc(

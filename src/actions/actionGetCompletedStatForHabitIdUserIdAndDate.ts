@@ -1,6 +1,6 @@
 import { collection, getDocs, query, where, and } from 'firebase/firestore'
-import { FIREBASE_DB } from '@data/firebaseConfig'
-import { Habit, User } from '@data/types'
+import { FIREBASE_DB } from '~data'
+import { Habit, User } from '~types'
 
 export const ActionGetCompletedStatForHabitIdUserIdAndDate = async (habitId: Habit['id'], date: Date, userId: User['id']) => {
   try {

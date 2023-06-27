@@ -1,6 +1,6 @@
-import { Streak } from '@data/types'
 import { doc, setDoc } from 'firebase/firestore'
-import { FIREBASE_DB } from '@data/firebaseConfig'
+import { FIREBASE_DB } from '~data'
+import { Streak } from '~types'
 
 export const ActionUpdateStreak = async (streak: Streak) => {
   try {

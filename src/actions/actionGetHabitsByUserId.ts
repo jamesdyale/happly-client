@@ -1,5 +1,5 @@
 import { collection, query, where, orderBy } from 'firebase/firestore'
-import { FIREBASE_DB } from '@data/firebaseConfig'
+import { FIREBASE_DB } from '~data'
 
 export const ActionGetHabitsByUserId = (userId) => {
   try {

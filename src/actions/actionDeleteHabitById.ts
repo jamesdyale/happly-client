@@ -1,4 +1,4 @@
-import { FIREBASE_DB } from '@data/firebaseConfig'
+import { FIREBASE_DB } from '~data'
 import { deleteDoc, doc } from 'firebase/firestore'
 
 export const ActionDeleteHabitById = async (habitId) => {

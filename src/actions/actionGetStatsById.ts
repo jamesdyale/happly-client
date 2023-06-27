@@ -1,5 +1,5 @@
-import { FIREBASE_DB } from '@data/firebaseConfig'
 import { doc, getDoc } from 'firebase/firestore'
+import { FIREBASE_DB } from '~data'
 
 export const ActionGetStatsById = async (statsId) => {
   return await getDoc(

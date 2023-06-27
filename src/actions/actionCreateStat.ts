@@ -1,4 +1,4 @@
-import { FIREBASE_DB } from '@data/firebaseConfig'
+import { FIREBASE_DB } from '~data'
 import { doc, setDoc } from 'firebase/firestore'
 
 export const ActionCreateStat = async (stat) => {

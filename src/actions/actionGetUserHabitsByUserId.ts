@@ -1,7 +1,6 @@
 import { and, collection, query, where } from 'firebase/firestore'
-import { FIREBASE_DB } from '@data/firebaseConfig'
-import { User } from '@data/types'
-import { TimeOfDay } from '@shared/types'
+import { TimeOfDay, User } from '~types'
+import { FIREBASE_DB } from '~data'
 
 export const ActionGetUserHabitsByUserId = (userId: User['id'], selectedDay: Date, timeOfDay: TimeOfDay) => {
   try {
