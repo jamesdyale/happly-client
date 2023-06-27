@@ -1,5 +1,6 @@
 export default {
-  AUTH: 'Auth',
+  LOGIN: 'Login',
+  SIGNUP: 'SignUp',
   RECOVER_ACCOUNT: 'RecoverAccount',
   BENEFIT: 'Benefit',
 

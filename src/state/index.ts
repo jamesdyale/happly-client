@@ -1,6 +1,5 @@
 import { atomWithStorage } from 'jotai/utils'
-import { Habit, Stats, User } from '~types'
-import { TimeOfDay } from '~shared'
+import { Habit, Stats, TimeOfDay, User } from '~types'
 
 export const authFlowAtom = atomWithStorage<'login' | 'register'>('authFlow', 'register')
 export const userAtom = atomWithStorage<User | null>('user', null)
