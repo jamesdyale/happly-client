@@ -11,10 +11,10 @@ import {
   MAIN_ACCENT_COLOR,
   MAIN_BG_COLOR
 } from '~styles'
-import { NoHabitIcon } from '../../assets/svgs'
+import { NoHabitIcon } from '~assets'
 import { dailyHabitsAtom, progressAtom, selectedTimeOfDayAtom } from '~state'
-import { CustomProgressBar } from '~components/index'
-import { SingleHabit } from '~components/index'
+import { CustomProgressBar } from './CustomProgressBar'
+import { SingleHabit } from './SingleHabit'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { TimeOfDay } from '~types'
 import { GetCurrentTimeOfDay } from '~utils/timeUtils'

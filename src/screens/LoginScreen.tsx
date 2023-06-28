@@ -14,6 +14,8 @@ import { formValidationOnBlur } from '~utils'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { ROUTES } from '~constants'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { setToken } from '~services'
 
 type IForm = {
   changeBetweenForms: () => void
@@ -70,6 +72,9 @@ export const LoginScreen = () => {
               //   email: data.email,
               //   name: data.name
               // }
+              const token = await foundUserPromise.user.getIdToken()
+              await setToken(token)
+              await AsyncStorage.setItem('userId', foundUserPromise.user.uid)
               setUser(data)
             }
           } else {

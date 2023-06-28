@@ -74,28 +74,26 @@ export const RootNavigator = () => {
 
   // — — — — — — — — — — EFFECTS — — — — — — — — — — //
   useEffect(() => {
-    let isMounted = true
-
-    if (isMounted) {
-      return onAuthStateChanged(FIREBASE_AUTH, async (user) => {
-        const a = await AsyncStorage.getItem('user')
-
-        if (user) {
-          const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
+    onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+      const userId = await AsyncStorage.getItem('userId')
+      if (user) {
+        const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
+        if (dataDocumentSnapshot.exists()) {
+          setUser(dataDocumentSnapshot.data() as User)
+        }
+        // TODO: add error handling here
+      } else {
+        if (userId) {
+          const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', userId))
           if (dataDocumentSnapshot.exists()) {
             setUser(dataDocumentSnapshot.data() as User)
           }
-          // TODO: add error handling here
         } else {
           setUser(null)
           setAuthFlow('register')
         }
-      })
-    }
-
-    return () => {
-      isMounted = false
-    }
+      }
+    })
   }, [])
 
 
@@ -141,7 +139,7 @@ export const RootNavigator = () => {
     setOnboarded(JSON.parse(onboarded))
   }
 
-
+  console.log('user - ', user)
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       {!user ? (

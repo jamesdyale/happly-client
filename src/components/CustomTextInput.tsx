@@ -15,16 +15,6 @@ export const CustomTextInput = ({
                                   secureTextEntry,
                                   error
                                 }: CustomTextInputType) => {
-  const [fontsLoaded] = useFonts({
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold
-  })
-
-  if (!fontsLoaded) {
-    return null
-  }
-
   return (
     <View style={styles.textInput}>
       {label && <Text style={styles.label}>{label}</Text>}
@@ -69,7 +59,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAFAFA',
     marginTop: 8,
     marginBottom: 8,
-    border: '1px solid ',
     borderColor: '#B0C1CB',
     borderWidth: 1,
     paddingTop: 14.5,

@@ -1,6 +1,6 @@
 import { deleteDoc, doc } from 'firebase/firestore'
 import { FIREBASE_DB } from '~data'
-import { ActionGetStreakByHabitId } from '~actions'
+import { ActionGetStreakByHabitId } from './actionGetStreakByHabitId'
 
 
 export const ActionDeleteStreakByHabitId = async (habitId) => {
