@@ -8,6 +8,7 @@ import { HomeStack } from '~navigation/HomeStack'
 import { HabitStack } from '~navigation/HabitStack'
 import { ChallengeStack } from '~navigation/ChallengeStack'
 import { RoomStack } from '~navigation/RoomStack'
+import { CreateHabitScreen } from '~screens'
 
 const { Navigator, Screen } = createBottomTabNavigator()
 
@@ -33,10 +34,10 @@ export const BottomTabNavigator = () => {
           } else if (route.name === ROUTES.ALL_HABIT) {
             iconName = focused ? 'bar-chart' : 'bar-chart-outline'
             tabName = 'Habit'
-          } else if (route.name === ROUTES.ALL_CHALLENGES) {
+          } else if (route.name === ROUTES.CHALLENGES) {
             iconName = focused ? 'ios-trophy' : 'ios-trophy-outline'
             tabName = 'Challenge'
-          } else if (route.name === ROUTES.ALL_ROOMS) {
+          } else if (route.name === ROUTES.ROOMS) {
             iconName = focused
               ? 'ios-chatbox-ellipses'
               : 'ios-chatbox-ellipses-outline'
@@ -64,6 +65,10 @@ export const BottomTabNavigator = () => {
       <Screen
         name={ROUTES.ALL_HABIT}
         component={HabitStack}
+      />
+      <Screen
+        name={ROUTES.CREATE_HABIT}
+        component={CreateHabitScreen}
       />
       <Screen
         name={ROUTES.CHALLENGES}

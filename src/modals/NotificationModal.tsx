@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Platform } from
 import DateTimePicker from '@react-native-community/datetimepicker'
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { APP_BLACK, APP_GRAY, APP_WHITE, GRAY_TEXT, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '@styles/colors'
+import { APP_BLACK, APP_GRAY, APP_WHITE, GRAY_TEXT, MAIN_ACCENT_COLOR } from '~styles'
 import Modal from 'react-native-modal'
 
 export const NotificationModal = ({ handleTimeSelected, closeNotificationModal }) => {

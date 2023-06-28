@@ -27,11 +27,8 @@ export const CalendarWeekView = ({ habit }: {
           {/*</View>*/}
         </View>
         <Icon name='calendar-outline' size={25} color={APP_BLACK}
-              onPress={() => navigate(ROUTES.CUSTOM_STACK, {
-                screen: ROUTES.SINGLE_HABIT,
-                params: {
-                  habitId: habit.id
-                }
+              onPress={() => navigate(ROUTES.HABIT, {
+                habitId: habit.id
               })} />
       </View>
       <View style={styles.footer}>

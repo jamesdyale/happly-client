@@ -118,8 +118,7 @@ export const HabitScreen = ({ route, navigation }) => {
     }
 
   }
-
-
+  
   const handleOnPressEdit = () => {
     setEditHabit(habit)
     setSelectedHabit(null)

@@ -8,7 +8,7 @@ import { authFlowAtom, userAtom } from '~state'
 import { FIREBASE_AUTH, FIREBASE_DB } from '~data'
 import { User } from '~types'
 import { createStackNavigator } from '@react-navigation/stack'
-import { OnboardScreen, AccountRecoveryScreen } from '~screens'
+import { OnboardScreen, AccountRecoveryScreen, HabitScreen, HabitsScreen } from '~screens'
 import { BottomTabNavigator } from '~navigation/BottomTabNavigator'
 import { LoginScreen } from '~screens/LoginScreen'
 import { SignUpScreen } from '~screens/SignUpScreen'
@@ -79,7 +79,7 @@ export const RootNavigator = () => {
     if (isMounted) {
       return onAuthStateChanged(FIREBASE_AUTH, async (user) => {
         const a = await AsyncStorage.getItem('user')
-        console.log(a)
+
         if (user) {
           const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
           if (dataDocumentSnapshot.exists()) {
@@ -143,7 +143,7 @@ export const RootNavigator = () => {
 
 
   return (
-    <Navigator>
+    <Navigator screenOptions={{ headerShown: false }}>
       {!user ? (
         <Group key='unauthorized'>
           <Screen name={ROUTES.BENEFIT} component={OnboardScreen} />
@@ -154,6 +154,8 @@ export const RootNavigator = () => {
       ) : (
         <Group key='authorized'>
           <Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
+          <Screen name={ROUTES.ALL_HABIT} component={HabitsScreen} />
+          <Screen name={ROUTES.HABIT} component={HabitScreen} />
         </Group>
       )}
       <Group key='modals' screenOptions={{ presentation: 'modal' }}>
