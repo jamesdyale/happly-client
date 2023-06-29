@@ -1,10 +1,10 @@
 import { ROUTES } from '../constants'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { doc, getDoc } from 'firebase/firestore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { authFlowAtom, userAtom } from '~state'
+import { authFlowAtom, isAppReadyAtom, userAtom } from '~state'
 import { FIREBASE_AUTH, FIREBASE_DB } from '~data'
 import { User } from '~types'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -13,54 +13,14 @@ import { BottomTabNavigator } from '~navigation/BottomTabNavigator'
 import { LoginScreen } from '~screens/LoginScreen'
 import { SignUpScreen } from '~screens/SignUpScreen'
 import { ModalStack } from '~navigation/ModalStack'
-// import * as Notifications from 'expo-notifications'
-// import * as Device from 'expo-device'
-// import { Platform } from 'react-native'
 
 const { Navigator, Screen, Group } = createStackNavigator()
 // TODO: Add TypeScript Support to Navigator - const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>()
 
-// Notifications.setNotificationHandler({
-//   handleNotification: async () => ({
-//     shouldShowAlert: true,
-//     shouldPlaySound: false,
-//     shouldSetBadge: false
-//   })
-// })
-//
-//
-// const registerForPushNotificationsAsync = async () => {
-//   let token
-//   if (Device.isDevice) {
-//     const { status: existingStatus } = await Notifications.getPermissionsAsync()
-//     let finalStatus = existingStatus
-//     if (existingStatus !== 'granted') {
-//       const { status } = await Notifications.requestPermissionsAsync()
-//       finalStatus = status
-//     }
-//     if (finalStatus !== 'granted') {
-//       alert('Failed to get push token for push notification!')
-//       return
-//     }
-//     token = (await Notifications.getExpoPushTokenAsync()).data
-//     console.log(token)
-//   } else {
-//     alert('Must use physical device for Push Notifications')
-//   }
-//
-//   if (Platform.OS === 'android') {
-//     Notifications.setNotificationChannelAsync('default', {
-//       name: 'default',
-//       importance: Notifications.AndroidImportance.MAX,
-//       vibrationPattern: [0, 250, 250, 250],
-//       lightColor: '#FF231F7C'
-//     })
-//   }
-//
-//   return token
-// }
 
 export const RootNavigator = () => {
+  const [isAppReady, setIsAppReady] = useAtom(isAppReadyAtom)
+
   const [user, setUser] = useAtom(userAtom)
   const [, setAuthFlow] = useAtom(authFlowAtom)
   const [onboarded, setOnboarded] = useState()
@@ -76,6 +36,7 @@ export const RootNavigator = () => {
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, async (user) => {
       const userId = await AsyncStorage.getItem('userId')
+      // check if token is valid and refresh the token
       if (user) {
         const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
         if (dataDocumentSnapshot.exists()) {
@@ -110,28 +71,9 @@ export const RootNavigator = () => {
 
   }, [])
 
-
-  // useEffect(() => {
-  //   registerForPushNotificationsAsync().then(token => setPushToken(token))
-  //
-  //   // @ts-ignore
-  //   notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-  //     console.log('hey there')
-  //     console.log(notification)
-  //     setNotification(notification)
-  //   })
-  //
-  //   // @ts-ignore
-  //   responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-  //     console.log(response)
-  //   })
-  //
-  //   return () => {
-  //     Notifications.removeNotificationSubscription(notificationListener.current)
-  //     Notifications.removeNotificationSubscription(responseListener.current)
-  //   }
-  // }, [])
-
+  useEffect(() => {
+    // readyApp()
+  }, [])
 
 // — — — — — — — — — — ACTIONS — — — — — — — — — — //
   const getStorage = async () => {
@@ -139,7 +81,22 @@ export const RootNavigator = () => {
     setOnboarded(JSON.parse(onboarded))
   }
 
-  console.log('user - ', user)
+
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (ready) {
+  //     console.log('Hide the splash screen immediately')
+  //     await SplashScreen.hideAsync();
+  //   }
+  // }, [ready]);
+  //
+  // if () {
+  //
+  // }
+
+  if (!isAppReady) {
+    return null
+  }
+
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       {!user ? (

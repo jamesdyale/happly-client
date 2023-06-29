@@ -1,11 +1,14 @@
 import React from 'react'
-import { Provider as StateProvider } from 'jotai'
+import { Provider as StateProvider, useAtomValue } from 'jotai'
 import { ToastProvider } from 'react-native-toast-notifications'
 import { Navigation } from '~navigation'
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
+import { isAppReadyAtom } from '~state'
 
 
 const App = () => {
+  const isAppReady = useAtomValue(isAppReadyAtom)
+
   const [fontsLoaded] = useFonts({
     Inter_700Bold, Inter_600SemiBold, Inter_500Medium, Inter_400Regular
   })

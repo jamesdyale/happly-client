@@ -12,6 +12,9 @@ export const editHabitAtom = atomWithStorage<Habit | null>('editHabit', null)
 export const showDeleteModalAtom = atomWithStorage<boolean>('showDeleteModal', false)
 export const selectedTimeOfDayAtom = atomWithStorage<TimeOfDay>('timeOfDay', TimeOfDay.All)
 export const loadingAtom = atomWithStorage<boolean>('loading', false)
+
+export const isAppReadyAtom = atomWithStorage<boolean>('isAppReady', false)
+
 export const pushTokenAtom = atomWithStorage<string | null>('pushToken', null)
 
 // {
