@@ -21,13 +21,11 @@ import { authFlowAtom } from '~state'
 export const OnboardScreen = () => {
   const [, setAuthFlow] = useAtom(authFlowAtom)
 
-
   const slidesRef = React.useRef(null)
   const scrollX = React.useRef(new Animated.Value(0)).current
   const [currentScreen, setCurrentScreen] = React.useState<number>(0)
 
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
-
 
   const viewableItemsChanged = React.useRef(({ viewableItems }) => {
     setCurrentScreen(viewableItems[0].index)

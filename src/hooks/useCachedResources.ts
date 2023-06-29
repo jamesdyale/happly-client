@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import * as Font from 'expo-font'
 import { useEffect, useState } from 'react'
-import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter'
+import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 
 export const useCachedResources = (): boolean => {
   const [isLoadingComplete, setLoadingComplete] = useState(false)
@@ -9,9 +9,15 @@ export const useCachedResources = (): boolean => {
   useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
+        // const [fontsLoaded] = useFonts({
+        //   Inter_700Bold, Inter_600SemiBold, Inter_500Medium, Inter_400Regular
+        // })
+        //
+        // if (!fontsLoaded) {
+        //   return null
+        // }
         // Load fonts
         await Font.loadAsync({
-          ...Ionicons.font,
           'Inter_700Bold': Inter_700Bold,
           'Inter_600SemiBold': Inter_600SemiBold,
           'Inter_500Medium': Inter_500Medium,
