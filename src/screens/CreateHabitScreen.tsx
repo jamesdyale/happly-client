@@ -56,6 +56,7 @@ export const CreateHabitScreen = () => {
         setReminderAt(editHabit.reminderAt)
       }
     },
+    
     [editHabit])
 
   const createHabit = async () => {
