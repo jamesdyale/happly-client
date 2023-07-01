@@ -56,7 +56,7 @@ export const CreateHabitScreen = () => {
         setReminderAt(editHabit.reminderAt)
       }
     },
-    
+
     [editHabit])
 
   const createHabit = async () => {
@@ -66,6 +66,7 @@ export const CreateHabitScreen = () => {
       setNameError('Please enter a name')
       return
     }
+
 
     if (!editHabit) {
       const habit = await ActionCreateHabit({
