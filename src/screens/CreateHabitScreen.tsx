@@ -11,7 +11,8 @@ import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/i
 import {
   APP_BLACK,
   APP_BLUE,
-  APP_GRAY, APP_LIGHT_GRAY,
+  APP_GRAY,
+  APP_LIGHT_GRAY,
   APP_PINK,
   APP_RED,
   APP_WHITE,
@@ -234,31 +235,12 @@ export const CreateHabitScreen = () => {
                 </View>
               </View>
 
-              {/*<View style={styles.sectionContainer}>*/}
-              {/*  <Text style={styles.sectionTitle}>Every?</Text>*/}
-              {/*  <View style={styles.everyOption}>*/}
-              {/*    <TouchableOpacity*/}
-              {/*      style={{*/}
-              {/*        ...styles.frequencyOption,*/}
-              {/*        width: 35,*/}
-              {/*        height: 35*/}
-              {/*      }}*/}
-              {/*      onPress={() => setFrequencyOption('daily')}><Icon name='remove-outline' size={20} color={APP_BLACK} />*/}
-              {/*    </TouchableOpacity>*/}
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>Every?</Text>
+                <View style={styles.everyOption}>
 
-              {/*    <Text style={{ marginRight: 10, marginLeft: 10 }}>1 week</Text>*/}
-              {/*    <TouchableOpacity*/}
-              {/*      style={{*/}
-              {/*        ...styles.frequencyOption,*/}
-              {/*        backgroundColor: APP_BLACK,*/}
-              {/*        width: 35,*/}
-              {/*        height: 35*/}
-              {/*      }}*/}
-              {/*      onPress={() => setFrequencyOption('daily')}><Icon name='ios-add-sharp' size={20} color={APP_WHITE} />*/}
-              {/*    </TouchableOpacity>*/}
-
-              {/*  </View>*/}
-              {/*</View>*/}
+                </View>
+              </View>
               <View style={styles.sectionContainer}>
                 <Text style={styles.sectionTitle}>In which time of the day would you like to do it?</Text>
                 <View style={styles.periodContainer}>
