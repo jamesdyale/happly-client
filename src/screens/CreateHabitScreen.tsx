@@ -1,6 +1,6 @@
 import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { CustomButton, CustomTextInput } from '~components'
+import { CustomButton, CustomTextInput, DayPicker } from '~components'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -25,7 +25,6 @@ import moment from 'moment/moment'
 import { generateHabitId } from '~generators'
 import { NotificationModal } from '~modals'
 import { formValidationOnBlur } from '~utils'
-
 
 export const CreateHabitScreen = () => {
   const toast = useToast()
@@ -139,16 +138,6 @@ export const CreateHabitScreen = () => {
     setNameError('')
   }
 
-  const checkValidation = (field) => {
-    if (field === 'name') {
-      if (!name || name.length === 0) {
-        setNameError('Please enter a name')
-      } else {
-        setNameError('')
-      }
-    }
-  }
-
   const handleTimeSelected = (selectedDate: Date) => {
     const formattedDate = moment(selectedDate).format('YYYY-MM-DDTHH:mm:ss')
 
@@ -230,17 +219,17 @@ export const CreateHabitScreen = () => {
                       color: frequencyOption === Frequency.Weekly ? APP_WHITE : APP_BLACK
                     }}>Weekly</Text>
                   </TouchableOpacity>
-
-
                 </View>
               </View>
 
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Every?</Text>
-                <View style={styles.everyOption}>
+              {frequencyOption === Frequency.Weekly ? (
+                  <View style={styles.sectionContainer}>
+                    <Text style={styles.sectionTitle}>Every?</Text>
+                    <DayPicker />
+                  </View>
+                )
+                : null}
 
-                </View>
-              </View>
               <View style={styles.sectionContainer}>
                 <Text style={styles.sectionTitle}>In which time of the day would you like to do it?</Text>
                 <View style={styles.periodContainer}>
