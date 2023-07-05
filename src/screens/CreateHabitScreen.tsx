@@ -158,13 +158,12 @@ export const CreateHabitScreen = () => {
   }
 
   const handleSelectDay = (day: string) => {
-    console.log('day - ', day)
     if (selectedDays.includes(day)) {
-      const newSelectedDays =
-        setSelectedDays((prev) => {
-
-        })
+      setSelectedDays(selectedDays.filter((d) => d !== day))
+      return
     }
+
+    setSelectedDays([...selectedDays, day])
   }
 
   const [fontsLoaded] = useFonts({
