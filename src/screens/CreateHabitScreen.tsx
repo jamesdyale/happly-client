@@ -43,6 +43,7 @@ export const CreateHabitScreen = () => {
 
   const [nameError, setNameError] = useState('')
   const [showNotificationModal, setShowNotificationModal] = useState(false)
+  const [selectedDays, setSelectedDays] = useState<string[]>(['Sunday'])
 
   const [loading, setLoading] = useState(false)
 
@@ -156,6 +157,16 @@ export const CreateHabitScreen = () => {
     setReminderAt(filtered)
   }
 
+  const handleSelectDay = (day: string) => {
+    console.log('day - ', day)
+    if (selectedDays.includes(day)) {
+      const newSelectedDays =
+        setSelectedDays((prev) => {
+
+        })
+    }
+  }
+
   const [fontsLoaded] = useFonts({
     Inter_600SemiBold,
     Inter_700Bold
@@ -225,7 +236,7 @@ export const CreateHabitScreen = () => {
               {frequencyOption === Frequency.Weekly ? (
                   <View style={styles.sectionContainer}>
                     <Text style={styles.sectionTitle}>Every?</Text>
-                    <DayPicker />
+                    <DayPicker selectedDays={selectedDays} handleSelectDay={handleSelectDay} />
                   </View>
                 )
                 : null}

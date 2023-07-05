@@ -1,66 +1,56 @@
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { GRAY_TEXT } from '~styles'
+import { APP_BLACK, APP_GRAY, APP_WHITE, HABIT_OPTION } from '~styles'
 import { DayOfTheWeek } from '~types'
 
-export const DayPicker = () => {
+type DayPickerType = {
+  selectedDays: string[];
+  handleSelectDay: (day: string) => void;
+}
+
+export const DayPicker = ({ selectedDays, handleSelectDay }: DayPickerType) => {
   const days = Object.keys(DayOfTheWeek)
 
   return (
-    <View>
+    <View style={styles.container}>
       {days.map((day) => (
-        <Text>{day.substring(0, 3)}</Text>
+        <TouchableOpacity
+          style={{
+            ...styles.day,
+            backgroundColor: selectedDays.includes(day) ? APP_BLACK : HABIT_OPTION,
+            borderColor: selectedDays.includes(day) ? APP_BLACK : HABIT_OPTION
+          }}
+          onPress={() => handleSelectDay(day)}
+        >
+          <Text style={{ color: selectedDays.includes(day) ? APP_WHITE : APP_GRAY }}
+          >{day.substring(0, 3)}</Text>
+        </TouchableOpacity>
       ))}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  textInput: {
-    marginBottom: 10
-  },
-  label: {
-    fontFamily: 'Inter_500Medium',
-    fontStyle: 'normal',
-    fontWeight: '500',
-    fontSize: 14,
-    lineHeight: 19,
-    color: '#0F0F0F'
-  },
-  bigLabel: {
-    fontFamily: 'Inter_600SemiBold',
-    fontStyle: 'normal',
-    fontWeight: '600',
-    fontSize: 18,
-    lineHeight: 22,
-    color: GRAY_TEXT
-  },
-  input: {
-    backgroundColor: '#FAFAFA',
-    marginTop: 8,
-    marginBottom: 8,
-    borderColor: '#B0C1CB',
-    borderWidth: 1,
-    paddingTop: 14.5,
-    paddingBottom: 14.5,
-    paddingLeft: 16,
-    paddingRight: 16,
-    fontFamily: 'Inter_400Regular',
-    fontWeight: '400',
-    fontStyle: 'normal',
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8
-  },
-  error: {
+  container: {
     display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
-    fontFamily: 'Inter_400Regular',
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 12,
-    lineHeight: 16,
-    color: 'red'
+    justifyContent: 'space-between',
+    width: '100%',
+    borderColor: APP_GRAY,
+    backgroundColor: APP_GRAY,
+    borderWidth: 1,
+    borderRadius: 6,
+    padding: 5
+  },
+  day: {
+    borderColor: APP_BLACK,
+    borderWidth: 1,
+    borderRadius: 6,
+    width: 50,
+    height: 40,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
