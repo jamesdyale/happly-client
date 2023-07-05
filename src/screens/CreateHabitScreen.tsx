@@ -4,7 +4,7 @@ import { CustomButton, CustomTextInput, DayPicker } from '~components'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { DayOfTheWeek, Frequency, TimeOfDay } from '~types'
+import { Frequency, TimeOfDay } from '~types'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { editHabitAtom, selectedDayOfTheWeekAtom, userAtom } from '~state'
 import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
@@ -42,7 +42,7 @@ export const CreateHabitScreen = () => {
 
   const [nameError, setNameError] = useState('')
   const [showNotificationModal, setShowNotificationModal] = useState(false)
-  const [selectedDays, setSelectedDays] = useState<string[]>(['Sunday'])
+  const [selectedDays, setSelectedDays] = useState<string[]>([])
 
   const [loading, setLoading] = useState(false)
 

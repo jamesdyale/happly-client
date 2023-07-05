@@ -13,8 +13,9 @@ export const DayPicker = ({ selectedDays, handleSelectDay }: DayPickerType) => {
 
   return (
     <View style={styles.container}>
-      {days.map((day) => (
+      {days.map((day, index) => (
         <TouchableOpacity
+          key={index}
           style={{
             ...styles.day,
             backgroundColor: selectedDays.includes(day) ? APP_BLACK : HABIT_OPTION,

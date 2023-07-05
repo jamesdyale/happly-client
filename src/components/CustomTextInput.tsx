@@ -1,5 +1,4 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
-import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, useFonts } from '@expo-google-fonts/inter'
 import React from 'react'
 import { CustomTextInputType } from '~types'
 import { GRAY_TEXT } from '~styles'
