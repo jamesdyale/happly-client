@@ -23,6 +23,7 @@ import { useToast } from 'react-native-toast-notifications'
 import { DeleteHabitModal } from '~modals'
 import { onSnapshot } from 'firebase/firestore'
 import { findClosestReminder } from '~utils/timeUtils'
+import { DateData } from 'react-native-calendars'
 
 
 export const HabitScreen = ({ route, navigation }) => {
@@ -41,9 +42,10 @@ export const HabitScreen = ({ route, navigation }) => {
   useEffect(() => {
     // TODO: Add loading state
     let isMounted = true
+    let currentMonth = new Date(currentDate).getMonth() + 1
     if (isMounted) {
       getHabitId()
-      getHabitStats()
+      getHabitStats(currentMonth)
       getHabitStreak()
     }
 
@@ -71,7 +73,12 @@ export const HabitScreen = ({ route, navigation }) => {
     return () => subscription()
   }
 
-  const getHabitStats = async () => {
+  const handleMonthChange = async (month: DateData) => {
+    await getHabitStats(month.month)
+  }
+
+
+  const getHabitStats = async (currentMonth) => {
     const docs = await ActionGetStatsByHabitId(habitId)
     if (!docs) return
 
@@ -83,7 +90,7 @@ export const HabitScreen = ({ route, navigation }) => {
     )
 
     setStats(progress.filter((stat) =>
-      new Date(stat.completedAt).getMonth() + 1 === new Date(currentDate).getMonth() + 1))
+      new Date(stat.completedAt).getMonth() + 1 === currentMonth))
   }
 
   const getHabitStreak = async () => {
@@ -118,7 +125,7 @@ export const HabitScreen = ({ route, navigation }) => {
     }
 
   }
-  
+
   const handleOnPressEdit = () => {
     setEditHabit(habit)
     setSelectedHabit(null)
@@ -166,6 +173,7 @@ export const HabitScreen = ({ route, navigation }) => {
     }
   }
 
+
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
@@ -207,7 +215,7 @@ export const HabitScreen = ({ route, navigation }) => {
           </View>
         </View>
 
-        <CustomCalendar currentDate={currentDate} stats={stats} />
+        <CustomCalendar currentDate={currentDate} stats={stats} handleMonthChange={handleMonthChange} />
 
         <View style={styles.streakContainer}>
           <View style={styles.streakVSLongestStreak}>

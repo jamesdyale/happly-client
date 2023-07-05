@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Calendar } from 'react-native-calendars'
+import { Calendar, DateData } from 'react-native-calendars'
 import React from 'react'
 import { APP_BLACK, APP_GRAY, APP_WHITE, MAIN_ACCENT_COLOR } from '~styles'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -9,10 +9,14 @@ const Arrow = ({ direction }) => {
   return direction === 'left' ?
     <Icon name='chevron-back' size={22} color={APP_GRAY} /> : <Icon name='chevron-forward' size={22} color={APP_GRAY} />
 }
-export const CustomCalendar = ({ currentDate, stats }: {
+
+type CustomCalendarType = {
   currentDate: string
-  stats: Stats[] | null
-}) => {
+  stats: Stats[] | null,
+  handleMonthChange: (month: DateData) => void
+}
+
+export const CustomCalendar = ({ currentDate, stats, handleMonthChange }: CustomCalendarType) => {
   const markedDates = stats?.reduce((acc, stat) => {
     acc[new Date(stat.completedAt).toISOString().split('T')[0]] = { selected: true, selectedColor: MAIN_ACCENT_COLOR }
     return acc
@@ -38,9 +42,7 @@ export const CustomCalendar = ({ currentDate, stats }: {
       // // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
       // monthFormat={'yyyy MM'}
       // // Handler which gets executed when visible month changes in calendar. Default = undefined
-      // onMonthChange={month => {
-      //   console.log('month changed', month)
-      // }}
+      onMonthChange={month => handleMonthChange(month)}
       // // Hide month navigation arrows. Default = false
       // Hide month navigation arrows. Default = false
 
