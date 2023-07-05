@@ -37,7 +37,6 @@ export const CreateHabitScreen = () => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [timeOfDay, setTimeOfDay] = useState(TimeOfDay.Morning)
-  const [dayOfWeek, setDayOfWeek] = useState<DayOfTheWeek>(DayOfTheWeek.Monday)
   const [frequencyOption, setFrequencyOption] = useState<Frequency>(Frequency.Daily)
   const [reminderAt, setReminderAt] = useState<string[]>([])
 
@@ -52,7 +51,7 @@ export const CreateHabitScreen = () => {
         setName(editHabit.name)
         setDescription(editHabit.description)
         setTimeOfDay(editHabit.timeOfDay)
-        setDayOfWeek(editHabit.dayOfWeek)
+        setSelectedDays(editHabit.selectedDays)
         setFrequencyOption(editHabit.frequencyOption)
         setReminderAt(editHabit.reminderAt)
       }
@@ -76,7 +75,7 @@ export const CreateHabitScreen = () => {
         description,
         userId: user.id,
         timeOfDay,
-        dayOfWeek,
+        selectedDays,
         frequencyOption,
         createdAt: new Date(),
         reminderAt
@@ -108,7 +107,7 @@ export const CreateHabitScreen = () => {
           description,
           userId: user.id,
           timeOfDay,
-          dayOfWeek,
+          selectedDays,
           frequencyOption,
           createdAt: editHabit?.createdAt,
           reminderAt
@@ -134,7 +133,7 @@ export const CreateHabitScreen = () => {
     setName('')
     setDescription('')
     setTimeOfDay(TimeOfDay.Morning)
-    setDayOfWeek(DayOfTheWeek.Monday)
+    setSelectedDays([])
     setFrequencyOption(Frequency.Daily)
     setNameError('')
   }

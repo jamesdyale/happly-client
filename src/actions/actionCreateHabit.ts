@@ -9,7 +9,7 @@ export const ActionCreateHabit = async ({
                                           description,
                                           userId,
                                           timeOfDay,
-                                          dayOfWeek,
+                                          selectedDays,
                                           frequencyOption,
                                           createdAt,
                                           reminderAt
@@ -21,7 +21,7 @@ export const ActionCreateHabit = async ({
       description,
       userId,
       timeOfDay,
-      dayOfWeek,
+      selectedDays,
       frequencyOption,
       createdAt,
       reminderAt
