@@ -66,7 +66,8 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
       }}
     >
       <Text style={{
-        ...styles.dayText, color: isHighlighted ? APP_WHITE : HABIT_OPTION
+        ...styles.dayText,
+        color: isHighlighted ? APP_WHITE : HABIT_OPTION
       }}>
         {day.day}
       </Text>
