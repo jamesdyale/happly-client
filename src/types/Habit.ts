@@ -9,7 +9,7 @@ export type Habit = {
   userId: User['id'];
   timeOfDay: TimeOfDay;
   frequencyOption: Frequency;
-  createdAt: Date;
+  createdAt: string;
   reminderAt: string[];
   selectedDays: string[];
 }

@@ -1,25 +1,14 @@
 import { and, collection, query, where } from 'firebase/firestore'
 import { TimeOfDay, User } from '~types'
 import { FIREBASE_DB } from '~data'
+import { Moment } from 'moment'
 
-export const ActionGetUserHabitsByUserId = (userId: User['id'], selectedDay: Date, timeOfDay: TimeOfDay) => {
+export const ActionGetUserHabitsByUserId = (userId: User['id']) => {
   try {
-    if (timeOfDay === TimeOfDay.All) {
-      return query(
-        collection(FIREBASE_DB, 'habits'),
-        and(where('userId', '==', userId),
-          where('createdAt', '<=', selectedDay)
-        )
-      )
-    } else {
-      return query(
-        collection(FIREBASE_DB, 'habits'),
-        and(where('userId', '==', userId),
-          where('createdAt', '<=', selectedDay),
-          where('timeOfDay', '==', timeOfDay)
-        )
-      )
-    }
+    return query(
+      collection(FIREBASE_DB, 'habits'),
+      where('userId', '==', userId)
+    )
   } catch (error) {
     console.log('error - ', error)
   }

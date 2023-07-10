@@ -6,12 +6,13 @@ import { HabitList, UserProfile, WeekCalendar } from '~components'
 import { EditHabitModal } from '~modals'
 import {
   dailyHabitsAtom, editHabitAtom,
-  progressAtom, pushTokenAtom, selectedDayOfTheWeekAtom, selectedTimeOfDayAtom,
+  progressAtom, selectedDayOfTheWeekAtom, selectedTimeOfDayAtom,
   userAtom
 } from '~state'
 import { Habit, Stats } from '~types'
 import { ActionGetUserHabitsByUserId, ActionGetCompletedStatForDay } from '~actions'
 import { onSnapshot } from 'firebase/firestore'
+import moment from 'moment/moment'
 
 // async function sendPushNotification(expoPushToken) {
 //   const message = {
@@ -42,7 +43,6 @@ export const HomeScreen = () => {
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
   const [timeOfDay, setTimeOfDay] = useAtom(selectedTimeOfDayAtom)
   const editHabit = useAtomValue(editHabitAtom)
-  // const pushToken = useAtomValue(pushTokenAtom)
 
   useEffect(() => {
     // TODO: Add loading state
@@ -60,15 +60,23 @@ export const HomeScreen = () => {
   }, [selectedDay, timeOfDay, editHabit])
 
   const getHabitsForTheDay = async () => {
-    const dailyHabitsQuery = ActionGetUserHabitsByUserId(user.id, selectedDay, timeOfDay)
+    const dailyHabitsQuery = ActionGetUserHabitsByUserId(user.id)
     const unsubscribe = onSnapshot(dailyHabitsQuery, (querySnapshot) => {
-        const habits: Habit[] = []
+        const allHabits: Habit[] = []
         querySnapshot.forEach((doc) => {
             const data = doc.data() as unknown as Habit
-            habits.push(data)
+            allHabits.push(data)
           }
         )
-        setDailyHabit(habits)
+
+        const habitsForDay = allHabits.filter((habit) =>
+          moment(habit.createdAt, 'MMMM Do YYYY').isSameOrBefore(moment(selectedDay, 'MMMM Do YYYY'), 'day'))
+
+        if (timeOfDay !== 'All') {
+          setDailyHabit(habitsForDay.filter((habit) => habit.timeOfDay === timeOfDay))
+        } else {
+          setDailyHabit(habitsForDay)
+        }
       }
     )
 
@@ -76,15 +84,17 @@ export const HomeScreen = () => {
   }
 
   const getCompletedHabitForDay = async () => {
-    const completedHabitQuery = ActionGetCompletedStatForDay(selectedDay)
+    const completedHabitQuery = ActionGetCompletedStatForDay(user.id)
 
     const unsubscribe = onSnapshot(completedHabitQuery, (querySnapshot) => {
-        const progress: Stats[] = []
+        const allProgress: Stats[] = []
         querySnapshot.forEach((doc) => {
-            const data = doc.data() as unknown as Stats
-            progress.push(data)
-          }
-        )
+          const data = doc.data() as unknown as Stats
+          allProgress.push(data)
+        })
+
+        const progress = allProgress.filter((progress) =>
+          moment(progress.completedAt).format('MMMM Do YYYY') === selectedDay)
         setProgress(progress)
       }
     )
@@ -103,7 +113,7 @@ export const HomeScreen = () => {
       {/*/>*/}
       <WeekCalendar />
       <HabitList />
-      <EditHabitModal />
+      {/*<EditHabitModal />*/}
     </SafeAreaView>
   )
 }

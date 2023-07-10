@@ -5,7 +5,7 @@ import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '~styles'
 
 interface IDayOfTheWeek {
   day: WeeklyCalendarDateType
-  selectedDay: Date;
+  selectedDay: string;
   handleDayClick: (day: Date) => void;
 }
 

@@ -1,9 +1,10 @@
 import { atomWithStorage } from 'jotai/utils'
 import { Habit, Stats, TimeOfDay, User } from '~types'
+import moment from 'moment'
 
 export const authFlowAtom = atomWithStorage<'login' | 'register'>('authFlow', 'register')
 export const userAtom = atomWithStorage<User | null>('user', null)
-export const selectedDayOfTheWeekAtom = atomWithStorage('dayOfTheWeek', new Date())
+export const selectedDayOfTheWeekAtom = atomWithStorage<string>('dayOfTheWeek', moment().format('MMMM Do YYYY'))
 export const dailyHabitsAtom = atomWithStorage<Habit[]>('dailyHabits', [])
 export const habitsAtom = atomWithStorage<Habit[]>('habits', [])
 export const progressAtom = atomWithStorage<Stats[]>('stats', [])
