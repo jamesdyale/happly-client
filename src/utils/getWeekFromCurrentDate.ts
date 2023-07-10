@@ -3,24 +3,31 @@ import { DAY_NAME_OF_WEEK_SHORT } from '~constants'
 import moment from 'moment'
 
 
-export const getWeekFromCurrentDate = (): WeeklyCalendarDateType[] => {
-  const today = moment().format('MMMM Do YYYY')
-  // const todayIndex = today.getDay()
-  // console.log('todayIndex - ', todayIndex)
-  console.log('today - ', today)
-  const week = []
+export const getWeekFromCurrentDate = () => {
+  const week: WeeklyCalendarDateType[] = []
+  const todayIndex = moment().day()
 
-  // DAY_NAME_OF_WEEK_SHORT.forEach((day, index) => {
-  //   const newDay = new Date()
-  //   if (index < todayIndex) {
-  //     newDay.setDate(today.getDate() - (todayIndex - index))
-  //   } else if (index > todayIndex) {
-  //     newDay.setDate(today.getDate() + (index - todayIndex))
-  //   } else if (index === todayIndex) {
-  //     newDay.setDate(today.getDate())
-  //   }
-  //   week.push({ day, date: newDay, isToday: index === todayIndex })
-  // })
+  DAY_NAME_OF_WEEK_SHORT.forEach((day, index) => {
+    if (index < todayIndex) {
+      week.push({
+        day: day,
+        date: moment().subtract(todayIndex - index, 'days').format('MMMM Do YYYY'),
+        isToday: false
+      })
+    } else if (index === todayIndex) {
+      week.push({
+        day: day,
+        date: moment().format('MMMM Do YYYY'),
+        isToday: true
+      })
+    } else {
+      week.push({
+        day: day,
+        date: moment().add(index - todayIndex, 'days').format('MMMM Do YYYY'),
+        isToday: false
+      })
+    }
+  })
 
   return week
 }

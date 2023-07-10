@@ -6,15 +6,13 @@ import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '~styles'
 interface IDayOfTheWeek {
   day: WeeklyCalendarDateType
   selectedDay: string;
-  handleDayClick: (day: Date) => void;
+  handleDayClick: (day: string) => void;
 }
 
 export const DayOfTheWeek = (props: IDayOfTheWeek) => {
   const { day, handleDayClick, selectedDay } = props
-  const dateFromCalendar = day.date
-  const dateFromSelectedDay = selectedDay
-
-  const isSelected = dateFromCalendar.getDate() === dateFromSelectedDay.getDate()
+  const isSelected = day.date === selectedDay
+  const dayNumber = moment(day.date, 'MMMM Do YYYY')
 
   return (
     <TouchableOpacity
@@ -33,7 +31,7 @@ export const DayOfTheWeek = (props: IDayOfTheWeek) => {
       <Text style={{
         ...styles.dayNumber,
         color: isSelected ? APP_WHITE : HABIT_OPTION
-      }}>{moment(day.date).format('DD')}</Text>
+      }}>{moment(dayNumber).format('D')}</Text>
     </TouchableOpacity>
 
   )

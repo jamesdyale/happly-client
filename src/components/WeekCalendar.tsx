@@ -11,22 +11,22 @@ export const WeekCalendar = () => {
 
   const week = getWeekFromCurrentDate()
 
-  const handleDayClick = async (day: Date) => {
-    // setSelectedDay(day)
+  const handleDayClick = async (day: string) => {
+    setSelectedDay(day)
   }
 
   return (
     <View style={styles.container}>
-      {/*{week.map((day) => {*/}
-      {/*  return (*/}
-      {/*    <DayOfTheWeek*/}
-      {/*      key={day.date.toString()}*/}
-      {/*      day={day}*/}
-      {/*      selectedDay={selectedDay}*/}
-      {/*      handleDayClick={handleDayClick}*/}
-      {/*    />*/}
-      {/*  )*/}
-      {/*})}*/}
+      {week.map((day) => {
+        return (
+          <DayOfTheWeek
+            key={day.date.toString()}
+            day={day}
+            selectedDay={selectedDay}
+            handleDayClick={handleDayClick}
+          />
+        )
+      })}
     </View>
   )
 }

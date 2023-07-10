@@ -1,5 +1,5 @@
 export type WeeklyCalendarDateType = {
   day: string,
-  date: Date,
+  date: string,
   isToday: boolean
 }
