@@ -4,20 +4,27 @@ import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { ROUTES } from '../constants'
 import { useAtomValue } from 'jotai'
-import { userAtom } from '~state'
+import { selectedDayOfTheWeekAtom, userAtom } from '~state'
 import { APP_BLACK, HABIT_OPTION } from '~styles'
+import moment from 'moment/moment'
 
 export const UserProfile = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const user = useAtomValue(userAtom)
+  const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
+  const monthNumber = moment(selectedDay, 'MMMM Do YYYY').month()
+  const year = moment(selectedDay, 'MMMM Do YYYY').year()
+  const month = moment.months(monthNumber)
+  console.log(year)
+
   return (
     <View style={styles.container}>
       <View style={styles.left}>
         <View>
-          <View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeText}>Welcome</Text><Text>👋</Text>
-          </View>
-          <Text style={styles.username}>{user.name}</Text>
+          {/*<View style={styles.welcomeContainer}>*/}
+          {/*  <Text style={styles.welcomeText}>Welcome</Text><Text> James 👋</Text>*/}
+          {/*</View>*/}
+          <Text style={styles.username}>{month} {year}</Text>
         </View>
       </View>
       <TouchableOpacity onPress={() => navigate(ROUTES.CUSTOM_STACK, { screen: 'Settings' })}>
