@@ -7,7 +7,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Frequency, TimeOfDay } from '~types'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { editHabitAtom, selectedDayOfTheWeekAtom, userAtom } from '~state'
-import { Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
 import {
   APP_BLACK,
   APP_BLUE,
@@ -77,7 +76,7 @@ export const CreateHabitScreen = () => {
         timeOfDay,
         selectedDays,
         frequencyOption,
-        createdAt: new Date(),
+        createdAt: moment().format('MMMM Do YYYY'),
         reminderAt
       })
 
@@ -124,7 +123,7 @@ export const CreateHabitScreen = () => {
     }
 
     clearStates()
-    setSelectedDay(new Date())
+    setSelectedDay(moment().format('MMMM Do YYYY'))
     setLoading(false)
     navigation.goBack()
   }
@@ -163,15 +162,6 @@ export const CreateHabitScreen = () => {
     }
 
     setSelectedDays([...selectedDays, day])
-  }
-
-  const [fontsLoaded] = useFonts({
-    Inter_600SemiBold,
-    Inter_700Bold
-  })
-
-  if (!fontsLoaded) {
-    return null
   }
 
   return (
@@ -245,7 +235,8 @@ export const CreateHabitScreen = () => {
                   <TouchableOpacity
                     style={{
                       ...styles.periodOption,
-                      backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY
+                      backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY,
+                      marginRight: 15
                     }}
                     onPress={() => setTimeOfDay(TimeOfDay.Morning)}>
                     <Image style={{
@@ -262,6 +253,7 @@ export const CreateHabitScreen = () => {
                   <TouchableOpacity
                     style={{
                       ...styles.periodOption,
+                      marginRight: 15,
                       backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
                     }}
                     onPress={() => setTimeOfDay(TimeOfDay.Afternoon)}>
@@ -395,14 +387,13 @@ const styles = StyleSheet.create({
   frequencyOptions: {
     display: 'flex',
     flexDirection: 'row'
-
   },
   frequencyOption: {
     backgroundColor: APP_GRAY,
     borderRadius: 6,
-    width: 80,
     height: 40,
     display: 'flex',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -427,9 +418,9 @@ const styles = StyleSheet.create({
   periodOption: {
     backgroundColor: APP_GRAY,
     borderRadius: 10,
-    width: 110,
     height: 40,
     display: 'flex',
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'

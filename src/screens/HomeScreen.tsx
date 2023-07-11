@@ -49,7 +49,7 @@ export const HomeScreen = () => {
     let isMounted = true
 
     if (isMounted) {
-      getHabitsForTheDay()
+      getHabitsForTheDayAndStats()
       getCompletedHabitForDay()
     }
 
@@ -59,23 +59,25 @@ export const HomeScreen = () => {
 
   }, [selectedDay, timeOfDay, editHabit])
 
-  const getHabitsForTheDay = async () => {
-    const dailyHabitsQuery = ActionGetUserHabitsByUserId(user.id)
+  const getHabitsForTheDayAndStats = async () => {
+    const dailyHabitsQuery = ActionGetUserHabitsByUserId(user.id, timeOfDay)
+
+    const habits: Habit[] = []
     const unsubscribe = onSnapshot(dailyHabitsQuery, (querySnapshot) => {
-        const habits: Habit[] = []
         querySnapshot.forEach((doc) => {
           const data = doc.data() as unknown as Habit
           if (moment(data.createdAt, 'MMMM Do YYYY').isSameOrBefore(moment(selectedDay, 'MMMM Do YYYY'), 'day')) {
-            habits.push(data)
+            if (data.frequencyOption === 'Daily') {
+              habits.push(data)
+            } else if (data.frequencyOption === 'Weekly') {
+              if (data.selectedDays.includes(moment(selectedDay, 'MMMM Do YYYY').format('dddd'))) {
+                habits.push(data)
+              }
+            }
           }
         })
 
-
-        if (timeOfDay !== 'All') {
-          setDailyHabit(habits.filter((habit) => habit.timeOfDay === timeOfDay))
-        } else {
-          setDailyHabit(habits)
-        }
+        setDailyHabit(habits)
       }
     )
 
@@ -83,19 +85,18 @@ export const HomeScreen = () => {
   }
 
   const getCompletedHabitForDay = async () => {
-    const completedHabitQuery = ActionGetCompletedStatForDay(user.id)
+    const completedHabitQuery = ActionGetCompletedStatForDay(user.id, selectedDay)
 
     const unsubscribe = onSnapshot(completedHabitQuery, (querySnapshot) => {
         const progress: Stats[] = []
         querySnapshot.forEach((doc) => {
           const data = doc.data() as unknown as Stats
-          if (moment(data.completedAt).format('MMMM Do YYYY') === selectedDay) {
-            progress.push(data)
-          }
+          progress.push(data)
         })
         setProgress(progress)
       }
     )
+
 
     return () => unsubscribe()
   }
