@@ -3,7 +3,7 @@ import { useToast } from 'react-native-toast-notifications'
 import Modal from 'react-native-modal'
 import { useAtom, useSetAtom } from 'jotai'
 import {
-  editHabitAtom, loadingAtom, progressAtom,
+  editHabitAtom, loadingAtom, progressAtom, selectedDayOfTheWeekAtom,
   selectedHabitAtom, showDeleteModalAtom
 } from '~state'
 import {
@@ -28,6 +28,8 @@ import {
 } from '~actions'
 import moment from 'moment/moment'
 import { findClosestReminder } from '~utils/timeUtils'
+import { useAtomValue } from 'jotai/index'
+import { Stats } from '~types'
 
 
 export const EditHabitModal = () => {
@@ -38,6 +40,8 @@ export const EditHabitModal = () => {
   const [progress, setProgress] = useAtom(progressAtom)
   const setEditHabit = useSetAtom(editHabitAtom)
   const setDeleteModal = useSetAtom(showDeleteModalAtom)
+  const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
+
 
   const setLoading = useSetAtom(loadingAtom)
 
@@ -111,6 +115,7 @@ export const EditHabitModal = () => {
   }
 
   const handleOnPressMarkAsDone = async () => {
+    console.log('handleOnPressMarkAsDone')
     setLoading(true)
 
     const docs = await getDocs(
@@ -120,34 +125,44 @@ export const EditHabitModal = () => {
       )
     )
 
-    if (docs.empty) {
+    let existingStat = false
+    // get stat for today
+    docs.forEach((doc) => {
+      const data = doc.data() as unknown as Stats
+      if (data.completedAt === moment(selectedDay, 'MMMM Do YYYY').format('ddd MMM DD YYYY')) {
+        existingStat = true
+      }
+    })
+
+    if (!existingStat) {
       const stat = {
         id: generateStatId(),
         userId: habitSelected.userId,
         habitId: habitSelected.id,
-        completedAt: new Date().toDateString(),
+        completedAt: moment(selectedDay, 'MMMM Do YYYY').format('ddd MMM DD YYYY'),
         progress: 100
       }
+      console.log('stat', stat)
 
-      try {
-        await ActionCreateStat(stat)
-        toast.show('Congratulations', {
-          type: 'success',
-          duration: 4000,
-          placement: 'bottom',
-          icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
-        })
-
-      } catch (e) {
-        toast.show('An error happened when completing your habit. Please try again!', {
-          type: 'danger',
-          duration: 4000,
-          placement: 'bottom',
-          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-        })
-      } finally {
-        setLoading(false)
-      }
+      // try {
+      //   await ActionCreateStat(stat)
+      //   toast.show('Congratulations', {
+      //     type: 'success',
+      //     duration: 4000,
+      //     placement: 'bottom',
+      //     icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+      //   })
+      //
+      // } catch (e) {
+      //   toast.show('An error happened when completing your habit. Please try again!', {
+      //     type: 'danger',
+      //     duration: 4000,
+      //     placement: 'bottom',
+      //     icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+      //   })
+      // } finally {
+      //   setLoading(false)
+      // }
     }
 
     setLoading(false)

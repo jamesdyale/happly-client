@@ -62,20 +62,19 @@ export const HomeScreen = () => {
   const getHabitsForTheDay = async () => {
     const dailyHabitsQuery = ActionGetUserHabitsByUserId(user.id)
     const unsubscribe = onSnapshot(dailyHabitsQuery, (querySnapshot) => {
-        const allHabits: Habit[] = []
+        const habits: Habit[] = []
         querySnapshot.forEach((doc) => {
-            const data = doc.data() as unknown as Habit
-            allHabits.push(data)
+          const data = doc.data() as unknown as Habit
+          if (moment(data.createdAt, 'MMMM Do YYYY').isSameOrBefore(moment(selectedDay, 'MMMM Do YYYY'), 'day')) {
+            habits.push(data)
           }
-        )
+        })
 
-        const habitsForDay = allHabits.filter((habit) =>
-          moment(habit.createdAt, 'MMMM Do YYYY').isSameOrBefore(moment(selectedDay, 'MMMM Do YYYY'), 'day'))
 
         if (timeOfDay !== 'All') {
-          setDailyHabit(habitsForDay.filter((habit) => habit.timeOfDay === timeOfDay))
+          setDailyHabit(habits.filter((habit) => habit.timeOfDay === timeOfDay))
         } else {
-          setDailyHabit(habitsForDay)
+          setDailyHabit(habits)
         }
       }
     )
@@ -87,14 +86,13 @@ export const HomeScreen = () => {
     const completedHabitQuery = ActionGetCompletedStatForDay(user.id)
 
     const unsubscribe = onSnapshot(completedHabitQuery, (querySnapshot) => {
-        const allProgress: Stats[] = []
+        const progress: Stats[] = []
         querySnapshot.forEach((doc) => {
           const data = doc.data() as unknown as Stats
-          allProgress.push(data)
+          if (moment(data.completedAt).format('MMMM Do YYYY') === selectedDay) {
+            progress.push(data)
+          }
         })
-
-        const progress = allProgress.filter((progress) =>
-          moment(progress.completedAt).format('MMMM Do YYYY') === selectedDay)
         setProgress(progress)
       }
     )

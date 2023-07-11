@@ -1,13 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { useSetAtom } from 'jotai'
+import { useSetAtom, useAtomValue } from 'jotai'
 import { useToast } from 'react-native-toast-notifications'
 import { Habit, Stats } from '~types'
-import { progressAtom, selectedHabitAtom } from '~state'
+import { progressAtom, selectedDayOfTheWeekAtom, selectedHabitAtom } from '~state'
 import { ActionCreateOrUpdateStreak, ActionCreateStat } from '~actions'
 import { APP_GRAY, APP_GREEN, APP_WHITE } from '~styles'
 import { generateStatId } from '~generators/generateId'
+import moment from 'moment'
 
 type SingleHabitType = {
   habit: Habit;
@@ -18,7 +19,7 @@ export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
   const toast = useToast()
   const setHabitSelected = useSetAtom(selectedHabitAtom)
   const setProgress = useSetAtom(progressAtom)
-
+  const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
   const foundProgress = progress.find((stat) => stat.habitId === habit.id)
 
   const handleHabitClick = () => {
@@ -32,9 +33,10 @@ export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
       id: generateStatId(),
       userId: habit.userId,
       habitId: habit.id,
-      completedAt: new Date().toDateString(),
+      completedAt: moment(selectedDay, 'MMMM Do YYYY').format('ddd MMM DD YYYY'),
       progress: 100
     }
+
 
     try {
       // TODO: check if it was successfully added to the database
@@ -70,7 +72,6 @@ export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
         icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
       })
     }
-
   }
 
   return (
