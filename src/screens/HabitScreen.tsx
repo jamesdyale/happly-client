@@ -100,7 +100,7 @@ export const HabitScreen = ({ route, navigation }) => {
     const docs = await ActionGetStreakByHabitId(selectedHabit.id)
 
     if (!docs) return
-    console.log('hey there')
+
     const streak: Streak[] = []
     docs.forEach((doc) => {
         const data = doc.data() as unknown as Streak
