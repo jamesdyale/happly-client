@@ -115,7 +115,6 @@ export const EditHabitModal = () => {
   }
 
   const handleOnPressMarkAsDone = async () => {
-    console.log('handleOnPressMarkAsDone')
     setLoading(true)
 
     const docs = await getDocs(
@@ -142,27 +141,26 @@ export const EditHabitModal = () => {
         completedAt: moment(selectedDay, 'MMMM Do YYYY').format('ddd MMM DD YYYY'),
         progress: 100
       }
-      console.log('stat', stat)
 
-      // try {
-      //   await ActionCreateStat(stat)
-      //   toast.show('Congratulations', {
-      //     type: 'success',
-      //     duration: 4000,
-      //     placement: 'bottom',
-      //     icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
-      //   })
-      //
-      // } catch (e) {
-      //   toast.show('An error happened when completing your habit. Please try again!', {
-      //     type: 'danger',
-      //     duration: 4000,
-      //     placement: 'bottom',
-      //     icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-      //   })
-      // } finally {
-      //   setLoading(false)
-      // }
+      try {
+        await ActionCreateStat(stat)
+        toast.show('Congratulations', {
+          type: 'success',
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+        })
+
+      } catch (e) {
+        toast.show('An error happened when completing your habit. Please try again!', {
+          type: 'danger',
+          duration: 4000,
+          placement: 'bottom',
+          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+        })
+      } finally {
+        setLoading(false)
+      }
     }
 
     setLoading(false)
