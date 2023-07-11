@@ -6,6 +6,7 @@ import { useAtom } from 'jotai'
 import { DayOfTheWeek } from './DayOfTheWeek'
 import { selectedDayOfTheWeekAtom } from '~state'
 import { getWeekFromCurrentDate } from '~utils'
+import { getCurrentDayOfNewWeek } from '~utils/getCurrentDayOfNewWeek'
 
 // make this into a reusable library
 export const WeekCalendar = () => {
@@ -25,13 +26,19 @@ export const WeekCalendar = () => {
       setAllowSwipe(false)
 
       if (event.nativeEvent.translationX < 0) {
+        // FIXME: This is not well refined and sometimes the dates are still wrong
+        // FIXME: Also this need to work with the animation
         // swipe left
         setDaysTillCurrent((prev) => prev + 7)
-        setWeek(getWeekFromCurrentDate(moment().add(daysTillCurrent + 1, 'days')))
+        const addToWeek = moment().add(daysTillCurrent + 1, 'days')
+        setWeek(getWeekFromCurrentDate(addToWeek))
+        setSelectedDay(getCurrentDayOfNewWeek(addToWeek, selectedDay))
       } else {
         // swipe right
         setDaysTillCurrent((prev) => prev - 7)
-        setWeek(getWeekFromCurrentDate(moment().add(daysTillCurrent - 1, 'days')))
+        const addToWeek = moment().add(daysTillCurrent - 1, 'days')
+        setWeek(getWeekFromCurrentDate(addToWeek))
+        setSelectedDay(getCurrentDayOfNewWeek(addToWeek, selectedDay))
       }
 
       // TODO: Lock while animation is happening
@@ -39,10 +46,8 @@ export const WeekCalendar = () => {
         setAllowSwipe(true)
       }, 1000)
     }
-
   }
 
-  console.log('daysTillCurrent', daysTillCurrent)
   return (
     <PanGestureHandler onGestureEvent={handleSwipe}>
       <View style={styles.container}>

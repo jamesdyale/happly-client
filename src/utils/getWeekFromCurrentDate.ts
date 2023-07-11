@@ -19,7 +19,6 @@ export const getWeekFromCurrentDate = (dayPassed) => {
     })
   })
 
-  console.log('week', week)
   return week
 }
 
