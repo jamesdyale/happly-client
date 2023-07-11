@@ -15,7 +15,6 @@ export const UserProfile = () => {
   const monthNumber = moment(selectedDay, 'MMMM Do YYYY').month()
   const year = moment(selectedDay, 'MMMM Do YYYY').year()
   const month = moment.months(monthNumber)
-  console.log(year)
 
   return (
     <View style={styles.container}>

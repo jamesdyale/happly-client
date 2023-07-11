@@ -1,5 +1,6 @@
 export * from './compareDates'
 export * from './wait'
+export * from './calculateLowestDifferenceInDays'
 export * from './getWeekFromCurrentDate'
 export * from './getLast7Days'
 export * from './percentage'

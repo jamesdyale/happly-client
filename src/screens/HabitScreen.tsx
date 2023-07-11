@@ -23,6 +23,7 @@ import { onSnapshot } from 'firebase/firestore'
 import { findClosestReminder } from '~utils/timeUtils'
 import { DateData } from 'react-native-calendars'
 import moment from 'moment'
+import { calculateLowestDifferenceInDays } from '~utils'
 
 
 export const HabitScreen = ({ route, navigation }) => {
@@ -35,7 +36,7 @@ export const HabitScreen = ({ route, navigation }) => {
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
 
   const [habit, setHabit] = useState<Habit | null>(null)
-  const [stats, setStats] = useState<Stats[] | null>(null)
+  const [stats, setStats] = useState<Stats[] | null>([])
   const [streak, setStreak] = useState<Streak | null>(null)
 
 
@@ -99,6 +100,7 @@ export const HabitScreen = ({ route, navigation }) => {
     const docs = await ActionGetStreakByHabitId(selectedHabit.id)
 
     if (!docs) return
+    console.log('hey there')
     const streak: Streak[] = []
     docs.forEach((doc) => {
         const data = doc.data() as unknown as Streak
@@ -139,16 +141,7 @@ export const HabitScreen = ({ route, navigation }) => {
     } else if (selectedHabit.frequencyOption === Frequency.Weekly) {
       const currentDay = moment(currentDate).format('dddd')
 
-      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-
-      let lowestDifference = Number.MAX_VALUE
-
-      for (const day in selectedHabit.selectedDays) {
-        if (days.indexOf(selectedHabit.selectedDays[day]) > days.indexOf(currentDay)) {
-          const diff = (days.indexOf(currentDay) + 7 - days.indexOf(selectedHabit.selectedDays[day])) % 7
-          lowestDifference = Math.min(lowestDifference, diff)
-        }
-      }
+      const lowestDifference = calculateLowestDifferenceInDays(selectedHabit.selectedDays, currentDay)
 
       const lastEligibleDateToKeepStreakAlive = moment(currentDate).subtract(lowestDifference, 'day').format('MMMM Do YYYY')
 
