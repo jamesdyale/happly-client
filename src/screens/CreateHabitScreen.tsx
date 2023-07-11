@@ -63,6 +63,7 @@ export const CreateHabitScreen = () => {
 
     if (!name) {
       setNameError('Please enter a name')
+      setLoading(false)
       return
     }
 
@@ -91,7 +92,6 @@ export const CreateHabitScreen = () => {
       }
 
       await ActionCreateOrUpdateStreak(habit.id, habit.userId)
-
 
       toast.show('Habit created successfully', {
         type: 'success',

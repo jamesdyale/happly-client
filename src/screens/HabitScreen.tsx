@@ -1,24 +1,22 @@
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { CustomCalendar } from '~components'
 import { APP_WHITE, GRAY_TEXT, HABIT_OPTION, MAIN_ACCENT_COLOR } from '~styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { StreakIcon } from '~assets'
 import { ROUTES } from '../constants'
-import { useAtom, useSetAtom, useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { editHabitAtom, selectedDayOfTheWeekAtom, selectedHabitAtom, showDeleteModalAtom } from '~state'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { Habit, Stats, Streak } from '~types'
+import { Frequency, Habit, Stats, Streak } from '~types'
 import { generateStatId } from '~generators/generateId'
 import {
-  ActionGetStatsByHabitId,
   ActionCreateStat,
+  ActionGetStatsByHabitId,
   ActionGetStreakByHabitId,
-  ActionUpdateStreak,
-  ActionGetUserHabitByIdDoc
+  ActionGetUserHabitByIdDoc, ActionUpdateStreak
 } from '~actions'
-import { checkIfStreakIsValid } from '~utils/compareDates'
 import { useToast } from 'react-native-toast-notifications'
 import { DeleteHabitModal } from '~modals'
 import { onSnapshot } from 'firebase/firestore'
@@ -30,9 +28,8 @@ import moment from 'moment'
 export const HabitScreen = ({ route, navigation }) => {
   const toast = useToast()
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
-  const { habitId } = route.params
-  const currentDate = new Date().toISOString().split('T')[0]
-  const setSelectedHabit = useSetAtom(selectedHabitAtom)
+  const currentDate = moment().format('YYYY-MM-DD')
+  const [selectedHabit, setSelectedHabit] = useAtom(selectedHabitAtom)
   const setEditHabit = useSetAtom(editHabitAtom)
   const [, setDeleteModal] = useAtom(showDeleteModalAtom)
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
@@ -41,10 +38,13 @@ export const HabitScreen = ({ route, navigation }) => {
   const [stats, setStats] = useState<Stats[] | null>(null)
   const [streak, setStreak] = useState<Streak | null>(null)
 
+
   useEffect(() => {
     // TODO: Add loading state
     let isMounted = true
-    let currentMonth = new Date(currentDate).getMonth() + 1
+
+    let currentMonth = moment(currentDate).month() + 1
+
     if (isMounted) {
       getHabitId()
       getHabitStats(currentMonth)
@@ -58,7 +58,7 @@ export const HabitScreen = ({ route, navigation }) => {
   }, [])
 
   const getHabitId = async () => {
-    const dataDocumentSnapshot = ActionGetUserHabitByIdDoc(habitId)
+    const dataDocumentSnapshot = ActionGetUserHabitByIdDoc(selectedHabit.id)
 
     const subscription = onSnapshot(dataDocumentSnapshot, (doc) => {
       if (!doc.exists) {
@@ -81,7 +81,7 @@ export const HabitScreen = ({ route, navigation }) => {
 
 
   const getHabitStats = async (currentMonth) => {
-    const docs = await ActionGetStatsByHabitId(habitId)
+    const docs = await ActionGetStatsByHabitId(selectedHabit.id)
     if (!docs) return
 
     const progress: Stats[] = []
@@ -96,7 +96,8 @@ export const HabitScreen = ({ route, navigation }) => {
   }
 
   const getHabitStreak = async () => {
-    const docs = await ActionGetStreakByHabitId(habitId)
+    const docs = await ActionGetStreakByHabitId(selectedHabit.id)
+
     if (!docs) return
     const streak: Streak[] = []
     docs.forEach((doc) => {
@@ -107,25 +108,46 @@ export const HabitScreen = ({ route, navigation }) => {
 
     const currentStreak = streak[0]
 
-    const validStreak = checkIfStreakIsValid(
-      currentStreak.lastUpdated.split('T')[0],
-      currentDate
-    )
-
-    if (!validStreak) {
-      const newStreak: Streak = {
-        ...currentStreak,
-        count: 0
-      }
-
-      await ActionUpdateStreak(newStreak)
-
-      setStreak(newStreak)
-    } else {
-      // if they didn't then keep the streak going
+    if (moment(currentStreak.lastUpdated).format('YYYY-MM-DD') === currentDate) {
       setStreak(currentStreak)
+      return
     }
 
+    if (selectedHabit.frequencyOption === Frequency.Daily) {
+      const validStats = stats.filter((stat) => {
+        // TODO: optimize this better by query the DB not doing it manually
+        if (moment(currentDate).isSame(stat.completedAt, 'day')
+          || moment(currentDate).subtract(1, 'day').isSame(stat.completedAt, 'day')) {
+          return stat
+        } else {
+          return null
+        }
+      })
+
+      if (validStats.length === 0) {
+        const newStreak: Streak = {
+          ...currentStreak,
+          count: 0
+        }
+
+        await ActionUpdateStreak(newStreak)
+
+        setStreak(newStreak)
+      } else {
+        setStreak(currentStreak)
+      }
+    } else if (selectedHabit.frequencyOption === Frequency.Weekly) {
+      console.log('stats - ', stats)
+
+      //check that today is part of the day they want to carry this action
+      if (selectedHabit.selectedDays.includes(moment(currentDate).format('dddd'))) {
+        const validStats = stats.filter((stat) => {
+          console.log('stat', stat.completedAt)
+        })
+      } else {
+        return
+      }
+    }
   }
 
   const handleOnPressEdit = () => {
@@ -144,7 +166,7 @@ export const HabitScreen = ({ route, navigation }) => {
   }
 
   const handleOnPressMarkAsDone = async () => {
-    const docs = await ActionGetStatsByHabitId(habitId)
+    const docs = await ActionGetStatsByHabitId(selectedHabit.id)
 
     if (!docs) return
 

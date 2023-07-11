@@ -8,13 +8,22 @@ import { getLast7Days } from '~utils'
 import { APP_BLACK } from '~styles'
 import { ROUTES } from '~constants'
 import { CalendarStreakWeek } from '~components/CalendarStreakWeek'
+import { useSetAtom } from 'jotai'
+import { selectedHabitAtom } from '~state'
 
 export const CalendarWeekView = ({ habit }: {
   habit: Habit
 }) => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
+  const setSelectedHabit = useSetAtom(selectedHabitAtom)
+
   const week = getLast7Days().reverse()
+
+  const handleNavigationToHabitScreen = () => {
+    setSelectedHabit(habit)
+    navigate(ROUTES.HABIT)
+  }
 
   return (
     <View style={styles.container}>
@@ -27,9 +36,7 @@ export const CalendarWeekView = ({ habit }: {
           {/*</View>*/}
         </View>
         <Icon name='calendar-outline' size={25} color={APP_BLACK}
-              onPress={() => navigate(ROUTES.HABIT, {
-                habitId: habit.id
-              })} />
+              onPress={handleNavigationToHabitScreen} />
       </View>
       <View style={styles.footer}>
         {week.map((day, index) => {
