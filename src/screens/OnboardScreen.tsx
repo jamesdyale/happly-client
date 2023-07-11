@@ -41,9 +41,12 @@ export const OnboardScreen = () => {
     if (currentScreen < screens.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentScreen + 1 })
     } else {
-      await AsyncStorage.setItem('ONBOARDED', 'true')
-      setAuthFlow('register')
-      navigate(ROUTES.SIGNUP)
+      // when the user gets here we want to set the onboarding to true
+      // we want to generate a new user for them which would be stored on their device
+      
+      // await AsyncStorage.setItem('ONBOARDED', 'true')
+      // setAuthFlow('register')
+      // navigate(ROUTES.SIGNUP)
     }
   }
 

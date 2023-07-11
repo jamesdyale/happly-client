@@ -21,32 +21,34 @@ export const useAuth = () => {
       try {
         const onboarding = await getData('ONBOARDED')
         if (onboarding) {
+          // await AsyncStorage.removeItem('ONBOARDED')
           setIsUserOnboarded(true)
+          // TODO: Refactor this to solely be local storage without depending on firebase
           const userId = await getData('userId')
+          // if (userId) {
+          //   onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+          //     const userId = await AsyncStorage.getItem('userId')
+          //     // check if token is valid and refresh the token
+          //     if (user) {
+          //       const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
+          //       if (dataDocumentSnapshot.exists()) {
+          //         setUser(dataDocumentSnapshot.data() as User)
+          //       }
+          //       // TODO: add error handling here
+          //     } else {
           if (userId) {
-            onAuthStateChanged(FIREBASE_AUTH, async (user) => {
-              const userId = await AsyncStorage.getItem('userId')
-              // check if token is valid and refresh the token
-              if (user) {
-                const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', user.uid))
-                if (dataDocumentSnapshot.exists()) {
-                  setUser(dataDocumentSnapshot.data() as User)
-                }
-                // TODO: add error handling here
-              } else {
-                if (userId) {
-                  const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', userId))
-                  if (dataDocumentSnapshot.exists()) {
-                    setUser(dataDocumentSnapshot.data() as User)
-                  }
-                } else {
-                  setUser(null)
-                  setAuthFlow('register')
-                }
-              }
-            })
+            const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', userId))
+            if (dataDocumentSnapshot.exists()) {
+              setUser(dataDocumentSnapshot.data() as User)
+            }
+          } else {
+            setUser(null)
+            setAuthFlow('register')
           }
-          setAuthFlow('login')
+          // }
+          // })
+          // }
+          // setAuthFlow('login')
         } else {
           setIsUserOnboarded(false)
           setAuthFlow('register')

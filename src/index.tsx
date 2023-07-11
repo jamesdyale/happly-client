@@ -8,10 +8,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import { AppLoading } from '~AppLoading'
 
 
-SplashScreen.preventAutoHideAsync()
-
 const App = () => {
-  const isAppReady = useAtomValue(isAppReadyAtom)
 
   // TODO: Bring in NativeBaseProvider for light mode dark mode - https://github.com/kacgrzes/expo-typescript-template/blob/981dc18e5a7df5ec3b9be0fd847cd6e0a01e4da2/src/index.tsx#L32
   return (
