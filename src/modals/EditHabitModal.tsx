@@ -124,6 +124,8 @@ export const EditHabitModal = () => {
       )
     )
 
+    if (!docs) return
+    
     let existingStat = false
     // get stat for today
     docs.forEach((doc) => {

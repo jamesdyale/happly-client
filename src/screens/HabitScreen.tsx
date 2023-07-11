@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { CustomCalendar } from '~components'
 import { APP_WHITE, GRAY_TEXT, HABIT_OPTION, MAIN_ACCENT_COLOR } from '~styles'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { StreakIcon } from '../../assets/svgs'
+import { StreakIcon } from '~assets'
 import { ROUTES } from '../constants'
-import { useAtom, useSetAtom } from 'jotai'
-import { editHabitAtom, selectedHabitAtom, showDeleteModalAtom } from '~state'
+import { useAtom, useSetAtom, useAtomValue } from 'jotai'
+import { editHabitAtom, selectedDayOfTheWeekAtom, selectedHabitAtom, showDeleteModalAtom } from '~state'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Habit, Stats, Streak } from '~types'
@@ -24,6 +24,7 @@ import { DeleteHabitModal } from '~modals'
 import { onSnapshot } from 'firebase/firestore'
 import { findClosestReminder } from '~utils/timeUtils'
 import { DateData } from 'react-native-calendars'
+import moment from 'moment'
 
 
 export const HabitScreen = ({ route, navigation }) => {
@@ -34,6 +35,7 @@ export const HabitScreen = ({ route, navigation }) => {
   const setSelectedHabit = useSetAtom(selectedHabitAtom)
   const setEditHabit = useSetAtom(editHabitAtom)
   const [, setDeleteModal] = useAtom(showDeleteModalAtom)
+  const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
 
   const [habit, setHabit] = useState<Habit | null>(null)
   const [stats, setStats] = useState<Stats[] | null>(null)
@@ -144,7 +146,18 @@ export const HabitScreen = ({ route, navigation }) => {
   const handleOnPressMarkAsDone = async () => {
     const docs = await ActionGetStatsByHabitId(habitId)
 
-    if (docs.empty) {
+    if (!docs) return
+
+    let existingStat = false
+    // get stat for today
+    docs.forEach((doc) => {
+      const data = doc.data() as unknown as Stats
+      if (data.completedAt === moment(selectedDay, 'MMMM Do YYYY').format('ddd MMM DD YYYY')) {
+        existingStat = true
+      }
+    })
+
+    if (!existingStat) {
       const stat = {
         id: generateStatId(),
         userId: habit.userId,
