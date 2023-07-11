@@ -113,7 +113,7 @@ export const HomeScreen = () => {
       {/*/>*/}
       <WeekCalendar />
       <HabitList />
-      {/*<EditHabitModal />*/}
+      <EditHabitModal />
     </SafeAreaView>
   )
 }
