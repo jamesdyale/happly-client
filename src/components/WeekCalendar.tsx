@@ -34,6 +34,7 @@ export const WeekCalendar = () => {
         setWeek(getWeekFromCurrentDate(moment().add(daysTillCurrent - 1, 'days')))
       }
 
+      // TODO: Lock while animation is happening
       setTimeout(() => {
         setAllowSwipe(true)
       }, 1000)
