@@ -137,15 +137,51 @@ export const HabitScreen = ({ route, navigation }) => {
         setStreak(currentStreak)
       }
     } else if (selectedHabit.frequencyOption === Frequency.Weekly) {
-      console.log('stats - ', stats)
+      const currentDay = moment(currentDate).format('dddd')
 
-      //check that today is part of the day they want to carry this action
-      if (selectedHabit.selectedDays.includes(moment(currentDate).format('dddd'))) {
-        const validStats = stats.filter((stat) => {
-          console.log('stat', stat.completedAt)
-        })
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+      let lowestDifference = Number.MAX_VALUE
+
+      for (const day in selectedHabit.selectedDays) {
+        if (days.indexOf(selectedHabit.selectedDays[day]) > days.indexOf(currentDay)) {
+          const diff = (days.indexOf(currentDay) + 7 - days.indexOf(selectedHabit.selectedDays[day])) % 7
+          lowestDifference = Math.min(lowestDifference, diff)
+        }
+      }
+
+      const lastEligibleDateToKeepStreakAlive = moment(currentDate).subtract(lowestDifference, 'day').format('MMMM Do YYYY')
+
+      let isStreakValid = false
+
+      if (currentStreak.lastUpdated === lastEligibleDateToKeepStreakAlive) {
+        isStreakValid = true
       } else {
-        return
+        const validStats = stats.filter((stat) => {
+          const completedAtDate = moment(stat.completedAt).format('MMMM Do YYYY')
+          if (completedAtDate === lastEligibleDateToKeepStreakAlive) {
+            return stat
+          } else {
+            return null
+          }
+        })
+
+        if (validStats.length > 0) {
+          isStreakValid = true
+        }
+      }
+
+      if (isStreakValid) {
+        setStreak(currentStreak)
+      } else {
+        const newStreak: Streak = {
+          ...currentStreak,
+          count: 0
+        }
+
+        await ActionUpdateStreak(newStreak)
+
+        setStreak(newStreak)
       }
     }
   }

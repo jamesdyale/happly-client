@@ -1,4 +1,4 @@
-import { UniqueId } from '../generators/generateId'
+import { UniqueId } from '~generators'
 import { User } from './User'
 import { Habit } from './Habit'
 
