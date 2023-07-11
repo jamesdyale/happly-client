@@ -3,32 +3,23 @@ import { DAY_NAME_OF_WEEK_SHORT } from '~constants'
 import moment from 'moment'
 
 
-export const getWeekFromCurrentDate = () => {
+export const getWeekFromCurrentDate = (dayPassed) => {
+  const weekPassed = dayPassed.week()
   const week: WeeklyCalendarDateType[] = []
   const todayIndex = moment().day()
+  const todayIndexFromWeekPassesd = moment().week(weekPassed).day(todayIndex).format('MMMM Do YYYY')
 
   DAY_NAME_OF_WEEK_SHORT.forEach((day, index) => {
-    if (index < todayIndex) {
-      week.push({
-        day: day,
-        date: moment().subtract(todayIndex - index, 'days').format('MMMM Do YYYY'),
-        isToday: false
-      })
-    } else if (index === todayIndex) {
-      week.push({
-        day: day,
-        date: moment().format('MMMM Do YYYY'),
-        isToday: true
-      })
-    } else {
-      week.push({
-        day: day,
-        date: moment().add(index - todayIndex, 'days').format('MMMM Do YYYY'),
-        isToday: false
-      })
-    }
+    const dayPassedIndex = moment().week(weekPassed).day(day).format('MMMM Do YYYY')
+
+    week.push({
+      day: day,
+      date: moment().week(weekPassed).day(day).format('MMMM Do YYYY'),
+      isToday: dayPassedIndex === todayIndexFromWeekPassesd
+    })
   })
 
+  console.log('week', week)
   return week
 }
 
