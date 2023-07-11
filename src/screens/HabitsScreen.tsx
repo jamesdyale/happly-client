@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native'
 import React, { useEffect } from 'react'
 import { APP_BLACK } from '~styles'
 import { habitsAtom, userAtom } from '~state'
@@ -48,14 +48,16 @@ export const HabitsScreen = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <View style={styles.container}>
-        <Text style={styles.headerText}>Habits</Text>
-        <View>
-          {allHabits.map((habit) => (
-            <CalendarWeekView key={habit.id} habit={habit} />
-          ))}
+      <ScrollView style={{ marginBottom: 10 }}>
+        <View style={styles.container}>
+          <Text style={styles.headerText}>Habits</Text>
+          <View>
+            {allHabits.map((habit) => (
+              <CalendarWeekView key={habit.id} habit={habit} />
+            ))}
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
