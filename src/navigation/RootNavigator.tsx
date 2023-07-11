@@ -9,6 +9,7 @@ import { BottomTabNavigator } from '~navigation/BottomTabNavigator'
 import { LoginScreen } from '~screens/LoginScreen'
 import { SignUpScreen } from '~screens/SignUpScreen'
 import { ModalStack } from '~navigation/ModalStack'
+import { useAuth } from '~hooks'
 
 
 const { Navigator, Screen, Group } = createStackNavigator()
@@ -17,49 +18,26 @@ const { Navigator, Screen, Group } = createStackNavigator()
 
 export const RootNavigator = () => {
   const user = useAtomValue(userAtom)
-  const [isAppReady] = useAtom(isAppReadyAtom)
-
-  const [, setOnboarded] = useState()
-
-  // — — — — — — — — — — EFFECTS — — — — — — — — — — //
-
-
-  useEffect(() => {
-    let isMounted = true
-
-    if (isMounted) {
-      getStorage()
-    }
-
-    return () => {
-      isMounted = false
-    }
-
-  }, [])
-
-// — — — — — — — — — — ACTIONS — — — — — — — — — — //
-  const getStorage = async () => {
-    const onboarded = await AsyncStorage.getItem('ONBOARDED')
-    setOnboarded(JSON.parse(onboarded))
-  }
-
+  const { isUserOnboarded, isAppReady } = useAuth()
+  
   return (
     <Navigator screenOptions={{ headerShown: false }}>
-      {!user && isAppReady ? (
+      {isAppReady && !isUserOnboarded ? (
         <Group key='unauthorized'>
           <Screen name={ROUTES.BENEFIT} component={OnboardScreen} />
           <Screen name={ROUTES.LOGIN} component={LoginScreen} />
           <Screen name={ROUTES.SIGNUP} component={SignUpScreen} />
           <Screen name={ROUTES.RECOVER_ACCOUNT} component={AccountRecoveryScreen} />
-        </Group>
-      ) : null}
-      {user && isAppReady ? (
+        </Group>) : null}
+
+      {isAppReady && isUserOnboarded ? (
         <Group key='authorized'>
           <Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
           <Screen name={ROUTES.ALL_HABIT} component={HabitsScreen} />
           <Screen name={ROUTES.HABIT} component={HabitScreen} />
         </Group>
       ) : null}
+
       {isAppReady ? (
         <Group key='modals' screenOptions={{ presentation: 'modal' }}>
           <Screen name={ROUTES.MODAL} component={ModalStack} />

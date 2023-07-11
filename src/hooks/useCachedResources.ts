@@ -9,13 +9,6 @@ export const useCachedResources = (): boolean => {
   useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        // const [fontsLoaded] = useFonts({
-        //   Inter_700Bold, Inter_600SemiBold, Inter_500Medium, Inter_400Regular
-        // })
-        //
-        // if (!fontsLoaded) {
-        //   return null
-        // }
         // Load fonts
         await Font.loadAsync({
           'Inter_700Bold': Inter_700Bold,

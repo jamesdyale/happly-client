@@ -1,22 +1,21 @@
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
-
 import { useAuth, useCachedResources } from '~hooks'
 
 SplashScreen.preventAutoHideAsync()
 
 export const AppLoading = ({ children }) => {
   const isLoadingComplete = useCachedResources()
-  const isSignInComplete = useAuth()
+  const { isUserOnboarded, isAppReady } = useAuth()
 
 
   useEffect(() => {
-    if (isLoadingComplete && isSignInComplete) {
+    if (isLoadingComplete && isAppReady) {
       SplashScreen.hideAsync()
     }
-  }, [isLoadingComplete, isSignInComplete])
+  }, [isLoadingComplete, isAppReady, isUserOnboarded])
 
-  if (!isLoadingComplete || !isSignInComplete) {
+  if (!isLoadingComplete || !isAppReady) {
     return null
   }
 

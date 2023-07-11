@@ -247,6 +247,7 @@ export const HabitScreen = ({ route, navigation }) => {
                 color={HABIT_OPTION}
                 onPress={() => {
                   setDeleteModal(false)
+                  setSelectedHabit(null)
                   navigation.goBack()
                 }}
           />

@@ -1,5 +1,5 @@
-import { SafeAreaView } from 'react-native'
-import React, { useEffect } from 'react'
+import { SafeAreaView, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { MAIN_BG_COLOR } from '~styles'
 import { HabitList, UserProfile, WeekCalendar } from '~components'
@@ -14,52 +14,53 @@ import { ActionGetUserHabitsByUserId, ActionGetCompletedStatForDay } from '~acti
 import { onSnapshot } from 'firebase/firestore'
 import moment from 'moment/moment'
 
-// async function sendPushNotification(expoPushToken) {
-//   const message = {
-//     to: expoPushToken,
-//     sound: 'default',
-//     title: 'Original Title',
-//     body: 'And here is the body!',
-//     data: { someData: 'goes here' }
-//   }
-//   console.log(message)
-//
-//   await fetch('https://exp.host/--/api/v2/push/send', {
-//     method: 'POST',
-//     headers: {
-//       Accept: 'application/json',
-//       'Accept-encoding': 'gzip, deflate',
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(message)
-//   })
-// }
-
-
 export const HomeScreen = () => {
   const user = useAtomValue(userAtom)
   const setDailyHabit = useSetAtom(dailyHabitsAtom)
+  const dailyHabit = useAtomValue(dailyHabitsAtom)
   const setProgress = useSetAtom(progressAtom)
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
   const [timeOfDay, setTimeOfDay] = useAtom(selectedTimeOfDayAtom)
   const editHabit = useAtomValue(editHabitAtom)
+  const [loadingHabits, setLoadingHabits] = useState(false)
+  const [loadingStats, setLoadingStats] = useState(false)
+
 
   useEffect(() => {
     // TODO: Add loading state
     let isMounted = true
 
+    const asyncFunction = async () => {
+      try {
+        setLoadingHabits(true)
+        setLoadingStats(true)
+
+        const response1 = await getHabitsForTheDay()
+        const response2 = await getCompletedHabitForDay()
+
+        await Promise.all([response1, response2])
+
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+
     if (isMounted) {
-      getHabitsForTheDay()
-      getCompletedHabitForDay()
+      asyncFunction()
     }
 
     return () => {
       isMounted = false
     }
 
-  }, [selectedDay, timeOfDay, editHabit])
+  }, [selectedDay, timeOfDay, editHabit, user])
 
   const getHabitsForTheDay = async () => {
+    if (!user) {
+      return
+    }
+
     const dailyHabitsQuery = ActionGetUserHabitsByUserId(user.id, timeOfDay)
 
     const unsubscribe = onSnapshot(dailyHabitsQuery, (querySnapshot) => {
@@ -77,7 +78,9 @@ export const HomeScreen = () => {
             }
           }
         )
+
         setDailyHabit(habits)
+        setLoadingHabits(false)
       }
     )
 
@@ -85,6 +88,10 @@ export const HomeScreen = () => {
   }
 
   const getCompletedHabitForDay = async () => {
+    if (!user) {
+      return
+    }
+
     const completedHabitQuery = ActionGetCompletedStatForDay(user.id, selectedDay)
 
     const unsubscribe = onSnapshot(completedHabitQuery, (querySnapshot) => {
@@ -93,23 +100,28 @@ export const HomeScreen = () => {
           const data = doc.data() as unknown as Stats
           progress.push(data)
         })
+      
         setProgress(progress)
+        setLoadingStats(false)
       }
     )
 
-
     return () => unsubscribe()
+  }
+
+  if (loadingHabits || loadingStats) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: MAIN_BG_COLOR }}>
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      </SafeAreaView>
+    )
   }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: MAIN_BG_COLOR }}>
       <UserProfile />
-      {/*<Button*/}
-      {/*  title='Press to Send Notification'*/}
-      {/*  onPress={async () => {*/}
-      {/*    await sendPushNotification(pushToken)*/}
-      {/*  }}*/}
-      {/*/>*/}
       <WeekCalendar />
       <HabitList />
       <EditHabitModal />
