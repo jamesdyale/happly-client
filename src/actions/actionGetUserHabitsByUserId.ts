@@ -18,7 +18,7 @@ export const ActionGetUserHabitsByUserId = (userId: User['id'], timeOfDay: TimeO
         )
       )
     }
-   
+
   } catch (error) {
     console.log('error - ', error)
   }
