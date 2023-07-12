@@ -16,6 +16,7 @@ import { isUserOnboardedAtom, userAtom } from '~state'
 import { User } from '~types'
 import { generateUserId } from '~generators'
 import { ActionCreateUser } from '~actions'
+import { useTheme } from '~hooks'
 
 
 export const OnboardScreen = () => {
@@ -27,12 +28,14 @@ export const OnboardScreen = () => {
 
   const setUser = useSetAtom(userAtom)
 
-
   const viewableItemsChanged = React.useRef(({ viewableItems }) => {
     setCurrentScreen(viewableItems[0].index)
   }).current
 
   const viewConfig = React.useRef({ viewAreaCoveragePercentThreshold: 50 }).current
+
+  const { theme } = useTheme()
+
 
   const handleSettingUserAccount = async () => {
     // when the user gets here we want to set the onboarding to true

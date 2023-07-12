@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useSetAtom } from 'jotai'
+import { useAtom } from 'jotai'
 import { themeAtom } from '~state'
-import { ASYNC_STORAGE_KEYS, ThemeType } from '~constants'
+import { ASYNC_STORAGE_KEYS } from '~constants'
 import { getData } from '~utils'
 import Colors from '~constants/theme'
 
 export const useTheme = () => {
-  const setTheme = useSetAtom(themeAtom)
+  const [theme, setTheme] = useAtom(themeAtom)
   const [isThemeReady, setIsThemeReady] = useState(false)
 
   useEffect(() => {
@@ -37,6 +37,7 @@ export const useTheme = () => {
   }, [])
 
   return {
-    isThemeReady
+    isThemeReady,
+    theme
   }
 }
