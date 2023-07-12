@@ -6,6 +6,7 @@ import { useAtom, useSetAtom } from 'jotai'
 import { authFlowAtom, isAppReadyAtom, isUserOnboardedAtom, userAtom } from '~state'
 import { getData } from '~utils'
 import { ASYNC_STORAGE_KEYS } from '~constants'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const useAuth = () => {
   const setUser = useSetAtom(userAtom)
@@ -19,11 +20,11 @@ export const useAuth = () => {
     async function getOnboardingFromStorage() {
       try {
         const onboarding = await getData(ASYNC_STORAGE_KEYS.ONBOARDED)
-        const userId = await getData(ASYNC_STORAGE_KEYS.USERID)
+        const userId = await getData(ASYNC_STORAGE_KEYS.USER_ID)
 
         if (onboarding) {
-          // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.ONBOARDED)
-          // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USERID)
+          await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.ONBOARDED)
+          await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_ID)
 
           setIsUserOnboarded(true)
           if (userId) {

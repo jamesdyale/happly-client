@@ -24,6 +24,7 @@ export const HomeScreen = () => {
   const [loadingHabits, setLoadingHabits] = useState(false)
   const [loadingStats, setLoadingStats] = useState(false)
 
+
   useEffect(() => {
     // TODO: Add loading state
     let isMounted = true
