@@ -12,16 +12,12 @@ import { ActionCreateUser } from '~actions'
 import { User } from '~types'
 import Icon from 'react-native-vector-icons/Ionicons'
 import * as WebBrowser from 'expo-web-browser'
-import { formValidationOnBlur } from '~utils'
+import { formValidationOnBlur, storeData } from '~utils'
 import { ROUTES } from '~constants'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { setToken } from '~services'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
-type IForm = {
-  changeBetweenForms: () => void
-}
 
 export const SignUpScreen = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
@@ -86,16 +82,18 @@ export const SignUpScreen = () => {
 
     if (isFormValid) {
       try {
+        // TODO: Redo this sign up logic due to the new system of authentication
         const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
         if (userCredentialPromise && userCredentialPromise.user) {
           const data: User = {
             id: generateUserId(),
             email: userCredentialPromise.user.email,
-            name: fullName
+            name: fullName,
+            isAccountVerified: true
           }
           const token = await userCredentialPromise.user.getIdToken()
           await setToken(token)
-          await AsyncStorage.setItem('userId', userCredentialPromise.user.uid)
+          await storeData('USERID', userCredentialPromise.user.uid)
           await ActionCreateUser(data, userCredentialPromise.user.uid)
           setUser(data)
         }

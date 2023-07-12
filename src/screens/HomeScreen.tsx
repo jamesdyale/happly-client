@@ -17,14 +17,12 @@ import moment from 'moment/moment'
 export const HomeScreen = () => {
   const user = useAtomValue(userAtom)
   const setDailyHabit = useSetAtom(dailyHabitsAtom)
-  const dailyHabit = useAtomValue(dailyHabitsAtom)
   const setProgress = useSetAtom(progressAtom)
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
   const [timeOfDay, setTimeOfDay] = useAtom(selectedTimeOfDayAtom)
   const editHabit = useAtomValue(editHabitAtom)
   const [loadingHabits, setLoadingHabits] = useState(false)
   const [loadingStats, setLoadingStats] = useState(false)
-
 
   useEffect(() => {
     // TODO: Add loading state
@@ -100,7 +98,7 @@ export const HomeScreen = () => {
           const data = doc.data() as unknown as Stats
           progress.push(data)
         })
-      
+
         setProgress(progress)
         setLoadingStats(false)
       }

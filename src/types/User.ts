@@ -1,7 +1,8 @@
-import { UniqueId } from '../generators/generateId'
+import { UniqueId } from '~generators'
 
 export type User = {
   id: UniqueId<'user'>;
   name: string;
   email: string;
+  isAccountVerified: boolean;
 };

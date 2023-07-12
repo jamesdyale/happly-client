@@ -9,23 +9,24 @@ import {
 } from 'react-native'
 import { MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '~styles'
 import { CustomSlider } from '~components'
-import { NextBtn, OnboardItem, screens } from '~utils'
-import { ParamListBase, useNavigation } from '@react-navigation/native'
-import { ROUTES } from '../constants'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useAtom } from 'jotai'
-import { authFlowAtom } from '~state'
+import { NextBtn, OnboardItem, screens, storeData, randomNameGenerator } from '~utils'
+import { ASYNC_STORAGE_KEYS } from '~constants'
+import { useSetAtom } from 'jotai'
+import { isUserOnboardedAtom, userAtom } from '~state'
+import { User } from '~types'
+import { generateUserId } from '~generators'
+import { ActionCreateUser } from '~actions'
 
 
 export const OnboardScreen = () => {
-  const [, setAuthFlow] = useAtom(authFlowAtom)
+  const setIsUserOnboarded = useSetAtom(isUserOnboardedAtom)
 
   const slidesRef = React.useRef(null)
   const scrollX = React.useRef(new Animated.Value(0)).current
   const [currentScreen, setCurrentScreen] = React.useState<number>(0)
 
-  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+  const setUser = useSetAtom(userAtom)
+
 
   const viewableItemsChanged = React.useRef(({ viewableItems }) => {
     setCurrentScreen(viewableItems[0].index)
@@ -33,20 +34,34 @@ export const OnboardScreen = () => {
 
   const viewConfig = React.useRef({ viewAreaCoveragePercentThreshold: 50 }).current
 
+  const handleSettingUserAccount = async () => {
+    // when the user gets here we want to set the onboarding to true
+    await storeData(ASYNC_STORAGE_KEYS.ONBOARDED, 'true')
+    setIsUserOnboarded(true)
+    // we want to generate a new user for them which would be stored on their device
+    const data: User = {
+      id: generateUserId(),
+      email: '',
+      name: randomNameGenerator(),
+      isAccountVerified: false
+    }
+
+    // we want to set the user to be logged in
+    await storeData('USERID', data.id)
+    await ActionCreateUser(data, data.id)
+    setUser(data)
+  }
+
   const handleSkip = () => {
-    navigate(ROUTES.LOGIN)
+    handleSettingUserAccount()
+    // navigate(ROUTES.LOGIN)
   }
 
   const handleNext = async () => {
     if (currentScreen < screens.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentScreen + 1 })
     } else {
-      // when the user gets here we want to set the onboarding to true
-      // we want to generate a new user for them which would be stored on their device
-      
-      // await AsyncStorage.setItem('ONBOARDED', 'true')
-      // setAuthFlow('register')
-      // navigate(ROUTES.SIGNUP)
+      handleSettingUserAccount()
     }
   }
 

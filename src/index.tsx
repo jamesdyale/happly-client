@@ -1,12 +1,8 @@
 import React from 'react'
-import { Provider as StateProvider, useAtomValue } from 'jotai'
+import { Provider as StateProvider } from 'jotai'
 import { ToastProvider } from 'react-native-toast-notifications'
 import { Navigation } from '~navigation'
-import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, useFonts } from '@expo-google-fonts/inter'
-import { isAppReadyAtom } from '~state'
-import * as SplashScreen from 'expo-splash-screen'
 import { AppLoading } from '~AppLoading'
-
 
 const App = () => {
 

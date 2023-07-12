@@ -1,8 +1,5 @@
 import { ROUTES } from '../constants'
-import React, { useEffect, useState } from 'react'
-import { useAtom, useAtomValue } from 'jotai'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { isAppReadyAtom, userAtom } from '~state'
+import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { OnboardScreen, AccountRecoveryScreen, HabitScreen, HabitsScreen } from '~screens'
 import { BottomTabNavigator } from '~navigation/BottomTabNavigator'
@@ -17,9 +14,8 @@ const { Navigator, Screen, Group } = createStackNavigator()
 
 
 export const RootNavigator = () => {
-  const user = useAtomValue(userAtom)
   const { isUserOnboarded, isAppReady } = useAuth()
-  
+
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       {isAppReady && !isUserOnboarded ? (

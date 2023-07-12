@@ -74,8 +74,7 @@ export const LoginScreen = () => {
               // }
               const token = await foundUserPromise.user.getIdToken()
               await setToken(token)
-              await AsyncStorage.setItem('userId', foundUserPromise.user.uid)
-              setUser(data)
+              await AsyncStorage.setItem('USERID', foundUserPromise.user.uid)
             }
           } else {
             toast.show('\'Your account doesn\'t exist. Please sign up\'', {
