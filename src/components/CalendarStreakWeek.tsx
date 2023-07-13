@@ -21,7 +21,6 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
 
   const [isLoading, setIsLoading] = useState(true)
 
-
   const getStat = async () => {
     const q = ActionPollHabitStatsQuery(
       habitId,
@@ -59,22 +58,22 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
   return (
     <View
       key={day.date.toString()}
-      style={{
-        ...styles.day,
-        backgroundColor: isHighlighted ? MAIN_ACCENT_COLOR : APP_WHITE,
-        borderColor: isHighlighted ? MAIN_ACCENT_COLOR : APP_GRAY
-      }}
+      style={[styles.day,
+        {
+          backgroundColor: isHighlighted ? MAIN_ACCENT_COLOR : APP_WHITE,
+          borderColor: isHighlighted ? MAIN_ACCENT_COLOR : APP_GRAY
+        }]}
     >
-      <Text style={{
-        ...styles.dayText,
-        color: isHighlighted ? APP_WHITE : HABIT_OPTION
-      }}>
+      <Text style={[styles.dayText,
+        {
+          color: isHighlighted ? APP_WHITE : HABIT_OPTION
+        }]}>
         {day.day}
       </Text>
-      <Text style={{
-        ...styles.dayNumber,
-        color: isHighlighted ? APP_WHITE : HABIT_OPTION
-      }}>{moment(day.date).format('DD')}</Text>
+      <Text style={[styles.dayNumber,
+        {
+          color: isHighlighted ? APP_WHITE : HABIT_OPTION
+        }]}>{moment(day.date).format('DD')}</Text>
     </View>
 
   )
