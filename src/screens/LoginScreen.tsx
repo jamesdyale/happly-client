@@ -16,7 +16,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { ASYNC_STORAGE_KEYS, ROUTES } from '~constants'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { setToken } from '~services'
-import { useAuth } from '~hooks'
+import { useAuth, useTheme } from '~hooks'
 
 type IForm = {
   changeBetweenForms: () => void
@@ -24,6 +24,7 @@ type IForm = {
 
 export const LoginScreen = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+  const { theme } = useTheme()
 
   const toast = useToast()
 
@@ -106,7 +107,9 @@ export const LoginScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.AuthScreenContainer}>
+    <SafeAreaView style={[styles.AuthScreenContainer, {
+      backgroundColor: theme.SECONDARY_BG_COLOR
+    }]}>
       <KeyboardAvoidingView behavior='padding' style={styles.AuthForm}>
         <View
           style={styles.AuthFormHeaderContainer}>
@@ -135,7 +138,9 @@ export const LoginScreen = () => {
         <View style={styles.AuthFormActionBtn}>
           <Text style={styles.ActionTextContainer}>
             <Text style={styles.ActionText}>Don't have an account? </Text>
-            <Text style={styles.HighlightedText} onPress={() => navigate(ROUTES.SIGNUP)}>Sign Up</Text>
+            <Text style={[styles.HighlightedText, {
+              color: theme.MAIN_ACCENT_COLOR
+            }]} onPress={() => navigate(ROUTES.SIGNUP)}>Sign Up</Text>
           </Text>
           <CustomButton
             bgColor={MAIN_ACCENT_COLOR}
@@ -146,7 +151,9 @@ export const LoginScreen = () => {
           />
           <View style={styles.ActionTextContainer}>
             <Text style={styles.ActionText}>Forgot Password? </Text>
-            <Text style={styles.HighlightedText} onPress={() => console.log('navigate to password recovery')}>Recover
+            <Text style={[styles.HighlightedText, {
+              color: theme.MAIN_ACCENT_COLOR
+            }]} onPress={() => console.log('navigate to password recovery')}>Recover
               Password</Text>
           </View>
         </View>
@@ -156,9 +163,7 @@ export const LoginScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  AuthScreenContainer: {
-    backgroundColor: SECONDARY_BG_COLOR
-  },
+  AuthScreenContainer: {},
   AuthForm: {
     height: '100%',
     paddingTop: 80,
@@ -198,8 +203,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 14,
-    letterSpacing: 0.25,
-    color: MAIN_ACCENT_COLOR
+    letterSpacing: 0.25
   },
   ActionTextContainer: {
     display: 'flex',
