@@ -7,11 +7,13 @@ import { ActionGetHabitsByUserId } from '~actions'
 import { onSnapshot } from 'firebase/firestore'
 import { Habit } from '~types'
 import { CalendarWeekView } from '~components'
+import { useTheme } from '~hooks'
 
 
 export const HabitsScreen = () => {
   const [allHabits, setHabits] = useAtom(habitsAtom)
   const user = useAtomValue(userAtom)
+  const { theme } = useTheme()
 
 
   useEffect(() => {
@@ -50,7 +52,9 @@ export const HabitsScreen = () => {
     <SafeAreaView style={styles.wrapper}>
       <ScrollView style={{ marginBottom: 10 }}>
         <View style={styles.container}>
-          <Text style={styles.headerText}>Habits</Text>
+          <Text style={[styles.headerText, {
+            color: theme.MAIN_TEXT_COLOR
+          }]}>Habits</Text>
           <View>
             {allHabits.map((habit) => (
               <CalendarWeekView key={habit.id} habit={habit} />
@@ -76,7 +80,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 30,
     lineHeight: 36,
-    color: APP_BLACK,
     display: 'flex',
     marginBottom: 20
   }
