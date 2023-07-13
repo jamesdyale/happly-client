@@ -15,7 +15,7 @@ import moment from 'moment/moment'
 import { useTheme } from '~hooks'
 
 export const HomeScreen = () => {
-  const user = useAtomValue(userAtom)
+  const [user, setUser] = useAtom(userAtom)
   const setDailyHabit = useSetAtom(dailyHabitsAtom)
   const setProgress = useSetAtom(progressAtom)
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
@@ -27,8 +27,6 @@ export const HomeScreen = () => {
 
   const { theme } = useTheme()
 
-  // selectedDay, timeOfDay, editHabit, user
-
   useEffect(() => {
     // TODO: Add loading state
     let isMounted = true
@@ -38,16 +36,12 @@ export const HomeScreen = () => {
         setLoadingHabits(true)
         setLoadingStats(true)
 
-        const response1 = await getHabitsForTheDay()
-        const response2 = await getCompletedHabitForDay()
-
-        await Promise.all([response1, response2])
-
+        await getHabitsForTheDay()
+        await getCompletedHabitForDay()
       } catch (e) {
         console.log(e)
       }
     }
-
 
     if (isMounted) {
       asyncFunction()
@@ -57,10 +51,11 @@ export const HomeScreen = () => {
       isMounted = false
     }
 
-  }, [selectedDay, timeOfDay, editHabit, user])
+  }, [selectedDay, timeOfDay, editHabit, dailyHabit, user])
 
   const getHabitsForTheDay = async () => {
     if (!user) {
+      console.log('no user')
       return
     }
 
@@ -92,6 +87,7 @@ export const HomeScreen = () => {
 
   const getCompletedHabitForDay = async () => {
     if (!user) {
+      console.log('no user')
       return
     }
 
@@ -131,4 +127,5 @@ export const HomeScreen = () => {
     </SafeAreaView>
   )
 }
+
 

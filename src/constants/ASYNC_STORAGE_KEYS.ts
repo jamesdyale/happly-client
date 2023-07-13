@@ -6,5 +6,6 @@ export const ASYNC_STORAGE_KEYS = {
   USER_TOKEN: 'user_token',
   USER_INFO: 'user_info',
   ONBOARDED: 'ONBOARDED',
-  USER_ID: 'USER_ID'
+  USER_ID: 'USER_ID',
+  USER_UUID: 'USER_UUID'
 } as const

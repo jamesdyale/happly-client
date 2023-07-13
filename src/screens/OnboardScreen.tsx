@@ -39,7 +39,7 @@ export const OnboardScreen = () => {
   const handleSettingUserAccount = async () => {
     // when the user gets here we want to set the onboarding to true
     await storeData(ASYNC_STORAGE_KEYS.ONBOARDED, 'true')
-    setIsUserOnboarded(true)
+
     // we want to generate a new user for them which would be stored on their device
     const data: User = {
       id: generateUserId(),
@@ -50,8 +50,10 @@ export const OnboardScreen = () => {
 
     // we want to set the user to be logged in
     await storeData(ASYNC_STORAGE_KEYS.USER_ID, data.id)
+    await storeData(ASYNC_STORAGE_KEYS.USER_UUID, data.id)
     await ActionCreateUser(data, data.id)
     setUser(data)
+    setIsUserOnboarded(true)
   }
 
   const handleSkip = () => {

@@ -4,7 +4,7 @@ import { useAtom, useAtomValue } from 'jotai'
 import { NoHabitIcon } from '~assets'
 import { dailyHabitsAtom, progressAtom, selectedTimeOfDayAtom } from '~state'
 import { CustomProgressBar } from './CustomProgressBar'
-import { SingleHabit } from './SingleHabit'
+import { HabitCard } from './HabitCard'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { TimeOfDay } from '~types'
 import { GetCurrentTimeOfDay } from '~utils/timeUtils'
@@ -115,7 +115,7 @@ export const HabitList = () => {
           </View>
           <ScrollView style={{ marginBottom: 40 }}>
             {dailyHabit.map((habit) => (
-              <SingleHabit key={habit.id} habit={habit} progress={progress} />
+              <HabitCard key={habit.id} habit={habit} progress={progress} />
             ))}
           </ScrollView>
         </>

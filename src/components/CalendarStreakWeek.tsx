@@ -2,12 +2,14 @@ import { StyleSheet, Text, View } from 'react-native'
 import { onSnapshot } from 'firebase/firestore'
 import moment from 'moment/moment'
 import { useEffect, useState } from 'react'
-import { WeeklyCalendarDateType } from '~types'
+import { User, WeeklyCalendarDateType } from '~types'
 import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '~styles'
 import { Habit } from '~types'
 import { useAtomValue } from 'jotai'
 import { userAtom } from '~state'
 import { ActionPollHabitStatsQuery } from '~actions'
+import { getData } from '~utils'
+import { ASYNC_STORAGE_KEYS } from '~constants'
 
 interface IDayOfTheWeek {
   day: WeeklyCalendarDateType,
@@ -22,10 +24,17 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
   const [isLoading, setIsLoading] = useState(true)
 
   const getStat = async () => {
+    const userId = await getData(ASYNC_STORAGE_KEYS.USER_ID) as User['id']
+
+    if (!userId) {
+      console.log('no user')
+      return
+    }
+    
     const q = ActionPollHabitStatsQuery(
       habitId,
-      user.id,
-      day.date.toDateString() // FIXME: This is a hack to get the date to match
+      userId,
+      day.date
     )
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -34,6 +43,7 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
         })
       }
     )
+
 
     return () => unsubscribe()
   }

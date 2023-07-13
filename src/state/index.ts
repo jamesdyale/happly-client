@@ -1,13 +1,13 @@
 import { atomWithStorage } from 'jotai/utils'
-import { Habit, Stats, TColors, TimeOfDay, User } from '~types'
+import { Habit, HabitHistory, Stats, TColors, TimeOfDay, User } from '~types'
 import moment from 'moment'
-import { ThemeType } from '~constants'
+
 
 export const authFlowAtom = atomWithStorage<'login' | 'register'>('authFlow', 'register')
 export const userAtom = atomWithStorage<User | null>('user', null)
 export const selectedDayOfTheWeekAtom = atomWithStorage<string>('dayOfTheWeek', moment().format('MMMM Do YYYY'))
 export const dailyHabitsAtom = atomWithStorage<Habit[]>('dailyHabits', [])
-export const habitsAtom = atomWithStorage<Habit[]>('habits', [])
+export const habitsAtom = atomWithStorage<HabitHistory | null>('habits', null)
 export const progressAtom = atomWithStorage<Stats[]>('stats', [])
 export const selectedHabitAtom = atomWithStorage<Habit | null>('habitSelected', null)
 export const editHabitAtom = atomWithStorage<Habit | null>('editHabit', null)

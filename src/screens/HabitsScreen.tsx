@@ -1,19 +1,21 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native'
 import React, { useEffect } from 'react'
-import { APP_BLACK } from '~styles'
 import { habitsAtom, userAtom } from '~state'
 import { useAtom, useAtomValue } from 'jotai'
 import { ActionGetHabitsByUserId } from '~actions'
 import { onSnapshot } from 'firebase/firestore'
-import { Habit } from '~types'
+import { Habit, HabitHistory, Stats } from '~types'
 import { CalendarWeekView } from '~components'
 import { useTheme } from '~hooks'
+import { getData, getLast7Days } from '~utils'
+import { ASYNC_STORAGE_KEYS } from '~constants'
 
 
 export const HabitsScreen = () => {
   const [allHabits, setHabits] = useAtom(habitsAtom)
   const user = useAtomValue(userAtom)
   const { theme } = useTheme()
+  const [stats, setStats] = React.useState<Stats[]>([])
 
 
   useEffect(() => {
@@ -31,16 +33,27 @@ export const HabitsScreen = () => {
   }, [])
 
   const getHabits = async () => {
-    const habitsQuery = ActionGetHabitsByUserId(user.id)
+    const userId = await getData(ASYNC_STORAGE_KEYS.USER_ID)
+    if (!userId) {
+      console.log('no user')
+      return
+    }
+
+    const habitsQuery = ActionGetHabitsByUserId(userId)
 
     const unsubscribe = onSnapshot(habitsQuery, (querySnapshot) => {
-        const habits: Habit[] = []
-        querySnapshot.forEach((doc) => {
-            const data = doc.data() as unknown as Habit
-            habits.push(data)
+        const habitsHistory: HabitHistory = {}
+        querySnapshot.forEach(async (doc) => {
+            const habit = doc.data() as Habit
+
+            habitsHistory[habit.id] = {
+              habit,
+              stats
+            }
           }
         )
-        setHabits(habits)
+        console.log('habitsHistory', habitsHistory)
+        setHabits(habitsHistory)
       }
     )
 
@@ -57,11 +70,11 @@ export const HabitsScreen = () => {
           <Text style={[styles.headerText, {
             color: theme.MAIN_TEXT_COLOR
           }]}>Habits</Text>
-          <View>
-            {allHabits.map((habit) => (
-              <CalendarWeekView key={habit.id} habit={habit} />
+          {allHabits &&
+            Object.keys(allHabits).length > 0 &&
+            Object.keys(allHabits).map((habitId) => (
+              <CalendarWeekView key={habitId} habit={allHabits[habitId].habit} />
             ))}
-          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

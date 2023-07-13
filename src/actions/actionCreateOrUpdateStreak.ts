@@ -19,6 +19,7 @@ export const ActionCreateOrUpdateStreak = async (habitId: Habit['id'], userId: U
         userId,
         count: 0,
         longestStreak: 0,
+        // TODO: LOOK INTO THIS
         startDate: new Date().toISOString(),
         lastUpdated: new Date().toISOString()
       }

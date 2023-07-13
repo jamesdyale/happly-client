@@ -10,12 +10,12 @@ import { APP_GRAY, APP_GREEN, APP_WHITE } from '~styles'
 import { generateStatId } from '~generators/generateId'
 import moment from 'moment'
 
-type SingleHabitType = {
+type HabitCardType = {
   habit: Habit;
   progress: Stats[];
 }
 
-export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
+export const HabitCard = ({ habit, progress }: HabitCardType) => {
   const toast = useToast()
 
   const setHabitSelected = useSetAtom(selectedHabitAtom)

@@ -4,7 +4,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { User } from '~types'
 import { useAtom, useSetAtom } from 'jotai'
 import { authFlowAtom, isAppReadyAtom, isUserOnboardedAtom, userAtom } from '~state'
-import { getData } from '~utils'
+import { getData, storeData } from '~utils'
 import { ASYNC_STORAGE_KEYS } from '~constants'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -15,12 +15,12 @@ export const useAuth = () => {
   const [isUserOnboarded, setIsUserOnboarded] = useAtom(isUserOnboardedAtom)
 
   useEffect(() => {
-    // let isMounted = true
+    let isMounted = true
 
     async function getOnboardingFromStorage() {
       try {
         const onboarding = await getData(ASYNC_STORAGE_KEYS.ONBOARDED)
-        const userId = await getData(ASYNC_STORAGE_KEYS.USER_ID)
+        const userId = await getData(ASYNC_STORAGE_KEYS.USER_UUID)
 
         if (onboarding) {
           // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.ONBOARDED)
@@ -45,15 +45,15 @@ export const useAuth = () => {
       }
     }
 
-    // if (isMounted) {
-    getOnboardingFromStorage().then(() => {
-      setIsAppReady(true)
-    })
-    // }
+    if (isMounted) {
+      getOnboardingFromStorage().then(() => {
+        setIsAppReady(true)
+      })
+    }
 
-    // return () => {
-    //   isMounted = false
-    // }
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   return { isAppReady, isUserOnboarded }

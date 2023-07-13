@@ -6,7 +6,8 @@ import { BottomTabNavigator } from '~navigation/BottomTabNavigator'
 import { LoginScreen } from '~screens/LoginScreen'
 import { SignUpScreen } from '~screens/SignUpScreen'
 import { ModalStack } from '~navigation/ModalStack'
-import { useAuth } from '~hooks'
+import { isAppReadyAtom, isUserOnboardedAtom } from '~state'
+import { useAtomValue } from 'jotai'
 
 
 const { Navigator, Screen, Group } = createStackNavigator()
@@ -14,7 +15,8 @@ const { Navigator, Screen, Group } = createStackNavigator()
 
 
 export const RootNavigator = () => {
-  const { isUserOnboarded, isAppReady } = useAuth()
+  const isAppReady = useAtomValue(isAppReadyAtom)
+  const isUserOnboarded = useAtomValue(isUserOnboardedAtom)
 
   return (
     <Navigator screenOptions={{ headerShown: false }}
