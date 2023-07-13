@@ -1,6 +1,6 @@
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { CustomCalendar } from '~components'
+import { CustomButton, CustomCalendar } from '~components'
 import { APP_WHITE, GRAY_TEXT, HABIT_OPTION, MAIN_ACCENT_COLOR } from '~styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { StreakIcon } from '~assets'
@@ -24,10 +24,12 @@ import { findClosestReminder } from '~utils/timeUtils'
 import { DateData } from 'react-native-calendars'
 import moment from 'moment'
 import { calculateLowestDifferenceInDays } from '~utils'
+import { useTheme } from '~hooks'
 
 
 export const HabitScreen = ({ route, navigation }) => {
   const toast = useToast()
+  const { theme } = useTheme()
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const currentDate = moment().format('YYYY-MM-DD')
   const [selectedHabit, setSelectedHabit] = useAtom(selectedHabitAtom)
@@ -239,7 +241,7 @@ export const HabitScreen = ({ route, navigation }) => {
 
 
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <SafeAreaView style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Icon name='chevron-back-outline'
@@ -262,18 +264,30 @@ export const HabitScreen = ({ route, navigation }) => {
           </View>
         </View>
 
-        <Text style={styles.habitName}>{habit?.name}</Text>
-        <Text style={styles.habitDescription}>{habit?.description}</Text>
+        <Text style={[styles.habitName, {
+          color: GRAY_TEXT
+        }]}>{habit?.name}</Text>
+        <Text style={[styles.habitDescription, {
+          color: GRAY_TEXT
+        }]}>{habit?.description}</Text>
 
         <View style={styles.habitInfo}>
           <View>
-            <Text style={styles.habitInfoText}>Repeat:</Text>
-            <Text style={styles.habitInfoText_Frequency}>{habit?.frequencyOption}</Text>
+            <Text style={[styles.habitInfoText, {
+              color: GRAY_TEXT
+            }]}>Repeat:</Text>
+            <Text style={[styles.habitInfoText_Frequency, {
+              color: GRAY_TEXT
+            }]}>{habit?.frequencyOption}</Text>
           </View>
           <View>
-            <Text style={styles.habitInfoText}>Closest Remind:</Text>
+            <Text style={[styles.habitInfoText, {
+              color: GRAY_TEXT
+            }]}>Closest Remind:</Text>
             {/* TODO: Add reminder logic here */}
-            <Text style={styles.habitInfoText_Frequency}>
+            <Text style={[styles.habitInfoText_Frequency, {
+              color: GRAY_TEXT
+            }]}>
               {habit?.reminderAt.length > 0 && findClosestReminder(habit?.reminderAt)}
               {habit?.reminderAt.length < 1 && 'None'}
             </Text>
@@ -285,25 +299,35 @@ export const HabitScreen = ({ route, navigation }) => {
         <View style={styles.streakContainer}>
           <View style={styles.streakVSLongestStreak}>
             <View>
-              <Text style={styles.streakDay}>{streak?.count} {streak?.count > 1 ? 'DAYS' : 'DAY'}</Text>
-              <Text style={styles.streakLabel}>Your Current Streak</Text>
+              <Text style={[styles.streakDay, {
+                color: theme.MAIN_ACCENT_COLOR
+              }]}>{streak?.count} {streak?.count > 1 ? 'DAYS' : 'DAY'}</Text>
+              <Text style={[styles.streakLabel, {
+                color: theme.MAIN_ACCENT_COLOR
+              }]}>Your Current Streak</Text>
             </View>
             <View>
               <Text
-                style={styles.longestStreak}>{streak?.longestStreak} {streak?.longestStreak > 1 ? 'days' : 'day'}</Text>
-              <Text style={styles.longestStreakLabel}>Your longest streak</Text>
+                style={[styles.longestStreak, {
+                  color: theme.MAIN_ACCENT_COLOR
+                }]}>{streak?.longestStreak} {streak?.longestStreak > 1 ? 'days' : 'day'}</Text>
+              <Text style={[styles.longestStreakLabel, {
+                color: theme.MAIN_ACCENT_COLOR
+              }]}>Your longest streak</Text>
             </View>
           </View>
           <View>
             <StreakIcon />
           </View>
         </View>
-        <TouchableOpacity
-          style={styles.createButton}
-          onPress={handleOnPressMarkAsDone}>
-          <Icon name='checkbox-outline' size={25} color={APP_WHITE} />
-          <Text style={styles.createButtonText}>Mark as done</Text>
-        </TouchableOpacity>
+        <CustomButton
+          bgColor={theme.MAIN_ACCENT_COLOR}
+          color={theme.CONTRAST_MAIN_TEXT_COLOR}
+          text={'Mark as done'}
+          onClick={handleOnPressMarkAsDone}
+          icon={<Icon name='checkbox-outline' size={25} color={APP_WHITE} />}
+          // disabled={loading}
+        />
       </View>
 
       <DeleteHabitModal />
@@ -313,7 +337,6 @@ export const HabitScreen = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: APP_WHITE,
     flex: 1
   },
   container: {
@@ -339,7 +362,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 24,
     lineHeight: 29,
-    color: GRAY_TEXT,
     marginBottom: 10
   },
   habitDescription: {
@@ -347,8 +369,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 14,
-    lineHeight: 18,
-    color: GRAY_TEXT
+    lineHeight: 18
   },
   habitInfo: {
     display: 'flex',
@@ -366,7 +387,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 12,
     lineHeight: 18,
-    color: GRAY_TEXT,
     textAlign: 'center',
     marginBottom: 5
   },
@@ -376,7 +396,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
     lineHeight: 18,
-    color: GRAY_TEXT,
     textAlign: 'center'
   },
   streakContainer: {
@@ -397,8 +416,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 40,
-    lineHeight: 48,
-    color: MAIN_ACCENT_COLOR
+    lineHeight: 48
   },
   streakLabel: {
     fontFamily: 'Inter_400Regular',
@@ -406,7 +424,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 14,
     lineHeight: 17,
-    color: MAIN_ACCENT_COLOR,
     opacity: 0.7
   },
   longestStreak: {
@@ -414,8 +431,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 12,
-    lineHeight: 15,
-    color: MAIN_ACCENT_COLOR
+    lineHeight: 15
   },
   longestStreakLabel: {
     fontFamily: 'Inter_400Regular',
@@ -423,28 +439,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 12,
     lineHeight: 15,
-    color: MAIN_ACCENT_COLOR,
     opacity: 0.7
-  },
-  createButton: {
-    backgroundColor: MAIN_ACCENT_COLOR,
-    borderRadius: 8,
-    color: APP_WHITE,
-    padding: 15,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  createButtonText: {
-    color: APP_WHITE,
-    fontFamily: 'Inter_700Bold',
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 18,
-    lineHeight: 22,
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    marginLeft: 10
   }
 })
