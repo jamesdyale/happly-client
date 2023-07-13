@@ -4,10 +4,10 @@ import { habitsAtom, userAtom } from '~state'
 import { useAtom, useAtomValue } from 'jotai'
 import { ActionGetHabitsByUserId } from '~actions'
 import { onSnapshot } from 'firebase/firestore'
-import { Habit, HabitHistory, Stats } from '~types'
+import { Habit, HabitHistory, Stats, User } from '~types'
 import { CalendarWeekView } from '~components'
 import { useTheme } from '~hooks'
-import { getData, getLast7Days } from '~utils'
+import { getData } from '~utils'
 import { ASYNC_STORAGE_KEYS } from '~constants'
 
 
@@ -33,7 +33,8 @@ export const HabitsScreen = () => {
   }, [])
 
   const getHabits = async () => {
-    const userId = await getData(ASYNC_STORAGE_KEYS.USER_ID)
+    const userId = await getData(ASYNC_STORAGE_KEYS.USER_ID) as User['id']
+
     if (!userId) {
       console.log('no user')
       return

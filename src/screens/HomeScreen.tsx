@@ -8,11 +8,13 @@ import {
   progressAtom, selectedDayOfTheWeekAtom, selectedTimeOfDayAtom,
   userAtom
 } from '~state'
-import { Habit, Stats } from '~types'
+import { Habit, Stats, User } from '~types'
 import { ActionGetUserHabitsByUserId, ActionGetCompletedStatForDay } from '~actions'
 import { onSnapshot } from 'firebase/firestore'
 import moment from 'moment/moment'
 import { useTheme } from '~hooks'
+import { getData } from '~utils'
+import { ASYNC_STORAGE_KEYS } from '~constants'
 
 export const HomeScreen = () => {
   const [user, setUser] = useAtom(userAtom)
@@ -53,7 +55,10 @@ export const HomeScreen = () => {
 
   }, [selectedDay, timeOfDay, editHabit, dailyHabit, user])
 
+  
   const getHabitsForTheDay = async () => {
+    // const userId = await getData(ASYNC_STORAGE_KEYS.USER_ID) as User['id']
+
     if (!user) {
       console.log('no user')
       return
@@ -86,12 +91,14 @@ export const HomeScreen = () => {
   }
 
   const getCompletedHabitForDay = async () => {
-    if (!user) {
+    const userId = await getData(ASYNC_STORAGE_KEYS.USER_ID) as User['id']
+
+    if (!userId) {
       console.log('no user')
       return
     }
 
-    const completedHabitQuery = ActionGetCompletedStatForDay(user.id, selectedDay)
+    const completedHabitQuery = ActionGetCompletedStatForDay(userId, selectedDay)
 
     const unsubscribe = onSnapshot(completedHabitQuery, (querySnapshot) => {
         const progress: Stats[] = []
