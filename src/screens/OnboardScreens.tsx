@@ -8,84 +8,115 @@ import {
   OnboardScreenThreeIcon,
   OnboardScreenOneIcon
 } from '~assets'
+import { useTheme } from '~hooks'
 
-const OnboardScreenOne = () => (
-  <>
-    <View style={{ ...styles.OnboardScreen_Icon, paddingTop: 50 }}>
-      <OnboardScreenOneIcon />
-    </View>
+const OnboardScreenOne = () => {
+  const { theme } = useTheme()
 
-    <View style={styles.OnboardInformation}>
-      <Text style={styles.OnboardInformation_Title}>Welcome to Happly</Text>
-      <Text style={styles.OnboardInformation_Text}>Build healthier habits with daily plans and mindful reminders that
-        will help you stay accountable.
-      </Text>
-    </View>
-  </>
-)
+  return (
+    <>
+      <View style={{ ...styles.OnboardScreen_Icon, paddingTop: 50 }}>
+        <OnboardScreenOneIcon />
+      </View>
+
+      <View style={styles.OnboardInformation}>
+        <Text style={[styles.OnboardInformation_Title, {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>Welcome to Happly</Text>
+        <Text style={styles.OnboardInformation_Text}>Build healthier habits with daily plans and mindful reminders that
+          will help you stay accountable.
+        </Text>
+      </View>
+    </>
+  )
+}
 
 
-const OnboardScreenTwo = () => (
-  <>
-    <View style={styles.OnboardScreen_Icon}>
-      <OnboardScreenTwoIcon />
-    </View>
+const OnboardScreenTwo = () => {
+  const { theme } = useTheme()
 
-    <View style={styles.OnboardInformation}>
-      <Text style={styles.OnboardInformation_Title}>A better version of you</Text>
-      <Text style={styles.OnboardInformation_Text}>
-        You can build up a new habit or quit an existing bad one with Happly.
-      </Text>
-    </View>
-  </>
-)
+  return (
+    <>
+      <View style={styles.OnboardScreen_Icon}>
+        <OnboardScreenTwoIcon />
+      </View>
 
-const OnboardScreenThree = () => (
-  <>
-    <View style={styles.OnboardScreen_Icon}>
-      <OnboardScreenThreeIcon />
-    </View>
+      <View style={styles.OnboardInformation}>
+        <Text style={[styles.OnboardInformation_Title, {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>A better version of you</Text>
+        <Text style={styles.OnboardInformation_Text}>
+          You can build up a new habit or quit an existing bad one with Happly.
+        </Text>
+      </View>
+    </>
+  )
+}
 
-    <View style={styles.OnboardInformation}>
-      <Text style={styles.OnboardInformation_Title}>Visualize your efforts</Text>
-      <Text style={styles.OnboardInformation_Text}>
-        We provide you with a daily report of your progress and a weekly analysis of your results.
-      </Text>
-    </View>
-  </>
-)
+const OnboardScreenThree = () => {
+  const { theme } = useTheme()
 
-const OnboardScreenFour = () => (
-  <>
-    <View style={styles.OnboardScreen_Icon}>
-      <OnboardScreenFourIcon />
-    </View>
+  return (
+    <>
+      <View style={styles.OnboardScreen_Icon}>
+        <OnboardScreenThreeIcon />
+      </View>
 
-    <View style={styles.OnboardInformation}>
-      <Text style={styles.OnboardInformation_Title}>How do we help you stick to your habits</Text>
-      <Text style={styles.OnboardInformation_Text}>
-        We use a combination of psychology and technology to help you build healthier habits.
-      </Text>
-    </View>
-  </>
-)
+      <View style={styles.OnboardInformation}>
+        <Text style={[styles.OnboardInformation_Title, {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>Visualize your efforts</Text>
+        <Text style={styles.OnboardInformation_Text}>
+          We provide you with a daily report of your progress and a weekly analysis of your results.
+        </Text>
+      </View>
+    </>
+  )
+}
 
-const OnboardScreenFive = () => (
-  <>
-    <View style={styles.OnboardScreen_Icon}>
-      <OnboardScreenFiveIcon />
-    </View>
+const OnboardScreenFour = () => {
+  const { theme } = useTheme()
 
-    <View style={styles.OnboardInformation}>
-      <Text style={styles.OnboardInformation_Title}>Feeling motivated already?</Text>
-      <Text style={styles.OnboardInformation_Text}>
-        “If you get better 1% every day for one year
-        you will end up 37 times better by the time
-        you are done”
-      </Text>
-    </View>
-  </>
-)
+  return (
+    <>
+      <View style={styles.OnboardScreen_Icon}>
+        <OnboardScreenFourIcon />
+      </View>
+
+      <View style={styles.OnboardInformation}>
+        <Text style={[styles.OnboardInformation_Title, {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>How do we help you stick to your habits</Text>
+        <Text style={styles.OnboardInformation_Text}>
+          We use a combination of psychology and technology to help you build healthier habits.
+        </Text>
+      </View>
+    </>
+  )
+}
+
+const OnboardScreenFive = () => {
+  const { theme } = useTheme()
+
+  return (
+    <>
+      <View style={styles.OnboardScreen_Icon}>
+        <OnboardScreenFiveIcon />
+      </View>
+
+      <View style={styles.OnboardInformation}>
+        <Text style={[styles.OnboardInformation_Title, {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>Feeling motivated already?</Text>
+        <Text style={styles.OnboardInformation_Text}>
+          “If you get better 1% every day for one year
+          you will end up 37 times better by the time
+          you are done”
+        </Text>
+      </View>
+    </>
+  )
+}
 
 
 export const screens = [
@@ -121,9 +152,12 @@ export const OnboardItem = ({ item }) => {
 }
 
 export const NextBtn = ({ handleNext, currentScreen }) => {
+  const { theme } = useTheme()
   return (
     <TouchableOpacity onPress={handleNext}>
-      <Text style={styles.OnboardInformation_ActionBtn_NextBtn}>
+      <Text style={[styles.OnboardInformation_ActionBtn_NextBtn, {
+        color: theme.MAIN_ACCENT_COLOR
+      }]}>
         {currentScreen < screens.length - 1 ? 'Next' : 'Get Started'}
       </Text>
     </TouchableOpacity>
@@ -136,18 +170,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingLeft: 50,
     paddingRight: 50
-  },
-  ItemTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: MAIN_ACCENT_COLOR,
-    textAlign: 'center'
-  },
-  ItemDescription: {
-    fontSize: 16,
-    color: MAIN_ACCENT_COLOR,
-    textAlign: 'center'
   },
   OnboardScreen_Container: {
     height: '100%',
@@ -168,7 +190,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 30,
     lineHeight: 34,
-    color: '#000000',
     marginBottom: 20,
     textAlign: 'center'
   },
@@ -187,7 +208,6 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: 17,
-    lineHeight: 20,
-    color: MAIN_ACCENT_COLOR
+    lineHeight: 20
   }
 })
