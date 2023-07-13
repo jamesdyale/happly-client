@@ -16,11 +16,11 @@ export type ColorTheme = {
   APP_RED: string;
   APP_PINK: string;
   GRAY_TEXT: string;
-  MAIN_TEXT: string;
-  CONTRAST_MAIN_TEXT: string;
-  DISABLED_BUTTON: string;
+  MAIN_TEXT_COLOR: string;
+  CONTRAST_MAIN_TEXT_COLOR: string;
+  DISABLED_BUTTON_COLOR: string;
   BORDER_COLOR: string;
-  LIGHT_MAIN_TEXT: string;
+  LIGHT_MAIN_TEXT_COLOR: string;
   INPUT_BG: string;
 };
 

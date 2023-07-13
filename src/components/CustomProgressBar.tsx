@@ -63,8 +63,8 @@ export const CustomProgressBar = ({ progress }: ProgressBarType) => {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <Text style={[styles.text, { color: theme.MAIN_TEXT }]}>{progressBarStatus(progress)}</Text>
-        <Text style={[styles.text, { color: theme.MAIN_TEXT }]}>{progress}%</Text>
+        <Text style={[styles.text, { color: theme.MAIN_TEXT_COLOR }]}>{progressBarStatus(progress)}</Text>
+        <Text style={[styles.text, { color: theme.MAIN_TEXT_COLOR }]}>{progress}%</Text>
       </View>
       <View style={styles.bottom}>
         <Animated.View style={[styles.innerBottom, style]} />

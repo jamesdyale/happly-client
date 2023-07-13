@@ -24,14 +24,14 @@ export const UserProfile = () => {
         <View style={styles.left}>
           <View>
             <View style={styles.welcomeContainer}>
-              <Text style={[styles.welcomeText, { color: theme.MAIN_TEXT }]}>Welcome 👋</Text>
+              <Text style={[styles.welcomeText, { color: theme.MAIN_TEXT_COLOR }]}>Welcome 👋</Text>
             </View>
           </View>
         </View>
         <View>
         </View>
         <TouchableOpacity onPress={() => navigate(ROUTES.CUSTOM_STACK, { screen: 'Settings' })}>
-          <Icon name='settings' size={25} color={theme.MAIN_TEXT} />
+          <Icon name='settings' size={25} color={theme.MAIN_TEXT_COLOR} />
         </TouchableOpacity>
       </View>
       <View style={{ paddingLeft: 20, paddingBottom: 10 }}>

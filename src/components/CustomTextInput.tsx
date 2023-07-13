@@ -19,10 +19,10 @@ export const CustomTextInput = ({
   return (
     <View style={styles.textInput}>
       {label && <Text style={[styles.label, {
-        color: theme.MAIN_TEXT
+        color: theme.MAIN_TEXT_COLOR
       }]}>{label}</Text>}
       {bigLabel && <Text style={[styles.bigLabel, {
-        color: theme.LIGHT_MAIN_TEXT
+        color: theme.LIGHT_MAIN_TEXT_COLOR
       }]}>{bigLabel}</Text>}
       <TextInput
         style={[styles.input, {

@@ -24,9 +24,11 @@ import moment from 'moment/moment'
 import { generateHabitId } from '~generators'
 import { NotificationModal } from '~modals'
 import { formValidationOnBlur } from '~utils'
+import { useTheme } from '~hooks'
 
 export const CreateHabitScreen = () => {
   const toast = useToast()
+  const { theme } = useTheme()
 
   const user = useAtomValue(userAtom)
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
@@ -166,7 +168,7 @@ export const CreateHabitScreen = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.wrapper}>
+      <SafeAreaView style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}>
         <ScrollView style={{ marginBottom: 10 }}>
           <View style={styles.container}>
             <View style={styles.header}>
@@ -178,8 +180,10 @@ export const CreateHabitScreen = () => {
                 }}>
                 <Icon name='close' size={25} color={APP_RED} />
               </TouchableOpacity>
-              <Text style={styles.headerText}>New <Text
-                style={{ ...styles.headerText, color: '#9D9797' }}> Habit</Text></Text>
+              <Text style={[styles.headerText, {
+                color: theme.MAIN_TEXT_COLOR
+              }]}>New <Text
+                style={[styles.headerText, { color: '#9D9797' }]}> Habit</Text></Text>
             </View>
             <View>
               <CustomTextInput bigLabel='Name' placeholder='Enter the name'
@@ -193,30 +197,37 @@ export const CreateHabitScreen = () => {
                                value={description}
               />
               <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>How often do you want to do it?</Text>
+                <Text style={[styles.sectionTitle,
+                  { color: GRAY_TEXT }
+                ]}>How often do you want to do it?</Text>
                 <View style={styles.frequencyOptions}>
                   <TouchableOpacity
-                    style={{
-                      ...styles.frequencyOption,
-                      marginRight: 15,
-                      backgroundColor: frequencyOption === Frequency.Daily ? APP_BLACK : APP_GRAY
-                    }}
+                    style={[styles.frequencyOption,
+                      {
+                        marginRight: 15,
+                        backgroundColor: frequencyOption === Frequency.Daily ? theme.MAIN_TEXT_COLOR : theme.DISABLED_BUTTON_COLOR
+                      }
+                    ]}
                     onPress={() => setFrequencyOption(Frequency.Daily)}>
-                    <Text style={{
-                      ...styles.frequencyOptionTitle,
-                      color: frequencyOption === Frequency.Daily ? APP_WHITE : APP_BLACK
-                    }}>Daily</Text>
+                    <Text style={[styles.frequencyOptionTitle,
+                      {
+                        color: frequencyOption === Frequency.Daily ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR
+                      }
+                    ]}>Daily</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={{
-                      ...styles.frequencyOption,
-                      backgroundColor: frequencyOption === Frequency.Weekly ? APP_BLACK : APP_GRAY
-                    }}
+                    style={[styles.frequencyOption,
+                      {
+                        
+                        backgroundColor: frequencyOption === Frequency.Weekly ? theme.MAIN_TEXT_COLOR : theme.DISABLED_BUTTON_COLOR
+                      }
+                    ]}
                     onPress={() => setFrequencyOption(Frequency.Weekly)}>
-                    <Text style={{
-                      ...styles.frequencyOptionTitle,
-                      color: frequencyOption === Frequency.Weekly ? APP_WHITE : APP_BLACK
-                    }}>Weekly</Text>
+                    <Text style={[styles.frequencyOptionTitle,
+                      {
+                        color: frequencyOption === Frequency.Weekly ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR
+                      }
+                    ]}>Weekly</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -233,56 +244,59 @@ export const CreateHabitScreen = () => {
                 <Text style={styles.sectionTitle}>In which time of the day would you like to do it?</Text>
                 <View style={styles.periodContainer}>
                   <TouchableOpacity
-                    style={{
-                      ...styles.periodOption,
-                      backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY,
-                      marginRight: 15
-                    }}
+                    style={[styles.periodOption,
+                      {
+                        backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY,
+                        marginRight: 15
+                      }
+                    ]}
                     onPress={() => setTimeOfDay(TimeOfDay.Morning)}>
                     <Image style={{
                       width: 15,
                       height: 15,
                       marginRight: 8
                     }} source={require('../../assets/svgs/sunrise1.png')} />
-                    <Text style={{
-                      ...styles.periodOptionTitle,
-                      color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
-                    }}>Morning</Text>
+                    <Text style={[styles.periodOptionTitle,
+                      {
+                        color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
+                      }]}
+                    >Morning</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={{
-                      ...styles.periodOption,
-                      marginRight: 15,
-                      backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
-                    }}
+                    style={[styles.periodOption,
+                      {
+                        marginRight: 15, backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
+                      }
+                    ]}
                     onPress={() => setTimeOfDay(TimeOfDay.Afternoon)}>
                     <Image style={{
                       width: 15,
                       height: 15,
                       marginRight: 8
                     }} source={require('../../assets/svgs/sun1.png')} />
-                    <Text style={{
-                      ...styles.periodOptionTitle,
-                      color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
-                    }}>Afternoon</Text>
+                    <Text style={[styles.periodOptionTitle,
+                      {
+                        color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
+                      }]}>Afternoon</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={{
-                      ...styles.periodOption,
-                      backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY
-                    }}
+                    style={[styles.periodOption,
+                      {
+                        backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY
+                      }
+                    ]}
                     onPress={() => setTimeOfDay(TimeOfDay.Evening)}>
                     <Image style={{
                       width: 15,
                       height: 15,
                       marginRight: 8
                     }} source={require('../../assets/svgs/crescent-moon1.png')} />
-                    <Text style={{
-                      ...styles.periodOptionTitle,
-                      color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK
-                    }}>Evening</Text>
+                    <Text style={[
+                      styles.periodOptionTitle,
+                      { color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK }
+                    ]}>Evening</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -300,12 +314,18 @@ export const CreateHabitScreen = () => {
                 </View>
 
                 <View style={styles.reminderContainer}>
-                  <View style={styles.reminderTimeContainer}>
+                  <View style={[styles.reminderTimeContainer, {
+                    backgroundColor: APP_GRAY
+                  }]}>
                     {reminderAt.map((reminder, index) => (
-                      <View key={index} style={styles.reminderWrapper}>
+                      <View key={index} style={[styles.reminderWrapper, {
+                        borderBottomColor: APP_LIGHT_GRAY
+                      }]}>
                         <View style={styles.reminderTextContainer}>
                           <Icon name='alarm-outline' size={20} color={APP_BLACK} style={{ marginRight: 5 }} />
-                          <Text style={styles.reminderText}>{moment(reminder).format('h:mm a')}</Text>
+                          <Text style={[styles.reminderText, {
+                            color: APP_BLACK
+                          }]}>{moment(reminder).format('h:mm a')}</Text>
                         </View>
                         <TouchableOpacity onPress={() => removeReminder(reminder)}>
                           <Icon name='ios-close-circle-outline' size={20} color={APP_BLACK} />
@@ -315,18 +335,22 @@ export const CreateHabitScreen = () => {
                   </View>
 
                   <TouchableOpacity
-                    style={styles.reminderTime}
+                    style={[styles.reminderTime, {
+                      backgroundColor: APP_GRAY
+                    }]}
                     onPress={() => setShowNotificationModal(true)}>
                     <Icon name='ios-add-circle-sharp' size={20} color={APP_BLACK} style={{ marginRight: 5 }} />
-                    <Text style={styles.periodOptionTitle}>
+                    <Text style={[styles.periodOptionTitle, {
+                      color: GRAY_TEXT
+                    }]}>
                       {reminderAt.length < 1 ? 'Add a reminder' : 'Add another reminder'}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
             <CustomButton
-              bgColor={MAIN_ACCENT_COLOR}
-              color={APP_WHITE}
+              bgColor={theme.MAIN_ACCENT_COLOR}
+              color={theme.CONTRAST_MAIN_TEXT_COLOR}
               text={editHabit ? 'SAVE' : 'CREATE'}
               onClick={createHabit}
               disabled={loading}
@@ -345,7 +369,6 @@ export const CreateHabitScreen = () => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: '#F4F3F3',
     flex: 1
   },
   container: {
@@ -371,7 +394,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_700Bold',
     fontSize: 30,
     lineHeight: 36,
-    color: APP_BLACK,
     display: 'flex'
   },
   sectionContainer: {
@@ -381,7 +403,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_600SemiBold',
     fontSize: 18,
     lineHeight: 22,
-    color: GRAY_TEXT,
     marginBottom: 10
   },
   frequencyOptions: {
@@ -389,7 +410,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   frequencyOption: {
-    backgroundColor: APP_GRAY,
     borderRadius: 6,
     height: 40,
     display: 'flex',
@@ -400,8 +420,7 @@ const styles = StyleSheet.create({
   frequencyOptionTitle: {
     fontFamily: 'Inter_600SemiBold',
     fontSize: 14,
-    lineHeight: 22,
-    color: GRAY_TEXT
+    lineHeight: 22
   },
   everyOption: {
     display: 'flex',
@@ -416,7 +435,6 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   periodOption: {
-    backgroundColor: APP_GRAY,
     borderRadius: 10,
     height: 40,
     display: 'flex',
@@ -429,7 +447,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_600SemiBold',
     fontSize: 14,
     lineHeight: 22,
-    color: GRAY_TEXT,
     textAlign: 'center',
     display: 'flex'
   },
@@ -438,14 +455,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     borderTopRightRadius: 6,
     borderTopLeftRadius: 6,
-    backgroundColor: APP_GRAY,
     width: '100%'
   },
   reminderWrapper: {
     display: 'flex',
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: APP_LIGHT_GRAY,
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 10
@@ -461,7 +476,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_400Regular',
     fontSize: 16,
     lineHeight: 19,
-    color: APP_BLACK,
     marginLeft: 5
   },
   reminderContainer: {
@@ -471,7 +485,6 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   reminderTime: {
-    backgroundColor: APP_GRAY,
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
     width: '100%',
@@ -488,18 +501,5 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: GRAY_TEXT,
     marginRight: 5
-  },
-  createButton: {
-    backgroundColor: MAIN_ACCENT_COLOR,
-    borderRadius: 8,
-    color: APP_WHITE,
-    padding: 15
-  },
-  createButtonText: {
-    fontFamily: 'Inter_700Bold',
-    color: APP_WHITE,
-    fontSize: 18,
-    lineHeight: 22,
-    textAlign: 'center'
   }
 })

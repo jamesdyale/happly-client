@@ -12,7 +12,7 @@ export const CustomButton = ({ icon, text, onClick, bgColor, color, disabled = f
     >
       {disabled &&
         <View style={[styles.buttonContainer, {
-          backgroundColor: theme.DISABLED_BUTTON
+          backgroundColor: theme.DISABLED_BUTTON_COLOR
         }]}>
           <ActivityIndicator size='small' color={color} />
         </View>

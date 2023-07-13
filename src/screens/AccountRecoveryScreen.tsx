@@ -2,16 +2,20 @@ import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { CustomButton, CustomTextInput } from '~components'
 import React, { useState } from 'react'
 import { APP_WHITE, MAIN_ACCENT_COLOR } from '~styles'
+import { useTheme } from '~hooks'
 
 export const AccountRecoveryScreen = () => {
   const [loading, setLoading] = useState(false)
+  const { theme } = useTheme()
 
   return (
     <SafeAreaView>
       <View style={styles.AuthForm}>
         <View style={styles.AuthFormHeaderContainer}>
           <Text style={styles.AuthFormHeader}>Recover Password️</Text>
-          <Text style={styles.AuthFormInfo}>Kindly enter email address you signed up with.</Text>
+          <Text style={[styles.AuthFormInfo, {
+            color: '#959595'
+          }]}>Kindly enter email address you signed up with.</Text>
           <View style={styles.AuthFormBody}>
             <CustomTextInput
               label='Email Address'
@@ -24,8 +28,8 @@ export const AccountRecoveryScreen = () => {
         </View>
         <View style={styles.AuthFormActionBtn}>
           <CustomButton
-            bgColor={MAIN_ACCENT_COLOR}
-            color={APP_WHITE}
+            bgColor={theme.MAIN_ACCENT_COLOR}
+            color={theme.CONTRAST_MAIN_TEXT_COLOR}
             text='Get Reset Link'
             onClick={() => console.log('hey there')}
             disabled={loading}
@@ -62,8 +66,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_400Regular',
     fontStyle: 'normal',
     fontSize: 16,
-    lineHeight: 19,
-    color: '#959595'
+    lineHeight: 19
   },
   AuthFormBody: {
     marginTop: 40
@@ -72,29 +75,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center'
   },
-  HighlightedText: {
-    fontFamily: 'Inter_700Bold',
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 14,
-    letterSpacing: 0.25,
-    color: MAIN_ACCENT_COLOR
-  },
   ActionTextContainer: {
     display: 'flex',
     flexDirection: 'row',
     marginTop: 12,
     marginBottom: 12,
     lineHeight: 20
-    // width: '40%',
-    // height: '100%'
-  },
-  ActionText: {
-    fontFamily: 'Inter_400Regular',
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 14,
-    letterSpacing: 0.25,
-    color: '#686868'
   }
 })
