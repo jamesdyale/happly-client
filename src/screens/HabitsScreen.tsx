@@ -53,7 +53,6 @@ export const HabitsScreen = () => {
             }
           }
         )
-        console.log('habitsHistory', habitsHistory)
         setHabits(habitsHistory)
       }
     )
