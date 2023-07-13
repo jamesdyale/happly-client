@@ -17,9 +17,12 @@ import { ROUTES } from '~constants'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { setToken } from '~services'
+import { useTheme } from '~hooks'
 
 
 export const SignUpScreen = () => {
+  const { theme } = useTheme()
+
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
   const toast = useToast()
@@ -112,7 +115,9 @@ export const SignUpScreen = () => {
 
 
   return (
-    <SafeAreaView style={styles.AuthScreenContainer}>
+    <SafeAreaView style={[styles.AuthScreenContainer, {
+      backgroundColor: theme.SECONDARY_BG_COLOR
+    }]}>
       <KeyboardAvoidingView behavior='padding' style={styles.AuthForm}>
         <View style={styles.AuthFormHeaderContainer}>
           <Text style={styles.AuthFormHeader}>Create An Account</Text>
@@ -159,12 +164,14 @@ export const SignUpScreen = () => {
         <View style={styles.AuthFormActionBtn}>
           <Text style={styles.ActionTextContainer}>
             <Text style={styles.ActionText}>By clicking the "Sign Up" button, you accept the </Text>
-            <Text style={styles.HighlightedText}
+            <Text style={[styles.HighlightedText, {
+              color: theme.MAIN_ACCENT_COLOR
+            }]}
                   onPress={() => WebBrowser.openBrowserAsync('https://jamesodeyale.github.io/happly-docs/terms_and_conditions')}>Terms
               and Conditions
             </Text>
             <Text style={styles.ActionText}> and </Text>
-            <Text style={styles.HighlightedText}
+            <Text style={[styles.HighlightedText, { color: theme.MAIN_ACCENT_COLOR }]}
                   onPress={() => WebBrowser.openBrowserAsync('https://jamesodeyale.github.io/happly-docs/privacy')}>privacy
               policy</Text>
           </Text>
@@ -176,8 +183,11 @@ export const SignUpScreen = () => {
             disabled={loading}
           />
           <Text style={styles.ActionTextContainer}>
-            <Text style={styles.ActionText}>Already have an account? </Text>
-            <Text style={styles.HighlightedText} onPress={() => navigate(ROUTES.LOGIN)}>Login</Text>
+            <Text style={[styles.ActionText, {
+              color: theme.MAIN_TEXT_COLOR
+            }]}>Already have an account? </Text>
+            <Text style={[styles.HighlightedText, { color: theme.MAIN_ACCENT_COLOR }]}
+                  onPress={() => navigate(ROUTES.LOGIN)}>Login</Text>
           </Text>
         </View>
       </KeyboardAvoidingView>
@@ -186,9 +196,7 @@ export const SignUpScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  AuthScreenContainer: {
-    backgroundColor: SECONDARY_BG_COLOR
-  },
+  AuthScreenContainer: {},
   AuthForm: {
     height: '100%',
     paddingTop: 80,
@@ -228,8 +236,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 14,
-    letterSpacing: 0.25,
-    color: MAIN_ACCENT_COLOR
+    letterSpacing: 0.25
   },
   ActionTextContainer: {
     display: 'flex',
@@ -245,7 +252,6 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 14,
-    letterSpacing: 0.25,
-    color: '#686868'
+    letterSpacing: 0.25
   }
 })
