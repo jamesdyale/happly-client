@@ -10,7 +10,6 @@ import { ROUTES } from '~constants'
 import { CalendarStreakWeek } from '~components/CalendarStreakWeek'
 import { useSetAtom } from 'jotai'
 import { selectedHabitAtom } from '~state'
-import { useTheme } from '~hooks'
 
 export const CalendarWeekView = ({ habit }: {
   habit: Habit
@@ -18,7 +17,7 @@ export const CalendarWeekView = ({ habit }: {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
   const setSelectedHabit = useSetAtom(selectedHabitAtom)
-  
+
   const week = getLast7Days().reverse()
 
   const handleNavigationToHabitScreen = () => {

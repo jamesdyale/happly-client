@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import React from 'react'
-import { SECONDARY_BG_COLOR } from '~styles'
 import { AddHabitIcon } from '~assets'
 import { useTheme } from '~hooks'
 

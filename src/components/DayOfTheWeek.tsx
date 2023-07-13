@@ -1,7 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import moment from 'moment/moment'
 import { WeeklyCalendarDateType } from '~types'
-import { APP_GRAY, APP_WHITE, HABIT_OPTION, MAIN_ACCENT_COLOR } from '~styles'
 import { useTheme } from '~hooks'
 
 interface IDayOfTheWeek {
@@ -20,11 +19,13 @@ export const DayOfTheWeek = (props: IDayOfTheWeek) => {
   return (
     <TouchableOpacity
       onPress={() => handleDayClick(day.date)}
-      style={{
-        ...styles.day,
-        backgroundColor: isSelected ? MAIN_ACCENT_COLOR : APP_WHITE,
-        borderColor: isSelected ? MAIN_ACCENT_COLOR : APP_GRAY
-      }}
+      style={[
+        styles.day,
+        {
+          backgroundColor: isSelected ? theme.MAIN_ACCENT_COLOR : theme.APP_WHITE,
+          borderColor: isSelected ? theme.MAIN_ACCENT_COLOR : theme.APP_GRAY
+        }]
+      }
     >
       <Text style={[styles.dayText, { color: isSelected ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.HABIT_OPTION }]}>
         {day.day}
@@ -47,7 +48,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: APP_GRAY,
     padding: 13
   },
   dayText: {
@@ -56,8 +56,7 @@ const styles = StyleSheet.create({
   },
   dayNumber: {
     fontFamily: 'Inter_700Bold',
-    fontSize: 16,
-    color: HABIT_OPTION
+    fontSize: 16
   }
 })
 

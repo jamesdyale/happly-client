@@ -1,16 +1,6 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useAtom, useAtomValue } from 'jotai'
-import {
-  APP_BLACK,
-  APP_BLUE,
-  APP_GRAY,
-  APP_WHITE,
-  GRAY_TEXT,
-  HABIT_OPTION,
-  MAIN_ACCENT_COLOR,
-  MAIN_BG_COLOR
-} from '~styles'
 import { NoHabitIcon } from '~assets'
 import { dailyHabitsAtom, progressAtom, selectedTimeOfDayAtom } from '~state'
 import { CustomProgressBar } from './CustomProgressBar'
@@ -45,21 +35,22 @@ export const HabitList = () => {
         <TouchableOpacity
           style={[
             styles.periodOption,
-            { backgroundColor: timeOfDay === TimeOfDay.All ? APP_BLUE : APP_GRAY }
+            { backgroundColor: timeOfDay === TimeOfDay.All ? theme.APP_BLUE : theme.APP_GRAY }
           ]}
           onPress={() => setTimeOfDay(TimeOfDay.All)}
         >
-          <Icon name='file-tray-full-sharp' size={18} color={timeOfDay === TimeOfDay.All ? APP_WHITE : APP_BLACK}
+          <Icon name='file-tray-full-sharp' size={18}
+                color={timeOfDay === TimeOfDay.All ? theme.APP_WHITE : theme.APP_BLACK}
                 style={{ marginRight: 8 }} />
           <Text style={[styles.periodOptionTitle,
-            { color: timeOfDay === TimeOfDay.All ? APP_WHITE : APP_BLACK }
+            { color: timeOfDay === TimeOfDay.All ? theme.APP_WHITE : theme.APP_BLACK }
           ]}>All Habits</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.periodOption,
             {
-              backgroundColor: timeOfDay === currentTimeOfDay ? APP_BLUE : APP_GRAY
+              backgroundColor: timeOfDay === currentTimeOfDay ? theme.APP_BLUE : theme.APP_GRAY
             }]}
           onPress={() => setTimeOfDay(currentTimeOfDay)}
         >
@@ -69,11 +60,11 @@ export const HabitList = () => {
                 : currentTimeOfDay === TimeOfDay.Afternoon ? 'ios-sunny-sharp'
                   : 'ios-moon-sharp'}
             size={15}
-            color={timeOfDay === currentTimeOfDay ? APP_WHITE : APP_BLACK}
+            color={timeOfDay === currentTimeOfDay ? theme.APP_WHITE : theme.APP_BLACK}
             style={{ marginRight: 8 }}
           />
           <Text style={[styles.periodOptionTitle,
-            { color: timeOfDay === currentTimeOfDay ? APP_WHITE : APP_BLACK }
+            { color: timeOfDay === currentTimeOfDay ? theme.APP_WHITE : theme.APP_BLACK }
           ]}
           >{currentTimeOfDay}</Text>
         </TouchableOpacity>
@@ -94,14 +85,14 @@ export const HabitList = () => {
             <NoHabitIcon />
             <View style={{ marginTop: 20 }}>
               <Text style={[styles.noHabitMessage, {
-                color: HABIT_OPTION
+                color: theme.HABIT_OPTION
               }]}>
                 “The most important
                 step of all is the first step”
                 {' '}
               </Text>
               <Text style={[styles.noHabitMessageMessenger, {
-                color: MAIN_ACCENT_COLOR
+                color: theme.MAIN_ACCENT_COLOR
               }]}>
                 – Blake
                 Mycoskie
@@ -116,7 +107,7 @@ export const HabitList = () => {
           <View style={{
             borderBottomWidth: 1,
             marginBottom: 15,
-            borderBottomColor: APP_GRAY,
+            borderBottomColor: theme.APP_GRAY,
             paddingBottom: 15
           }}
           >

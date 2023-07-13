@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { APP_BLACK, APP_GRAY, APP_WHITE, HABIT_OPTION } from '~styles'
 import { DayOfTheWeek } from '~types'
+import { useTheme } from '~hooks'
 
 type DayPickerType = {
   selectedDays: string[];
@@ -9,6 +9,8 @@ type DayPickerType = {
 }
 
 export const DayPicker = ({ selectedDays, handleSelectDay }: DayPickerType) => {
+  const { theme } = useTheme()
+
   const days = Object.keys(DayOfTheWeek)
 
   return (
@@ -18,12 +20,12 @@ export const DayPicker = ({ selectedDays, handleSelectDay }: DayPickerType) => {
           key={index}
           style={{
             ...styles.day,
-            backgroundColor: selectedDays.includes(day) ? APP_BLACK : HABIT_OPTION,
-            borderColor: selectedDays.includes(day) ? APP_BLACK : HABIT_OPTION
+            backgroundColor: selectedDays.includes(day) ? theme.APP_BLACK : theme.HABIT_OPTION,
+            borderColor: selectedDays.includes(day) ? theme.APP_BLACK : theme.HABIT_OPTION
           }}
           onPress={() => handleSelectDay(day)}
         >
-          <Text style={{ color: selectedDays.includes(day) ? APP_WHITE : APP_GRAY }}
+          <Text style={{ color: selectedDays.includes(day) ? theme.APP_WHITE : theme.APP_GRAY }}
           >{day.substring(0, 3)}</Text>
         </TouchableOpacity>
       ))}
@@ -38,14 +40,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    borderColor: APP_GRAY,
-    backgroundColor: APP_GRAY,
     borderWidth: 1,
     borderRadius: 6,
     padding: 5
   },
   day: {
-    borderColor: APP_BLACK,
     borderWidth: 1,
     borderRadius: 6,
     width: 50,

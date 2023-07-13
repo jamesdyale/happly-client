@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { PanGestureHandler } from 'react-native-gesture-handler'
 import moment from 'moment'

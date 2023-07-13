@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import { Calendar, DateData } from 'react-native-calendars'
 import React from 'react'
-import { APP_BLACK, APP_GRAY, APP_WHITE, MAIN_ACCENT_COLOR } from '~styles'
+import { APP_GRAY } from '~styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Stats } from '~types'
 import { useTheme } from '~hooks'
@@ -20,7 +20,10 @@ type CustomCalendarType = {
 export const CustomCalendar = ({ currentDate, stats, handleMonthChange }: CustomCalendarType) => {
   const { theme } = useTheme()
   const markedDates = stats?.reduce((acc, stat) => {
-    acc[new Date(stat.completedAt).toISOString().split('T')[0]] = { selected: true, selectedColor: MAIN_ACCENT_COLOR }
+    acc[new Date(stat.completedAt).toISOString().split('T')[0]] = {
+      selected: true,
+      selectedColor: theme.MAIN_ACCENT_COLOR
+    }
     return acc
   }, {})
 

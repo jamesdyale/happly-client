@@ -9,7 +9,6 @@ import { ActionCreateOrUpdateStreak, ActionCreateStat } from '~actions'
 import { APP_GRAY, APP_GREEN, APP_WHITE } from '~styles'
 import { generateStatId } from '~generators/generateId'
 import moment from 'moment'
-import { useTheme } from '~hooks'
 
 type SingleHabitType = {
   habit: Habit;

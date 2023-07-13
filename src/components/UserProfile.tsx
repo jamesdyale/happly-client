@@ -5,7 +5,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { ROUTES } from '../constants'
 import { useAtomValue } from 'jotai'
 import { selectedDayOfTheWeekAtom, userAtom } from '~state'
-import { HABIT_OPTION } from '~styles'
 import moment from 'moment/moment'
 import { useTheme } from '~hooks'
 
@@ -85,7 +84,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
     lineHeight: 19,
-    color: HABIT_OPTION,
     opacity: 0.5,
     marginRight: 5
   }

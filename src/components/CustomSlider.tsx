@@ -1,5 +1,4 @@
 import { StyleSheet, View, Animated, useWindowDimensions } from 'react-native'
-import { MAIN_ACCENT_COLOR } from '~styles'
 import { useTheme } from '~hooks'
 
 export const CustomSlider = ({ data, scrollX }) => {
