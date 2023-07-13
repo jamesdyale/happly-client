@@ -5,96 +5,113 @@ import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { APP_BLACK, APP_BLUE, APP_WHITE, MAIN_ACCENT_COLOR } from '~styles'
 import * as WebBrowser from 'expo-web-browser'
+import { useTheme } from '~hooks'
 
 export const SettingsScreen = () => {
+  const { theme } = useTheme()
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.settingsHeader}>
+      <View style={[styles.settingsHeader, {
+        borderBottomColor: '#E5E5E5'
+      }]}>
         <Icon name='chevron-back' size={25} color={APP_BLACK} onPress={() => navigation.goBack()} />
-        <Text style={styles.settingsHeaderText}>Settings</Text>
+        <Text style={[styles.settingsHeaderText, {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>Settings</Text>
       </View>
 
-      <View style={styles.settingsItem}>
-        <Text style={styles.settingsItemTitle}>General</Text>
+      <View style={[styles.settingsItem, {
+        borderBottomColor: theme.BORDER_COLOR
+      }]}>
+        <Text style={[styles.settingsItemTitle, {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>General</Text>
 
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
-            <View style={{ ...styles.settingsItemIcon, backgroundColor: MAIN_ACCENT_COLOR }}>
+            <View style={[styles.settingsItemIcon, { backgroundColor: theme.MAIN_ACCENT_COLOR }]}>
               <Icon name='ios-person' size={20} color={APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Your profile</Text>
           </View>
-          <Icon name='chevron-forward' size={20} color={APP_BLACK} />
+          <Icon name='chevron-forward' size={20} color={theme.MAIN_TEXT_COLOR} />
         </View>
 
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
-            <View style={{ ...styles.settingsItemIcon, backgroundColor: MAIN_ACCENT_COLOR }}>
+            <View style={[styles.settingsItemIcon, { backgroundColor: theme.MAIN_ACCENT_COLOR }]}>
               <Icon name='phone-portrait' size={20} color={APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Appearance</Text>
           </View>
-          <Icon name='chevron-forward' size={20} color={APP_BLACK} onPress={() => Alert.alert('Coming soon')} />
+          <Icon name='chevron-forward' size={20} color={theme.MAIN_TEXT_COLOR}
+                onPress={() => Alert.alert('Coming soon')} />
         </View>
 
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
-            <View style={{ ...styles.settingsItemIcon, backgroundColor: MAIN_ACCENT_COLOR }}>
+            <View style={[styles.settingsItemIcon, { backgroundColor: theme.MAIN_ACCENT_COLOR }]}>
               <Icon name='notifications-sharp' size={20} color={APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Notifications & Alerts</Text>
           </View>
-          <Icon name='chevron-forward' size={20} color={APP_BLACK} onPress={() => Alert.alert('Coming soon')} />
+          <Icon name='chevron-forward' size={20} color={theme.MAIN_TEXT_COLOR}
+                onPress={() => Alert.alert('Coming soon')} />
         </View>
       </View>
 
-      <View style={styles.settingsItem}>
-        <Text style={styles.settingsItemTitle}>Experience</Text>
+      <View style={[styles.settingsItem, {
+        borderBottomColor: '#E5E5E5'
+      }]}>
+        <Text style={[styles.settingsItemTitle, {
+          color: APP_BLACK
+        }]}>Experience</Text>
 
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
-            <View style={{ ...styles.settingsItemIcon, backgroundColor: APP_BLUE }}>
+            <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
               <Icon name='newspaper' size={20} color={APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Suggest a feature</Text>
           </View>
-          <Icon name='chevron-forward' size={20} color={APP_BLACK}
+          <Icon name='chevron-forward' size={20} color={theme.MAIN_TEXT_COLOR}
                 onPress={() => Linking.openURL('mailto:engineeringwithjames@gmail.com?subject=Suggest a feature&body=Hi there, I would like to suggest a feature for the app.')}
           />
         </View>
 
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
-            <View style={{ ...styles.settingsItemIcon, backgroundColor: APP_BLUE }}>
+            <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
               <Icon name='bug' size={20} color={APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Report a bug</Text>
           </View>
-          <Icon name='chevron-forward' size={20} color={APP_BLACK}
+          <Icon name='chevron-forward' size={20} color={theme.MAIN_TEXT_COLOR}
                 onPress={() => Linking.openURL('mailto:engineeringwithjames@gmail?subject=REPORT: I found a bug&body=')}
           />
         </View>
 
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
-            <View style={{ ...styles.settingsItemIcon, backgroundColor: APP_BLUE }}>
+            <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
               <Icon name='ios-file-tray-full-sharp' size={20} color={APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Privacy Policy</Text>
           </View>
-          <Icon name='chevron-forward' size={20} color={APP_BLACK}
+          <Icon name='chevron-forward' size={20} color={theme.MAIN_TEXT_COLOR}
                 onPress={() => WebBrowser.openBrowserAsync('https://jamesodeyale.github.io/happly-docs/privacy')} />
         </View>
 
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
-            <View style={{ ...styles.settingsItemIcon, backgroundColor: APP_BLUE }}>
+            <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
               <Icon name='document-text' size={20} color={APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Terms & Conditions</Text>
           </View>
-          <Icon name='chevron-forward' size={20} color={APP_BLACK}
+          <Icon name='chevron-forward' size={20} color={theme.MAIN_TEXT_COLOR}
                 onPress={() => WebBrowser.openBrowserAsync('https://jamesodeyale.github.io/happly-docs/terms_and_conditions')} />
         </View>
 
@@ -125,28 +142,32 @@ export const SettingsScreen = () => {
         {/*</View>*/}
       </View>
 
-      <View style={styles.settingsItem}>
-        <Text style={styles.settingsItemTitle}>Follow Me</Text>
+      <View style={[styles.settingsItem, {
+        borderBottomColor: '#E5E5E5'
+      }]}>
+        <Text style={[styles.settingsItemTitle, {
+          color: APP_BLACK
+        }]}>Follow Me</Text>
 
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
-            <View style={{ ...styles.settingsItemIcon, backgroundColor: APP_BLACK }}>
+            <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLACK }]}>
               <Icon name='ios-logo-instagram' size={20} color={APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Instagram</Text>
           </View>
-          <Icon name='chevron-forward' size={20} color={APP_BLACK}
+          <Icon name='chevron-forward' size={20} color={theme.MAIN_TEXT_COLOR}
                 onPress={() => WebBrowser.openBrowserAsync('https://www.instagram.com/james_odeyale/')} />
         </View>
 
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
-            <View style={{ ...styles.settingsItemIcon, backgroundColor: APP_BLACK }}>
+            <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLACK }]}>
               <Icon name='ios-logo-youtube' size={20} color={APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>YouTube</Text>
           </View>
-          <Icon name='chevron-forward' size={20} color={APP_BLACK}
+          <Icon name='chevron-forward' size={20} color={theme.MAIN_TEXT_COLOR}
                 onPress={() => WebBrowser.openBrowserAsync('https://www.youtube.com/@jamesodeyale')} />
         </View>
       </View>
@@ -168,30 +189,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
     padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5'
+    borderBottomWidth: 1
   },
   settingsHeaderText: {
     fontFamily: 'Inter_600SemiBold',
     fontStyle: 'normal',
     fontSize: 20,
-    color: '#000000',
     marginLeft: 15
   },
   settingsItem: {
     display: 'flex',
     flexDirection: 'column',
     padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5'
+    borderBottomWidth: 1
   },
   settingsItemTitle: {
     fontFamily: 'Inter_500Medium',
     fontStyle: 'normal',
     fontSize: 14,
     lineHeight: 17,
-    textTransform: 'uppercase',
-    color: APP_BLACK
+    textTransform: 'uppercase'
   },
   settingsItemContent: {
     display: 'flex',
