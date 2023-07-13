@@ -4,6 +4,7 @@ import React from 'react'
 import { APP_BLACK, APP_GRAY, APP_WHITE, MAIN_ACCENT_COLOR } from '~styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Stats } from '~types'
+import { useTheme } from '~hooks'
 
 const Arrow = ({ direction }) => {
   return direction === 'left' ?
@@ -17,6 +18,7 @@ type CustomCalendarType = {
 }
 
 export const CustomCalendar = ({ currentDate, stats, handleMonthChange }: CustomCalendarType) => {
+  const { theme } = useTheme()
   const markedDates = stats?.reduce((acc, stat) => {
     acc[new Date(stat.completedAt).toISOString().split('T')[0]] = { selected: true, selectedColor: MAIN_ACCENT_COLOR }
     return acc
@@ -27,7 +29,25 @@ export const CustomCalendar = ({ currentDate, stats, handleMonthChange }: Custom
       // // Initially visible month. Default = Date()
       style={styles.calendar}
       current={currentDate}
-      theme={theme}
+      theme={
+        {
+          backgroundColor: theme.MAIN_BG_COLOR,
+          calendarBackground: theme.MAIN_BG_COLOR,
+          textSectionTitleColor: theme.TEXT_SECTION_TITLE_COLOR,
+          selectedDayBackgroundColor: theme.SELECTED_DAY_BACKGROUND_COLOR,
+          selectedDayTextColor: theme.SELECTED_DAY_TEXT_COLOR,
+          todayTextColor: theme.TODAY_TEXT_COLOR,
+          dayTextColor: theme.DAY_TEXT_COLOR,
+          textDisabledColor: theme.TEXT_DISABLED_COLOR,
+          dotColor: theme.DOT_COLOR,
+          arrowColor: theme.ARROW_COLOR,
+          monthTextColor: theme.MONTH_TEXT_COLOR,
+          textDayFontSize: 16,
+          textMonthFontSize: 18,
+          textMonthFontWeight: '600',
+          textDayHeaderFontSize: 15
+        }
+      }
       // // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
       // minDate={'2012-05-10'}
       // // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
@@ -59,24 +79,6 @@ export const CustomCalendar = ({ currentDate, stats, handleMonthChange }: Custom
       enableSwipeMonths={true}
     />
   )
-}
-
-const theme: any = {
-  backgroundColor: APP_WHITE,
-  calendarBackground: APP_WHITE,
-  textSectionTitleColor: '#b6c1cd',
-  selectedDayBackgroundColor: 'red',
-  selectedDayTextColor: APP_WHITE,
-  todayTextColor: APP_BLACK,
-  dayTextColor: '#2d4150',
-  textDisabledColor: '#d9e1e8',
-  dotColor: '#00adf5',
-  arrowColor: MAIN_ACCENT_COLOR,
-  monthTextColor: APP_BLACK,
-  textDayFontSize: 16,
-  textMonthFontSize: 18,
-  textMonthFontWeight: '600',
-  textDayHeaderFontSize: 15
 }
 
 const styles = StyleSheet.create({

@@ -1,26 +1,28 @@
 import { StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import React from 'react'
-import { SECONDARY_BG_COLOR } from '../styles'
-import { AddHabitIcon } from '../../assets/svgs'
+import { SECONDARY_BG_COLOR } from '~styles'
+import { AddHabitIcon } from '~assets'
+import { useTheme } from '~hooks'
 
 
 export const CustomTabItem = (props) => {
+  const { theme } = useTheme()
   const { icon, name, size, color } = props
   if (name !== 'Create') {
     return (
-      <View style={styles.customTabItemContainer}>
+      <View style={[styles.customTabItemContainer, { backgroundColor: theme.SECONDARY_BG_COLOR }]}>
         <View style={styles.customTabItemIcon}>
           <Icon name={icon} size={size} color={color} />
         </View>
-        <Text style={{ ...styles.customTabItemTabName, color: color }}>{name}</Text>
+        <Text style={[styles.customTabItemTabName, { color: color }]}>{name}</Text>
       </View>
 
     )
   }
 
   return (
-    <View style={styles.customTabItemContainer}>
+    <View style={[styles.customTabItemContainer, { backgroundColor: theme.SECONDARY_BG_COLOR }]}>
       <View style={styles.customTabItemPlusIcon}>
         <AddHabitIcon {...props} />
       </View>
@@ -36,8 +38,7 @@ const styles = StyleSheet.create({
     height: 70,
     alignItems: 'center',
     justifyContent: 'center',
-    bottom: -10,
-    backgroundColor: SECONDARY_BG_COLOR
+    bottom: -10
   },
   customTabItemIcon: {
     width: 50,

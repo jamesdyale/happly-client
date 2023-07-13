@@ -15,7 +15,7 @@ export const useAuth = () => {
   const [isUserOnboarded, setIsUserOnboarded] = useAtom(isUserOnboardedAtom)
 
   useEffect(() => {
-    let isMounted = true
+    // let isMounted = true
 
     async function getOnboardingFromStorage() {
       try {
@@ -23,8 +23,8 @@ export const useAuth = () => {
         const userId = await getData(ASYNC_STORAGE_KEYS.USER_ID)
 
         if (onboarding) {
-          await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.ONBOARDED)
-          await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_ID)
+          // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.ONBOARDED)
+          // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_ID)
 
           setIsUserOnboarded(true)
           if (userId) {
@@ -45,15 +45,15 @@ export const useAuth = () => {
       }
     }
 
-    if (isMounted) {
-      getOnboardingFromStorage().then(() => {
-        setIsAppReady(true)
-      })
-    }
+    // if (isMounted) {
+    getOnboardingFromStorage().then(() => {
+      setIsAppReady(true)
+    })
+    // }
 
-    return () => {
-      isMounted = false
-    }
+    // return () => {
+    //   isMounted = false
+    // }
   }, [])
 
   return { isAppReady, isUserOnboarded }

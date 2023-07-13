@@ -1,7 +1,9 @@
 import { StyleSheet, View, Animated, useWindowDimensions } from 'react-native'
-import { MAIN_ACCENT_COLOR } from '../styles'
+import { MAIN_ACCENT_COLOR } from '~styles'
+import { useTheme } from '~hooks'
 
 export const CustomSlider = ({ data, scrollX }) => {
+  const { theme } = useTheme()
   const { width } = useWindowDimensions()
 
 
@@ -23,7 +25,8 @@ export const CustomSlider = ({ data, scrollX }) => {
 
 
         return (
-          <Animated.View key={index.toString()} style={[styles.dot, { width: dotWidth, opacity }]} />
+          <Animated.View key={index.toString()}
+                         style={[styles.dot, { width: dotWidth, opacity, backgroundColor: theme.MAIN_ACCENT_COLOR }]} />
         )
       })}
     </View>
@@ -39,7 +42,6 @@ const styles = StyleSheet.create({
   dot: {
     height: 10,
     borderRadius: 5,
-    backgroundColor: MAIN_ACCENT_COLOR,
     marginHorizontal: 8
   }
 

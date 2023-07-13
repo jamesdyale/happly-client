@@ -17,13 +17,13 @@ export const RootNavigator = () => {
   const { isUserOnboarded, isAppReady } = useAuth()
 
   return (
-    <Navigator screenOptions={{ headerShown: false }}>
+    <Navigator screenOptions={{ headerShown: false }}
+               initialRouteName={
+                 isAppReady && isUserOnboarded ? ROUTES.MAIN_APP : ROUTES.LOGIN
+               }>
       {isAppReady && !isUserOnboarded ? (
         <Group key='unauthorized'>
           <Screen name={ROUTES.BENEFIT} component={OnboardScreen} />
-          <Screen name={ROUTES.LOGIN} component={LoginScreen} />
-          <Screen name={ROUTES.SIGNUP} component={SignUpScreen} />
-          <Screen name={ROUTES.RECOVER_ACCOUNT} component={AccountRecoveryScreen} />
         </Group>) : null}
 
       {isAppReady && isUserOnboarded ? (
@@ -31,6 +31,9 @@ export const RootNavigator = () => {
           <Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
           <Screen name={ROUTES.ALL_HABIT} component={HabitsScreen} />
           <Screen name={ROUTES.HABIT} component={HabitScreen} />
+          <Screen name={ROUTES.LOGIN} component={LoginScreen} />
+          <Screen name={ROUTES.SIGNUP} component={SignUpScreen} />
+          <Screen name={ROUTES.RECOVER_ACCOUNT} component={AccountRecoveryScreen} />
         </Group>
       ) : null}
 

@@ -23,7 +23,8 @@ export const HomeScreen = () => {
   const editHabit = useAtomValue(editHabitAtom)
   const [loadingHabits, setLoadingHabits] = useState(false)
   const [loadingStats, setLoadingStats] = useState(false)
-
+  const dailyHabit = useAtomValue(dailyHabitsAtom)
+  // selectedDay, timeOfDay, editHabit, user
 
   useEffect(() => {
     // TODO: Add loading state
@@ -108,7 +109,7 @@ export const HomeScreen = () => {
     return () => unsubscribe()
   }
 
-  if (loadingHabits || loadingStats) {
+  if (loadingHabits && loadingStats) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: MAIN_BG_COLOR }}>
         <View>

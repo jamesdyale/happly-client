@@ -26,7 +26,7 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
     const q = ActionPollHabitStatsQuery(
       habitId,
       user.id,
-      day.date.toDateString()
+      day.date.toDateString() // FIXME: This is a hack to get the date to match
     )
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {

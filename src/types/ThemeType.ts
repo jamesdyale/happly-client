@@ -1,4 +1,4 @@
-import { sharedColors } from '~constants'
+import { calendarColors, sharedColors } from '~constants'
 
 export type ColorTheme = {
   MAIN_BG_COLOR: string;
@@ -16,6 +16,12 @@ export type ColorTheme = {
   APP_RED: string;
   APP_PINK: string;
   GRAY_TEXT: string;
+  MAIN_TEXT: string;
+  CONTRAST_MAIN_TEXT: string;
+  DISABLED_BUTTON: string;
+  BORDER_COLOR: string;
+  LIGHT_MAIN_TEXT: string;
+  INPUT_BG: string;
 };
 
 export type ColorPalettes = {
@@ -24,5 +30,6 @@ export type ColorPalettes = {
 };
 
 type SharedColors = typeof sharedColors;
+type CalendarColors = typeof calendarColors;
 
-export type TColors = ColorTheme & SharedColors;
+export type TColors = ColorTheme & SharedColors & CalendarColors;

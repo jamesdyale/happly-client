@@ -19,8 +19,10 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { TimeOfDay } from '~types'
 import { GetCurrentTimeOfDay } from '~utils/timeUtils'
 import { percentage } from '~utils'
+import { useTheme } from '~hooks'
 
 export const HabitList = () => {
+  const { theme } = useTheme()
   const dailyHabit = useAtomValue(dailyHabitsAtom)
   const progress = useAtomValue(progressAtom)
   const [timeOfDay, setTimeOfDay] = useAtom(selectedTimeOfDayAtom)
@@ -38,27 +40,27 @@ export const HabitList = () => {
   }, [])
 
   return (
-    <View style={styles.container}>
-      <View style={styles.periodContainer}>
+    <View style={[styles.container, { backgroundColor: theme.MAIN_BG_COLOR }]}>
+      <View style={[styles.periodContainer]}>
         <TouchableOpacity
-          style={{
-            ...styles.periodOption,
-            backgroundColor: timeOfDay === TimeOfDay.All ? APP_BLUE : APP_GRAY
-          }}
+          style={[
+            styles.periodOption,
+            { backgroundColor: timeOfDay === TimeOfDay.All ? APP_BLUE : APP_GRAY }
+          ]}
           onPress={() => setTimeOfDay(TimeOfDay.All)}
         >
           <Icon name='file-tray-full-sharp' size={18} color={timeOfDay === TimeOfDay.All ? APP_WHITE : APP_BLACK}
                 style={{ marginRight: 8 }} />
-          <Text style={{
-            ...styles.periodOptionTitle,
-            color: timeOfDay === TimeOfDay.All ? APP_WHITE : APP_BLACK
-          }}>All Habits</Text>
+          <Text style={[styles.periodOptionTitle,
+            { color: timeOfDay === TimeOfDay.All ? APP_WHITE : APP_BLACK }
+          ]}>All Habits</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
-          style={{
-            ...styles.periodOption,
-            backgroundColor: timeOfDay === currentTimeOfDay ? APP_BLUE : APP_GRAY
-          }}
+          style={[styles.periodOption,
+            {
+              backgroundColor: timeOfDay === currentTimeOfDay ? APP_BLUE : APP_GRAY
+            }]}
           onPress={() => setTimeOfDay(currentTimeOfDay)}
         >
           <Icon
@@ -70,47 +72,12 @@ export const HabitList = () => {
             color={timeOfDay === currentTimeOfDay ? APP_WHITE : APP_BLACK}
             style={{ marginRight: 8 }}
           />
-          <Text style={{
-            ...styles.periodOptionTitle,
-            color: timeOfDay === currentTimeOfDay ? APP_WHITE : APP_BLACK
-          }}>{currentTimeOfDay}</Text>
+          <Text style={[styles.periodOptionTitle,
+            { color: timeOfDay === currentTimeOfDay ? APP_WHITE : APP_BLACK }
+          ]}
+          >{currentTimeOfDay}</Text>
         </TouchableOpacity>
 
-        {/*<TouchableOpacity*/}
-        {/*  style={{*/}
-        {/*    ...styles.periodOption,*/}
-        {/*    backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY*/}
-        {/*  }}*/}
-        {/*  onPress={() => handleChangeTimeOfDay(TimeOfDay.Afternoon)}*/}
-        {/*>*/}
-        {/*  <Image style={{*/}
-        {/*    width: 15,*/}
-        {/*    height: 15,*/}
-        {/*    marginRight: 8*/}
-        {/*  }} source={require('../../assets/svgs/sun1.png')} />*/}
-        {/*  <Text style={{*/}
-        {/*    ...styles.periodOptionTitle,*/}
-        {/*    color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK*/}
-        {/*  }}>Afternoon</Text>*/}
-        {/*</TouchableOpacity>*/}
-
-        {/*<TouchableOpacity*/}
-        {/*  style={{*/}
-        {/*    ...styles.periodOption,*/}
-        {/*    backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY*/}
-        {/*  }}*/}
-        {/*  onPress={() => handleChangeTimeOfDay(TimeOfDay.Evening)}*/}
-        {/*>*/}
-        {/*  <Image style={{*/}
-        {/*    width: 15,*/}
-        {/*    height: 15,*/}
-        {/*    marginRight: 8*/}
-        {/*  }} source={require('../../assets/svgs/crescent-moon1.png')} />*/}
-        {/*  <Text style={{*/}
-        {/*    ...styles.periodOptionTitle,*/}
-        {/*    color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK*/}
-        {/*  }}>Evening</Text>*/}
-        {/*</TouchableOpacity>*/}
       </View>
 
 
@@ -126,12 +93,16 @@ export const HabitList = () => {
           >
             <NoHabitIcon />
             <View style={{ marginTop: 20 }}>
-              <Text style={styles.noHabitMessage}>
+              <Text style={[styles.noHabitMessage, {
+                color: HABIT_OPTION
+              }]}>
                 “The most important
                 step of all is the first step”
                 {' '}
               </Text>
-              <Text style={styles.noHabitMessageMessenger}>
+              <Text style={[styles.noHabitMessageMessenger, {
+                color: MAIN_ACCENT_COLOR
+              }]}>
                 – Blake
                 Mycoskie
               </Text>
@@ -169,8 +140,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     width: '100%',
-    padding: 20,
-    backgroundColor: MAIN_BG_COLOR
+    padding: 20
   },
   noHabitIconContainer: {
     display: 'flex',
@@ -184,7 +154,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 15,
     textAlign: 'center',
-    color: HABIT_OPTION,
     opacity: 0.5
   },
   noHabitMessageMessenger: {
@@ -194,7 +163,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     lineHeight: 12,
     textAlign: 'right',
-    color: MAIN_ACCENT_COLOR,
     opacity: 0.5,
     marginTop: 10
   },
@@ -206,7 +174,6 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   periodOption: {
-    backgroundColor: APP_GRAY,
     borderRadius: 10,
     width: '48%',
     height: 40,
@@ -218,8 +185,7 @@ const styles = StyleSheet.create({
   periodOptionTitle: {
     fontFamily: 'Inter_600SemiBold',
     fontSize: 14,
-    lineHeight: 22,
-    color: GRAY_TEXT
+    lineHeight: 22
   }
 })
 

@@ -9,6 +9,7 @@ import { ActionCreateOrUpdateStreak, ActionCreateStat } from '~actions'
 import { APP_GRAY, APP_GREEN, APP_WHITE } from '~styles'
 import { generateStatId } from '~generators/generateId'
 import moment from 'moment'
+import { useTheme } from '~hooks'
 
 type SingleHabitType = {
   habit: Habit;
@@ -17,6 +18,7 @@ type SingleHabitType = {
 
 export const SingleHabit = ({ habit, progress }: SingleHabitType) => {
   const toast = useToast()
+
   const setHabitSelected = useSetAtom(selectedHabitAtom)
   const setProgress = useSetAtom(progressAtom)
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
@@ -157,5 +159,4 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: APP_WHITE
   }
-
 })

@@ -7,15 +7,16 @@ import { FIREBASE_AUTH } from '~data'
 import { useSetAtom } from 'jotai'
 import { userAtom } from '~state'
 import { User } from '~types'
-import { ActionGetUserByUID } from '~actions'
+import { ActionCreateUser, ActionGetUserByUID } from '~actions'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useToast } from 'react-native-toast-notifications'
-import { formValidationOnBlur } from '~utils'
+import { formValidationOnBlur, getData, storeData } from '~utils'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { ROUTES } from '~constants'
+import { ASYNC_STORAGE_KEYS, ROUTES } from '~constants'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { setToken } from '~services'
+import { useAuth } from '~hooks'
 
 type IForm = {
   changeBetweenForms: () => void
@@ -26,8 +27,8 @@ export const LoginScreen = () => {
 
   const toast = useToast()
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('jamesodeyale01@gmail.com')
+  const [password, setPassword] = useState('J4mly1023$')
 
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
@@ -61,31 +62,35 @@ export const LoginScreen = () => {
 
     if (isFormValid) {
       try {
-        const foundUserPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
-        if (foundUserPromise && foundUserPromise.user) {
-          const dataDocumentSnapshot = await ActionGetUserByUID(foundUserPromise.user.uid)
-          if (dataDocumentSnapshot.exists()) {
-            const data = dataDocumentSnapshot.data() as User
-            if (data) {
-              // const newUser = {
-              //   id: data.id,
-              //   email: data.email,
-              //   name: data.name
-              // }
-              const token = await foundUserPromise.user.getIdToken()
-              await setToken(token)
-              await AsyncStorage.setItem('USERID', foundUserPromise.user.uid)
-            }
-          } else {
-            toast.show('\'Your account doesn\'t exist. Please sign up\'', {
-              type: 'danger',
-              duration: 4000,
-              placement: 'bottom',
-              icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-            })
-
-          }
-        }
+        // TODO: Redo this sign up logic due to the new system of authentication
+        // const foundUserPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
+        // if (foundUserPromise && foundUserPromise.user) {
+        //   const dataDocumentSnapshot = await ActionGetUserByUID(foundUserPromise.user.uid)
+        //   if (dataDocumentSnapshot.exists()) {
+        //     const data = dataDocumentSnapshot.data() as User
+        //     if (data) {
+        //       // const newUser = {
+        //       //   id: data.id,
+        //       //   email: data.email,
+        //       //   name: data.name
+        //       // }
+        //       // const token = await foundUserPromise.user.getIdToken()
+        //       // await setToken(token)
+        //
+        //       await storeData(ASYNC_STORAGE_KEYS.ONBOARDED, 'true')
+        //       await storeData(ASYNC_STORAGE_KEYS.USER_ID, foundUserPromise.user.uid)
+        //       setUser(data)
+        //     }
+        //   } else {
+        //     toast.show('\'Your account doesn\'t exist. Please sign up\'', {
+        //       type: 'danger',
+        //       duration: 4000,
+        //       placement: 'bottom',
+        //       icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+        //     })
+        //
+        //   }
+        // }
       } catch (error) {
         toast.show('Login failed. Please try again!', {
           type: 'danger',

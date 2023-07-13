@@ -50,7 +50,7 @@ export const OnboardScreen = () => {
     }
 
     // we want to set the user to be logged in
-    await storeData('USERID', data.id)
+    await storeData(ASYNC_STORAGE_KEYS.USER_ID, data.id)
     await ActionCreateUser(data, data.id)
     setUser(data)
   }

@@ -5,31 +5,42 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { ROUTES } from '../constants'
 import { useAtomValue } from 'jotai'
 import { selectedDayOfTheWeekAtom, userAtom } from '~state'
-import { APP_BLACK, HABIT_OPTION } from '~styles'
+import { HABIT_OPTION } from '~styles'
 import moment from 'moment/moment'
+import { useTheme } from '~hooks'
 
 export const UserProfile = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const user = useAtomValue(userAtom)
+  const { theme } = useTheme()
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
   const monthNumber = moment(selectedDay, 'MMMM Do YYYY').month()
   const year = moment(selectedDay, 'MMMM Do YYYY').year()
   const month = moment.months(monthNumber)
 
   return (
-    <View style={styles.container}>
-      <View style={styles.left}>
-        <View>
-          {/*<View style={styles.welcomeContainer}>*/}
-          {/*  <Text style={styles.welcomeText}>Welcome</Text><Text> James 👋</Text>*/}
-          {/*</View>*/}
-          <Text style={styles.username}>{month} {year}</Text>
+    <>
+      <View style={styles.container}>
+        <View style={styles.left}>
+          <View>
+            <View style={styles.welcomeContainer}>
+              <Text style={[styles.welcomeText, { color: theme.MAIN_TEXT }]}>Welcome 👋</Text>
+            </View>
+          </View>
         </View>
+        <View>
+        </View>
+        <TouchableOpacity onPress={() => navigate(ROUTES.CUSTOM_STACK, { screen: 'Settings' })}>
+          <Icon name='settings' size={25} color={theme.MAIN_TEXT} />
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => navigate(ROUTES.CUSTOM_STACK, { screen: 'Settings' })}>
-        <Icon name='settings' size={25} color={APP_BLACK} />
-      </TouchableOpacity>
-    </View>
+      <View style={{ paddingLeft: 20, paddingBottom: 10 }}>
+        <Text style={[styles.monthAndYearText, {
+          color: theme.HABIT_OPTION
+        }]}>{month} {year}</Text>
+      </View>
+
+    </>
   )
 }
 
@@ -40,7 +51,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 20,
+    paddingBottom: 5
   },
   image: {
     width: 60,
@@ -60,6 +74,12 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   welcomeText: {
+    fontFamily: 'Inter_700Bold',
+    fontStyle: 'normal',
+    fontSize: 20,
+    lineHeight: 24
+  },
+  monthAndYearText: {
     fontFamily: 'Inter_600SemiBold',
     fontStyle: 'normal',
     fontWeight: '600',
@@ -68,12 +88,5 @@ const styles = StyleSheet.create({
     color: HABIT_OPTION,
     opacity: 0.5,
     marginRight: 5
-  },
-  username: {
-    fontFamily: 'Inter_700Bold',
-    fontStyle: 'normal',
-    fontSize: 20,
-    lineHeight: 24,
-    color: '#000000'
   }
 })

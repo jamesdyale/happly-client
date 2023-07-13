@@ -1,14 +1,19 @@
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { ButtonType } from '~types'
+import { useTheme } from '~hooks'
 
 export const CustomButton = ({ icon, text, onClick, bgColor, color, disabled = false }: ButtonType) => {
+  const { theme } = useTheme()
+
   return (
-    <TouchableOpacity style={{ ...styles.container, backgroundColor: bgColor }}
+    <TouchableOpacity style={[styles.container, { backgroundColor: bgColor }]}
                       onPress={onClick}
                       disabled={disabled}
     >
       {disabled &&
-        <View style={styles.buttonContainer}>
+        <View style={[styles.buttonContainer, {
+          backgroundColor: theme.DISABLED_BUTTON
+        }]}>
           <ActivityIndicator size='small' color={color} />
         </View>
       }
@@ -16,7 +21,7 @@ export const CustomButton = ({ icon, text, onClick, bgColor, color, disabled = f
         {icon ? <View style={styles.icon}>
           {icon}
         </View> : null}
-        <Text style={{ ...styles.text, color }}>{text}</Text>
+        <Text style={[styles.text, { color }]}>{text}</Text>
       </View>}
     </TouchableOpacity>
   )
@@ -28,7 +33,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     borderTopLeftRadius: 8,

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import { CustomTextInputType } from '~types'
-import { GRAY_TEXT } from '~styles'
+import { useTheme } from '~hooks'
 
 export const CustomTextInput = ({
                                   bigLabel,
@@ -14,12 +14,21 @@ export const CustomTextInput = ({
                                   secureTextEntry,
                                   error
                                 }: CustomTextInputType) => {
+  const { theme } = useTheme()
+
   return (
     <View style={styles.textInput}>
-      {label && <Text style={styles.label}>{label}</Text>}
-      {bigLabel && <Text style={styles.bigLabel}>{bigLabel}</Text>}
+      {label && <Text style={[styles.label, {
+        color: theme.MAIN_TEXT
+      }]}>{label}</Text>}
+      {bigLabel && <Text style={[styles.bigLabel, {
+        color: theme.LIGHT_MAIN_TEXT
+      }]}>{bigLabel}</Text>}
       <TextInput
-        style={{ ...styles.input, borderColor: error ? 'red' : '#B0C1CB' }}
+        style={[styles.input, {
+          borderColor: error ? 'red' : theme.BORDER_COLOR,
+          backgroundColor: theme.INPUT_BG
+        }]}
         onChangeText={handleChange}
         onBlur={handleBlur}
         value={value}
@@ -43,22 +52,18 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 14,
-    lineHeight: 19,
-    color: '#0F0F0F'
+    lineHeight: 19
   },
   bigLabel: {
     fontFamily: 'Inter_600SemiBold',
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: 18,
-    lineHeight: 22,
-    color: GRAY_TEXT
+    lineHeight: 22
   },
   input: {
-    backgroundColor: '#FAFAFA',
     marginTop: 8,
     marginBottom: 8,
-    borderColor: '#B0C1CB',
     borderWidth: 1,
     paddingTop: 14.5,
     paddingBottom: 14.5,

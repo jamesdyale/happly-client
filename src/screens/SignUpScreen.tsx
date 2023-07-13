@@ -83,20 +83,20 @@ export const SignUpScreen = () => {
     if (isFormValid) {
       try {
         // TODO: Redo this sign up logic due to the new system of authentication
-        const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
-        if (userCredentialPromise && userCredentialPromise.user) {
-          const data: User = {
-            id: generateUserId(),
-            email: userCredentialPromise.user.email,
-            name: fullName,
-            isAccountVerified: true
-          }
-          const token = await userCredentialPromise.user.getIdToken()
-          await setToken(token)
-          await storeData('USERID', userCredentialPromise.user.uid)
-          await ActionCreateUser(data, userCredentialPromise.user.uid)
-          setUser(data)
-        }
+        // const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
+        // if (userCredentialPromise && userCredentialPromise.user) {
+        //   const data: User = {
+        //     id: generateUserId(),
+        //     email: userCredentialPromise.user.email,
+        //     name: fullName,
+        //     isAccountVerified: true
+        //   }
+        //   const token = await userCredentialPromise.user.getIdToken()
+        //   await setToken(token)
+        //   await storeData('USERID', userCredentialPromise.user.uid)
+        //   await ActionCreateUser(data, userCredentialPromise.user.uid)
+        //   setUser(data)
+        // }
       } catch (error) {
         toast.show('Sign up failed. Please try again!', {
           type: 'danger',

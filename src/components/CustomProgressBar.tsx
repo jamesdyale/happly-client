@@ -5,6 +5,7 @@ import { useFonts, Inter_600SemiBold } from '@expo-google-fonts/inter'
 import { APP_GRAY, HABIT_OPTION, MAIN_ACCENT_COLOR } from '~styles'
 import { ProgressBarType } from '~types'
 import { progressBarStatus } from '~utils'
+import { useTheme } from '~hooks'
 
 const styles = StyleSheet.create({
   container: {
@@ -19,8 +20,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   text: {
-    fontFamily: 'Inter_600SemiBold',
-    color: HABIT_OPTION
+    fontFamily: 'Inter_600SemiBold'
   },
   bottom: {
     width: '100%',
@@ -43,6 +43,8 @@ const styles = StyleSheet.create({
 })
 
 export const CustomProgressBar = ({ progress }: ProgressBarType) => {
+  const { theme } = useTheme()
+
   const sharedValueWidth = useSharedValue(progress)
 
   const style = useAnimatedStyle(() => {
@@ -54,23 +56,15 @@ export const CustomProgressBar = ({ progress }: ProgressBarType) => {
     }
   })
 
-  const [fontsLoaded] = useFonts({
-    Inter_600SemiBold
-  })
-
   useEffect(() => {
     sharedValueWidth.value = progress
   }, [progress])
 
-  if (!fontsLoaded) {
-    return null
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <Text style={styles.text}>{progressBarStatus(progress)}</Text>
-        <Text style={styles.text}>{progress}%</Text>
+        <Text style={[styles.text, { color: theme.MAIN_TEXT }]}>{progressBarStatus(progress)}</Text>
+        <Text style={[styles.text, { color: theme.MAIN_TEXT }]}>{progress}%</Text>
       </View>
       <View style={styles.bottom}>
         <Animated.View style={[styles.innerBottom, style]} />
