@@ -20,6 +20,8 @@ import { useTheme } from '~hooks'
 
 
 export const OnboardScreen = () => {
+  const { theme } = useTheme()
+
   const setIsUserOnboarded = useSetAtom(isUserOnboardedAtom)
 
   const slidesRef = React.useRef(null)
@@ -33,8 +35,6 @@ export const OnboardScreen = () => {
   }).current
 
   const viewConfig = React.useRef({ viewAreaCoveragePercentThreshold: 50 }).current
-
-  const { theme } = useTheme()
 
 
   const handleSettingUserAccount = async () => {
@@ -69,10 +69,14 @@ export const OnboardScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.OnboardScreen}>
+    <SafeAreaView style={[styles.OnboardScreen, {
+      backgroundColor: theme.SECONDARY_BG_COLOR
+    }]}>
       <View style={styles.OnboardScreen_Container}>
         <View style={styles.OnboardScreen_SkipTextContainer}>
-          <Text style={styles.OnboardScreen_SkipText} onPress={handleSkip}>Skip</Text>
+          <Text style={[styles.OnboardScreen_SkipText, {
+            color: theme.MAIN_ACCENT_COLOR
+          }]} onPress={handleSkip}>Skip</Text>
         </View>
         <View style={styles.OnboardScreen_CurrentScreen}>
           <FlatList
@@ -106,9 +110,7 @@ export const OnboardScreen = () => {
 
 
 const styles = StyleSheet.create({
-  OnboardScreen: {
-    backgroundColor: SECONDARY_BG_COLOR
-  },
+  OnboardScreen: {},
   OnboardScreen_Container: {
     height: '100%',
     display: 'flex',
@@ -135,8 +137,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: 15,
-    lineHeight: 20,
-    color: MAIN_ACCENT_COLOR
+    lineHeight: 20
   },
   OnboardScreen_CurrentScreen: {
     flex: 1,
@@ -153,21 +154,5 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingLeft: 20,
     paddingRight: 25
-  },
-  OnboardInformation_ActionBtn_Slider: {
-    fontFamily: 'Inter_600SemiBold',
-    fontStyle: 'normal',
-    fontWeight: '600',
-    fontSize: 17,
-    lineHeight: 20,
-    color: MAIN_ACCENT_COLOR
-  },
-  OnboardInformation_ActionBtn_NextBtn: {
-    fontFamily: 'Inter_600SemiBold',
-    fontStyle: 'normal',
-    fontWeight: '600',
-    fontSize: 17,
-    lineHeight: 20,
-    color: MAIN_ACCENT_COLOR
   }
 })
