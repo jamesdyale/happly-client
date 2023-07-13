@@ -7,7 +7,6 @@ import {
   Text,
   View
 } from 'react-native'
-import { MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '~styles'
 import { CustomSlider } from '~components'
 import { NextBtn, OnboardItem, screens, storeData, randomNameGenerator } from '~utils'
 import { ASYNC_STORAGE_KEYS } from '~constants'

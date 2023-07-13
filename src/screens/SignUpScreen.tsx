@@ -1,5 +1,4 @@
 import { KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { APP_WHITE, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '~styles'
 import React, { useState } from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { CustomButton, CustomTextInput } from '~components'
@@ -105,7 +104,7 @@ export const SignUpScreen = () => {
           type: 'danger',
           duration: 4000,
           placement: 'bottom',
-          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+          icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
         })
       } finally {
         setLoading(false)
@@ -122,7 +121,7 @@ export const SignUpScreen = () => {
         <View style={styles.AuthFormHeaderContainer}>
           <Text style={styles.AuthFormHeader}>Create An Account</Text>
           <Text style={styles.AuthFormInfo}>Provide required details and click the <Text
-            style={{ color: MAIN_ACCENT_COLOR }}>Sign Up</Text> button
+            style={{ color: theme.MAIN_ACCENT_COLOR }}>Sign Up</Text> button
             below.</Text>
           <View style={styles.AuthFormBody}>
             <CustomTextInput
@@ -176,8 +175,8 @@ export const SignUpScreen = () => {
               policy</Text>
           </Text>
           <CustomButton
-            bgColor={MAIN_ACCENT_COLOR}
-            color={APP_WHITE}
+            bgColor={theme.MAIN_ACCENT_COLOR}
+            color={theme.APP_WHITE}
             text='Sign Up'
             onClick={handleSignUp}
             disabled={loading}

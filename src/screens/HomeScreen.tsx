@@ -1,7 +1,6 @@
 import { SafeAreaView, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { MAIN_BG_COLOR } from '~styles'
 import { HabitList, UserProfile, WeekCalendar } from '~components'
 import { EditHabitModal } from '~modals'
 import {
@@ -13,6 +12,7 @@ import { Habit, Stats } from '~types'
 import { ActionGetUserHabitsByUserId, ActionGetCompletedStatForDay } from '~actions'
 import { onSnapshot } from 'firebase/firestore'
 import moment from 'moment/moment'
+import { useTheme } from '~hooks'
 
 export const HomeScreen = () => {
   const user = useAtomValue(userAtom)
@@ -24,6 +24,9 @@ export const HomeScreen = () => {
   const [loadingHabits, setLoadingHabits] = useState(false)
   const [loadingStats, setLoadingStats] = useState(false)
   const dailyHabit = useAtomValue(dailyHabitsAtom)
+
+  const { theme } = useTheme()
+
   // selectedDay, timeOfDay, editHabit, user
 
   useEffect(() => {
@@ -111,7 +114,7 @@ export const HomeScreen = () => {
 
   if (loadingHabits && loadingStats) {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: MAIN_BG_COLOR }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: theme.MAIN_BG_COLOR }}>
         <View>
           <Text>Loading...</Text>
         </View>
@@ -120,7 +123,7 @@ export const HomeScreen = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: MAIN_BG_COLOR }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.MAIN_BG_COLOR }}>
       <UserProfile />
       <WeekCalendar />
       <HabitList />

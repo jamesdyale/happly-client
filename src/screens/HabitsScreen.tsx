@@ -49,7 +49,9 @@ export const HabitsScreen = () => {
 
 
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <SafeAreaView style={[styles.wrapper, {
+      backgroundColor: theme.MAIN_BG_COLOR
+    }]}>
       <ScrollView style={{ marginBottom: 10 }}>
         <View style={styles.container}>
           <Text style={[styles.headerText, {
@@ -69,7 +71,6 @@ export const HabitsScreen = () => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: '#F4F3F3',
     flex: 1
   },
   container: {

@@ -7,17 +7,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Frequency, TimeOfDay } from '~types'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { editHabitAtom, selectedDayOfTheWeekAtom, userAtom } from '~state'
-import {
-  APP_BLACK,
-  APP_BLUE,
-  APP_GRAY,
-  APP_LIGHT_GRAY,
-  APP_PINK,
-  APP_RED,
-  APP_WHITE,
-  GRAY_TEXT,
-  MAIN_ACCENT_COLOR
-} from '~styles'
 import { ActionCreateHabit, ActionCreateOrUpdateStreak } from '~actions'
 import { useToast } from 'react-native-toast-notifications'
 import moment from 'moment/moment'
@@ -88,7 +77,7 @@ export const CreateHabitScreen = () => {
           type: 'danger',
           duration: 4000,
           placement: 'bottom',
-          icon: <Icon name='alert-circle-sharp' size={20} color={APP_WHITE} />
+          icon: <Icon name='alert-circle-sharp' size={20} color={theme.APP_WHITE} />
         })
         return
       }
@@ -99,7 +88,7 @@ export const CreateHabitScreen = () => {
         type: 'success',
         duration: 4000,
         placement: 'bottom',
-        icon: <Icon name='checkmark-circle-sharp' size={20} color={APP_WHITE} />
+        icon: <Icon name='checkmark-circle-sharp' size={20} color={theme.APP_WHITE} />
       })
     } else {
       await ActionCreateHabit({
@@ -120,7 +109,7 @@ export const CreateHabitScreen = () => {
         type: 'success',
         duration: 4000,
         placement: 'bottom',
-        icon: <Icon name='checkmark-circle-sharp' size={20} color={APP_WHITE} />
+        icon: <Icon name='checkmark-circle-sharp' size={20} color={theme.APP_WHITE} />
       })
     }
 
@@ -173,12 +162,14 @@ export const CreateHabitScreen = () => {
           <View style={styles.container}>
             <View style={styles.header}>
               <TouchableOpacity
-                style={styles.closeButton}
+                style={[styles.closeButton, {
+                  backgroundColor: theme.APP_PINK
+                }]}
                 onPress={() => {
                   setEditHabit(null)
                   navigation.goBack()
                 }}>
-                <Icon name='close' size={25} color={APP_RED} />
+                <Icon name='close' size={25} color={theme.APP_RED} />
               </TouchableOpacity>
               <Text style={[styles.headerText, {
                 color: theme.MAIN_TEXT_COLOR
@@ -198,7 +189,7 @@ export const CreateHabitScreen = () => {
               />
               <View style={styles.sectionContainer}>
                 <Text style={[styles.sectionTitle,
-                  { color: GRAY_TEXT }
+                  { color: theme.GRAY_TEXT }
                 ]}>How often do you want to do it?</Text>
                 <View style={styles.frequencyOptions}>
                   <TouchableOpacity
@@ -218,7 +209,7 @@ export const CreateHabitScreen = () => {
                   <TouchableOpacity
                     style={[styles.frequencyOption,
                       {
-                        
+
                         backgroundColor: frequencyOption === Frequency.Weekly ? theme.MAIN_TEXT_COLOR : theme.DISABLED_BUTTON_COLOR
                       }
                     ]}
@@ -246,7 +237,7 @@ export const CreateHabitScreen = () => {
                   <TouchableOpacity
                     style={[styles.periodOption,
                       {
-                        backgroundColor: timeOfDay === TimeOfDay.Morning ? APP_BLUE : APP_GRAY,
+                        backgroundColor: timeOfDay === TimeOfDay.Morning ? theme.APP_BLUE : theme.APP_GRAY,
                         marginRight: 15
                       }
                     ]}
@@ -258,7 +249,7 @@ export const CreateHabitScreen = () => {
                     }} source={require('../../assets/svgs/sunrise1.png')} />
                     <Text style={[styles.periodOptionTitle,
                       {
-                        color: timeOfDay === TimeOfDay.Morning ? APP_WHITE : APP_BLACK
+                        color: timeOfDay === TimeOfDay.Morning ? theme.APP_WHITE : theme.APP_BLACK
                       }]}
                     >Morning</Text>
                   </TouchableOpacity>
@@ -266,7 +257,8 @@ export const CreateHabitScreen = () => {
                   <TouchableOpacity
                     style={[styles.periodOption,
                       {
-                        marginRight: 15, backgroundColor: timeOfDay === TimeOfDay.Afternoon ? APP_BLUE : APP_GRAY
+                        marginRight: 15,
+                        backgroundColor: timeOfDay === TimeOfDay.Afternoon ? theme.APP_BLUE : theme.APP_GRAY
                       }
                     ]}
                     onPress={() => setTimeOfDay(TimeOfDay.Afternoon)}>
@@ -277,14 +269,14 @@ export const CreateHabitScreen = () => {
                     }} source={require('../../assets/svgs/sun1.png')} />
                     <Text style={[styles.periodOptionTitle,
                       {
-                        color: timeOfDay === TimeOfDay.Afternoon ? APP_WHITE : APP_BLACK
+                        color: timeOfDay === TimeOfDay.Afternoon ? theme.APP_WHITE : theme.APP_BLACK
                       }]}>Afternoon</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={[styles.periodOption,
                       {
-                        backgroundColor: timeOfDay === TimeOfDay.Evening ? APP_BLUE : APP_GRAY
+                        backgroundColor: timeOfDay === TimeOfDay.Evening ? theme.APP_BLUE : theme.APP_GRAY
                       }
                     ]}
                     onPress={() => setTimeOfDay(TimeOfDay.Evening)}>
@@ -295,7 +287,7 @@ export const CreateHabitScreen = () => {
                     }} source={require('../../assets/svgs/crescent-moon1.png')} />
                     <Text style={[
                       styles.periodOptionTitle,
-                      { color: timeOfDay === TimeOfDay.Evening ? APP_WHITE : APP_BLACK }
+                      { color: timeOfDay === TimeOfDay.Evening ? theme.APP_WHITE : theme.APP_BLACK }
                     ]}>Evening</Text>
                   </TouchableOpacity>
                 </View>
@@ -315,20 +307,20 @@ export const CreateHabitScreen = () => {
 
                 <View style={styles.reminderContainer}>
                   <View style={[styles.reminderTimeContainer, {
-                    backgroundColor: APP_GRAY
+                    backgroundColor: theme.APP_GRAY
                   }]}>
                     {reminderAt.map((reminder, index) => (
                       <View key={index} style={[styles.reminderWrapper, {
-                        borderBottomColor: APP_LIGHT_GRAY
+                        borderBottomColor: theme.APP_LIGHT_GRAY
                       }]}>
                         <View style={styles.reminderTextContainer}>
-                          <Icon name='alarm-outline' size={20} color={APP_BLACK} style={{ marginRight: 5 }} />
+                          <Icon name='alarm-outline' size={20} color={theme.APP_BLACK} style={{ marginRight: 5 }} />
                           <Text style={[styles.reminderText, {
-                            color: APP_BLACK
+                            color: theme.APP_BLACK
                           }]}>{moment(reminder).format('h:mm a')}</Text>
                         </View>
                         <TouchableOpacity onPress={() => removeReminder(reminder)}>
-                          <Icon name='ios-close-circle-outline' size={20} color={APP_BLACK} />
+                          <Icon name='ios-close-circle-outline' size={20} color={theme.APP_BLACK} />
                         </TouchableOpacity>
                       </View>
                     ))}
@@ -336,12 +328,12 @@ export const CreateHabitScreen = () => {
 
                   <TouchableOpacity
                     style={[styles.reminderTime, {
-                      backgroundColor: APP_GRAY
+                      backgroundColor: theme.APP_GRAY
                     }]}
                     onPress={() => setShowNotificationModal(true)}>
-                    <Icon name='ios-add-circle-sharp' size={20} color={APP_BLACK} style={{ marginRight: 5 }} />
+                    <Icon name='ios-add-circle-sharp' size={20} color={theme.APP_BLACK} style={{ marginRight: 5 }} />
                     <Text style={[styles.periodOptionTitle, {
-                      color: GRAY_TEXT
+                      color: theme.GRAY_TEXT
                     }]}>
                       {reminderAt.length < 1 ? 'Add a reminder' : 'Add another reminder'}</Text>
                   </TouchableOpacity>
@@ -382,7 +374,6 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     marginRight: 40,
-    backgroundColor: APP_PINK,
     borderRadius: 6,
     width: 40,
     height: 40,
@@ -494,12 +485,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: 10
-  },
-  reminderTimeText: {
-    fontFamily: 'Inter_600SemiBold',
-    fontSize: 14,
-    lineHeight: 22,
-    color: GRAY_TEXT,
-    marginRight: 5
   }
 })

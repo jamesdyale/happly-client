@@ -3,7 +3,6 @@ import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { APP_BLACK, APP_BLUE, APP_WHITE, MAIN_ACCENT_COLOR } from '~styles'
 import * as WebBrowser from 'expo-web-browser'
 import { useTheme } from '~hooks'
 
@@ -16,7 +15,7 @@ export const SettingsScreen = () => {
       <View style={[styles.settingsHeader, {
         borderBottomColor: '#E5E5E5'
       }]}>
-        <Icon name='chevron-back' size={25} color={APP_BLACK} onPress={() => navigation.goBack()} />
+        <Icon name='chevron-back' size={25} color={theme.APP_BLACK} onPress={() => navigation.goBack()} />
         <Text style={[styles.settingsHeaderText, {
           color: theme.MAIN_TEXT_COLOR
         }]}>Settings</Text>
@@ -32,7 +31,7 @@ export const SettingsScreen = () => {
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
             <View style={[styles.settingsItemIcon, { backgroundColor: theme.MAIN_ACCENT_COLOR }]}>
-              <Icon name='ios-person' size={20} color={APP_WHITE} />
+              <Icon name='ios-person' size={20} color={theme.APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Your profile</Text>
           </View>
@@ -42,7 +41,7 @@ export const SettingsScreen = () => {
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
             <View style={[styles.settingsItemIcon, { backgroundColor: theme.MAIN_ACCENT_COLOR }]}>
-              <Icon name='phone-portrait' size={20} color={APP_WHITE} />
+              <Icon name='phone-portrait' size={20} color={theme.APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Appearance</Text>
           </View>
@@ -53,7 +52,7 @@ export const SettingsScreen = () => {
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
             <View style={[styles.settingsItemIcon, { backgroundColor: theme.MAIN_ACCENT_COLOR }]}>
-              <Icon name='notifications-sharp' size={20} color={APP_WHITE} />
+              <Icon name='notifications-sharp' size={20} color={theme.APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Notifications & Alerts</Text>
           </View>
@@ -66,13 +65,13 @@ export const SettingsScreen = () => {
         borderBottomColor: '#E5E5E5'
       }]}>
         <Text style={[styles.settingsItemTitle, {
-          color: APP_BLACK
+          color: theme.APP_BLACK
         }]}>Experience</Text>
 
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
             <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
-              <Icon name='newspaper' size={20} color={APP_WHITE} />
+              <Icon name='newspaper' size={20} color={theme.APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Suggest a feature</Text>
           </View>
@@ -84,7 +83,7 @@ export const SettingsScreen = () => {
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
             <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
-              <Icon name='bug' size={20} color={APP_WHITE} />
+              <Icon name='bug' size={20} color={theme.APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Report a bug</Text>
           </View>
@@ -96,7 +95,7 @@ export const SettingsScreen = () => {
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
             <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
-              <Icon name='ios-file-tray-full-sharp' size={20} color={APP_WHITE} />
+              <Icon name='ios-file-tray-full-sharp' size={20} color={theme.APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Privacy Policy</Text>
           </View>
@@ -107,7 +106,7 @@ export const SettingsScreen = () => {
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
             <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
-              <Icon name='document-text' size={20} color={APP_WHITE} />
+              <Icon name='document-text' size={20} color={theme.APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Terms & Conditions</Text>
           </View>
@@ -146,13 +145,13 @@ export const SettingsScreen = () => {
         borderBottomColor: '#E5E5E5'
       }]}>
         <Text style={[styles.settingsItemTitle, {
-          color: APP_BLACK
+          color: theme.APP_BLACK
         }]}>Follow Me</Text>
 
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
             <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLACK }]}>
-              <Icon name='ios-logo-instagram' size={20} color={APP_WHITE} />
+              <Icon name='ios-logo-instagram' size={20} color={theme.APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>Instagram</Text>
           </View>
@@ -163,7 +162,7 @@ export const SettingsScreen = () => {
         <View style={styles.settingsSubItem}>
           <View style={styles.settingsItemContent}>
             <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLACK }]}>
-              <Icon name='ios-logo-youtube' size={20} color={APP_WHITE} />
+              <Icon name='ios-logo-youtube' size={20} color={theme.APP_WHITE} />
             </View>
             <Text style={{ marginLeft: 20 }}>YouTube</Text>
           </View>

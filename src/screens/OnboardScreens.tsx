@@ -1,6 +1,5 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import React from 'react'
-import { GRAY_TEXT, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '~styles'
 import {
   OnboardScreenFiveIcon,
   OnboardScreenTwoIcon,
@@ -199,7 +198,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 18,
     lineHeight: 25,
-    color: GRAY_TEXT,
     marginBottom: 20,
     textAlign: 'center'
   },

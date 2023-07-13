@@ -1,7 +1,6 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { CustomButton, CustomTextInput } from '~components'
 import React, { useState } from 'react'
-import { APP_WHITE, MAIN_ACCENT_COLOR } from '~styles'
 import { useTheme } from '~hooks'
 
 export const AccountRecoveryScreen = () => {

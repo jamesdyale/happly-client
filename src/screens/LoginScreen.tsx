@@ -1,6 +1,5 @@
 import { KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { CustomButton, CustomTextInput } from '~components'
-import { APP_WHITE, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from '~styles'
 import React, { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { FIREBASE_AUTH } from '~data'
@@ -97,7 +96,7 @@ export const LoginScreen = () => {
           type: 'danger',
           duration: 4000,
           placement: 'bottom',
-          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+          icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
         })
 
       } finally {
@@ -143,8 +142,8 @@ export const LoginScreen = () => {
             }]} onPress={() => navigate(ROUTES.SIGNUP)}>Sign Up</Text>
           </Text>
           <CustomButton
-            bgColor={MAIN_ACCENT_COLOR}
-            color={APP_WHITE}
+            bgColor={theme.MAIN_ACCENT_COLOR}
+            color={theme.APP_WHITE}
             text='Login'
             onClick={handleLogin}
             disabled={loading}

@@ -1,7 +1,6 @@
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { CustomButton, CustomCalendar } from '~components'
-import { APP_WHITE, GRAY_TEXT, HABIT_OPTION, MAIN_ACCENT_COLOR } from '~styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { StreakIcon } from '~assets'
 import { ROUTES } from '../constants'
@@ -225,7 +224,7 @@ export const HabitScreen = ({ route, navigation }) => {
           type: 'success',
           duration: 4000,
           placement: 'bottom',
-          icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+          icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
         })
 
       } catch (e) {
@@ -233,7 +232,7 @@ export const HabitScreen = ({ route, navigation }) => {
           type: 'danger',
           duration: 4000,
           placement: 'bottom',
-          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+          icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
         })
       }
     }
@@ -246,7 +245,7 @@ export const HabitScreen = ({ route, navigation }) => {
         <View style={styles.header}>
           <Icon name='chevron-back-outline'
                 size={25}
-                color={HABIT_OPTION}
+                color={theme.HABIT_OPTION}
                 onPress={() => {
                   setDeleteModal(false)
                   setSelectedHabit(null)
@@ -255,38 +254,38 @@ export const HabitScreen = ({ route, navigation }) => {
           />
 
           <View style={styles.headerOptions}>
-            <Icon name='create-outline' size={25} color={HABIT_OPTION}
+            <Icon name='create-outline' size={25} color={theme.HABIT_OPTION}
                   onPress={handleOnPressEdit} />
-            <Icon name='pause-outline' size={25} color={HABIT_OPTION}
+            <Icon name='pause-outline' size={25} color={theme.HABIT_OPTION}
                   onPress={handleOnPressPause} />
-            <Icon name='trash-outline' size={25} color={HABIT_OPTION}
+            <Icon name='trash-outline' size={25} color={theme.HABIT_OPTION}
                   onPress={handleOnPressDelete} />
           </View>
         </View>
 
         <Text style={[styles.habitName, {
-          color: GRAY_TEXT
+          color: theme.GRAY_TEXT
         }]}>{habit?.name}</Text>
         <Text style={[styles.habitDescription, {
-          color: GRAY_TEXT
+          color: theme.GRAY_TEXT
         }]}>{habit?.description}</Text>
 
         <View style={styles.habitInfo}>
           <View>
             <Text style={[styles.habitInfoText, {
-              color: GRAY_TEXT
+              color: theme.GRAY_TEXT
             }]}>Repeat:</Text>
             <Text style={[styles.habitInfoText_Frequency, {
-              color: GRAY_TEXT
+              color: theme.GRAY_TEXT
             }]}>{habit?.frequencyOption}</Text>
           </View>
           <View>
             <Text style={[styles.habitInfoText, {
-              color: GRAY_TEXT
+              color: theme.GRAY_TEXT
             }]}>Closest Remind:</Text>
             {/* TODO: Add reminder logic here */}
             <Text style={[styles.habitInfoText_Frequency, {
-              color: GRAY_TEXT
+              color: theme.GRAY_TEXT
             }]}>
               {habit?.reminderAt.length > 0 && findClosestReminder(habit?.reminderAt)}
               {habit?.reminderAt.length < 1 && 'None'}
@@ -325,7 +324,7 @@ export const HabitScreen = ({ route, navigation }) => {
           color={theme.CONTRAST_MAIN_TEXT_COLOR}
           text={'Mark as done'}
           onClick={handleOnPressMarkAsDone}
-          icon={<Icon name='checkbox-outline' size={25} color={APP_WHITE} />}
+          icon={<Icon name='checkbox-outline' size={25} color={theme.APP_WHITE} />}
           // disabled={loading}
         />
       </View>
