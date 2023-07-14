@@ -10,7 +10,6 @@ import { useTheme } from '~hooks'
 
 export const UserProfile = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
-  const user = useAtomValue(userAtom)
   const { theme } = useTheme()
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
   const monthNumber = moment(selectedDay, 'MMMM Do YYYY').month()

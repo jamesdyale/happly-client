@@ -6,7 +6,7 @@ import { BottomTabNavigator } from '~navigation/BottomTabNavigator'
 import { LoginScreen } from '~screens/LoginScreen'
 import { SignUpScreen } from '~screens/SignUpScreen'
 import { ModalStack } from '~navigation/ModalStack'
-import { isAppReadyAtom, isUserOnboardedAtom } from '~state'
+import { isAppReadyAtom, isUserOnboardedAtom, userAtom } from '~state'
 import { useAtomValue } from 'jotai'
 
 
@@ -19,10 +19,7 @@ export const RootNavigator = () => {
   const isUserOnboarded = useAtomValue(isUserOnboardedAtom)
 
   return (
-    <Navigator screenOptions={{ headerShown: false }}
-               initialRouteName={
-                 isAppReady && isUserOnboarded ? ROUTES.MAIN_APP : ROUTES.LOGIN
-               }>
+    <Navigator screenOptions={{ headerShown: false }}>
       {isAppReady && !isUserOnboarded ? (
         <Group key='unauthorized'>
           <Screen name={ROUTES.BENEFIT} component={OnboardScreen} />

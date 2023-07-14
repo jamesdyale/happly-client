@@ -15,8 +15,7 @@ export const WeekCalendar = () => {
   const [week, setWeek] = useState(getWeekFromCurrentDate(moment()))
 
   const [allowSwipe, setAllowSwipe] = useState(true)
-
-
+  
   const handleDayClick = async (day: string) => {
     setSelectedDay(day)
   }

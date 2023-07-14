@@ -9,7 +9,7 @@ import { ASYNC_STORAGE_KEYS } from '~constants'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const useAuth = () => {
-  const setUser = useSetAtom(userAtom)
+  const [, setUser] = useAtom(userAtom)
   const [, setAuthFlow] = useAtom(authFlowAtom)
   const [isAppReady, setIsAppReady] = useAtom(isAppReadyAtom)
   const [isUserOnboarded, setIsUserOnboarded] = useAtom(isUserOnboardedAtom)
@@ -25,6 +25,7 @@ export const useAuth = () => {
         if (onboarding) {
           // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.ONBOARDED)
           // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_ID)
+          // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_UUID)
 
           setIsUserOnboarded(true)
           if (userId) {
@@ -32,10 +33,11 @@ export const useAuth = () => {
             if (dataDocumentSnapshot.exists()) {
               setUser(dataDocumentSnapshot.data() as User)
             }
-          } else {
-            setUser(null)
-            setAuthFlow('register')
           }
+          // else {
+          //   setUser(null)
+          //   setAuthFlow('register')
+          // }
         } else {
           setIsUserOnboarded(false)
           setAuthFlow('register')

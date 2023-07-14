@@ -17,53 +17,40 @@ import { getData } from '~utils'
 import { ASYNC_STORAGE_KEYS } from '~constants'
 
 export const HomeScreen = () => {
-  const [user, setUser] = useAtom(userAtom)
+  const timeOfDay = useAtomValue(selectedTimeOfDayAtom)
+  const editHabit = useAtomValue(editHabitAtom)
+  const dailyHabit = useAtomValue(dailyHabitsAtom)
+  const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
+  const user = useAtomValue(userAtom)
   const setDailyHabit = useSetAtom(dailyHabitsAtom)
   const setProgress = useSetAtom(progressAtom)
-  const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
-  const [timeOfDay, setTimeOfDay] = useAtom(selectedTimeOfDayAtom)
-  const editHabit = useAtomValue(editHabitAtom)
+
   const [loadingHabits, setLoadingHabits] = useState(false)
   const [loadingStats, setLoadingStats] = useState(false)
-  const dailyHabit = useAtomValue(dailyHabitsAtom)
 
   const { theme } = useTheme()
 
   useEffect(() => {
-    // TODO: Add loading state
     let isMounted = true
 
-    const asyncFunction = async () => {
-      try {
-        setLoadingHabits(true)
-        setLoadingStats(true)
-
-        await getHabitsForTheDay()
-        await getCompletedHabitForDay()
-      } catch (e) {
-        console.log(e)
-      }
-    }
-
     if (isMounted) {
-      asyncFunction()
+      getHabitsForTheDay()
+      getCompletedHabitForDay()
     }
 
     return () => {
       isMounted = false
     }
 
-  }, [selectedDay, timeOfDay, editHabit, dailyHabit, user])
+  }, [selectedDay, timeOfDay])
 
-  
+
   const getHabitsForTheDay = async () => {
-    // const userId = await getData(ASYNC_STORAGE_KEYS.USER_ID) as User['id']
-
     if (!user) {
       console.log('no user')
       return
     }
-
+    
     const dailyHabitsQuery = ActionGetUserHabitsByUserId(user.id, timeOfDay)
 
     const unsubscribe = onSnapshot(dailyHabitsQuery, (querySnapshot) => {

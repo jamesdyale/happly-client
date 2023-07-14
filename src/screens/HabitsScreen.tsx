@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native'
 import React, { useEffect } from 'react'
-import { habitsAtom, userAtom } from '~state'
-import { useAtom, useAtomValue } from 'jotai'
+import { habitsAtom } from '~state'
+import { useAtom } from 'jotai'
 import { ActionGetHabitsByUserId } from '~actions'
 import { onSnapshot } from 'firebase/firestore'
 import { Habit, HabitHistory, Stats, User } from '~types'
@@ -13,7 +13,6 @@ import { ASYNC_STORAGE_KEYS } from '~constants'
 
 export const HabitsScreen = () => {
   const [allHabits, setHabits] = useAtom(habitsAtom)
-  const user = useAtomValue(userAtom)
   const { theme } = useTheme()
   const [stats, setStats] = React.useState<Stats[]>([])
 
