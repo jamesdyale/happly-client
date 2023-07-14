@@ -4,15 +4,15 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { CustomButton, CustomTextInput } from '~components'
 import { FIREBASE_AUTH } from '~data'
 import { generateUserId } from '~generators'
-import { useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { userAtom } from '~state'
 import { useToast } from 'react-native-toast-notifications'
-import { ActionCreateUser } from '~actions'
+import { ActionCreateUser, ActionDeleteStreakByHabitId, ActionDeleteUserById } from '~actions'
 import { User } from '~types'
 import Icon from 'react-native-vector-icons/Ionicons'
 import * as WebBrowser from 'expo-web-browser'
 import { formValidationOnBlur, storeData } from '~utils'
-import { ROUTES } from '~constants'
+import { ASYNC_STORAGE_KEYS, ROUTES } from '~constants'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { setToken } from '~services'
@@ -26,6 +26,8 @@ export const SignUpScreen = () => {
 
   const toast = useToast()
 
+  const [user, setUser] = useAtom(userAtom)
+
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -37,8 +39,6 @@ export const SignUpScreen = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState('')
 
   const [loading, setLoading] = useState(false)
-
-  const setUser = useSetAtom(userAtom)
 
   const validateForm = () => {
     // TODO: Add a global validation
@@ -85,27 +85,43 @@ export const SignUpScreen = () => {
     if (isFormValid) {
       try {
         // TODO: Redo this sign up logic due to the new system of authentication
-        // const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
-        // if (userCredentialPromise && userCredentialPromise.user) {
-        //   const data: User = {
-        //     id: generateUserId(),
-        //     email: userCredentialPromise.user.email,
-        //     name: fullName,
-        //     isAccountVerified: true
-        //   }
-        //   const token = await userCredentialPromise.user.getIdToken()
-        //   await setToken(token)
-        //   await storeData('USERID', userCredentialPromise.user.uid)
-        //   await ActionCreateUser(data, userCredentialPromise.user.uid)
-        //   setUser(data)
-        // }
+
+        if (!user) {
+          console.log('Could not find user\'s guest account')
+          return
+        }
+
+        const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
+        if (userCredentialPromise && userCredentialPromise.user) {
+          const newUser: User = {
+            id: user.id,
+            email: userCredentialPromise.user.email,
+            name: fullName,
+            isAccountVerified: true
+          }
+
+          await storeData(ASYNC_STORAGE_KEYS.USER_UUID, userCredentialPromise.user.uid)
+          await ActionCreateUser(newUser, userCredentialPromise.user.uid)
+          await ActionDeleteUserById(user.id)
+          setUser(newUser)
+        }
       } catch (error) {
-        toast.show('Sign up failed. Please try again!', {
-          type: 'danger',
-          duration: 4000,
-          placement: 'bottom',
-          icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
-        })
+        // TODO: If we find an account that is theirs we should give them the option to sign in automatically
+        if (error.code === 'auth/email-already-in-use') {
+          toast.show('Email address already in use. Please try again!', {
+            type: 'danger',
+            duration: 4000,
+            placement: 'bottom',
+            icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
+          })
+        } else {
+          toast.show('Sign up failed. Please try again!', {
+            type: 'danger',
+            duration: 4000,
+            placement: 'bottom',
+            icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
+          })
+        }
       } finally {
         setLoading(false)
       }
