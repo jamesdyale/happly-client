@@ -6,20 +6,15 @@ import { FIREBASE_AUTH } from '~data'
 import { useSetAtom } from 'jotai'
 import { userAtom } from '~state'
 import { User } from '~types'
-import { ActionCreateUser, ActionGetUserByUID } from '~actions'
+import { ActionGetUserByUID } from '~actions'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useToast } from 'react-native-toast-notifications'
-import { formValidationOnBlur, getData, storeData } from '~utils'
+import { formValidationOnBlur, storeData } from '~utils'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { ASYNC_STORAGE_KEYS, ROUTES } from '~constants'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { setToken } from '~services'
-import { useAuth, useTheme } from '~hooks'
+import { useTheme } from '~hooks'
 
-type IForm = {
-  changeBetweenForms: () => void
-}
 
 export const LoginScreen = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
@@ -27,8 +22,8 @@ export const LoginScreen = () => {
 
   const toast = useToast()
 
-  const [email, setEmail] = useState('jamesodeyale01@gmail.com')
-  const [password, setPassword] = useState('J4mly1023$')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
@@ -69,7 +64,6 @@ export const LoginScreen = () => {
           if (dataDocumentSnapshot.exists()) {
             const user = dataDocumentSnapshot.data() as User
             if (user) {
-              console.log('user', user)
               await storeData(ASYNC_STORAGE_KEYS.USER_ID, user.id)
               await storeData(ASYNC_STORAGE_KEYS.USER_UUID, userCredentialPromise.user.uid)
               setUser(user)

@@ -55,6 +55,8 @@ export const HabitScreen = ({ route, navigation }) => {
 
     return () => {
       isMounted = false
+      setSelectedHabit(null)
+      setDeleteModal(false)
     }
 
   }, [])
@@ -247,8 +249,6 @@ export const HabitScreen = ({ route, navigation }) => {
                 size={25}
                 color={theme.HABIT_OPTION}
                 onPress={() => {
-                  setDeleteModal(false)
-                  setSelectedHabit(null)
                   navigation.goBack()
                 }}
           />
