@@ -60,7 +60,6 @@ export const HabitsScreen = () => {
     return () => unsubscribe()
   }
 
-
   return (
     <SafeAreaView style={[styles.wrapper, {
       // backgroundColor: theme.MAIN_BG_COLOR
