@@ -63,34 +63,30 @@ export const LoginScreen = () => {
     if (isFormValid) {
       try {
         // TODO: Redo this sign up logic due to the new system of authentication
-        // const foundUserPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
-        // if (foundUserPromise && foundUserPromise.user) {
-        //   const dataDocumentSnapshot = await ActionGetUserByUID(foundUserPromise.user.uid)
-        //   if (dataDocumentSnapshot.exists()) {
-        //     const data = dataDocumentSnapshot.data() as User
-        //     if (data) {
-        //       // const newUser = {
-        //       //   id: data.id,
-        //       //   email: data.email,
-        //       //   name: data.name
-        //       // }
-        //       // const token = await foundUserPromise.user.getIdToken()
-        //       // await setToken(token)
-        //
-        //       await storeData(ASYNC_STORAGE_KEYS.ONBOARDED, 'true')
-        //       await storeData(ASYNC_STORAGE_KEYS.USER_ID, foundUserPromise.user.uid)
-        //       setUser(data)
-        //     }
-        //   } else {
-        //     toast.show('\'Your account doesn\'t exist. Please sign up\'', {
-        //       type: 'danger',
-        //       duration: 4000,
-        //       placement: 'bottom',
-        //       icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-        //     })
-        //
-        //   }
-        // }
+        const userCredentialPromise = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
+        if (userCredentialPromise && userCredentialPromise.user) {
+          const dataDocumentSnapshot = await ActionGetUserByUID(userCredentialPromise.user.uid)
+          if (dataDocumentSnapshot.exists()) {
+            const user = dataDocumentSnapshot.data() as User
+            if (user) {
+              console.log('user', user)
+              await storeData(ASYNC_STORAGE_KEYS.USER_ID, user.id)
+              await storeData(ASYNC_STORAGE_KEYS.USER_UUID, userCredentialPromise.user.uid)
+              setUser(user)
+              navigate(ROUTES.MAIN_APP, {
+                screen: ROUTES.MAIN_HOME
+              })
+            }
+          } else {
+            toast.show('\'Your account doesn\'t exist. Please sign up\'', {
+              type: 'danger',
+              duration: 4000,
+              placement: 'bottom',
+              icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
+            })
+
+          }
+        }
       } catch (error) {
         toast.show('Login failed. Please try again!', {
           type: 'danger',

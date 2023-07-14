@@ -3,11 +3,10 @@ import React, { useState } from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { CustomButton, CustomTextInput } from '~components'
 import { FIREBASE_AUTH } from '~data'
-import { generateUserId } from '~generators'
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom } from 'jotai'
 import { userAtom } from '~state'
 import { useToast } from 'react-native-toast-notifications'
-import { ActionCreateUser, ActionDeleteStreakByHabitId, ActionDeleteUserById } from '~actions'
+import { ActionCreateUser, ActionDeleteUserById } from '~actions'
 import { User } from '~types'
 import Icon from 'react-native-vector-icons/Ionicons'
 import * as WebBrowser from 'expo-web-browser'
@@ -15,7 +14,6 @@ import { formValidationOnBlur, storeData } from '~utils'
 import { ASYNC_STORAGE_KEYS, ROUTES } from '~constants'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { setToken } from '~services'
 import { useTheme } from '~hooks'
 
 
@@ -104,6 +102,9 @@ export const SignUpScreen = () => {
           await ActionCreateUser(newUser, userCredentialPromise.user.uid)
           await ActionDeleteUserById(user.id)
           setUser(newUser)
+          navigate(ROUTES.MAIN_APP, {
+            screen: ROUTES.MAIN_HOME
+          })
         }
       } catch (error) {
         // TODO: If we find an account that is theirs we should give them the option to sign in automatically
