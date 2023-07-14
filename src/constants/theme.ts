@@ -44,6 +44,7 @@ const Colors: ColorPalettes = {
     BORDER_COLOR: '#B0C1CB',
     LIGHT_MAIN_TEXT_COLOR: '#333333',
     INPUT_BG: '#FAFAFA',
+    CARD_BG: '#F3F2ED',
     ...sharedColors,
     ...calendarColors
   },
@@ -59,6 +60,7 @@ const Colors: ColorPalettes = {
     BORDER_COLOR: '#B0C1CB',
     LIGHT_MAIN_TEXT_COLOR: '#333333',
     INPUT_BG: '#FAFAFA',
+    CARD_BG: '#F3F2ED',
     ...sharedColors,
     ...calendarColors
   }

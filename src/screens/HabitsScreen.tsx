@@ -62,27 +62,30 @@ export const HabitsScreen = () => {
 
   return (
     <SafeAreaView style={[styles.wrapper, {
-      // backgroundColor: theme.MAIN_BG_COLOR
+      backgroundColor: theme.MAIN_BG_COLOR
     }]}>
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <Text style={[styles.headerText, {
           color: theme.MAIN_TEXT_COLOR
         }]}>Habits</Text>
-        {allHabits &&
-          Object.keys(allHabits).length > 0 &&
-          Object.keys(allHabits).map((habitId) => (
-            <CalendarWeekView key={habitId} habit={allHabits[habitId].habit} />
-          ))}
-        {allHabits &&
-          Object.keys(allHabits).length === 0 &&
-          <View style={styles.noHabitsContainer}>
-            <NoHabitIcon2 />
-            <Text style={[styles.noHabitTextMain, { color: theme.MAIN_TEXT_COLOR }]}>There are no active habits </Text>
-            <Text style={[styles.noHabitTextSub, { color: theme.MAIN_TEXT_COLOR }]}>Let’s start in developing that
-              habit </Text>
-          </View>
-        }
-      </ScrollView>
+        <ScrollView style={{ marginBottom: 20 }}>
+          {allHabits &&
+            Object.keys(allHabits).length > 0 &&
+            Object.keys(allHabits).map((habitId) => (
+              <CalendarWeekView key={habitId} habit={allHabits[habitId].habit} />
+            ))}
+          {allHabits &&
+            Object.keys(allHabits).length === 0 &&
+            <View style={styles.noHabitsContainer}>
+              <NoHabitIcon2 />
+              <Text style={[styles.noHabitTextMain, { color: theme.MAIN_TEXT_COLOR }]}>There are no active
+                habits </Text>
+              <Text style={[styles.noHabitTextSub, { color: theme.MAIN_TEXT_COLOR }]}>Let’s start in developing that
+                habit </Text>
+            </View>
+          }
+        </ScrollView>
+      </View>
     </SafeAreaView>
   )
 }

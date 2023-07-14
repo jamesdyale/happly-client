@@ -2,7 +2,7 @@ import React from 'react'
 import Svg, { ClipPath, Defs, G, Path, Rect } from 'react-native-svg'
 
 export const OnboardScreenFourIcon = () => (
-  <Svg width='362' height='362' viewBox='0 0 362 362' fill='none' xmlns='http://www.w3.org/2000/svg'>
+  <Svg width='362' height='362' viewBox='0 0 362 362' fill='none'>
     <G clip-path='url(#clip0_683_1270)'>
       <Path
         d='M181 361.094C280.463 361.094 361.094 280.463 361.094 181C361.094 81.5368 280.463 0.906006 181 0.906006C81.537 0.906006 0.90625 81.5368 0.90625 181C0.90625 280.463 81.537 361.094 181 361.094Z'

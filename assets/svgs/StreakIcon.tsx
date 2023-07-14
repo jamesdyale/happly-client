@@ -2,7 +2,7 @@ import React from 'react'
 import Svg, { G, Path } from 'react-native-svg'
 
 export const StreakIcon = () => (
-  <Svg width={129} height={129} fill='none' xmlns='http://www.w3.org/2000/Svg'>
+  <Svg width={129} height={129} fill='none'>
     <Path
       d='M47.2852 97.8244C48.9867 93.9504 50.061 89.4804 50.1623 84.2967C50.654 58.9429 79.3216 39.3777 111.123 60.8828C142.924 82.388 114.818 141.55 114.818 141.55'
       stroke='#FFF4E3' stroke-width='4.47' stroke-miterlimit='10' />

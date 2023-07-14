@@ -48,7 +48,7 @@ export const HabitScreen = ({ route, navigation }) => {
     let currentMonth = moment(currentDate).month() + 1
 
     if (isMounted) {
-      getHabitId()
+      getHabitById()
       getHabitStats(currentMonth)
       getHabitStreak()
     }
@@ -61,7 +61,7 @@ export const HabitScreen = ({ route, navigation }) => {
 
   }, [])
 
-  const getHabitId = async () => {
+  const getHabitById = async () => {
     const dataDocumentSnapshot = ActionGetUserHabitByIdDoc(selectedHabit.id)
 
     const subscription = onSnapshot(dataDocumentSnapshot, (doc) => {

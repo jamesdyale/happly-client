@@ -1,16 +1,237 @@
-import { View, Text, Button } from 'react-native'
-import React from 'react'
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
+import React, { useEffect } from 'react'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { useTheme } from '~hooks'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { SleepingIcon } from '~assets'
+import { CustomButton } from '~components'
+import { ChallengeType } from '~types/ChallengeType'
+import { generateChallengeId } from '~generators'
+import { ActionGetChallenges } from '~actions'
 
 
 export const ChallengesScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+  const { theme } = useTheme()
+  const listOfChallenges: ChallengeType[] = [
+    {
+      id: generateChallengeId(),
+      name: 'Challenge 1',
+      description: 'This is a challenge',
+      participants: [
+        'user-3K-jQKrbHBwlCiUn'
+      ],
+      numberOfParticipants: 1,
+      hashtags: ['fitness', 'health']
+    }, {
+      id: generateChallengeId(),
+      name: 'Challenge 2',
+      description: 'This is a challenge',
+      participants: [],
+      numberOfParticipants: 0,
+      hashtags: ['fitness', 'health']
+    }, {
+      id: generateChallengeId(),
+      name: 'Challenge 3',
+      description: 'This is a challenge',
+      participants: [],
+      numberOfParticipants: 0,
+      hashtags: ['fitness', 'health']
+    }
+  ]
+
+  useEffect(() => {
+    let isMounted = true
+
+    if (isMounted) {
+      getChallenges()
+    }
+  }, [])
+
+  const getChallenges = async () => {
+    const dataDocumentSnapshot = ActionGetChallenges()
+
+    if (dataDocumentSnapshot) {
+      const data = dataDocumentSnapshot.data()
+      console.log(data)
+    }
+  }
+
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>AllChallenges</Text>
-      <Button title='Go back' onPress={() => navigation.goBack()} />
+    <SafeAreaView style={[styles.wrapper, {
+      backgroundColor: theme.MAIN_BG_COLOR
+    }]}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={[styles.headerText, {
+            color: theme.MAIN_TEXT_COLOR
+          }]}>Challenge</Text>
+          <TouchableOpacity onPress={() => console.log('searching')}>
+            <Icon name='search' size={30} color={theme.MAIN_TEXT_COLOR} />
+          </TouchableOpacity>
+        </View>
+        {/*
+          TODO: Down the line I should have a list of challenges created by the
+          user and some popular challenges that are trending. For now, I'll just
+          have a list of popular challenges.
+          Popular Challenges depends on the amount of member in the challenge.
+        */}
+        <ScrollView style={{ marginBottom: 70 }}>
+          {listOfChallenges.map((challenge) => (
+            <SingleChallenge key={challenge.id} challenge={challenge} />
+          ))}
+        </ScrollView>
+      </View>
+    </SafeAreaView>
+  )
+}
+
+const SingleChallenge = ({ challenge }: { challenge: ChallengeType }) => {
+  const { theme } = useTheme()
+
+  return (
+    <View style={[styles.singleChallengeContainer, {
+      backgroundColor: theme.CARD_BG
+    }]}>
+      <View style={styles.hashtagsContainer}>
+        <View style={{ flexDirection: 'row' }}>
+          {challenge.hashtags.map((hashtag) => (
+            <Text key={hashtag} style={[styles.hashtags, {
+              color: theme.MAIN_ACCENT_COLOR,
+              backgroundColor: theme.MAIN_ACCENT_COLOR + '20'
+            }]}>#{hashtag} </Text>
+          ))}
+        </View>
+
+        <Text style={[styles.challengeMemberNumber, {
+          color: theme.MAIN_ACCENT_COLOR,
+          backgroundColor: theme.MAIN_ACCENT_COLOR + '20'
+        }]}>{
+          challenge.numberOfParticipants > 1
+            ? `${challenge.numberOfParticipants} members`
+            : `${challenge.numberOfParticipants} member`
+        }
+        </Text>
+      </View>
+      <View style={styles.challengeInfo}>
+        <View style={styles.challengeInfoTop}>
+          <View>
+            <Text style={styles.challengeName}>{challenge.name}</Text>
+            <Text style={styles.challengeDescription}>{challenge.description}</Text>
+          </View>
+          <View style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignSelf: 'center',
+            justifyContent: 'center'
+          }}>
+            <SleepingIcon />
+          </View>
+        </View>
+        <View>
+          <CustomButton
+            bgColor={theme.MAIN_ACCENT_COLOR}
+            color={theme.CONTRAST_MAIN_TEXT_COLOR}
+            text='Join'
+            onClick={() => console.log('joining')}
+            disabled={false}
+          />
+        </View>
+      </View>
     </View>
   )
 }
+
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1
+  },
+  container: {
+    padding: 20,
+    marginBottom: 20
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20
+  },
+  headerText: {
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 30,
+    lineHeight: 36,
+    display: 'flex'
+  },
+  noHabitsContainer: {
+    flex: 1,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20
+  },
+  noHabitTextMain: {
+    fontFamily: 'Inter_700Bold',
+    fontStyle: 'normal',
+    fontSize: 24,
+    lineHeight: 36
+  },
+  noHabitTextSub: {
+    fontFamily: 'Inter_400Regular',
+    fontSize: 14,
+    fontStyle: 'normal',
+    lineHeight: 18
+  },
+  singleChallengeContainer: {
+    marginBottom: 20,
+    padding: 20,
+    borderRadius: 10
+  },
+  hashtagsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20
+  },
+  hashtags: {
+    fontStyle: 'normal',
+    fontFamily: 'Inter_400Regular',
+    fontSize: 12,
+    lineHeight: 18,
+    marginRight: 10,
+    padding: 5
+  },
+  challengeInfo: {},
+  challengeInfoTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10
+
+  },
+  challengeName: {
+    fontStyle: 'normal',
+    fontFamily: 'Inter_700Bold',
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 5
+  },
+  challengeDescription: {
+    fontStyle: 'normal',
+    fontFamily: 'Inter_400Regular',
+    fontSize: 13,
+    lineHeight: 18,
+    marginBottom: 5
+  },
+  challengeMemberNumber: {
+    fontStyle: 'normal',
+    fontFamily: 'Inter_700Bold',
+    fontSize: 12,
+    lineHeight: 18,
+    marginRight: 10,
+    padding: 5
+  }
+})

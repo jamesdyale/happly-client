@@ -22,6 +22,7 @@ export type ColorTheme = {
   BORDER_COLOR: string;
   LIGHT_MAIN_TEXT_COLOR: string;
   INPUT_BG: string;
+  CARD_BG: string;
 };
 
 export type ColorPalettes = {
