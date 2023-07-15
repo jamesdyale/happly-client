@@ -12,6 +12,11 @@ import { CreateHabitScreen } from '~screens'
 
 const { Navigator, Screen } = createBottomTabNavigator()
 
+const specialScreens = new Set([
+  ROUTES.CREATE_HABIT,
+  ROUTES.CHALLENGES
+])
+
 export const BottomTabNavigator = () => {
   return (
     <Navigator
@@ -21,7 +26,7 @@ export const BottomTabNavigator = () => {
         tabBarInactiveTintColor: HABIT_OPTION,
         tabBarStyle: {
           ...styles.tabBarStyle,
-          display: route.name === ROUTES.CREATE_HABIT ? 'none' : 'flex'
+          display: specialScreens.has(route.name) ? 'none' : 'flex'
         },
         tabBarActiveTintColor: MAIN_ACCENT_COLOR,
         tabBarIcon: ({ color, size, focused }) => {

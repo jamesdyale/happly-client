@@ -7,39 +7,16 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { SleepingIcon } from '~assets'
 import { CustomButton } from '~components'
 import { ChallengeType } from '~types/ChallengeType'
-import { generateChallengeId } from '~generators'
 import { ActionGetChallenges } from '~actions'
+import { onSnapshot } from 'firebase/firestore'
+import { useAtom } from 'jotai'
+import { challengesAtom } from '~state'
 
 
 export const ChallengesScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const { theme } = useTheme()
-  const listOfChallenges: ChallengeType[] = [
-    {
-      id: generateChallengeId(),
-      name: 'Challenge 1',
-      description: 'This is a challenge',
-      participants: [
-        'user-3K-jQKrbHBwlCiUn'
-      ],
-      numberOfParticipants: 1,
-      hashtags: ['fitness', 'health']
-    }, {
-      id: generateChallengeId(),
-      name: 'Challenge 2',
-      description: 'This is a challenge',
-      participants: [],
-      numberOfParticipants: 0,
-      hashtags: ['fitness', 'health']
-    }, {
-      id: generateChallengeId(),
-      name: 'Challenge 3',
-      description: 'This is a challenge',
-      participants: [],
-      numberOfParticipants: 0,
-      hashtags: ['fitness', 'health']
-    }
-  ]
+  const [challenges, setChallenges] = useAtom(challengesAtom)
 
   useEffect(() => {
     let isMounted = true
@@ -50,12 +27,19 @@ export const ChallengesScreen = () => {
   }, [])
 
   const getChallenges = async () => {
-    const dataDocumentSnapshot = ActionGetChallenges()
+    const dataDocumentSnapshotQuery = ActionGetChallenges()
 
-    if (dataDocumentSnapshot) {
-      const data = dataDocumentSnapshot.data()
-      console.log(data)
-    }
+    const unsubscribe = onSnapshot(dataDocumentSnapshotQuery, (querySnapshot) => {
+      const challenges: ChallengeType[] = []
+      querySnapshot.forEach((doc) => {
+        const challenge = doc.data() as ChallengeType
+        challenges.push(challenge)
+      })
+
+      setChallenges(challenges)
+    })
+
+    return () => unsubscribe()
   }
 
 
@@ -78,27 +62,36 @@ export const ChallengesScreen = () => {
           have a list of popular challenges.
           Popular Challenges depends on the amount of member in the challenge.
         */}
-        <ScrollView style={{ marginBottom: 70 }}>
-          {listOfChallenges.map((challenge) => (
-            <SingleChallenge key={challenge.id} challenge={challenge} />
-          ))}
-        </ScrollView>
+        {challenges && challenges.length === 0 && (
+          <View style={{
+            display: 'flex'
+          }}>
+            <Text>No challenge created</Text>
+          </View>
+        )}
+        {challenges && challenges.length > 0 && (
+          <ScrollView style={{ marginBottom: 70 }}>
+            {challenges.map((challenge, index) => (
+              <SingleChallenge key={index} {...challenge} />
+            ))}
+          </ScrollView>
+        )}
       </View>
     </SafeAreaView>
   )
 }
 
-const SingleChallenge = ({ challenge }: { challenge: ChallengeType }) => {
+const SingleChallenge = (challenge: ChallengeType) => {
   const { theme } = useTheme()
 
   return (
-    <View style={[styles.singleChallengeContainer, {
+    <View key={challenge.id} style={[styles.singleChallengeContainer, {
       backgroundColor: theme.CARD_BG
     }]}>
       <View style={styles.hashtagsContainer}>
         <View style={{ flexDirection: 'row' }}>
-          {challenge.hashtags.map((hashtag) => (
-            <Text key={hashtag} style={[styles.hashtags, {
+          {challenge.hashtags.map((hashtag, index) => (
+            <Text key={index} style={[styles.hashtags, {
               color: theme.MAIN_ACCENT_COLOR,
               backgroundColor: theme.MAIN_ACCENT_COLOR + '20'
             }]}>#{hashtag} </Text>
@@ -117,7 +110,12 @@ const SingleChallenge = ({ challenge }: { challenge: ChallengeType }) => {
       </View>
       <View style={styles.challengeInfo}>
         <View style={styles.challengeInfoTop}>
-          <View>
+          <View style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: '60%'
+          }}>
             <Text style={styles.challengeName}>{challenge.name}</Text>
             <Text style={styles.challengeDescription}>{challenge.description}</Text>
           </View>

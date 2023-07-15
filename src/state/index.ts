@@ -1,6 +1,7 @@
 import { atomWithStorage } from 'jotai/utils'
 import { Habit, HabitHistory, Stats, TColors, TimeOfDay, User } from '~types'
 import moment from 'moment'
+import { ChallengeType } from '~types/ChallengeType'
 
 
 export const authFlowAtom = atomWithStorage<'login' | 'register'>('authFlow', 'register')
@@ -17,3 +18,4 @@ export const loadingAtom = atomWithStorage<boolean>('loading', false)
 export const isAppReadyAtom = atomWithStorage<boolean>('isAppReady', false)
 export const isUserOnboardedAtom = atomWithStorage<boolean>('isUserOnboarded', false)
 export const themeAtom = atomWithStorage<TColors | null>('theme', null)
+export const challengesAtom = atomWithStorage<ChallengeType[] | null>('challenges', null)

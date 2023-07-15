@@ -28,7 +28,7 @@ export const UserProfile = () => {
         </View>
         <View>
         </View>
-        <TouchableOpacity onPress={() => navigate(ROUTES.CUSTOM_STACK, { screen: 'Settings' })}>
+        <TouchableOpacity onPress={() => navigate(ROUTES.SETTINGS)}>
           <Icon name='settings' size={25} color={theme.MAIN_TEXT_COLOR} />
         </TouchableOpacity>
       </View>

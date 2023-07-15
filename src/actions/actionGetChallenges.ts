@@ -1,11 +1,13 @@
-import { collection, doc, getDoc, getDocs, orderBy, query, where } from 'firebase/firestore'
+import { collection, orderBy, query } from 'firebase/firestore'
 import { FIREBASE_DB } from '~data'
 
-export const ActionGetChallenges = async () => {
-  return await getDocs(
-    query(
+export const ActionGetChallenges = () => {
+  try {
+    return query(
       collection(FIREBASE_DB, 'challenges'),
       orderBy('numberOfParticipants', 'desc')
     )
-  )
+  } catch (error) {
+    console.log('error - ', error)
+  }
 }

@@ -31,4 +31,12 @@ export const formValidationOnBlur = (field, value) => {
       return ''
     }
   }
+
+  if (field === 'description') {
+    if (!value || value.length === 0) {
+      return 'Please enter a challenge description'
+    } else {
+      return ''
+    }
+  }
 }

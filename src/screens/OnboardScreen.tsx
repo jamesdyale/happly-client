@@ -8,7 +8,8 @@ import {
   View
 } from 'react-native'
 import { CustomSlider } from '~components'
-import { NextBtn, OnboardItem, screens, storeData, randomNameGenerator } from '~utils'
+import { storeData, randomNameGenerator } from '~utils'
+import { NextBtn, OnboardItem, screens } from './OnboardScreens'
 import { ASYNC_STORAGE_KEYS } from '~constants'
 import { useSetAtom } from 'jotai'
 import { isUserOnboardedAtom, userAtom } from '~state'

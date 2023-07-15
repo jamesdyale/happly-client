@@ -1,7 +1,7 @@
 import { ROUTES } from '../constants'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { OnboardScreen, AccountRecoveryScreen, HabitScreen, HabitsScreen } from '~screens'
+import { OnboardScreen, AccountRecoveryScreen, HabitScreen, HabitsScreen, SettingsScreen } from '~screens'
 import { BottomTabNavigator } from '~navigation/BottomTabNavigator'
 import { LoginScreen } from '~screens/LoginScreen'
 import { SignUpScreen } from '~screens/SignUpScreen'
@@ -33,6 +33,7 @@ export const RootNavigator = () => {
           <Screen name={ROUTES.ALL_HABIT} component={HabitsScreen} />
           <Screen name={ROUTES.HABIT} component={HabitScreen} />
           <Screen name={ROUTES.RECOVER_ACCOUNT} component={AccountRecoveryScreen} />
+          <Screen name={ROUTES.SETTINGS} component={SettingsScreen} />
         </Group>
       ) : null}
 
