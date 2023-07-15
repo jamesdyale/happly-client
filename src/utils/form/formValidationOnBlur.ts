@@ -39,4 +39,12 @@ export const formValidationOnBlur = (field, value) => {
       return ''
     }
   }
+
+  if (field === 'invite') {
+    if (!value || value.length === 0) {
+      return 'Please enter a invitie'
+    } else {
+      return ''
+    }
+  }
 }
