@@ -14,7 +14,7 @@ const { Navigator, Screen } = createBottomTabNavigator()
 
 const specialScreens = new Set([
   ROUTES.CREATE_HABIT,
-  ROUTES.CHALLENGES
+  ROUTES.CREATE_CHALLENGE
 ])
 
 export const BottomTabNavigator = () => {
