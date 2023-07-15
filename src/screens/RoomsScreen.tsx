@@ -207,12 +207,10 @@ const styles = StyleSheet.create({
   makeUpStyleImage: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center'
   },
   makeUpStyleImageText: {
-    color: '#fff',
     fontSize: 20,
     fontWeight: '700'
   },
@@ -240,14 +238,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_400Regular',
     fontSize: 12,
     lineHeight: 18,
-    color: '#8E8E8E',
     marginBottom: 5
   },
   timeDetailsUnread: {
     width: 20,
     height: 20,
     borderRadius: 20,
-    backgroundColor: '#FF0000',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -255,7 +251,6 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontFamily: 'Inter_400Regular',
     fontSize: 12,
-    lineHeight: 18,
-    color: '#fff'
+    lineHeight: 18
   }
 })

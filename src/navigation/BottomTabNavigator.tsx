@@ -33,7 +33,6 @@ export const BottomTabNavigator = () => {
         tabBarIcon: ({ color, size, focused }) => {
           let iconName
           let tabName
-          console.log('route', route)
 
           if (route.name === ROUTES.HOME) {
             iconName = focused ? 'ios-home-sharp' : 'ios-home-outline'
