@@ -14,7 +14,8 @@ const { Navigator, Screen } = createBottomTabNavigator()
 
 const specialScreens = new Set([
   ROUTES.CREATE_HABIT,
-  ROUTES.CREATE_CHALLENGE
+  ROUTES.CREATE_CHALLENGE,
+  ROUTES.ROOMS
 ])
 
 export const BottomTabNavigator = () => {
@@ -32,6 +33,7 @@ export const BottomTabNavigator = () => {
         tabBarIcon: ({ color, size, focused }) => {
           let iconName
           let tabName
+          console.log('route', route)
 
           if (route.name === ROUTES.HOME) {
             iconName = focused ? 'ios-home-sharp' : 'ios-home-outline'
