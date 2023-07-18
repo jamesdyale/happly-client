@@ -7,10 +7,10 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Frequency, TimeOfDay } from '~types'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { editHabitAtom, selectedDayOfTheWeekAtom, userAtom } from '~state'
-import { ActionCreateHabit, ActionCreateOrUpdateStreak } from '~actions'
+import { ActionCreateHabit, ActionCreateOrUpdateStreak, ActionCreateReminders } from '~actions'
 import { useToast } from 'react-native-toast-notifications'
 import moment from 'moment/moment'
-import { generateHabitId } from '~generators'
+import { generateHabitId, generateReminderId } from '~generators'
 import { NotificationModal } from '~modals'
 import { formValidationOnBlur, getData } from '~utils'
 import { useTheme } from '~hooks'
@@ -73,6 +73,12 @@ export const CreateHabitScreen = () => {
         reminderAt
       })
 
+      await ActionCreateReminders({
+        reminderAt,
+        habitId: generateHabitId(), // habit.id,
+        userId: user.id
+      })
+
       if (!habit) {
         toast.show('Something went wrong', {
           type: 'danger',
@@ -104,6 +110,9 @@ export const CreateHabitScreen = () => {
           reminderAt
         }
       )
+
+      // figure out how I want to handle reminder updates - check if there are any new reminders and create them or delete all the previous reminders and create new ones
+      // await ActionCreateReminders
 
       setEditHabit(null)
       toast.show('Habit saved!', {
