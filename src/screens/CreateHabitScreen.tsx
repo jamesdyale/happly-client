@@ -114,14 +114,14 @@ export const CreateHabitScreen = () => {
       // figure out how I want to handle reminder updates
       // check if there are any new reminders and create them or delete all the previous reminders
       // and create new ones
-      await ActionDeleteReminder({
+      ActionDeleteReminder({
         habitId: editHabit.id
-      })
-
-      await ActionCreateReminders({
-        reminderAt,
-        habitId: editHabit.id,
-        userId: user.id
+      }).then(async () => {
+        await ActionCreateReminders({
+          reminderAt,
+          habitId: editHabit.id,
+          userId: user.id
+        })
       })
 
       setEditHabit(null)
