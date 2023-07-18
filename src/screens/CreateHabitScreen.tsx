@@ -7,7 +7,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Frequency, TimeOfDay } from '~types'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { editHabitAtom, selectedDayOfTheWeekAtom, userAtom } from '~state'
-import { ActionCreateHabit, ActionCreateOrUpdateStreak, ActionCreateReminders } from '~actions'
+import { ActionCreateHabit, ActionCreateOrUpdateStreak, ActionCreateReminders, ActionDeleteReminder } from '~actions'
 import { useToast } from 'react-native-toast-notifications'
 import moment from 'moment/moment'
 import { generateHabitId, generateReminderId } from '~generators'
@@ -75,7 +75,7 @@ export const CreateHabitScreen = () => {
 
       await ActionCreateReminders({
         reminderAt,
-        habitId: generateHabitId(), // habit.id,
+        habitId: habit.id,
         userId: user.id
       })
 
@@ -111,8 +111,18 @@ export const CreateHabitScreen = () => {
         }
       )
 
-      // figure out how I want to handle reminder updates - check if there are any new reminders and create them or delete all the previous reminders and create new ones
-      // await ActionCreateReminders
+      // figure out how I want to handle reminder updates
+      // check if there are any new reminders and create them or delete all the previous reminders
+      // and create new ones
+      await ActionDeleteReminder({
+        habitId: editHabit.id
+      })
+
+      await ActionCreateReminders({
+        reminderAt,
+        habitId: editHabit.id,
+        userId: user.id
+      })
 
       setEditHabit(null)
       toast.show('Habit saved!', {
@@ -151,7 +161,7 @@ export const CreateHabitScreen = () => {
     setShowNotificationModal(false)
   }
 
-  const removeReminder = (reminder: string) => {
+  const removeReminder = async (reminder: string) => {
     const filtered = reminderAt.filter((item) => item !== reminder)
     setReminderAt(filtered)
   }
