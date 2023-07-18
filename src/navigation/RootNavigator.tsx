@@ -28,12 +28,12 @@ export const RootNavigator = () => {
       {isAppReady && isUserOnboarded ? (
         <Group key='authorized'>
           <Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
-          <Screen name={ROUTES.LOGIN} component={LoginScreen} />
-          <Screen name={ROUTES.SIGNUP} component={SignUpScreen} />
           <Screen name={ROUTES.ALL_HABIT} component={HabitsScreen} />
           <Screen name={ROUTES.HABIT} component={HabitScreen} />
           <Screen name={ROUTES.RECOVER_ACCOUNT} component={AccountRecoveryScreen} />
           <Screen name={ROUTES.SETTINGS} component={SettingsScreen} />
+          <Screen name={ROUTES.LOGIN} component={LoginScreen} />
+          <Screen name={ROUTES.SIGNUP} component={SignUpScreen} />
         </Group>
       ) : null}
 

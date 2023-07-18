@@ -10,7 +10,7 @@ import {
 } from '~state'
 import { Habit, Stats, User } from '~types'
 import { ActionGetUserHabitsByUserId, ActionGetCompletedStatForDay } from '~actions'
-import { onSnapshot } from 'firebase/firestore'
+import { onSnapshot, query } from 'firebase/firestore'
 import moment from 'moment/moment'
 import { useTheme } from '~hooks'
 import { getData } from '~utils'
@@ -50,7 +50,7 @@ export const HomeScreen = () => {
       console.log('no user')
       return
     }
-    
+
     const dailyHabitsQuery = ActionGetUserHabitsByUserId(user.id, timeOfDay)
 
     const unsubscribe = onSnapshot(dailyHabitsQuery, (querySnapshot) => {
@@ -89,6 +89,10 @@ export const HomeScreen = () => {
 
     const unsubscribe = onSnapshot(completedHabitQuery, (querySnapshot) => {
         const progress: Stats[] = []
+        progress.filter(() => {
+          return false
+        })
+
         querySnapshot.forEach((doc) => {
           const data = doc.data() as unknown as Stats
           progress.push(data)
