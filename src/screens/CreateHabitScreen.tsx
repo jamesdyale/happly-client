@@ -12,8 +12,9 @@ import { useToast } from 'react-native-toast-notifications'
 import moment from 'moment/moment'
 import { generateHabitId } from '~generators'
 import { NotificationModal } from '~modals'
-import { formValidationOnBlur } from '~utils'
+import { formValidationOnBlur, getData } from '~utils'
 import { useTheme } from '~hooks'
+import { ASYNC_STORAGE_KEYS } from '~constants'
 
 export const CreateHabitScreen = () => {
   const toast = useToast()
@@ -153,6 +154,16 @@ export const CreateHabitScreen = () => {
     }
 
     setSelectedDays([...selectedDays, day])
+  }
+
+  const checkIfUserHasEnabledPushNotification = async () => {
+    const token = await getData(ASYNC_STORAGE_KEYS.PUSH_TOKEN)
+    if (token) {
+      setShowNotificationModal(true)
+    } else {
+      Alert.alert('Please enable push notifications in your phone settings in order to set reminders')
+    }
+
   }
 
   return (
@@ -330,7 +341,7 @@ export const CreateHabitScreen = () => {
                     style={[styles.reminderTime, {
                       backgroundColor: theme.APP_GRAY
                     }]}
-                    onPress={() => setShowNotificationModal(true)}>
+                    onPress={() => checkIfUserHasEnabledPushNotification()}>
                     <Icon name='ios-add-circle-sharp' size={20} color={theme.APP_BLACK} style={{ marginRight: 5 }} />
                     <Text style={[styles.periodOptionTitle, {
                       color: theme.GRAY_TEXT

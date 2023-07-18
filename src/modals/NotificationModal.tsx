@@ -4,10 +4,14 @@ import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { APP_BLACK, APP_GRAY, APP_WHITE, GRAY_TEXT, MAIN_ACCENT_COLOR } from '~styles'
 import Modal from 'react-native-modal'
+import { CustomButton } from '~components'
+import { useTheme } from '~hooks'
 
 export const NotificationModal = ({ handleTimeSelected, closeNotificationModal }) => {
   const [time, setTime] = React.useState(new Date())
   const [show, setShow] = React.useState(true)
+
+  const { theme } = useTheme()
 
   const handleChange = (event, selectedTime) => {
 
@@ -22,11 +26,17 @@ export const NotificationModal = ({ handleTimeSelected, closeNotificationModal }
           position: 'relative',
           alignItems: 'center'
         }}>
-          <View style={styles.container}>
-            <View style={styles.heading}>
-              <Text style={styles.titleSection}>New reminder</Text>
+          <View style={[styles.container, {
+            backgroundColor: theme.MAIN_BG_COLOR
+          }]}>
+            <View style={[styles.heading, {
+              borderBottomColor: theme.BORDER_COLOR
+            }]}>
+              <Text style={[styles.titleSection, {
+                color: theme.MAIN_TEXT_COLOR
+              }]}>New reminder</Text>
               <TouchableOpacity onPress={closeNotificationModal}>
-                <Icon name='close' size={25} color={APP_BLACK} />
+                <Icon name='close' size={25} color={theme.MAIN_TEXT_COLOR} />
               </TouchableOpacity>
             </View>
             <View style={styles.timePickerWrapper}>
@@ -37,14 +47,17 @@ export const NotificationModal = ({ handleTimeSelected, closeNotificationModal }
                 onChange={(e, selectedTime) => setTime(selectedTime)}
                 display='spinner'
                 is24Hour={true}
+                textColor={theme.MAIN_TEXT_COLOR}
               />
             </View>
             <View>
-              <TouchableOpacity
-                style={styles.addReminderBtn}
-                onPress={() => handleTimeSelected(time)}>
-                <Text style={styles.addReminderBtnText}>Add reminder</Text>
-              </TouchableOpacity>
+              <CustomButton
+                bgColor={theme.MAIN_ACCENT_COLOR}
+                color={theme.CONTRAST_MAIN_TEXT_COLOR}
+                text='Add reminder'
+                onClick={() => handleTimeSelected(time)}
+                disabled={false}
+              />
 
             </View>
           </View>
@@ -55,13 +68,14 @@ export const NotificationModal = ({ handleTimeSelected, closeNotificationModal }
 }
 
 const styles = StyleSheet.create({
-  wrapper: {},
+  wrapper: {
+    backgroundColor: 'red'
+  },
   container: {
     width: '100%',
     marginTop: 30,
     position: 'absolute',
     bottom: 0,
-    backgroundColor: APP_WHITE,
     borderRadius: 20,
     padding: 30,
     shadowColor: '#000',
@@ -80,7 +94,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    borderBottomColor: APP_GRAY,
     marginBottom: 10,
     paddingBottom: 10
   },
@@ -90,7 +103,7 @@ const styles = StyleSheet.create({
   titleSection: {
     fontFamily: 'Inter_500Medium',
     fontSize: 16,
-    color: GRAY_TEXT
+    color: 'red'
   },
   addReminderBtn: {
     backgroundColor: MAIN_ACCENT_COLOR,
