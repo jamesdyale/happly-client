@@ -9,5 +9,5 @@ export type Reminder = {
   userId: User['id'];
   habitId: Habit['id'];
   isDaily: boolean;
-
+  daysOfWeek: string[];
 };

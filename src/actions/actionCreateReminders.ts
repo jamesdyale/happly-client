@@ -8,13 +8,15 @@ type ReminderTypes = {
   userId: User['id']
   habitId: Habit['id'];
   isDaily: boolean;
+  daysOfWeek?: string[];
 }
 
 export const ActionCreateReminders = async ({
                                               reminderAt,
                                               userId,
                                               habitId,
-                                              isDaily
+                                              isDaily,
+                                              daysOfWeek
                                             }: ReminderTypes) => {
   try {
     for (const reminder of reminderAt) {
@@ -30,7 +32,8 @@ export const ActionCreateReminders = async ({
         reminderMinute,
         userId,
         habitId,
-        isDaily
+        isDaily,
+        daysOfWeek: daysOfWeek || []
       }
 
       await setDoc(doc(FIREBASE_DB, 'reminders', reminderData.id), reminderData)

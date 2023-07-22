@@ -77,7 +77,8 @@ export const CreateHabitScreen = () => {
         reminderAt,
         habitId: habit.id,
         userId: user.id,
-        isDaily: frequencyOption === Frequency.Daily
+        isDaily: frequencyOption === Frequency.Daily,
+        daysOfWeek: selectedDays
       })
 
       if (!habit) {
@@ -122,7 +123,8 @@ export const CreateHabitScreen = () => {
           reminderAt,
           habitId: editHabit.id,
           userId: user.id,
-          isDaily: frequencyOption === Frequency.Daily
+          isDaily: frequencyOption === Frequency.Daily,
+          daysOfWeek: selectedDays
         })
       })
 
