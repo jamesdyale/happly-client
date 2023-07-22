@@ -1,5 +1,5 @@
 import { doc, setDoc } from 'firebase/firestore'
-import { Habit, User } from '~types'
+import { Habit, Reminder, User } from '~types'
 import { FIREBASE_DB } from '~data'
 import { generateReminderId } from '~generators'
 
@@ -7,24 +7,30 @@ type ReminderTypes = {
   reminderAt: string[];
   userId: User['id']
   habitId: Habit['id'];
+  isDaily: boolean;
 }
 
 export const ActionCreateReminders = async ({
                                               reminderAt,
                                               userId,
-                                              habitId
+                                              habitId,
+                                              isDaily
                                             }: ReminderTypes) => {
   try {
     for (const reminder of reminderAt) {
       const [userHour, userMinute] = reminder.split('T')[1].split(':').map((part) => parseInt(part.trim(), 10))
       const userTime = new Date(reminder)
       userTime.setHours(userHour, userMinute, 0)
+      const reminderHour = userTime.getHours()
+      const reminderMinute = userTime.getMinutes()
 
-      const reminderData = {
+      const reminderData: Reminder = {
         id: generateReminderId(),
-        reminderAt: userTime,
+        reminderHour,
+        reminderMinute,
         userId,
-        habitId
+        habitId,
+        isDaily
       }
 
       await setDoc(doc(FIREBASE_DB, 'reminders', reminderData.id), reminderData)

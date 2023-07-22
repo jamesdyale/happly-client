@@ -76,7 +76,8 @@ export const CreateHabitScreen = () => {
       await ActionCreateReminders({
         reminderAt,
         habitId: habit.id,
-        userId: user.id
+        userId: user.id,
+        isDaily: frequencyOption === Frequency.Daily
       })
 
       if (!habit) {
@@ -120,7 +121,8 @@ export const CreateHabitScreen = () => {
         await ActionCreateReminders({
           reminderAt,
           habitId: editHabit.id,
-          userId: user.id
+          userId: user.id,
+          isDaily: frequencyOption === Frequency.Daily
         })
       })
 
@@ -173,6 +175,13 @@ export const CreateHabitScreen = () => {
     }
 
     setSelectedDays([...selectedDays, day])
+  }
+
+  const checkIfTheUserHasPushNotification = async () => {
+    const token = await getData(ASYNC_STORAGE_KEYS.PUSH_TOKEN)
+    if (token) {
+      console.log('token exists - ', token)
+    }
   }
 
   const checkIfUserHasEnabledPushNotification = async () => {

@@ -1,11 +1,13 @@
 import { Habit } from './Habit'
-import { UniqueId } from '../generators/generateId'
+import { UniqueId } from '~generators'
 import { User } from '~types/User'
 
 export type Reminder = {
   id: UniqueId<'reminder'>;
-  reminderAt: string; // this should be in UTC
+  reminderHour: number; // this should be in UTC
+  reminderMinute: number; // this should be in UTC
   userId: User['id'];
   habitId: Habit['id'];
-  token: string;
+  isDaily: boolean;
+
 };
