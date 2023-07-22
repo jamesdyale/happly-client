@@ -46,7 +46,8 @@ export const OnboardScreen = () => {
       id: generateUserId(),
       email: '',
       name: randomNameGenerator(),
-      isAccountVerified: false
+      isAccountVerified: false,
+      pushToken: '' // figure out a way to ask the user for permission to send push notifications
     }
 
     // we want to set the user to be logged in

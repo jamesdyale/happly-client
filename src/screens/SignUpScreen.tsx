@@ -95,7 +95,8 @@ export const SignUpScreen = () => {
             id: user.id,
             email: userCredentialPromise.user.email,
             name: fullName,
-            isAccountVerified: true
+            isAccountVerified: true,
+            pushToken: user.pushToken
           }
 
           await storeData(ASYNC_STORAGE_KEYS.USER_UUID, userCredentialPromise.user.uid)

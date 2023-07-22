@@ -51,7 +51,7 @@ async function registerForPushNotificationsAsync() {
 }
 
 const App = () => {
-  const [expoPushToken, setExpoPushToken] = useState('')
+  const [pushToken, setPushToken] = useState('')
   const [notification, setNotification] = useState(false)
   const notificationListener = useRef()
   const responseListener = useRef()
@@ -63,8 +63,6 @@ const App = () => {
       })
     })
   })
-
-  console.log('push token', expoPushToken)
 
   // TODO: Bring in NativeBaseProvider for light mode dark mode - https://github.com/kacgrzes/expo-typescript-template/blob/981dc18e5a7df5ec3b9be0fd847cd6e0a01e4da2/src/index.tsx#L32
   return (
