@@ -179,13 +179,6 @@ export const CreateHabitScreen = () => {
     setSelectedDays([...selectedDays, day])
   }
 
-  const checkIfTheUserHasPushNotification = async () => {
-    const token = await getData(ASYNC_STORAGE_KEYS.PUSH_TOKEN)
-    if (token) {
-      console.log('token exists - ', token)
-    }
-  }
-
   const checkIfUserHasEnabledPushNotification = async () => {
     const token = await getData(ASYNC_STORAGE_KEYS.PUSH_TOKEN)
     if (token) {
@@ -193,7 +186,6 @@ export const CreateHabitScreen = () => {
     } else {
       Alert.alert('Please enable push notifications in your phone settings in order to set reminders')
     }
-
   }
 
   return (

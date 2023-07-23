@@ -8,7 +8,7 @@ import {
   ActionGetUserHabitById,
   ActionDeleteHabitById,
   ActionDeleteStatsById,
-  ActionDeleteStreakByHabitId
+  ActionDeleteStreakByHabitId, ActionDeleteRemindersByHabitId
 } from '~actions'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useToast } from 'react-native-toast-notifications'
@@ -44,6 +44,8 @@ export const DeleteHabitModal = () => {
           setProgress((prev) => prev.filter((stat) => stat.id !== habitStat.id))
 
           await ActionDeleteStreakByHabitId(habitSelected.id)
+
+          await ActionDeleteRemindersByHabitId(habitSelected.id)
         }
 
         setSelectedHabit(null)

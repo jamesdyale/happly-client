@@ -24,11 +24,11 @@ import {
   ActionGetUserHabitById,
   ActionDeleteHabitById,
   ActionDeleteStatsById,
-  ActionDeleteStreakByHabitId
+  ActionDeleteStreakByHabitId, ActionDeleteRemindersByHabitId
 } from '~actions'
 import moment from 'moment/moment'
 import { findClosestReminder } from '~utils/timeUtils'
-import { useAtomValue } from 'jotai/index'
+import { useAtomValue } from 'jotai'
 import { Stats } from '~types'
 
 
@@ -61,6 +61,7 @@ export const EditHabitModal = () => {
           setProgress((prev) => prev.filter((stat) => stat.id !== habitStat.id))
 
           await ActionDeleteStreakByHabitId(habitSelected.id)
+          await ActionDeleteRemindersByHabitId(habitSelected.id)
         }
 
         setSelectedHabit(null)
@@ -125,7 +126,7 @@ export const EditHabitModal = () => {
     )
 
     if (!docs) return
-    
+
     let existingStat = false
     // get stat for today
     docs.forEach((doc) => {
