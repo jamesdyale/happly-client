@@ -4,8 +4,9 @@ import { User } from '~types/User'
 
 export type Reminder = {
   id: UniqueId<'reminder'>;
-  reminderHour: number; // this should be in UTC
-  reminderMinute: number; // this should be in UTC
+  utcReminderHour: number; // this should be in UTC
+  utcReminderMinute: number; // this should be in UTC
+  reminder: string;
   userId: User['id'];
   habitId: Habit['id'];
   isDaily: boolean;

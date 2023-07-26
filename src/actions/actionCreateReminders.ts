@@ -21,14 +21,17 @@ export const ActionCreateReminders = async ({
                                             }: ReminderTypes) => {
   try {
     for (const reminder of reminderAt) {
-      const userTime = moment.utc(reminder).format('HH:mm')
-      const reminderHour = parseInt(userTime.split(':')[0])
-      const reminderMinute = parseInt(userTime.split(':')[1])
+      const normalizedReminder = moment(reminder, 'HH:mm A')
+      // convert reminder to UTC
+      const utcConvertedReminder = moment.utc(reminder).format('HH:mm')
+      const utcReminderHour = parseInt(utcConvertedReminder.split(':')[0])
+      const utcReminderMinute = parseInt(utcConvertedReminder.split(':')[1])
 
       const reminderData: Reminder = {
         id: generateReminderId(),
-        reminderHour,
-        reminderMinute,
+        utcReminderMinute,
+        utcReminderHour,
+        reminder,
         userId,
         habitId,
         isDaily,
