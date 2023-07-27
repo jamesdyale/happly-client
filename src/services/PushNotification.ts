@@ -16,7 +16,6 @@ Notifications.setNotificationHandler({
 
 export const registerForPushNotificationsAsync = async () => {
   const pushToken = await getData(ASYNC_STORAGE_KEYS.PUSH_TOKEN)
-  console.log('chekcing push token', pushToken)
   if (!pushToken) {
     let token
     if (Device.isDevice) {
@@ -27,7 +26,7 @@ export const registerForPushNotificationsAsync = async () => {
         finalStatus = status
       }
       if (finalStatus !== 'granted') {
-        // alert('Failed to get push token for push notification!')
+        alert('Failed to get push token for push notification!')
         return
       }
       token = (await Notifications.getExpoPushTokenAsync()).data

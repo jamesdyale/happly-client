@@ -15,6 +15,7 @@ import { NotificationModal } from '~modals'
 import { formValidationOnBlur, getData } from '~utils'
 import { useTheme } from '~hooks'
 import { ASYNC_STORAGE_KEYS } from '~constants'
+import { registerForPushNotificationsAsync } from '~services'
 
 export const CreateHabitScreen = () => {
   const toast = useToast()
@@ -184,7 +185,13 @@ export const CreateHabitScreen = () => {
     if (token) {
       setShowNotificationModal(true)
     } else {
-      Alert.alert('Please enable push notifications in your phone settings in order to set reminders')
+      registerForPushNotificationsAsync().then((token) => {
+        if (token) {
+          setShowNotificationModal(true)
+        } else {
+          Alert.alert('Please enable push notifications in your settings')
+        }
+      })
     }
   }
 
