@@ -76,6 +76,7 @@ const OnboardScreenThree = () => {
 const OnboardScreenFour = () => {
   const { theme } = useTheme()
 
+  // we need to ask them to enable push notification here
   return (
     <>
       <View style={styles.OnboardScreen_Icon}>
