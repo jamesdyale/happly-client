@@ -1,14 +1,15 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useSetAtom, useAtomValue } from 'jotai'
 import { useToast } from 'react-native-toast-notifications'
-import { Habit, Stats } from '~types'
+import { Habit, Stats, Streak } from '~types'
 import { progressAtom, selectedDayOfTheWeekAtom, selectedHabitAtom } from '~state'
-import { ActionCreateOrUpdateStreak, ActionCreateStat } from '~actions'
+import { ActionCreateOrUpdateStreak, ActionCreateStat, ActionGetStreakByHabitId } from '~actions'
 import { APP_GRAY, APP_GREEN, APP_WHITE } from '~styles'
 import { generateStatId } from '~generators/generateId'
 import moment from 'moment'
+import { getMessageRelatedToStreakData } from '~utils'
 
 type HabitCardType = {
   habit: Habit;
@@ -22,6 +23,21 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
   const setProgress = useSetAtom(progressAtom)
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom)
   const foundProgress = progress.find((stat) => stat.habitId === habit.id)
+
+  const [streakCountMessage, setStreakCountMessage] = useState<string>('')
+
+  useEffect(() => {
+    let isMounted = true
+
+    if (isMounted) {
+      getHabitStreak()
+    }
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
 
   const handleHabitClick = () => {
     if (habit) {
@@ -75,11 +91,38 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
     }
   }
 
+  const getHabitStreak = async () => {
+    if (!habit) {
+      return
+    }
+
+    const docs = await ActionGetStreakByHabitId(habit.id)
+
+    if (!docs) return
+
+    const streak: Streak[] = []
+    docs.forEach((doc) => {
+        const data = doc.data() as unknown as Streak
+        streak.push(data)
+      }
+    )
+
+    const currentStreak = streak[0]
+
+    if (currentStreak) {
+      const streakCountMessage = getMessageRelatedToStreakData(currentStreak)
+      setStreakCountMessage(streakCountMessage)
+    }
+  }
+
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handleHabitClick} style={styles.habitNameContainer}>
         <Text style={styles.habitName}>{habit.name}</Text>
-        <Text style={styles.habitInfo}>{habit.description}</Text>
+        {streakCountMessage && streakCountMessage !== ''
+          ? <Text style={styles.habitInfo}>{streakCountMessage}</Text>
+          : <Text style={styles.habitInfo}>{habit.description}</Text>}
       </TouchableOpacity>
       <View style={styles.habitProgressContainer}>
         <View style={styles.habitProgress}>
