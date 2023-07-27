@@ -17,6 +17,7 @@ import { User } from '~types'
 import { generateUserId } from '~generators'
 import { ActionCreateUser } from '~actions'
 import { useTheme } from '~hooks'
+import { registerForPushNotificationsAsync } from '~services'
 
 
 export const OnboardScreen = () => {
@@ -59,17 +60,30 @@ export const OnboardScreen = () => {
   }
 
   const handleSkip = () => {
-    handleSettingUserAccount()
+    handleSettingUserAccount().then(r =>
+      console.log('r', r)
+    )
     // navigate(ROUTES.LOGIN)
   }
 
   const handleNext = async () => {
     if (currentScreen < screens.length - 1) {
+      if (currentScreen + 1 === 4) {
+        // request permission to send push notifications
+        await registerForPushNotificationsAsync()
+      }
       slidesRef.current.scrollToIndex({ index: currentScreen + 1 })
     } else {
       handleSettingUserAccount()
     }
   }
+
+  const handleScroll = async () => {
+    if (currentScreen + 1 === 4) {
+      await registerForPushNotificationsAsync()
+    }
+  }
+
 
   return (
     <SafeAreaView style={[styles.OnboardScreen, {
@@ -94,6 +108,7 @@ export const OnboardScreen = () => {
               [{ nativeEvent: { contentOffset: { x: scrollX } } }],
               { useNativeDriver: false }
             )}
+            onScrollBeginDrag={handleScroll}
             scrollEventThrottle={32}
             onViewableItemsChanged={viewableItemsChanged}
             viewabilityConfig={viewConfig}

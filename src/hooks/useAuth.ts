@@ -23,7 +23,7 @@ export const useAuth = () => {
         const userId = await getData(ASYNC_STORAGE_KEYS.USER_UUID)
 
         if (onboarding) {
-          // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.ONBOARDED)
+          // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.PUSH_TOKEN)
           // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_ID)
           // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_UUID)
           // await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.USER_ID, 'user-3K-jQKrbHBwlCiUn')
