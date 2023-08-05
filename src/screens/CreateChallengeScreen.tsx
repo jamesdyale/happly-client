@@ -22,7 +22,6 @@ export const CreateChallengeScreen = () => {
   const [loading, setLoading] = useState(false)
 
   const handleCreateChallenge = () => {
-
   }
 
   return (

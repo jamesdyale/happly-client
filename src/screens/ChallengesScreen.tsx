@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import React, { useEffect } from 'react'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -62,6 +62,12 @@ export const ChallengesScreen = () => {
           have a list of popular challenges.
           Popular Challenges depends on the amount of member in the challenge.
         */}
+        {challenges && challenges.length > 0 && (
+          <View>
+            <Text>This user does not have any challenges</Text>
+          </View>
+        )}
+
         {challenges && challenges.length === 0 && (
           <View style={{
             display: 'flex'
@@ -83,6 +89,13 @@ export const ChallengesScreen = () => {
 
 const SingleChallenge = (challenge: ChallengeType) => {
   const { theme } = useTheme()
+
+  const handleJoinChallenge = (challengeId) => {
+    console.log('Joining challenge')
+    Alert.alert(
+      'Challenge feature is not available yet'
+    )
+  }
 
   return (
     <View key={challenge.id} style={[styles.singleChallengeContainer, {
@@ -133,7 +146,7 @@ const SingleChallenge = (challenge: ChallengeType) => {
             bgColor={theme.MAIN_ACCENT_COLOR}
             color={theme.CONTRAST_MAIN_TEXT_COLOR}
             text='Join'
-            onClick={() => console.log('joining')}
+            onClick={() => handleJoinChallenge(challenge.id)}
             disabled={false}
           />
         </View>
