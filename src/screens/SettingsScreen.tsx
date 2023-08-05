@@ -5,6 +5,7 @@ import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import * as WebBrowser from 'expo-web-browser'
 import { useTheme } from '~hooks'
+import { ThemeSwitchModal } from '~modals'
 
 export const SettingsScreen = () => {
   const { theme } = useTheme()
@@ -170,6 +171,11 @@ export const SettingsScreen = () => {
                 onPress={() => WebBrowser.openBrowserAsync('https://www.youtube.com/@jamesodeyale')} />
         </View>
       </View>
+
+      {/*
+      TODO: Add atom to control the theme switching when appearance button is clicked
+      */}
+      {/*<ThemeSwitchModal />*/}
     </SafeAreaView>
   )
 }

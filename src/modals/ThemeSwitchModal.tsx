@@ -13,15 +13,10 @@ export const ThemeSwitchModal = () => {
           <View
             style={styles.bodySectionContainer}>
             <View style={styles.bodySection}>
-              <Text style={styles.mainBodyHeader}>Pause a habit? It's still on your schedule and can be resumed when
-                you're ready.</Text>
-            </View>
-            <View style={styles.actionSection}>
-              <TouchableOpacity style={{ ...styles.actionSectionButton }}
-                                onPress={() => toast.show('Habit deleted',
-                                  { type: 'success' })}>
-                <Text style={{ color: APP_BLACK, ...styles.infoText }}>GOT IT</Text>
-              </TouchableOpacity>
+              <View style={styles.themeSelectionContainer}>
+                <Text>Light</Text>
+                <Text>Dark</Text>
+              </View>
             </View>
           </View>
         </SafeAreaView>
@@ -38,7 +33,7 @@ const styles = StyleSheet.create({
     opacity: 0.3
   },
   bodySectionContainer: {
-    width: '80%',
+    width: '50%',
     marginTop: 30,
     position: 'absolute',
     bottom: 150,
@@ -91,6 +86,13 @@ const styles = StyleSheet.create({
     borderColor: APP_RED,
     backgroundColor: APP_RED,
     borderWidth: 1
+  },
+  themeSelectionContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
+
 
 })
