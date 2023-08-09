@@ -6,10 +6,26 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import * as WebBrowser from 'expo-web-browser'
 import { useTheme } from '~hooks'
 import { ThemeSwitchModal } from '~modals'
+import { Themes } from '~constants'
+import { useSetAtom } from 'jotai'
+import { themeAtom } from '~state'
+import Colors from '~constants/theme'
 
 export const SettingsScreen = () => {
   const { theme } = useTheme()
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
+  const [themeModalVisible, setThemeModalVisible] = React.useState(false)
+  const changeTheme = useSetAtom(themeAtom)
+
+  const handleSelectTheme = (theme: Themes) => {
+    console.log('theme selected', theme)
+    if (theme === Themes.LIGHT) {
+      changeTheme(Colors.light)
+    } else {
+      changeTheme(Colors.dark)
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,7 +63,7 @@ export const SettingsScreen = () => {
             <Text style={{ marginLeft: 20 }}>Appearance</Text>
           </View>
           <Icon name='chevron-forward' size={20} color={theme.MAIN_TEXT_COLOR}
-                onPress={() => Alert.alert('Coming soon')} />
+                onPress={() => setThemeModalVisible(true)} />
         </View>
 
         <View style={styles.settingsSubItem}>
@@ -175,11 +191,10 @@ export const SettingsScreen = () => {
       {/*
       TODO: Add atom to control the theme switching when appearance button is clicked
       */}
-      {/*<ThemeSwitchModal />*/}
+      {themeModalVisible ? <ThemeSwitchModal handleSelectTheme={handleSelectTheme} /> : null}
     </SafeAreaView>
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {

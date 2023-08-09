@@ -1,21 +1,60 @@
 import React from 'react'
-import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Modal } from 'react-native'
-import { APP_BLACK, APP_RED, APP_WHITE, GRAY_TEXT, SECONDARY_BG_COLOR } from '~styles'
-import { useToast } from 'react-native-toast-notifications'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { Modal, SafeAreaView, TouchableOpacity, View, StyleSheet, Text } from 'react-native'
+import { Themes } from '~constants'
+import { useTheme } from '~hooks'
+import { useAtomValue } from 'jotai'
+import { selectedThemeAtom } from '~state'
 
-export const ThemeSwitchModal = () => {
-  const toast = useToast()
+export const ThemeSwitchModal = ({
+                                   handleSelectTheme
+                                 }: {
+  handleSelectTheme: (theme: Themes) => void
+}) => {
+  const { theme } = useTheme()
+  const selectedThemeValue = useAtomValue(selectedThemeAtom)
+  console.log('selectedThemeValue', selectedThemeValue)
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {
+      backgroundColor: theme.SECONDARY_BG_COLOR
+    }]}>
       <Modal animationType='slide' transparent={true} visible={true}>
         <SafeAreaView
           style={{ display: 'flex', flex: 1, position: 'relative', alignItems: 'center' }}>
           <View
-            style={styles.bodySectionContainer}>
+            style={[styles.bodySectionContainer, {
+              backgroundColor: theme.APP_WHITE
+            }]}>
             <View style={styles.bodySection}>
               <View style={styles.themeSelectionContainer}>
-                <Text>Light</Text>
-                <Text>Dark</Text>
+                <TouchableOpacity style={[styles.themeTextContainer, {
+                  backgroundColor: `${selectedThemeValue === Themes.LIGHT ? theme.MAIN_ACCENT_COLOR : theme.BORDER_COLOR}`,
+                  padding: 20,
+                  // borderWidth: 1,
+                  borderBottomLeftRadius: 20,
+                  borderTopLeftRadius: 20
+                }]} onPress={() => handleSelectTheme(Themes.LIGHT)}>
+                  <Icon name='sunny' size={25}
+                        color={selectedThemeValue === Themes.LIGHT ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR} />
+                  <Text style={[{
+                    marginLeft: 10,
+                    color: `${selectedThemeValue === Themes.LIGHT ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR}`
+                  }]}>Light</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.themeTextContainer, {
+                  backgroundColor: `${selectedThemeValue === Themes.DARK ? theme.MAIN_ACCENT_COLOR : theme.CONTRAST_MAIN_TEXT_COLOR}`,
+                  padding: 20,
+                  borderBottomRightRadius: 20,
+                  borderTopRightRadius: 20
+                }]} onPress={() => handleSelectTheme(Themes.DARK)}>
+                  <Icon name='moon' size={25}
+                        color={selectedThemeValue === Themes.DARK ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR} />
+                  <Text style={[{
+                    marginLeft: 10,
+                    color: `${selectedThemeValue === Themes.DARK ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR}`
+                  }]}>Dark</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -29,17 +68,13 @@ export const ThemeSwitchModal = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: SECONDARY_BG_COLOR,
     opacity: 0.3
   },
   bodySectionContainer: {
-    width: '50%',
     marginTop: 30,
     position: 'absolute',
     bottom: 150,
-    backgroundColor: APP_WHITE,
     borderRadius: 20,
-    padding: 30,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -57,40 +92,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 20
   },
-  mainBodyHeader: {
-    fontFamily: 'Inter_400Regular',
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 15,
-    color: GRAY_TEXT
-  },
-  actionSectionButton: {
-    borderRadius: 10,
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'flex-end'
-  },
-  infoText: {
-    fontFamily: 'Inter_500Medium',
-    fontStyle: 'normal',
-    fontWeight: '500',
-    fontSize: 14,
-    lineHeight: 17,
-    textAlign: 'right'
-  },
-  exitBtn: {
-    borderColor: '#B0C1CB',
-    borderWidth: 1
-  },
-  goForwardWithActionBtn: {
-    borderColor: APP_RED,
-    backgroundColor: APP_RED,
-    borderWidth: 1
-  },
   themeSelectionContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  themeTextContainer: {
+    display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center'
   }
 
