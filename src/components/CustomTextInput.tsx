@@ -27,6 +27,7 @@ export const CustomTextInput = ({
       <TextInput
         style={[styles.input, {
           borderColor: error ? 'red' : theme.BORDER_COLOR,
+          color: theme.MAIN_TEXT_COLOR,
           backgroundColor: theme.INPUT_BG
         }]}
         onChangeText={handleChange}

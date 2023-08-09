@@ -229,7 +229,7 @@ export const CreateHabitScreen = () => {
               />
               <View style={styles.sectionContainer}>
                 <Text style={[styles.sectionTitle,
-                  { color: theme.GRAY_TEXT }
+                  { color: theme.MAIN_TEXT_COLOR }
                 ]}>How often do you want to do it?</Text>
                 <View style={styles.frequencyOptions}>
                   <TouchableOpacity
@@ -265,14 +265,18 @@ export const CreateHabitScreen = () => {
 
               {frequencyOption === Frequency.Weekly ? (
                   <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Every?</Text>
+                    <Text style={[styles.sectionTitle, {
+                      color: theme.MAIN_TEXT_COLOR
+                    }]}>Every?</Text>
                     <DayPicker selectedDays={selectedDays} handleSelectDay={handleSelectDay} />
                   </View>
                 )
                 : null}
 
               <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>In which time of the day would you like to do it?</Text>
+                <Text style={[styles.sectionTitle, {
+                  color: theme.MAIN_TEXT_COLOR
+                }]}>In which time of the day would you like to do it?</Text>
                 <View style={styles.periodContainer}>
                   <TouchableOpacity
                     style={[styles.periodOption,
@@ -342,7 +346,9 @@ export const CreateHabitScreen = () => {
                     alignItems: 'center',
                     marginBottom: 10
                   }}>
-                  <Text style={styles.sectionTitle}>Should we remind you?</Text>
+                  <Text style={[styles.sectionTitle, {
+                    color: theme.MAIN_TEXT_COLOR
+                  }]}>Should we remind you?</Text>
                 </View>
 
                 <View style={styles.reminderContainer}>

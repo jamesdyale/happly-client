@@ -38,7 +38,9 @@ const Colors: ColorPalettes = {
     MAIN_ACCENT_COLOR: '#FFA400', // Brighter accent color
     NAV_ICON_COLOR: '#6C7A8B', // Slightly lighter icon color
     HABIT_OPTION: '#7E7E7E', // Darker habit option color
+    HABIT_SCREEN_ACTION_ICON_COLOR: '#CCCCCC',
     MAIN_TEXT_COLOR: '#FFFFFF', // White text for dark mode
+    MAIN_TEXT_COLOR_2: '#FFFFFF', // Lighter text color for dark mode
     CONTRAST_MAIN_TEXT_COLOR: '#000000', // Black text for dark mode
     DISABLED_BUTTON_COLOR: '#444444', // Darker disabled button color
     BORDER_COLOR: '#2C2C2C', // Darker border color
@@ -46,7 +48,10 @@ const Colors: ColorPalettes = {
     INPUT_BG: '#313131', // Darker input background
     CARD_BG: '#262626', // Darker card background
     ...sharedColors,
-    ...calendarColors
+    ...calendarColors,
+    MONTH_TEXT_COLOR: APP_WHITE,
+    DAY_TEXT_COLOR: APP_WHITE,
+    TODAY_TEXT_COLOR: MAIN_ACCENT_COLOR
   },
   light: {
     MAIN_BG_COLOR: '#FDFCF9',
@@ -54,7 +59,9 @@ const Colors: ColorPalettes = {
     MAIN_ACCENT_COLOR: '#ED9107',
     NAV_ICON_COLOR: '#9DB2CE',
     HABIT_OPTION: '#565454',
+    HABIT_SCREEN_ACTION_ICON_COLOR: '#565454',
     MAIN_TEXT_COLOR: '#000000',
+    MAIN_TEXT_COLOR_2: '#565454',
     CONTRAST_MAIN_TEXT_COLOR: '#FFFFFF',
     DISABLED_BUTTON_COLOR: '#DDDDDD',
     BORDER_COLOR: '#B0C1CB',

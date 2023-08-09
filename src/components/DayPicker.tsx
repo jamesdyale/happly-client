@@ -20,12 +20,12 @@ export const DayPicker = ({ selectedDays, handleSelectDay }: DayPickerType) => {
           key={index}
           style={{
             ...styles.day,
-            backgroundColor: selectedDays.includes(day) ? theme.APP_BLACK : theme.HABIT_OPTION,
-            borderColor: selectedDays.includes(day) ? theme.APP_BLACK : theme.HABIT_OPTION
+            backgroundColor: selectedDays.includes(day) ? theme.MAIN_TEXT_COLOR : theme.HABIT_OPTION,
+            borderColor: selectedDays.includes(day) ? theme.MAIN_TEXT_COLOR : theme.HABIT_OPTION
           }}
           onPress={() => handleSelectDay(day)}
         >
-          <Text style={{ color: selectedDays.includes(day) ? theme.APP_WHITE : theme.APP_GRAY }}
+          <Text style={{ color: selectedDays.includes(day) ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.APP_GRAY }}
           >{day.substring(0, 3)}</Text>
         </TouchableOpacity>
       ))}
@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    borderWidth: 1,
-    borderRadius: 6,
+    // borderWidth: 1,
+    // borderRadius: 6,
     padding: 5
   },
   day: {

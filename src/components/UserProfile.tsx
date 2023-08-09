@@ -34,7 +34,7 @@ export const UserProfile = () => {
       </View>
       <View style={{ paddingLeft: 20, paddingBottom: 10 }}>
         <Text style={[styles.monthAndYearText, {
-          color: theme.HABIT_OPTION
+          color: theme.MAIN_TEXT_COLOR_2
         }]}>{month} {year}</Text>
       </View>
 

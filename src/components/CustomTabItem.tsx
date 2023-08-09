@@ -7,14 +7,15 @@ import { useTheme } from '~hooks'
 
 export const CustomTabItem = (props) => {
   const { theme } = useTheme()
-  const { icon, name, size, color } = props
+  const { icon, name, size, color, focused } = props
+  console.log('props', focused)
   if (name !== 'Create') {
     return (
       <View style={[styles.customTabItemContainer, { backgroundColor: theme.SECONDARY_BG_COLOR }]}>
         <View style={styles.customTabItemIcon}>
-          <Icon name={icon} size={size} color={color} />
+          <Icon name={icon} size={size} color={focused ? color : theme.MAIN_TEXT_COLOR} />
         </View>
-        <Text style={[styles.customTabItemTabName, { color: color }]}>{name}</Text>
+        <Text style={[styles.customTabItemTabName, { color: focused ? color : theme.MAIN_TEXT_COLOR }]}>{name}</Text>
       </View>
 
     )

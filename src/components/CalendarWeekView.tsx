@@ -10,10 +10,12 @@ import { ROUTES } from '~constants'
 import { CalendarStreakWeek } from '~components/CalendarStreakWeek'
 import { useSetAtom } from 'jotai'
 import { selectedHabitAtom } from '~state'
+import { useTheme } from '~hooks'
 
 export const CalendarWeekView = ({ habit }: {
   habit: Habit
 }) => {
+  const { theme } = useTheme()
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
   const setSelectedHabit = useSetAtom(selectedHabitAtom)
@@ -29,13 +31,15 @@ export const CalendarWeekView = ({ habit }: {
     <View style={styles.container}>
       <View style={styles.habitTitleContainer}>
         <View>
-          <Text style={styles.title}>{habit.name}</Text>
+          <Text style={[styles.title, {
+            color: theme.MAIN_TEXT_COLOR
+          }]}>{habit.name}</Text>
           {/* TODO: Add label for frequency later in the future */}
           {/*<View style={styles.labelContainer}>*/}
           {/*  <Text style={styles.label}>Everyday</Text>*/}
           {/*</View>*/}
         </View>
-        <Icon name='calendar-outline' size={25} color={APP_BLACK}
+        <Icon name='calendar-outline' size={25} color={theme.MAIN_TEXT_COLOR}
               onPress={handleNavigationToHabitScreen} />
       </View>
       <View style={styles.footer}>
@@ -68,8 +72,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: 14,
-    lineHeight: 18,
-    color: APP_BLACK
+    lineHeight: 18
   },
   labelContainer: {
     paddingLeft: 4,

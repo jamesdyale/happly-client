@@ -18,7 +18,7 @@ export const useTheme = () => {
         if (colorScheme) {
           setTheme(colorScheme === 'dark' ? Colors.dark : Colors.light)
         } else {
-          setTheme(Colors.dark)
+          setTheme(Colors.light)
         }
       } catch (error) {
         console.log(error)

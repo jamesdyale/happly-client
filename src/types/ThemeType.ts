@@ -23,6 +23,8 @@ export type ColorTheme = {
   LIGHT_MAIN_TEXT_COLOR: string;
   INPUT_BG: string;
   CARD_BG: string;
+  MAIN_TEXT_COLOR_2: string;
+  HABIT_SCREEN_ACTION_ICON_COLOR: string;
 };
 
 export type ColorPalettes = {

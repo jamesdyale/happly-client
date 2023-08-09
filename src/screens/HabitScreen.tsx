@@ -247,45 +247,45 @@ export const HabitScreen = ({ route, navigation }) => {
         <View style={styles.header}>
           <Icon name='chevron-back-outline'
                 size={25}
-                color={theme.HABIT_OPTION}
+                color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
                 onPress={() => {
                   navigation.goBack()
                 }}
           />
 
           <View style={styles.headerOptions}>
-            <Icon name='create-outline' size={25} color={theme.HABIT_OPTION}
+            <Icon name='create-outline' size={25} color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
                   onPress={handleOnPressEdit} />
-            <Icon name='pause-outline' size={25} color={theme.HABIT_OPTION}
+            <Icon name='pause-outline' size={25} color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
                   onPress={handleOnPressPause} />
-            <Icon name='trash-outline' size={25} color={theme.HABIT_OPTION}
+            <Icon name='trash-outline' size={25} color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
                   onPress={handleOnPressDelete} />
           </View>
         </View>
 
         <Text style={[styles.habitName, {
-          color: theme.GRAY_TEXT
+          color: theme.MAIN_TEXT_COLOR
         }]}>{habit?.name}</Text>
         <Text style={[styles.habitDescription, {
-          color: theme.GRAY_TEXT
+          color: theme.MAIN_TEXT_COLOR
         }]}>{habit?.description}</Text>
 
         <View style={styles.habitInfo}>
           <View>
             <Text style={[styles.habitInfoText, {
-              color: theme.GRAY_TEXT
+              color: theme.MAIN_TEXT_COLOR
             }]}>Repeat:</Text>
             <Text style={[styles.habitInfoText_Frequency, {
-              color: theme.GRAY_TEXT
+              color: theme.MAIN_TEXT_COLOR
             }]}>{habit?.frequencyOption}</Text>
           </View>
           <View>
             <Text style={[styles.habitInfoText, {
-              color: theme.GRAY_TEXT
+              color: theme.MAIN_TEXT_COLOR
             }]}>Closest Remind:</Text>
             {/* TODO: Add reminder logic here */}
             <Text style={[styles.habitInfoText_Frequency, {
-              color: theme.GRAY_TEXT
+              color: theme.MAIN_TEXT_COLOR
             }]}>
               {habit?.reminderAt.length > 0 && findClosestReminder(habit?.reminderAt)}
               {habit?.reminderAt.length < 1 && 'None'}
@@ -321,7 +321,7 @@ export const HabitScreen = ({ route, navigation }) => {
         </View>
         <CustomButton
           bgColor={theme.MAIN_ACCENT_COLOR}
-          color={theme.CONTRAST_MAIN_TEXT_COLOR}
+          color={theme.APP_WHITE}
           text={'Mark as done'}
           onClick={handleOnPressMarkAsDone}
           icon={<Icon name='checkbox-outline' size={25} color={theme.APP_WHITE} />}

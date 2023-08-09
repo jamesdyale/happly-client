@@ -9,6 +9,7 @@ import { HabitStack } from '~navigation/HabitStack'
 import { ChallengeStack } from '~navigation/ChallengeStack'
 import { RoomStack } from '~navigation/RoomStack'
 import { CreateHabitScreen } from '~screens'
+import { useTheme } from '~hooks'
 
 const { Navigator, Screen } = createBottomTabNavigator()
 
@@ -19,6 +20,8 @@ const specialScreens = new Set([
 ])
 
 export const BottomTabNavigator = () => {
+  const { theme } = useTheme()
+
   return (
     <Navigator
       screenOptions={({ route }) => ({
@@ -27,10 +30,12 @@ export const BottomTabNavigator = () => {
         tabBarInactiveTintColor: HABIT_OPTION,
         tabBarStyle: {
           ...styles.tabBarStyle,
-          display: specialScreens.has(route.name) ? 'none' : 'flex'
+          display: specialScreens.has(route.name) ? 'none' : 'flex',
+          backgroundColor: theme.SECONDARY_BG_COLOR
         },
         tabBarActiveTintColor: MAIN_ACCENT_COLOR,
         tabBarIcon: ({ color, size, focused }) => {
+          console.log('color', color)
           let iconName
           let tabName
 
@@ -59,6 +64,7 @@ export const BottomTabNavigator = () => {
               icon={iconName}
               size={22}
               color={color}
+              focused={focused}
             />
           )
         }
@@ -92,7 +98,6 @@ const styles = StyleSheet.create({
   tabBarStyle: {
     display: 'flex',
     position: 'absolute',
-    backgroundColor: SECONDARY_BG_COLOR,
     borderTopWidth: 0,
     bottom: 0,
     right: 0,

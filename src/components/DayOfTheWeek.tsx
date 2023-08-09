@@ -27,11 +27,11 @@ export const DayOfTheWeek = (props: IDayOfTheWeek) => {
         }]
       }
     >
-      <Text style={[styles.dayText, { color: isSelected ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.HABIT_OPTION }]}>
+      <Text style={[styles.dayText, { color: isSelected ? theme.APP_WHITE : theme.HABIT_OPTION }]}>
         {day.day}
       </Text>
       <Text
-        style={[styles.dayNumber, { color: isSelected ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.HABIT_OPTION }]}>
+        style={[styles.dayNumber, { color: isSelected ? theme.APP_WHITE : theme.HABIT_OPTION }]}>
         {moment(dayNumber).format('D')}</Text>
     </TouchableOpacity>
 
