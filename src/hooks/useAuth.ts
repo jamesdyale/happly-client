@@ -26,11 +26,8 @@ export const useAuth = () => {
           // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.PUSH_TOKEN)
           // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_ID)
           // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER_UUID)
-          // await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.USER_ID, 'user-3K-jQKrbHBwlCiUn')
-          // await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.USER_ID, 'user-p9bgUlRxwmNvEPbg')
-          // await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.USER_UUID, 'user-p9bgUlRxwmNvEPbg')
-          // await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.USER_UUID, '7MoXiVQbhtUjCvqVzbnV4mWNO2F2')
-
+          // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.USER)
+          // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.ONBOARDED)
           setIsUserOnboarded(true)
           if (userId) {
             const dataDocumentSnapshot = await getDoc(doc(FIREBASE_DB, 'users', userId))

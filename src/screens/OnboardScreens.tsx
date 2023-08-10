@@ -22,7 +22,9 @@ const OnboardScreenOne = () => {
         <Text style={[styles.OnboardInformation_Title, {
           color: theme.MAIN_TEXT_COLOR
         }]}>Welcome to Happly</Text>
-        <Text style={styles.OnboardInformation_Text}>Build healthier habits with daily plans and mindful reminders that
+        <Text style={[styles.OnboardInformation_Text, , {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>Build healthier habits with daily plans and mindful reminders that
           will help you stay accountable.
         </Text>
       </View>
@@ -44,7 +46,9 @@ const OnboardScreenTwo = () => {
         <Text style={[styles.OnboardInformation_Title, {
           color: theme.MAIN_TEXT_COLOR
         }]}>A better version of you</Text>
-        <Text style={styles.OnboardInformation_Text}>
+        <Text style={[styles.OnboardInformation_Text, , {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>
           You can build up a new habit or quit an existing bad one with Happly.
         </Text>
       </View>
@@ -65,7 +69,9 @@ const OnboardScreenThree = () => {
         <Text style={[styles.OnboardInformation_Title, {
           color: theme.MAIN_TEXT_COLOR
         }]}>Visualize your efforts</Text>
-        <Text style={styles.OnboardInformation_Text}>
+        <Text style={[styles.OnboardInformation_Text, , {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>
           We provide you with a daily report of your progress and a weekly analysis of your results.
         </Text>
       </View>
@@ -86,7 +92,9 @@ const OnboardScreenFour = () => {
         <Text style={[styles.OnboardInformation_Title, {
           color: theme.MAIN_TEXT_COLOR
         }]}>How do we help you stick to your habits</Text>
-        <Text style={styles.OnboardInformation_Text}>
+        <Text style={[styles.OnboardInformation_Text, , {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>
           We use a combination of psychology and technology to help you build healthier habits.
         </Text>
       </View>
@@ -107,7 +115,9 @@ const OnboardScreenFive = () => {
         <Text style={[styles.OnboardInformation_Title, {
           color: theme.MAIN_TEXT_COLOR
         }]}>Feeling motivated already?</Text>
-        <Text style={styles.OnboardInformation_Text}>
+        <Text style={[styles.OnboardInformation_Text, , {
+          color: theme.MAIN_TEXT_COLOR
+        }]}>
           “If you get better 1% every day for one year
           you will end up 37 times better by the time
           you are done”
