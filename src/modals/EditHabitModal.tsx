@@ -30,11 +30,13 @@ import moment from 'moment/moment'
 import { findClosestReminder } from '~utils/timeUtils'
 import { useAtomValue } from 'jotai'
 import { Stats } from '~types'
+import { useTheme } from '~hooks'
 
 
 export const EditHabitModal = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   const toast = useToast()
+  const { theme } = useTheme()
 
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom)
   const [progress, setProgress] = useAtom(progressAtom)
@@ -185,56 +187,84 @@ export const EditHabitModal = () => {
       >
         <SafeAreaView style={{ display: 'flex', flex: 1, position: 'relative', alignItems: 'center' }}>
           <View
-            style={styles.bodySectionContainer}>
+            style={[styles.bodySectionContainer, {
+              backgroundColor: theme.MAIN_BG_COLOR
+            }]}>
             <View style={styles.titleSection}>
               <View>
-                <Text style={styles.habitTitle}>{habitSelected.name}</Text>
-                <Text style={styles.highlightText}>
+                <Text style={[styles.habitTitle, {
+                  color: theme.MAIN_TEXT_COLOR
+                }]}>{habitSelected.name}</Text>
+                <Text style={[styles.highlightText, {
+                  color: theme.MAIN_TEXT_COLOR
+                }]}>
                   {habitSelected.reminderAt.length > 0 && `Closest Reminder is at ${findClosestReminder(habitSelected.reminderAt)}`}
                   {habitSelected.reminderAt.length < 1 && 'No Reminders Set'}
                 </Text>
               </View>
               <TouchableOpacity onPress={handleOnPressCloseIcon}>
-                <Icon style={styles.closeIcon} name='close' size={25} color={APP_WHITE} />
+                <Icon style={styles.closeIcon} name='close' size={25} color={theme.MAIN_TEXT_COLOR} />
               </TouchableOpacity>
             </View>
 
             <View style={styles.bodySection}>
-              <Icon style={styles.icon} name='notifications-outline' size={25} color={APP_BLACK} />
+              <Icon style={styles.icon} name='notifications-outline' size={25} color={theme.MAIN_TEXT_COLOR} />
               <View>
-                <Text style={styles.highlightText}>Reminders</Text>
+                <Text style={[styles.highlightText, {
+                  color: theme.MAIN_TEXT_COLOR
+                }]}>Reminders</Text>
                 {habitSelected.reminderAt.length > 0 && habitSelected.reminderAt.map(
                   (reminder, index) => (
-                    <Text key={index} style={styles.infoText}>{moment(reminder).format('h:mm a')}</Text>
+                    <Text key={index} style={[styles.infoText, {
+                      color: theme.MAIN_TEXT_COLOR
+                    }]}>{moment(reminder).format('h:mm a')}</Text>
                   )
                 )}
                 {habitSelected.reminderAt.length === 0 && (
-                  <Text style={styles.infoText}>None</Text>
+                  <Text style={[styles.infoText, {
+                    color: theme.MAIN_TEXT_COLOR
+                  }]}>None</Text>
                 )}
               </View>
             </View>
 
             <View style={styles.bodySection}>
-              <Icon style={styles.icon} name='options-outline' size={25} color={APP_BLACK} />
+              <Icon style={styles.icon} name='options-outline' size={25} color={theme.MAIN_TEXT_COLOR} />
               <View>
-                <Text style={styles.highlightText}>Description</Text>
+                <Text style={[styles.highlightText, {
+                  color: theme.MAIN_TEXT_COLOR
+                }]}>Description</Text>
                 <Text
-                  style={styles.infoText}>{habitSelected.description.length > 0 ? habitSelected.description : 'None'}</Text>
+                  style={[styles.infoText, {
+                    color: theme.MAIN_TEXT_COLOR
+                  }]}>{habitSelected.description.length > 0 ? habitSelected.description : 'None'}</Text>
               </View>
             </View>
 
             <View style={styles.actionSection}>
               <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressDelete}>
-                <Icon name='trash' size={25} color={APP_BLACK} />
-                <Text style={styles.infoText}>Delete</Text>
+                <Icon name='trash' size={25} color={theme.MAIN_TEXT_COLOR} />
+                <Text
+                  style={[styles.infoText, {
+                    color: theme.MAIN_TEXT_COLOR
+                  }]}
+                >Delete</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressEdit}>
-                <Icon name='create-outline' size={25} color={APP_BLACK} />
-                <Text style={styles.infoText}>Edit</Text>
+                <Icon name='create-outline' size={25} color={theme.MAIN_TEXT_COLOR} />
+                <Text
+                  style={[styles.infoText, {
+                    color: theme.MAIN_TEXT_COLOR
+                  }]}
+                >Edit</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressMarkAsDone}>
-                <Icon name='checkbox-outline' size={25} color={APP_BLACK} />
-                <Text style={styles.infoText}>Mark as done</Text>
+                <Icon name='checkbox-outline' size={25} color={theme.MAIN_TEXT_COLOR} />
+                <Text
+                  style={[styles.infoText, {
+                    color: theme.MAIN_TEXT_COLOR
+                  }]}
+                >Mark as done</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -251,7 +281,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     position: 'absolute',
     bottom: 0,
-    backgroundColor: APP_WHITE,
     borderRadius: 20,
     padding: 30,
     shadowColor: '#000',
@@ -301,20 +330,17 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_600SemiBold',
     fontSize: 20,
     lineHeight: 24,
-    color: GRAY_TEXT,
     marginBottom: 3
   },
   highlightText: {
     fontFamily: 'Inter_500Medium',
     fontSize: 10,
-    lineHeight: 12,
-    color: GRAY_TEXT
+    lineHeight: 12
   },
   infoText: {
     fontFamily: 'Inter_500Medium',
     fontSize: 12,
     lineHeight: 15,
-    color: GRAY_TEXT,
     marginTop: 3
   },
   icon: {
