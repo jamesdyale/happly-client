@@ -179,8 +179,8 @@ export const EditHabitModal = () => {
       <Modal
         isVisible={!!habitSelected}
         key={habitSelected.id}
-        onBackdropPress={() => setSelectedHabit(null)}
         style={{ padding: 0, margin: 0 }}
+        onBackdropPress={() => setSelectedHabit(null)}
         hideModalContentWhileAnimating={true}
       >
         <SafeAreaView style={{ display: 'flex', flex: 1, position: 'relative', alignItems: 'center' }}>

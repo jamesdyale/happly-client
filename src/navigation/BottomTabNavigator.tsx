@@ -35,7 +35,6 @@ export const BottomTabNavigator = () => {
         },
         tabBarActiveTintColor: MAIN_ACCENT_COLOR,
         tabBarIcon: ({ color, size, focused }) => {
-          console.log('color', color)
           let iconName
           let tabName
 

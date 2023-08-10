@@ -6,10 +6,11 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import * as WebBrowser from 'expo-web-browser'
 import { useTheme } from '~hooks'
 import { ThemeSwitchModal } from '~modals'
-import { Themes } from '~constants'
+import { ASYNC_STORAGE_KEYS, Themes } from '~constants'
 import { useSetAtom } from 'jotai'
-import { themeAtom } from '~state'
+import { selectedThemeAtom, themeAtom } from '~state'
 import Colors from '~constants/theme'
+import { storeData } from '~utils'
 
 export const SettingsScreen = () => {
   const { theme } = useTheme()
@@ -17,13 +18,19 @@ export const SettingsScreen = () => {
 
   const [themeModalVisible, setThemeModalVisible] = React.useState(false)
   const changeTheme = useSetAtom(themeAtom)
+  const setSelectedTheme = useSetAtom(selectedThemeAtom)
 
-  const handleSelectTheme = (theme: Themes) => {
-    console.log('theme selected', theme)
+  const handleSelectTheme = async (theme: Themes) => {
     if (theme === Themes.LIGHT) {
+      await storeData(ASYNC_STORAGE_KEYS.COLOR_SCHEME, 'light')
       changeTheme(Colors.light)
+      setSelectedTheme(Themes.LIGHT)
+      setThemeModalVisible(false)
     } else {
+      await storeData(ASYNC_STORAGE_KEYS.COLOR_SCHEME, 'dark')
       changeTheme(Colors.dark)
+      setSelectedTheme(Themes.DARK)
+      setThemeModalVisible(false)
     }
   }
 
@@ -192,7 +199,11 @@ export const SettingsScreen = () => {
         {/*
       TODO: Add atom to control the theme switching when appearance button is clicked
       */}
-        {themeModalVisible ? <ThemeSwitchModal handleSelectTheme={handleSelectTheme} /> : null}
+        <ThemeSwitchModal
+          handleSelectTheme={handleSelectTheme}
+          themeModalVisible={themeModalVisible}
+          setThemeModalVisible={setThemeModalVisible}
+        />
       </ScrollView>
     </SafeAreaView>
   )

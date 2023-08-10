@@ -3,6 +3,7 @@ import { Habit, HabitHistory, Stats, TColors, TimeOfDay, User } from '~types'
 import moment from 'moment'
 import { ChallengeType } from '~types/ChallengeType'
 import { Themes } from '~constants'
+import Colors from '~constants/theme'
 
 
 export const authFlowAtom = atomWithStorage<'login' | 'register'>('authFlow', 'register')
@@ -19,5 +20,5 @@ export const loadingAtom = atomWithStorage<boolean>('loading', false)
 export const isAppReadyAtom = atomWithStorage<boolean>('isAppReady', false)
 export const isUserOnboardedAtom = atomWithStorage<boolean>('isUserOnboarded', false)
 export const themeAtom = atomWithStorage<TColors | null>('theme', null)
-export const selectedThemeAtom = atomWithStorage<Themes>('selectedTheme', Themes.LIGHT)
+export const selectedThemeAtom = atomWithStorage<Themes | null>('selectedTheme', null)
 export const challengesAtom = atomWithStorage<ChallengeType[] | null>('challenges', null)

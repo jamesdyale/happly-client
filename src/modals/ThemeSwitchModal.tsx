@@ -1,25 +1,33 @@
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { Modal, SafeAreaView, TouchableOpacity, View, StyleSheet, Text } from 'react-native'
+import { SafeAreaView, TouchableOpacity, View, StyleSheet, Text } from 'react-native'
+import Modal from 'react-native-modal'
 import { Themes } from '~constants'
 import { useTheme } from '~hooks'
 import { useAtomValue } from 'jotai'
 import { selectedThemeAtom } from '~state'
 
 export const ThemeSwitchModal = ({
-                                   handleSelectTheme
+                                   handleSelectTheme,
+                                   themeModalVisible,
+                                   setThemeModalVisible
                                  }: {
-  handleSelectTheme: (theme: Themes) => void
+  handleSelectTheme: (theme: Themes) => void;
+  themeModalVisible: boolean;
+  setThemeModalVisible: (value: boolean) => void;
 }) => {
   const { theme } = useTheme()
   const selectedThemeValue = useAtomValue(selectedThemeAtom)
-  console.log('selectedThemeValue', selectedThemeValue)
 
   return (
     <View style={[styles.container, {
       backgroundColor: theme.SECONDARY_BG_COLOR
     }]}>
-      <Modal animationType='slide' transparent={true} visible={true}>
+      <Modal
+        isVisible={themeModalVisible}
+        onBackdropPress={() => setThemeModalVisible(false)}
+        hideModalContentWhileAnimating={true}
+      >
         <SafeAreaView
           style={{ display: 'flex', flex: 1, position: 'relative', alignItems: 'center' }}>
           <View
@@ -29,17 +37,17 @@ export const ThemeSwitchModal = ({
             <View style={styles.bodySection}>
               <View style={styles.themeSelectionContainer}>
                 <TouchableOpacity style={[styles.themeTextContainer, {
-                  backgroundColor: `${selectedThemeValue === Themes.LIGHT ? theme.MAIN_ACCENT_COLOR : theme.BORDER_COLOR}`,
+                  backgroundColor: `${selectedThemeValue === Themes.LIGHT ? theme.MAIN_ACCENT_COLOR : theme.MAIN_TEXT_COLOR}`,
                   padding: 20,
                   // borderWidth: 1,
                   borderBottomLeftRadius: 20,
                   borderTopLeftRadius: 20
                 }]} onPress={() => handleSelectTheme(Themes.LIGHT)}>
                   <Icon name='sunny' size={25}
-                        color={selectedThemeValue === Themes.LIGHT ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR} />
+                        color={selectedThemeValue === Themes.LIGHT ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.CONTRAST_MAIN_TEXT_COLOR} />
                   <Text style={[{
                     marginLeft: 10,
-                    color: `${selectedThemeValue === Themes.LIGHT ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR}`
+                    color: `${selectedThemeValue === Themes.LIGHT ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.CONTRAST_MAIN_TEXT_COLOR}`
                   }]}>Light</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.themeTextContainer, {
@@ -49,10 +57,10 @@ export const ThemeSwitchModal = ({
                   borderTopRightRadius: 20
                 }]} onPress={() => handleSelectTheme(Themes.DARK)}>
                   <Icon name='moon' size={25}
-                        color={selectedThemeValue === Themes.DARK ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR} />
+                        color={selectedThemeValue === Themes.DARK ? theme.MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR} />
                   <Text style={[{
                     marginLeft: 10,
-                    color: `${selectedThemeValue === Themes.DARK ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR}`
+                    color: `${selectedThemeValue === Themes.DARK ? theme.MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR}`
                   }]}>Dark</Text>
                 </TouchableOpacity>
               </View>
