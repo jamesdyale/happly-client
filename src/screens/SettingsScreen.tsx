@@ -36,7 +36,7 @@ export const SettingsScreen = () => {
 
   return (
     <SafeAreaView style={[styles.container, {
-      backgroundColor: theme.SECONDARY_BG_COLOR
+      backgroundColor: theme.MAIN_BG_COLOR
     }]}>
       <ScrollView style={{ marginBottom: 10 }}>
         <View style={[styles.settingsHeader, {

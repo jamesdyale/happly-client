@@ -5,8 +5,10 @@ import { ASYNC_STORAGE_KEYS, Themes } from '~constants'
 import { getData, storeData } from '~utils'
 import Colors from '~constants/theme'
 import { useSetAtom } from 'jotai'
+import { useColorScheme } from 'react-native'
 
 export const useTheme = () => {
+  const colorScheme = useColorScheme()
   const [theme, setTheme] = useAtom(themeAtom)
   const [isThemeReady, setIsThemeReady] = useState(false)
   const setSelectedTheme = useSetAtom(selectedThemeAtom)
@@ -16,8 +18,16 @@ export const useTheme = () => {
 
     async function getColorSchemeFromStorage() {
       try {
-        const colorScheme = await getData(ASYNC_STORAGE_KEYS.COLOR_SCHEME)
+        const customColorScheme = await getData(ASYNC_STORAGE_KEYS.COLOR_SCHEME)
+
+        if (customColorScheme) {
+          setTheme(customColorScheme === 'dark' ? Colors.dark : Colors.light)
+          setSelectedTheme(customColorScheme === 'dark' ? Themes.DARK : Themes.LIGHT)
+          return
+        }
+
         if (colorScheme) {
+          await storeData(ASYNC_STORAGE_KEYS.COLOR_SCHEME, colorScheme)
           setTheme(colorScheme === 'dark' ? Colors.dark : Colors.light)
           setSelectedTheme(colorScheme === 'dark' ? Themes.DARK : Themes.LIGHT)
         } else {
