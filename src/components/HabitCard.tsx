@@ -75,6 +75,8 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
       // TODO: Add logic to check the stats and update the habit accordingly
       setProgress((prev) => [...prev, stat])
 
+      getHabitStreak()
+      
       toast.show('Congratulations.', {
         type: 'success',
         duration: 4000,
