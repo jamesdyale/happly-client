@@ -9,6 +9,7 @@ export const AppLoading = ({ children }) => {
   const { isUserOnboarded, isAppReady } = useAuth()
   const { isThemeReady } = useTheme()
 
+  
   useEffect(() => {
     if (isLoadingComplete && isAppReady && isThemeReady) {
       SplashScreen.hideAsync()

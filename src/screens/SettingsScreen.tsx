@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView, Linking, Alert, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Alert, ScrollView } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
@@ -11,6 +11,7 @@ import { useSetAtom } from 'jotai'
 import { selectedThemeAtom, themeAtom } from '~state'
 import Colors from '~constants/theme'
 import { storeData } from '~utils'
+import * as Linking from 'expo-linking'
 
 export const SettingsScreen = () => {
   const { theme } = useTheme()
@@ -19,6 +20,17 @@ export const SettingsScreen = () => {
   const [themeModalVisible, setThemeModalVisible] = React.useState(false)
   const changeTheme = useSetAtom(themeAtom)
   const setSelectedTheme = useSetAtom(selectedThemeAtom)
+
+  const openEmail = async (message: string) => {
+    try {
+      await Linking.openURL(
+        encodeURI(message)
+      )
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Error', 'Could not open email app.')
+    }
+  }
 
   const handleSelectTheme = async (theme: Themes) => {
     if (theme === Themes.LIGHT) {
@@ -103,7 +115,7 @@ export const SettingsScreen = () => {
               <Text style={{ marginLeft: 20, color: theme.MAIN_TEXT_COLOR }}>Suggest a feature</Text>
             </View>
             <Icon name='chevron-forward' size={20} color={theme.MAIN_TEXT_COLOR}
-                  onPress={() => Linking.openURL('mailto:engineeringwithjames@gmail.com?subject=Suggest a feature&body=Hi there, I would like to suggest a feature for the app.')}
+                  onPress={() => openEmail('mailto:engineeringwithjames@gmail.com?subject=Suggest a feature&body=Hi there, I would like to suggest a feature for the app.')}
             />
           </View>
 
