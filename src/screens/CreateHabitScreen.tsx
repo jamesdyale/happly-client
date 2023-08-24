@@ -396,9 +396,10 @@ export const CreateHabitScreen = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-      {showNotificationModal && <NotificationModal
-        handleTimeSelected={handleTimeSelected}
-        closeNotificationModal={() => setShowNotificationModal(false)} />
+      {showNotificationModal &&
+        <NotificationModal
+          handleTimeSelected={handleTimeSelected}
+          closeNotificationModal={() => setShowNotificationModal(false)} />
       }
     </>
   )
