@@ -1,13 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from "react-native";
-import React, {
-  useEffect,
-  useState
-} from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useSetAtom, useAtomValue } from "jotai";
 import { useToast } from "react-native-toast-notifications";
@@ -20,44 +12,31 @@ import {
 import {
   ActionCreateOrUpdateStreak,
   ActionCreateStat,
+  ActionGetStatsByHabitId,
   ActionGetStreakByHabitId
 } from "~actions";
-import {
-  APP_GRAY,
-  APP_GREEN,
-  APP_WHITE
-} from "~styles";
+import { APP_GRAY, APP_GREEN, APP_WHITE } from "~styles";
 import { generateStatId } from "~generators/generateId";
 import moment from "moment";
-import { getMessageRelatedToStreakData } from "~utils";
+import { getMessageRelatedToStreakData, validateHabitStreak } from "~utils";
 
 type HabitCardType = {
   habit: Habit;
   progress: Stats[];
 };
 
-export const HabitCard = ({
-  habit,
-  progress
-}: HabitCardType) => {
+export const HabitCard = ({ habit, progress }: HabitCardType) => {
   const toast = useToast();
 
-  const setHabitSelected = useSetAtom(
-    selectedHabitAtom
-  );
+  const currentDate = moment().format("YYYY-MM-DD");
+  const currentMonth = moment(currentDate).month() + 1;
+  const setHabitSelected = useSetAtom(selectedHabitAtom);
   const setProgress = useSetAtom(progressAtom);
-  const selectedDay = useAtomValue(
-    selectedDayOfTheWeekAtom
-  );
+  const selectedDay = useAtomValue(selectedDayOfTheWeekAtom);
 
-  const foundProgress = progress.find(
-    (stat) => stat.habitId === habit.id
-  );
+  const foundProgress = progress.find((stat) => stat.habitId === habit.id);
 
-  const [
-    streakCountMessage,
-    setStreakCountMessage
-  ] = useState<string>("");
+  const [streakCountMessage, setStreakCountMessage] = useState<string>("");
 
   useEffect(() => {
     let isMounted = true;
@@ -83,27 +62,13 @@ export const HabitCard = ({
       return;
     }
 
-    if (
-      !moment(selectedDay, "MMMM Do YYYY").isSame(
-        moment(),
-        "day"
-      )
-    ) {
-      toast.show(
-        "You can only complete habits for today.",
-        {
-          type: "danger",
-          duration: 4000,
-          placement: "bottom",
-          icon: (
-            <Icon
-              name='alert-circle'
-              size={20}
-              color={APP_WHITE}
-            />
-          )
-        }
-      );
+    if (!moment(selectedDay, "MMMM Do YYYY").isSame(moment(), "day")) {
+      toast.show("You can only complete habits for today.", {
+        type: "danger",
+        duration: 4000,
+        placement: "bottom",
+        icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+      });
       return;
     }
 
@@ -111,18 +76,15 @@ export const HabitCard = ({
       id: generateStatId(),
       userId: habit.userId,
       habitId: habit.id,
-      completedAt: moment(
-        selectedDay,
-        "MMMM Do YYYY"
-      ).format("ddd MMM DD YYYY"),
+      completedAt: moment(selectedDay, "MMMM Do YYYY").format(
+        "ddd MMM DD YYYY"
+      ),
       progress: 100
     };
 
     try {
       // TODO: check if it was successfully added to the database
-      const createdStat = await ActionCreateStat(
-        stat
-      );
+      const createdStat = await ActionCreateStat(stat);
 
       if (!createdStat) {
         toast.show(
@@ -131,23 +93,14 @@ export const HabitCard = ({
             type: "danger",
             duration: 4000,
             placement: "bottom",
-            icon: (
-              <Icon
-                name='alert-circle'
-                size={20}
-                color={APP_WHITE}
-              />
-            )
+            icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
           }
         );
 
         return;
       }
 
-      await ActionCreateOrUpdateStreak(
-        habit.id,
-        habit.userId
-      );
+      await ActionCreateOrUpdateStreak(habit.id, habit.userId);
 
       // TODO: Add logic to check the stats and update the habit accordingly
       setProgress((prev) => [...prev, stat]);
@@ -158,13 +111,7 @@ export const HabitCard = ({
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: (
-          <Icon
-            name='trending-up'
-            size={20}
-            color={APP_WHITE}
-          />
-        )
+        icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
       });
     } catch (e) {
       toast.show(
@@ -173,13 +120,7 @@ export const HabitCard = ({
           type: "danger",
           duration: 4000,
           placement: "bottom",
-          icon: (
-            <Icon
-              name='alert-circle'
-              size={20}
-              color={APP_WHITE}
-            />
-          )
+          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
         }
       );
     }
@@ -190,26 +131,30 @@ export const HabitCard = ({
       return;
     }
 
-    const docs = await ActionGetStreakByHabitId(
-      habit.id
-    );
+    const streakDocs = await ActionGetStreakByHabitId(habit.id);
+    const statsDocs = await ActionGetStatsByHabitId(habit.id);
 
-    if (!docs) return;
+    if (!streakDocs) return;
 
-    const streak: Streak[] = [];
-    docs.forEach((doc) => {
-      const data =
-        doc.data() as unknown as Streak;
-      streak.push(data);
+    if (!statsDocs) return;
+
+    const streaks: Streak[] = [];
+    streakDocs.forEach((doc) => {
+      const data = doc.data() as unknown as Streak;
+      streaks.push(data);
     });
 
-    const currentStreak = streak[0];
+    const progress: Stats[] = [];
+    statsDocs.forEach((stat) => {
+      const data = stat.data() as unknown as Stats;
+      if (new Date(data.completedAt).getMonth() + 1 === currentMonth)
+        progress.push(data);
+    });
 
-    if (currentStreak) {
-      const streakCountMessage =
-        getMessageRelatedToStreakData(
-          currentStreak
-        );
+    const streak = await validateHabitStreak(streaks[0], habit, progress);
+
+    if (streak) {
+      const streakCountMessage = getMessageRelatedToStreakData(streak);
       setStreakCountMessage(streakCountMessage);
     }
   };
@@ -220,18 +165,11 @@ export const HabitCard = ({
         onPress={handleHabitClick}
         style={styles.habitNameContainer}
       >
-        <Text style={styles.habitName}>
-          {habit.name}
-        </Text>
-        {streakCountMessage &&
-        streakCountMessage !== "" ? (
-          <Text style={styles.habitInfo}>
-            {streakCountMessage}
-          </Text>
+        <Text style={styles.habitName}>{habit.name}</Text>
+        {streakCountMessage && streakCountMessage !== "" ? (
+          <Text style={styles.habitInfo}>{streakCountMessage}</Text>
         ) : (
-          <Text style={styles.habitInfo}>
-            {habit.description}
-          </Text>
+          <Text style={styles.habitInfo}>{habit.description}</Text>
         )}
       </TouchableOpacity>
       <View style={styles.habitProgressContainer}>
