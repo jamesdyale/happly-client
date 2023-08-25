@@ -49,7 +49,6 @@ export const HabitScreen = ({ route, navigation }) => {
   useEffect(() => {
     // TODO: Add loading state
     let isMounted = true;
-
     let currentMonth = moment(currentDate).month() + 1;
 
     if (isMounted) {

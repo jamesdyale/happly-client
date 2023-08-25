@@ -2,7 +2,7 @@
   "expo": {
     "name": "happly-app",
     "slug": "happly-app",
-    "version": "7.0.0",
+    "version": "8.0.0",
     "orientation": "portrait",
     "icon": "./assets/happly.png",
     "userInterfaceStyle": "automatic",
@@ -13,20 +13,16 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.engineeringwithjames.happlyapp",
-      "buildNumber": "7.0",
+      "buildNumber": "8.0",
       "config": {
         "usesNonExemptEncryption": false
       },
       "infoPlist": {
-        "LSApplicationQueriesSchemes": [
-          "mailto"
-        ]
+        "LSApplicationQueriesSchemes": ["mailto"]
       }
     },
     "android": {
@@ -36,9 +32,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "versionCode": 1,
-      "permissions": [
-        "NOTIFICATIONS"
-      ],
+      "permissions": ["NOTIFICATIONS"],
       "useNextNotificationsApi": true
     },
     "web": {
