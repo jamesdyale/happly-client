@@ -20,6 +20,8 @@ export const ActionCreateReminders = async ({
   daysOfWeek
 }: ReminderTypes) => {
   try {
+    // TODO: create a function to check the user's token
+
     for (const reminder of reminderAt) {
       const normalizedReminder = moment(reminder, "HH:mm A");
       // convert reminder to UTC
