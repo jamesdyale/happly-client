@@ -10,7 +10,6 @@ export const ActionCreateChallenge = async ({
   name,
   description,
   participants,
-  numberOfParticipants,
   hashtags,
   duration
 }) => {
@@ -20,7 +19,6 @@ export const ActionCreateChallenge = async ({
       name,
       description,
       participants,
-      numberOfParticipants,
       hashtags,
       duration
     };

@@ -53,9 +53,9 @@ export const SingleChallengeCard = ({
             }
           ]}
         >
-          {challenge.numberOfParticipants > 1
-            ? `${challenge.numberOfParticipants} members`
-            : `${challenge.numberOfParticipants} member`}
+          {challenge.participants.length > 1
+            ? `${challenge.participants.length} members`
+            : `0 member`}
         </Text>
       </View>
       <View style={styles.challengeInfo}>

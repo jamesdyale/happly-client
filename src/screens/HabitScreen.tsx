@@ -13,7 +13,7 @@ import {
 } from "~state";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Frequency, Habit, Stats, Streak } from "~types";
+import { Frequency, Habit, HabitType, Stats, Streak } from "~types";
 import { generateStatId } from "~generators/generateId";
 import {
   ActionCreateStat,
@@ -28,7 +28,11 @@ import { onSnapshot } from "firebase/firestore";
 import { findClosestReminder } from "~utils/timeUtils";
 import { DateData } from "react-native-calendars";
 import moment from "moment";
-import { calculateLowestDifferenceInDays, validateHabitStreak } from "~utils";
+import {
+  calculateLowestDifferenceInDays,
+  checkIfChallengeIsCompleted,
+  validateHabitStreak
+} from "~utils";
 import { useTheme } from "~hooks";
 
 export const HabitScreen = ({ route, navigation }) => {
@@ -159,13 +163,17 @@ export const HabitScreen = ({ route, navigation }) => {
       };
 
       try {
-        await ActionCreateStat(stat);
-        toast.show("Congratulations", {
-          type: "success",
-          duration: 4000,
-          placement: "bottom",
-          icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
-        });
+        if (habit.type === HabitType.REGULAR) {
+          await ActionCreateStat(stat);
+          toast.show("Congratulations", {
+            type: "success",
+            duration: 4000,
+            placement: "bottom",
+            icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+          });
+        } else {
+          checkIfChallengeIsCompleted(habit.challengeId);
+        }
       } catch (e) {
         toast.show(
           "An error happened when completing your habit. Please try again!",
