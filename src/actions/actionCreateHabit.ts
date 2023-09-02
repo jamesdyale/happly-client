@@ -12,7 +12,8 @@ export const ActionCreateHabit = async ({
   frequencyOption,
   createdAt,
   reminderAt,
-  type
+  type,
+  challengeId = null
 }) => {
   try {
     const habit: Habit = {
@@ -25,7 +26,8 @@ export const ActionCreateHabit = async ({
       frequencyOption,
       createdAt,
       reminderAt,
-      type
+      type,
+      challengeId
     };
 
     await setDoc(doc(FIREBASE_DB, "habits", habit.id), habit);

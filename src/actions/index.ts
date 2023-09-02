@@ -26,4 +26,4 @@ export * from "./actionCreateReminders";
 export * from "./actionDeleteReminder";
 export * from "./actionDeleteRemindersByHabitId";
 export * from "./actionUpdateUser";
-export * from "./actionAddUserToChallenge";
+export * from "./actionCreateChallenge";
