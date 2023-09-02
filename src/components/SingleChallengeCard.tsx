@@ -7,12 +7,12 @@ import { ChallengeType } from "~types/ChallengeType";
 
 interface SingleChallengesType {
   challenge: ChallengeType;
-  handleJoinChallenge: (challengeId: ChallengeType["id"]) => void;
+  handlePopupReminder: (challengeId: ChallengeType["id"]) => void;
 }
 
-export const SingleChallenge = ({
+export const SingleChallengeCard = ({
   challenge,
-  handleJoinChallenge
+  handlePopupReminder
 }: SingleChallengesType) => {
   const { theme } = useTheme();
 
@@ -105,7 +105,7 @@ export const SingleChallenge = ({
             bgColor={theme.MAIN_ACCENT_COLOR}
             color={theme.CONTRAST_MAIN_TEXT_COLOR}
             text='Join'
-            onClick={() => handleJoinChallenge(challenge.id)}
+            onClick={() => handlePopupReminder(challenge.id)}
             disabled={false}
           />
         </View>

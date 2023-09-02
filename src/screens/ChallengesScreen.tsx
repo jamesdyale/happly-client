@@ -7,23 +7,28 @@ import {
   StyleSheet,
   Alert
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTheme } from "~hooks";
 import Icon from "react-native-vector-icons/Ionicons";
-import { SleepingIcon } from "~assets";
-import { CustomButton } from "~components";
+
+import { SingleChallengeCard } from "~components";
 import { ChallengeType } from "~types/ChallengeType";
-import { ActionGetChallenges } from "~actions";
+import { ActionAddUserToChallenge, ActionGetChallenges } from "~actions";
 import { onSnapshot } from "firebase/firestore";
-import { useAtom } from "jotai";
-import { challengesAtom } from "~state";
+import { useAtom, useAtomValue } from "jotai";
+import { challengesAtom, userAtom } from "~state";
+import { NotificationModal } from "~modals";
+import moment from "moment";
 
 export const ChallengesScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { theme } = useTheme();
   const [challenges, setChallenges] = useAtom(challengesAtom);
+  const user = useAtomValue(userAtom);
+  const [showNotificationModal, setShowNotificationModal] = useState(true);
+  const [reminderAt, setReminderAt] = useState<string[]>([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -52,7 +57,7 @@ export const ChallengesScreen = () => {
     return () => unsubscribe();
   };
 
-  const handleJoinChallenge = (challengeId) => {
+  const addUserToChallenge = async (challengeId: ChallengeType["id"]) => {
     // console.log("Joining challenge");
     // Alert.alert("Challenge feature is not available yet");
     if (!challengeId) {
@@ -64,169 +69,93 @@ export const ChallengesScreen = () => {
     if (!challenge) {
       // TODO: Error handling here
     }
+
+    await ActionAddUserToChallenge(challenge[0], user.id);
+  };
+
+  const handlePopupReminder = async () => {};
+
+  const handleTimeSelected = (selectedDate: Date) => {
+    const formattedDate = moment(selectedDate).format("YYYY-MM-DDTHH:mm:ss");
+
+    const doesExist = reminderAt.includes(formattedDate);
+
+    if (!doesExist) {
+      setReminderAt([...reminderAt, formattedDate]);
+    } else {
+      Alert.alert("Time has been previously selected");
+    }
+    setShowNotificationModal(false);
   };
 
   return (
-    <SafeAreaView
-      style={[
-        styles.wrapper,
-        {
-          backgroundColor: theme.MAIN_BG_COLOR
-        }
-      ]}
-    >
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text
-            style={[
-              styles.headerText,
-              {
-                color: theme.MAIN_TEXT_COLOR
-              }
-            ]}
-          >
-            Challenge
-          </Text>
-          <TouchableOpacity onPress={() => console.log("searching")}>
-            <Icon name='search' size={30} color={theme.MAIN_TEXT_COLOR} />
-          </TouchableOpacity>
-        </View>
-        {/*
+    <>
+      <SafeAreaView
+        style={[
+          styles.wrapper,
+          {
+            backgroundColor: theme.MAIN_BG_COLOR
+          }
+        ]}
+      >
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text
+              style={[
+                styles.headerText,
+                {
+                  color: theme.MAIN_TEXT_COLOR
+                }
+              ]}
+            >
+              Challenge
+            </Text>
+            <TouchableOpacity onPress={() => console.log("searching")}>
+              <Icon name='search' size={30} color={theme.MAIN_TEXT_COLOR} />
+            </TouchableOpacity>
+          </View>
+          {/*
           TODO: Down the line I should have a list of challenges created by the
           user and some popular challenges that are trending. For now, I'll just
           have a list of popular challenges.
           Popular Challenges depends on the amount of member in the challenge.
         */}
-        {/* {challenges && challenges.length > 0 && (
+          {/* {challenges && challenges.length > 0 && (
           <View>
             <Text>This user does not have any challenges</Text>
           </View>
         )} */}
 
-        {challenges && challenges.length === 0 && (
-          <View
-            style={{
-              display: "flex"
-            }}
-          >
-            <Text>No challenge created</Text>
-          </View>
-        )}
-        {challenges && challenges.length > 0 && (
-          <ScrollView style={{ marginBottom: 70 }}>
-            {challenges.map((challenge, index) => (
-              <SingleChallenge key={index} {...challenge} />
-            ))}
-          </ScrollView>
-        )}
-      </View>
-    </SafeAreaView>
-  );
-};
-
-const SingleChallenge = (challenge: ChallengeType) => {
-  const { theme } = useTheme();
-
-  const handleJoinChallenge = (challengeId) => {
-    console.log("Joining challenge");
-    Alert.alert("Challenge feature is not available yet");
-  };
-
-  return (
-    <View
-      key={challenge.id}
-      style={[
-        styles.singleChallengeContainer,
-        {
-          backgroundColor: theme.CARD_BG
-        }
-      ]}
-    >
-      <View style={styles.hashtagsContainer}>
-        <View style={{ flexDirection: "row" }}>
-          {challenge.hashtags.map((hashtag, index) => (
-            <Text
-              key={index}
-              style={[
-                styles.hashtags,
-                {
-                  color: theme.MAIN_ACCENT_COLOR,
-                  backgroundColor: theme.MAIN_ACCENT_COLOR + "20"
-                }
-              ]}
+          {challenges && challenges.length === 0 && (
+            <View
+              style={{
+                display: "flex"
+              }}
             >
-              #{hashtag}{" "}
-            </Text>
-          ))}
+              <Text>No challenge created</Text>
+            </View>
+          )}
+          {challenges && challenges.length > 0 && (
+            <ScrollView style={{ marginBottom: 70 }}>
+              {challenges.map((challenge, index) => (
+                <SingleChallengeCard
+                  key={index}
+                  challenge={challenge}
+                  handlePopupReminder={handlePopupReminder}
+                />
+              ))}
+            </ScrollView>
+          )}
         </View>
-
-        <Text
-          style={[
-            styles.challengeMemberNumber,
-            {
-              color: theme.MAIN_ACCENT_COLOR,
-              backgroundColor: theme.MAIN_ACCENT_COLOR + "20"
-            }
-          ]}
-        >
-          {challenge.numberOfParticipants > 1
-            ? `${challenge.numberOfParticipants} members`
-            : `${challenge.numberOfParticipants} member`}
-        </Text>
-      </View>
-      <View style={styles.challengeInfo}>
-        <View style={styles.challengeInfoTop}>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              width: "60%"
-            }}
-          >
-            <Text
-              style={[
-                styles.challengeName,
-                {
-                  color: theme.MAIN_TEXT_COLOR
-                }
-              ]}
-            >
-              {challenge.name}
-            </Text>
-            <Text
-              style={[
-                styles.challengeDescription,
-                {
-                  color: theme.MAIN_TEXT_COLOR
-                }
-              ]}
-            >
-              {challenge.description}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignSelf: "center",
-              justifyContent: "center"
-            }}
-          >
-            <SleepingIcon />
-          </View>
-        </View>
-        <View>
-          <CustomButton
-            bgColor={theme.MAIN_ACCENT_COLOR}
-            color={theme.CONTRAST_MAIN_TEXT_COLOR}
-            text='Join'
-            onClick={() => handleJoinChallenge(challenge.id)}
-            disabled={false}
-          />
-        </View>
-      </View>
-    </View>
+      </SafeAreaView>
+      {showNotificationModal && (
+        <NotificationModal
+          handleTimeSelected={handleTimeSelected}
+          closeNotificationModal={() => setShowNotificationModal(false)}
+          reminderBody='What time should we remind you to do this challenge?'
+        />
+      )}
+    </>
   );
 };
 
