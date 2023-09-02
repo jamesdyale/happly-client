@@ -1,136 +1,20 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  Alert
-} from "react-native";
-import React, { useEffect } from "react";
-import { ParamListBase, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { View, Text, StyleSheet, Alert } from "react-native";
+import React from "react";
 import { useTheme } from "~hooks";
-import Icon from "react-native-vector-icons/Ionicons";
 import { SleepingIcon } from "~assets";
 import { CustomButton } from "~components";
 import { ChallengeType } from "~types/ChallengeType";
-import { ActionGetChallenges } from "~actions";
-import { onSnapshot } from "firebase/firestore";
-import { useAtom } from "jotai";
-import { challengesAtom } from "~state";
 
-export const ChallengesScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+interface SingleChallengesType {
+  challenge: ChallengeType;
+  handleJoinChallenge: (challengeId: ChallengeType["id"]) => void;
+}
+
+export const SingleChallenge = ({
+  challenge,
+  handleJoinChallenge
+}: SingleChallengesType) => {
   const { theme } = useTheme();
-  const [challenges, setChallenges] = useAtom(challengesAtom);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      getChallenges();
-    }
-  }, []);
-
-  const getChallenges = async () => {
-    const dataDocumentSnapshotQuery = ActionGetChallenges();
-
-    const unsubscribe = onSnapshot(
-      dataDocumentSnapshotQuery,
-      (querySnapshot) => {
-        const challenges: ChallengeType[] = [];
-        querySnapshot.forEach((doc) => {
-          const challenge = doc.data() as ChallengeType;
-          challenges.push(challenge);
-        });
-
-        setChallenges(challenges);
-      }
-    );
-
-    return () => unsubscribe();
-  };
-
-  const handleJoinChallenge = (challengeId) => {
-    // console.log("Joining challenge");
-    // Alert.alert("Challenge feature is not available yet");
-    if (!challengeId) {
-      // TODO: Error handling here
-    }
-
-    const challenge = challenges.filter((c) => c.id === challengeId);
-
-    if (!challenge) {
-      // TODO: Error handling here
-    }
-  };
-
-  return (
-    <SafeAreaView
-      style={[
-        styles.wrapper,
-        {
-          backgroundColor: theme.MAIN_BG_COLOR
-        }
-      ]}
-    >
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text
-            style={[
-              styles.headerText,
-              {
-                color: theme.MAIN_TEXT_COLOR
-              }
-            ]}
-          >
-            Challenge
-          </Text>
-          <TouchableOpacity onPress={() => console.log("searching")}>
-            <Icon name='search' size={30} color={theme.MAIN_TEXT_COLOR} />
-          </TouchableOpacity>
-        </View>
-        {/*
-          TODO: Down the line I should have a list of challenges created by the
-          user and some popular challenges that are trending. For now, I'll just
-          have a list of popular challenges.
-          Popular Challenges depends on the amount of member in the challenge.
-        */}
-        {/* {challenges && challenges.length > 0 && (
-          <View>
-            <Text>This user does not have any challenges</Text>
-          </View>
-        )} */}
-
-        {challenges && challenges.length === 0 && (
-          <View
-            style={{
-              display: "flex"
-            }}
-          >
-            <Text>No challenge created</Text>
-          </View>
-        )}
-        {challenges && challenges.length > 0 && (
-          <ScrollView style={{ marginBottom: 70 }}>
-            {challenges.map((challenge, index) => (
-              <SingleChallenge key={index} {...challenge} />
-            ))}
-          </ScrollView>
-        )}
-      </View>
-    </SafeAreaView>
-  );
-};
-
-const SingleChallenge = (challenge: ChallengeType) => {
-  const { theme } = useTheme();
-
-  const handleJoinChallenge = (challengeId) => {
-    console.log("Joining challenge");
-    Alert.alert("Challenge feature is not available yet");
-  };
 
   return (
     <View

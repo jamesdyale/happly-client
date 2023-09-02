@@ -13,7 +13,7 @@ import { CustomButton, CustomTextInput, DayPicker } from "~components";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Frequency, TimeOfDay, User } from "~types";
+import { Frequency, HabitType, TimeOfDay, User } from "~types";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { editHabitAtom, selectedDayOfTheWeekAtom, userAtom } from "~state";
 import {
@@ -86,7 +86,8 @@ export const CreateHabitScreen = () => {
         selectedDays,
         frequencyOption,
         createdAt: moment().format("MMMM Do YYYY"),
-        reminderAt
+        reminderAt,
+        type: HabitType.REGULAR
       });
 
       await ActionCreateReminders({
@@ -133,7 +134,8 @@ export const CreateHabitScreen = () => {
         selectedDays,
         frequencyOption,
         createdAt: editHabit?.createdAt,
-        reminderAt
+        reminderAt,
+        type: HabitType.REGULAR
       });
 
       // figure out how I want to handle reminder updates
