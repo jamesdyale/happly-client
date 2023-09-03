@@ -287,9 +287,9 @@ export const CreateHabitScreen = () => {
                 bigLabel='Name'
                 placeholder='Enter the name'
                 handleChange={setName}
-                handleBlur={() =>
-                  setNameError(formValidationOnBlur("name", name))
-                }
+                // handleBlur={() =>
+                //   setNameError(formValidationOnBlur("name", name))
+                // }
                 value={name}
                 error={nameError}
               />

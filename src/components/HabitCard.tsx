@@ -22,6 +22,7 @@ import {
   markHabitAsDone,
   validateHabitStreak
 } from "~utils";
+import { useTheme } from "~hooks";
 
 type HabitCardType = {
   habit: Habit;
@@ -30,6 +31,7 @@ type HabitCardType = {
 
 export const HabitCard = ({ habit, progress }: HabitCardType) => {
   const toast = useToast();
+  const { theme } = useTheme();
 
   const currentDate = moment().format("YYYY-MM-DD");
   const currentMonth = moment(currentDate).month() + 1;
@@ -60,8 +62,6 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
   };
 
   const handleCompletedHabit = async () => {
-    // check if a habit being clicked is in the current day
-    console.log("message");
     const { message, stat } = await markHabitAsDone({
       habit,
       selectedDay,
@@ -73,7 +73,7 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
         type: "danger",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+        icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
       });
       return;
     }
@@ -90,7 +90,7 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+        icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
       });
     } else {
       const data = await checkIfChallengeIsCompleted({
@@ -98,6 +98,15 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
         habitId: habit.id
       });
       if (!data) {
+        toast.show(
+          "Having trouble check if you have completed your challenge. Please try again!",
+          {
+            type: "success",
+            duration: 4000,
+            placement: "bottom",
+            icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+          }
+        );
       } else {
         const { streakCount, challengeDuration } = data;
         if (streakCount >= challengeDuration) {
@@ -105,18 +114,20 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
             type: "success",
             duration: 4000,
             placement: "bottom",
-            icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+            icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
           });
         } else {
           toast.show(
             `You rock. You have ${
               challengeDuration - streakCount
-            } left to complete the challenge`,
+            } day(s) left to complete the challenge`,
             {
               type: "success",
               duration: 4000,
               placement: "bottom",
-              icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+              icon: (
+                <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+              )
             }
           );
         }

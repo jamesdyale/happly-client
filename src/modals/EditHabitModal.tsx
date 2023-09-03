@@ -39,7 +39,7 @@ import { findClosestReminder } from "~utils/timeUtils";
 import { useAtomValue } from "jotai";
 import { HabitType, Stats } from "~types";
 import { useTheme } from "~hooks";
-import { checkIfChallengeIsCompleted } from "~utils";
+import { checkIfChallengeIsCompleted, markHabitAsDone } from "~utils";
 
 export const EditHabitModal = () => {
   const { navigate } =
@@ -139,62 +139,67 @@ export const EditHabitModal = () => {
   const handleOnPressMarkAsDone = async () => {
     setLoading(true);
 
-    const docs = await getDocs(
-      query(
-        collection(FIREBASE_DB, "stats"),
-        where("habitId", "==", habitSelected.id)
-      )
-    );
-
-    if (!docs) return;
-
-    let existingStat = false;
-    // get stat for today
-    docs.forEach((doc) => {
-      const data = doc.data() as unknown as Stats;
-      if (
-        data.completedAt ===
-        moment(selectedDay, "MMMM Do YYYY").format("ddd MMM DD YYYY")
-      ) {
-        existingStat = true;
-      }
+    const { message, stat } = await markHabitAsDone({
+      habit: habitSelected,
+      selectedDay,
+      isHabitCard: true
     });
 
-    if (!existingStat) {
-      const stat = {
-        id: generateStatId(),
-        userId: habitSelected.userId,
-        habitId: habitSelected.id,
-        completedAt: moment(selectedDay, "MMMM Do YYYY").format(
-          "ddd MMM DD YYYY"
-        ),
-        progress: 100
-      };
-
-      try {
-        if (habitSelected.type === HabitType.REGULAR) {
-          await ActionCreateStat(stat);
-          toast.show("Congratulations", {
+    if (!stat) {
+      toast.show(message, {
+        type: "danger",
+        duration: 4000,
+        placement: "bottom",
+        icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
+      });
+      return;
+    }
+    if (habitSelected.type === HabitType.REGULAR) {
+      toast.show(message, {
+        type: "success",
+        duration: 4000,
+        placement: "bottom",
+        icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+      });
+    } else {
+      const data = await checkIfChallengeIsCompleted({
+        challengeId: habitSelected.challengeId,
+        habitId: habitSelected.id
+      });
+      if (!data) {
+        toast.show(
+          "Having trouble check if you have completed your challenge. Please try again!",
+          {
+            type: "success",
+            duration: 4000,
+            placement: "bottom",
+            icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+          }
+        );
+      } else {
+        const { streakCount, challengeDuration } = data;
+        if (streakCount >= challengeDuration) {
+          toast.show("Woooohhooooo you have completed the challenge", {
             type: "success",
             duration: 4000,
             placement: "bottom",
             icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
           });
         } else {
-          checkIfChallengeIsCompleted(habitSelected.challengeId);
+          toast.show(
+            `You rock. You have ${
+              challengeDuration - streakCount
+            } day(s) left to complete the challenge`,
+            {
+              type: "success",
+              duration: 4000,
+              placement: "bottom",
+              icon: (
+                <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+              )
+            }
+          );
         }
-      } catch (e) {
-        toast.show(
-          "An error happened when completing your habit. Please try again!",
-          {
-            type: "danger",
-            duration: 4000,
-            placement: "bottom",
-            icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-          }
-        );
-      } finally {
-        setLoading(false);
       }
     }
 
