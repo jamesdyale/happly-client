@@ -13,8 +13,24 @@ export const SingleRoomCard = ({ item }) => {
         {item.avatar ? (
           <Image style={styles.image} source={{ uri: item.avatar }} />
         ) : (
-          <View style={styles.makeUpStyleImage}>
-            <Text style={styles.makeUpStyleImageText}>{item.name[0]}</Text>
+          <View
+            style={[
+              styles.makeUpStyleImage,
+              {
+                backgroundColor: theme.MAIN_ACCENT_COLOR
+              }
+            ]}
+          >
+            <Text
+              style={[
+                styles.makeUpStyleImageText,
+                {
+                  color: theme.MAIN_TEXT_COLOR
+                }
+              ]}
+            >
+              {item.name[0]}
+            </Text>
           </View>
         )}
       </View>

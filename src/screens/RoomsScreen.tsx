@@ -12,28 +12,33 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTheme } from "~hooks";
 import { SingleRoomCard } from "~components";
 import { ROUTES } from "~constants";
+import { ActionGetRoomsUserIsInByUserID } from "~actions";
+import { useAtom, useAtomValue } from "jotai";
+import { roomsAtom, userAtom } from "~state";
+import { onSnapshot } from "firebase/firestore";
+import { Room } from "~types";
 
 enum Tab {
   FRIENDS = "friends",
   ROOMS = "rooms"
 }
 
-const rooms = [
-  {
-    id: 1,
-    name: "Room 1",
-    lastMessage: "Hey, how are you?",
-    unread: 2,
-    photo: "https://picsum.photos/200"
-  },
-  {
-    id: 2,
-    name: "Room 2",
-    lastMessage: "Hey, how are you?",
-    unread: 0,
-    photo: "https://picsum.photos/200"
-  }
-];
+// const rooms = [
+//   {
+//     id: 1,
+//     name: "Room 1",
+//     lastMessage: "Hey, how are you?",
+//     unread: 2,
+//     photo: "https://picsum.photos/200"
+//   },
+//   {
+//     id: 2,
+//     name: "Room 2",
+//     lastMessage: "Hey, how are you?",
+//     unread: 0,
+//     photo: "https://picsum.photos/200"
+//   }
+// ];
 
 export const RoomsScreen = () => {
   const { navigate } =
@@ -41,6 +46,8 @@ export const RoomsScreen = () => {
 
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = React.useState(Tab.ROOMS);
+  const user = useAtomValue(userAtom);
+  const [rooms, setRooms] = useAtom(roomsAtom);
 
   useEffect(() => {
     let isMounted = true;
@@ -51,19 +58,19 @@ export const RoomsScreen = () => {
   }, []);
 
   const getRooms = async () => {
-    const dataDocumentSnapshotQuery = ActionGetRoomsUserIsInByUserID();
+    const dataDocumentSnapshotQuery = ActionGetRoomsUserIsInByUserID(user.id);
 
-    // const unsubscribe = onSnapshot(
-    //   dataDocumentSnapshotQuery,
-    //   (querySnapshot) => {
-    //     const challenges: ChallengeType[] = [];
-    //     querySnapshot.forEach((doc) => {
-    //       const challenge = doc.data() as ChallengeType;
-    //       challenges.push(challenge);
-    //     });
-    //     setChallenges(challenges);
-    //   }
-    // );
+    const unsubscribe = onSnapshot(
+      dataDocumentSnapshotQuery,
+      (querySnapshot) => {
+        const rooms: Room[] = [];
+        querySnapshot.forEach((doc) => {
+          const room = doc.data() as Room;
+          rooms.push(room);
+        });
+        setRooms(rooms);
+      }
+    );
 
     return () => unsubscribe();
   };
@@ -162,7 +169,15 @@ export const RoomsScreen = () => {
           </View>
         ) : ( */}
         <View>
-          {rooms.length < 1 ? (
+          {!rooms ? (
+            <View
+              style={{
+                display: "flex"
+              }}
+            >
+              <Text>Loading...</Text>
+            </View>
+          ) : rooms.length < 1 ? (
             <Text>You have not been added to or created any rooms </Text>
           ) : (
             rooms.map((room) => <SingleRoomCard key={room.id} item={room} />)
