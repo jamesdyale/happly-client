@@ -1,16 +1,35 @@
-import { ActionGetChallengeById, ActionGetChallenges } from "~actions";
+import {
+  ActionGetChallengeById,
+  ActionGetChallenges,
+  ActionGetStreakByHabitId
+} from "~actions";
+import { ChallengeType, Habit, Streak } from "~types";
 
-export const checkIfChallengeIsCompleted = async (challengeId) => {
+export const checkIfChallengeIsCompleted = async ({
+  challengeId,
+  habitId
+}: {
+  challengeId: ChallengeType["id"];
+  habitId: Habit["id"];
+}) => {
   // GET THE CHALLENGE To get the goal of the challenge
-  console.log(challengeId);
-  const docs = await ActionGetChallengeById(challengeId);
+  const challengeDocs = await ActionGetChallengeById(challengeId);
+  const streakDocs = await ActionGetStreakByHabitId(habitId);
 
-  if (!docs) return;
+  if (!challengeDocs) return null;
 
-  console.log("docs - ", docs.data);
+  const streaks: Streak[] = [];
+  streakDocs.forEach((doc) => {
+    const data = doc.data() as unknown as Streak;
+    streaks.push(data);
+  });
 
-  // Check how long the streak has been
+  const challengeData = challengeDocs.data() as unknown as ChallengeType;
+  const streakData = streaks[0];
 
-  // for this user and if they have hit the goal
-  // If they have then return true else return false
+  // Check how long the streak has been for this user and if they have hit the goal
+  return {
+    streakCount: streakData.count,
+    challengeDuration: challengeData.duration
+  };
 };

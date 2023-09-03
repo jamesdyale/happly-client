@@ -1,8 +1,5 @@
 import { doc, setDoc } from "firebase/firestore";
-import { duration } from "moment";
-
 import { FIREBASE_DB } from "~data";
-import { generateChallengeId } from "~generators";
 import { ChallengeType } from "~types";
 
 export const ActionCreateChallenge = async ({

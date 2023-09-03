@@ -172,7 +172,10 @@ export const HabitScreen = ({ route, navigation }) => {
             icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
           });
         } else {
-          checkIfChallengeIsCompleted(habit.challengeId);
+          checkIfChallengeIsCompleted({
+            challengeId: habit.challengeId,
+            habitId: habit.id
+          });
         }
       } catch (e) {
         toast.show(

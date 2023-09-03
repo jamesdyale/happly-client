@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useSetAtom, useAtomValue } from "jotai";
 import { useToast } from "react-native-toast-notifications";
-import { Habit, Stats, Streak } from "~types";
+import { Habit, HabitType, Stats, Streak } from "~types";
 import {
   progressAtom,
   selectedDayOfTheWeekAtom,
@@ -11,14 +11,17 @@ import {
 } from "~state";
 import {
   ActionCreateOrUpdateStreak,
-  ActionCreateStat,
   ActionGetStatsByHabitId,
   ActionGetStreakByHabitId
 } from "~actions";
 import { APP_GRAY, APP_GREEN, APP_WHITE } from "~styles";
-import { generateStatId } from "~generators/generateId";
 import moment from "moment";
-import { getMessageRelatedToStreakData, validateHabitStreak } from "~utils";
+import {
+  checkIfChallengeIsCompleted,
+  getMessageRelatedToStreakData,
+  markHabitAsDone,
+  validateHabitStreak
+} from "~utils";
 
 type HabitCardType = {
   habit: Habit;
@@ -58,12 +61,15 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
 
   const handleCompletedHabit = async () => {
     // check if a habit being clicked is in the current day
-    if (!habit) {
-      return;
-    }
+    console.log("message");
+    const { message, stat } = await markHabitAsDone({
+      habit,
+      selectedDay,
+      isHabitCard: true
+    });
 
-    if (!moment(selectedDay, "MMMM Do YYYY").isSame(moment(), "day")) {
-      toast.show("You can only complete habits for today.", {
+    if (!stat) {
+      toast.show(message, {
         type: "danger",
         duration: 4000,
         placement: "bottom",
@@ -72,57 +78,49 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
       return;
     }
 
-    const stat = {
-      id: generateStatId(),
-      userId: habit.userId,
-      habitId: habit.id,
-      completedAt: moment(selectedDay, "MMMM Do YYYY").format(
-        "ddd MMM DD YYYY"
-      ),
-      progress: 100
-    };
+    await ActionCreateOrUpdateStreak(habit.id, habit.userId);
 
-    try {
-      // TODO: check if it was successfully added to the database
-      const createdStat = await ActionCreateStat(stat);
+    // TODO: Add logic to check the stats and update the habit accordingly
+    setProgress((prev) => [...prev, stat]);
 
-      if (!createdStat) {
-        toast.show(
-          "An error happened when completing your habit. Please try again!",
-          {
-            type: "danger",
-            duration: 4000,
-            placement: "bottom",
-            icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-          }
-        );
+    getHabitStreak();
 
-        return;
-      }
-
-      await ActionCreateOrUpdateStreak(habit.id, habit.userId);
-
-      // TODO: Add logic to check the stats and update the habit accordingly
-      setProgress((prev) => [...prev, stat]);
-
-      getHabitStreak();
-
-      toast.show("Congratulations.", {
+    if (habit.type === HabitType.REGULAR) {
+      toast.show(message, {
         type: "success",
         duration: 4000,
         placement: "bottom",
         icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
       });
-    } catch (e) {
-      toast.show(
-        "An error happened when completing your habit. Please try again!",
-        {
-          type: "danger",
-          duration: 4000,
-          placement: "bottom",
-          icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
+    } else {
+      const data = await checkIfChallengeIsCompleted({
+        challengeId: habit.challengeId,
+        habitId: habit.id
+      });
+      if (!data) {
+      } else {
+        const { streakCount, challengeDuration } = data;
+        if (streakCount >= challengeDuration) {
+          toast.show("Woooohhooooo you have completed the challenge", {
+            type: "success",
+            duration: 4000,
+            placement: "bottom",
+            icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+          });
+        } else {
+          toast.show(
+            `You rock. You have ${
+              challengeDuration - streakCount
+            } left to complete the challenge`,
+            {
+              type: "success",
+              duration: 4000,
+              placement: "bottom",
+              icon: <Icon name='trending-up' size={20} color={APP_WHITE} />
+            }
+          );
         }
-      );
+      }
     }
   };
 

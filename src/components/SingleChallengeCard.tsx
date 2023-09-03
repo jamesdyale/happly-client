@@ -28,20 +28,21 @@ export const SingleChallengeCard = ({
     >
       <View style={styles.hashtagsContainer}>
         <View style={{ flexDirection: "row" }}>
-          {challenge.hashtags.map((hashtag, index) => (
-            <Text
-              key={index}
-              style={[
-                styles.hashtags,
-                {
-                  color: theme.MAIN_ACCENT_COLOR,
-                  backgroundColor: theme.MAIN_ACCENT_COLOR + "20"
-                }
-              ]}
-            >
-              #{hashtag}{" "}
-            </Text>
-          ))}
+          {challenge.hashtags.length > 0 &&
+            challenge.hashtags.map((hashtag, index) => (
+              <Text
+                key={index}
+                style={[
+                  styles.hashtags,
+                  {
+                    color: theme.MAIN_ACCENT_COLOR,
+                    backgroundColor: theme.MAIN_ACCENT_COLOR + "20"
+                  }
+                ]}
+              >
+                #{hashtag}{" "}
+              </Text>
+            ))}
         </View>
 
         <Text
@@ -53,9 +54,11 @@ export const SingleChallengeCard = ({
             }
           ]}
         >
-          {challenge.participants.length > 1
+          {challenge.participants.length === 0
+            ? `0 member`
+            : challenge.participants.length > 1
             ? `${challenge.participants.length} members`
-            : `0 member`}
+            : `1 member`}
         </Text>
       </View>
       <View style={styles.challengeInfo}>

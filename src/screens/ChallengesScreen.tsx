@@ -61,7 +61,7 @@ export const ChallengesScreen = () => {
           const challenge = doc.data() as ChallengeType;
           challenges.push(challenge);
         });
-
+        console.log("challenges - ", challenges);
         setChallenges(challenges);
       }
     );
@@ -156,13 +156,12 @@ export const ChallengesScreen = () => {
         daysOfWeek: []
       });
 
-      // INCREMENT THE NUMBER OF MEMBERS FOR A CHALLENGE
+      // // INCREMENT THE NUMBER OF MEMBERS FOR A CHALLENGE
       await ActionCreateChallenge({
         id: challenge.id,
         name: challenge.name,
         description: challenge.description,
-        participants: challenge.participants,
-        numberOfParticipants: challenge.numberOfParticipants, //+ 1,
+        participants: [...challenge.participants, user.id],
         hashtags: challenge.hashtags,
         duration: challenge.duration
       });
