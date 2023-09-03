@@ -1,13 +1,26 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTheme } from "~hooks";
 
 export const SingleRoomCard = ({ item }) => {
   const { theme } = useTheme();
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted) {
+    }
+  }, []);
+
   return (
     <TouchableOpacity
       onPress={() => console.log("Opening Room")}
-      style={styles.singleItemHolder}
+      style={[
+        styles.singleItemHolder,
+        {
+          backgroundColor: theme.CARD_BG
+        }
+      ]}
     >
       <View style={styles.imageContainer}>
         {item.avatar ? (
@@ -136,7 +149,9 @@ const styles = StyleSheet.create({
   singleItemHolder: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20
+    marginBottom: 20,
+    borderRadius: 10,
+    padding: 20
   },
   imageContainer: {
     width: 50,
