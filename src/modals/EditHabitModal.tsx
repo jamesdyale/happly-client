@@ -17,17 +17,13 @@ import {
   selectedHabitAtom,
   showDeleteModalAtom
 } from "~state";
-import { APP_BLACK, APP_WHITE, GRAY_TEXT, MAIN_ACCENT_COLOR } from "~styles";
+import { APP_WHITE, MAIN_ACCENT_COLOR } from "~styles";
 import Icon from "react-native-vector-icons/Ionicons";
-import { generateStatId } from "~generators";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { FIREBASE_DB } from "~data";
 import React from "react";
 import { ROUTES } from "../constants";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
-  ActionCreateStat,
   ActionGetUserHabitById,
   ActionDeleteHabitById,
   ActionDeleteStatsById,
@@ -37,9 +33,13 @@ import {
 import moment from "moment/moment";
 import { findClosestReminder } from "~utils/timeUtils";
 import { useAtomValue } from "jotai";
-import { HabitType, Stats } from "~types";
+import { HabitType } from "~types";
 import { useTheme } from "~hooks";
-import { checkIfChallengeIsCompleted, markHabitAsDone } from "~utils";
+import {
+  checkIfChallengeIsCompleted,
+  markHabitAsDone,
+  removeAUserFromAChallenge
+} from "~utils";
 
 export const EditHabitModal = () => {
   const { navigate } =
@@ -62,8 +62,6 @@ export const EditHabitModal = () => {
 
     if (dataDocumentSnapshot.exists()) {
       try {
-        await ActionDeleteHabitById(habitSelected.id);
-
         const habitStat = progress.find(
           (stat) => stat.habitId === habitSelected.id
         );
@@ -73,9 +71,19 @@ export const EditHabitModal = () => {
           setProgress((prev) =>
             prev.filter((stat) => stat.id !== habitStat.id)
           );
+        }
 
-          await ActionDeleteStreakByHabitId(habitSelected.id);
-          await ActionDeleteRemindersByHabitId(habitSelected.id);
+        await ActionDeleteStreakByHabitId(habitSelected.id);
+
+        await ActionDeleteRemindersByHabitId(habitSelected.id);
+
+        await ActionDeleteHabitById(habitSelected.id);
+
+        if (habitSelected.type === HabitType.CHALLENGE) {
+          await removeAUserFromAChallenge(
+            habitSelected.challengeId,
+            habitSelected.userId
+          );
         }
 
         setSelectedHabit(null);

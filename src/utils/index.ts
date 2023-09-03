@@ -15,3 +15,4 @@ export * from "./getMessageRelatedToStreakData";
 export * from "./validateHabitStreak";
 export * from "./checkIfChallengeIsCompleted";
 export * from "./markHabitAsDone";
+export * from "./removeAUserFromAChallenge";

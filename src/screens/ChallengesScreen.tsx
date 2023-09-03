@@ -116,7 +116,6 @@ export const ChallengesScreen = () => {
         );
         return;
       }
-      console.log("reminderAt =- ", reminderAt);
 
       // CREATE A HABIT
       const habit = await ActionCreateHabit({
