@@ -4,16 +4,21 @@ import { useTheme } from "~hooks";
 import { SleepingIcon } from "~assets";
 import { CustomButton } from "~components";
 import { ChallengeType } from "~types/ChallengeType";
+import { useAtomValue } from "jotai";
+import { userAtom } from "~state";
 
 interface SingleChallengesType {
   challenge: ChallengeType;
   handlePopupReminder: (challengeId: ChallengeType["id"]) => void;
+  isUserPartOfChallenge;
 }
 
 export const SingleChallengeCard = ({
   challenge,
-  handlePopupReminder
+  handlePopupReminder,
+  isUserPartOfChallenge
 }: SingleChallengesType) => {
+  const user = useAtomValue(userAtom);
   const { theme } = useTheme();
 
   return (
@@ -104,13 +109,23 @@ export const SingleChallengeCard = ({
           </View>
         </View>
         <View>
-          <CustomButton
-            bgColor={theme.MAIN_ACCENT_COLOR}
-            color={theme.CONTRAST_MAIN_TEXT_COLOR}
-            text='Join'
-            onClick={() => handlePopupReminder(challenge.id)}
-            disabled={false}
-          />
+          {!isUserPartOfChallenge ? (
+            <CustomButton
+              bgColor={theme.MAIN_ACCENT_COLOR}
+              color={theme.CONTRAST_MAIN_TEXT_COLOR}
+              text='Join'
+              onClick={() => handlePopupReminder(challenge.id)}
+              disabled={false}
+            />
+          ) : (
+            <CustomButton
+              bgColor={theme.MAIN_BG_COLOR}
+              color={theme.MAIN_ACCENT_COLOR}
+              text='You are already a part of this challenge'
+              onClick={() => console.log("You cannot join")}
+              disabled={false}
+            />
+          )}
         </View>
       </View>
     </View>

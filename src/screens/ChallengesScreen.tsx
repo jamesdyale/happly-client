@@ -260,6 +260,9 @@ export const ChallengesScreen = () => {
                   key={index}
                   challenge={challenge}
                   handlePopupReminder={handlePopupReminder}
+                  isUserPartOfChallenge={challenge.participants.includes(
+                    user.id
+                  )}
                 />
               ))}
             </ScrollView>
