@@ -89,15 +89,24 @@ export const CreateRoomScreen = () => {
                 setInviteError(formValidationOnBlur("invite", invite))
               }
               value={invite}
-              icon
+              icon='person-add'
             />
+            <Text
+              style={{
+                color: theme.MAIN_ACCENT_COLOR,
+                fontSize: 12,
+                marginTop: 10
+              }}
+            >
+              {"To get this tell your friends to go to Settings > Copy User ID"}
+            </Text>
             {/* TODO: Feature to link it to this user's list of habits */}
           </View>
           <View style={{ marginTop: -30 }}>
             <CustomButton
               bgColor={theme.MAIN_ACCENT_COLOR}
               color={theme.APP_WHITE}
-              text='Create Challenge'
+              text='Create Room'
               onClick={handleCreateRoom}
               disabled={loading}
             />

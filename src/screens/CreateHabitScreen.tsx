@@ -610,7 +610,7 @@ export const CreateHabitScreen = () => {
             </View>
             <CustomButton
               bgColor={theme.MAIN_ACCENT_COLOR}
-              color={theme.CONTRAST_MAIN_TEXT_COLOR}
+              color={theme.APP_WHITE}
               text={editHabit ? "SAVE" : "CREATE"}
               onClick={createHabit}
               disabled={loading}

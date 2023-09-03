@@ -1,4 +1,4 @@
-import { KeyboardTypeOptions } from 'react-native'
+import { KeyboardTypeOptions } from "react-native";
 
 /**
  * Type for my custom text input
@@ -13,4 +13,5 @@ export type CustomTextInputType = {
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: boolean;
   error?: string;
-}
+  icon?: string;
+};
