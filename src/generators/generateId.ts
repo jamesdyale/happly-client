@@ -1,15 +1,16 @@
-import 'react-native-get-random-values'
-import { nanoid } from 'nanoid'
+import "react-native-get-random-values";
+import { nanoid } from "nanoid";
 
-export type UniqueId<Id extends string> = `${Id}-${string}`
+export type UniqueId<Id extends string> = `${Id}-${string}`;
 
 export const generateId = <Id extends string>(id: Id): UniqueId<Id> => {
-  return `${id}-${nanoid(16)}`
-}
+  return `${id}-${nanoid(16)}`;
+};
 
-export const generateUserId = () => generateId('user')
-export const generateStatId = () => generateId('stat')
-export const generateStreakId = () => generateId('streak')
-export const generateHabitId = () => generateId('habit')
-export const generateReminderId = () => generateId('reminder')
-export const generateChallengeId = () => generateId('challenge')
+export const generateUserId = () => generateId("user");
+export const generateStatId = () => generateId("stat");
+export const generateStreakId = () => generateId("streak");
+export const generateHabitId = () => generateId("habit");
+export const generateReminderId = () => generateId("reminder");
+export const generateChallengeId = () => generateId("challenge");
+export const generateRoomId = () => generateId("room");

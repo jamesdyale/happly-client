@@ -13,10 +13,20 @@ import { formValidationOnBlur } from "~utils";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTheme } from "~hooks";
+import { generateRoomId } from "~generators";
+import { useAtomValue } from "jotai";
+import { userAtom } from "~state";
+import { Room } from "~types";
+import { ActionCreateRoom, ActionGetRoomByUserId } from "~actions";
+import { useToast } from "react-native-toast-notifications";
 
 export const CreateRoomScreen = () => {
+  const toast = useToast();
+
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { theme } = useTheme();
+
+  const user = useAtomValue(userAtom);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -28,14 +38,61 @@ export const CreateRoomScreen = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const handleCreateRoom = () => {
-    const roomData = {
-      name,
-      description,
-      inviteList
-    };
+  const handleCreateRoom = async () => {
+    setLoading(true);
 
-    console.log(roomData);
+    try {
+      const roomData: Room = {
+        id: generateRoomId(),
+        name,
+        description,
+        members: inviteList,
+        createdBy: user.id
+      };
+
+      const roomCreatedByUser = await ActionGetRoomByUserId(user.id);
+
+      if (roomCreatedByUser.size >= 2) {
+        toast.show("You can only create 2 rooms", {
+          type: "danger",
+          duration: 4000,
+          placement: "bottom",
+          icon: (
+            <Icon name='alert-circle-sharp' size={20} color={theme.APP_WHITE} />
+          )
+        });
+        return;
+      }
+
+      // Check the user's created rooms
+      await ActionCreateRoom(roomData);
+
+      toast.show("Room created successfully", {
+        type: "success",
+        duration: 4000,
+        placement: "bottom",
+        icon: (
+          <Icon
+            name='checkmark-circle-sharp'
+            size={20}
+            color={theme.APP_WHITE}
+          />
+        )
+      });
+    } catch (error) {
+      toast.show("Something went wrong", {
+        type: "danger",
+        duration: 4000,
+        placement: "bottom",
+        icon: (
+          <Icon name='alert-circle-sharp' size={20} color={theme.APP_WHITE} />
+        )
+      });
+    } finally {
+      setLoading(false);
+    }
+
+    // Else, show an error message
   };
 
   const handleSubmit = (text: string) => {

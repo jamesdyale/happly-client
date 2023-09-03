@@ -28,3 +28,6 @@ export * from "./actionDeleteRemindersByHabitId";
 export * from "./actionUpdateUser";
 export * from "./actionCreateChallenge";
 export * from "./actionGetChallengeById";
+export * from "./actionGetRoomByUserId";
+export * from "./actionCreateRoom";
+export * from "./actionGetRoomsUserIsInByUserID";

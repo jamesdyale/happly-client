@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   StyleSheet
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -41,6 +41,32 @@ export const RoomsScreen = () => {
 
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = React.useState(Tab.ROOMS);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted) {
+      getRooms();
+    }
+  }, []);
+
+  const getRooms = async () => {
+    const dataDocumentSnapshotQuery = ActionGetRoomsUserIsInByUserID();
+
+    // const unsubscribe = onSnapshot(
+    //   dataDocumentSnapshotQuery,
+    //   (querySnapshot) => {
+    //     const challenges: ChallengeType[] = [];
+    //     querySnapshot.forEach((doc) => {
+    //       const challenge = doc.data() as ChallengeType;
+    //       challenges.push(challenge);
+    //     });
+    //     setChallenges(challenges);
+    //   }
+    // );
+
+    return () => unsubscribe();
+  };
 
   return (
     <SafeAreaView

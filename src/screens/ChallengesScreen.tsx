@@ -61,7 +61,6 @@ export const ChallengesScreen = () => {
           const challenge = doc.data() as ChallengeType;
           challenges.push(challenge);
         });
-        console.log("challenges - ", challenges);
         setChallenges(challenges);
       }
     );
