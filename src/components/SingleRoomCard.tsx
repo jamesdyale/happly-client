@@ -9,6 +9,8 @@ export const SingleRoomCard = ({ item }) => {
     let isMounted = true;
 
     if (isMounted) {
+      // Fetch the message from the database based on the room id
+      // Get the last message and display it
     }
   }, []);
 
