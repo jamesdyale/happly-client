@@ -14,12 +14,13 @@ import * as WebBrowser from "expo-web-browser";
 import { useTheme } from "~hooks";
 import { ThemeSwitchModal } from "~modals";
 import { ASYNC_STORAGE_KEYS, Themes } from "~constants";
-import { useSetAtom } from "jotai";
-import { selectedThemeAtom, themeAtom } from "~state";
+import { useAtomValue, useSetAtom } from "jotai";
+import { selectedThemeAtom, themeAtom, userAtom } from "~state";
 import Colors from "~constants/theme";
 import { storeData } from "~utils";
 import * as Linking from "expo-linking";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import * as Clipboard from "expo-clipboard";
 
 export const SettingsScreen = () => {
   const { theme } = useTheme();
@@ -27,6 +28,7 @@ export const SettingsScreen = () => {
 
   const [themeModalVisible, setThemeModalVisible] = React.useState(false);
   const changeTheme = useSetAtom(themeAtom);
+  const user = useAtomValue(userAtom);
   const setSelectedTheme = useSetAtom(selectedThemeAtom);
 
   const openEmail = async (message: string) => {
@@ -50,6 +52,25 @@ export const SettingsScreen = () => {
       setSelectedTheme(Themes.DARK);
       setThemeModalVisible(false);
     }
+  };
+
+  const handleCopyToClipboard = async () => {
+    const { id } = user;
+
+    if (!id) {
+      Alert.alert(
+        "Error",
+        "Your UserID could not be copied to your clipboard. Please try again."
+      );
+      return;
+    }
+
+    await Clipboard.setStringAsync(id);
+
+    Alert.alert(
+      "Copied to clipboard",
+      "Your UserID has been copied to your clipboard."
+    );
   };
 
   return (
@@ -109,7 +130,7 @@ export const SettingsScreen = () => {
 
           <TouchableOpacity
             style={styles.settingsSubItem}
-            onPress={() => Alert.alert("Coming soon")}
+            onPress={handleCopyToClipboard}
           >
             <View style={styles.settingsItemContent}>
               <View
