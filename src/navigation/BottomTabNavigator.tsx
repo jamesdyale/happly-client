@@ -23,7 +23,6 @@ const specialScreens = new Set([
 export const BottomTabNavigator = () => {
   const { theme } = useTheme();
   const route = useRoute();
-  console.log(route);
 
   return (
     <Navigator
@@ -40,7 +39,7 @@ export const BottomTabNavigator = () => {
         tabBarIcon: ({ color, size, focused }) => {
           let iconName;
           let tabName;
-          console.log("route.name", route.name);
+
           if (route.name === ROUTES.HOME) {
             iconName = focused ? "ios-home-sharp" : "ios-home-outline";
             tabName = "Home";

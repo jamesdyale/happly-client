@@ -21,13 +21,27 @@ export const CreateRoomScreen = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [invite, setInvite] = useState("");
+  const [inviteList, setInviteList] = useState([]);
   const [nameError, setNameError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [inviteError, setInviteError] = useState("");
 
   const [loading, setLoading] = useState(false);
 
-  const handleCreateRoom = () => {};
+  const handleCreateRoom = () => {
+    const roomData = {
+      name,
+      description,
+      inviteList
+    };
+
+    console.log(roomData);
+  };
+
+  const handleSubmit = (text: string) => {
+    setInviteList([...inviteList, text]);
+    setInvite("");
+  };
 
   return (
     <SafeAreaView
@@ -88,9 +102,61 @@ export const CreateRoomScreen = () => {
               handleBlur={() =>
                 setInviteError(formValidationOnBlur("invite", invite))
               }
+              handleSubmit={handleSubmit}
               value={invite}
               icon='person-add'
             />
+
+            {inviteList.length > 0 && (
+              <View
+                style={{
+                  marginTop: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                  flexWrap: "wrap"
+                }}
+              >
+                <Text
+                  style={{
+                    color: theme.MAIN_TEXT_COLOR
+                    // fontSize: 12,
+                    // marginTop: 10
+                  }}
+                >
+                  Added Users
+                </Text>
+                <View
+                  style={{
+                    marginTop: 10,
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap"
+                  }}
+                >
+                  {inviteList.map((invite, index) => (
+                    <View
+                      key={index}
+                      style={{
+                        backgroundColor: theme.MAIN_ACCENT_COLOR,
+                        padding: 10,
+                        borderRadius: 5,
+                        marginRight: 10,
+                        marginBottom: 10
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: theme.APP_WHITE,
+                          fontSize: 12
+                        }}
+                      >
+                        {invite}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )}
             <Text
               style={{
                 color: theme.MAIN_ACCENT_COLOR,
@@ -100,6 +166,7 @@ export const CreateRoomScreen = () => {
             >
               {"To get this tell your friends to go to Settings > Copy User ID"}
             </Text>
+
             {/* TODO: Feature to link it to this user's list of habits */}
           </View>
           <View style={{ marginTop: -30 }}>

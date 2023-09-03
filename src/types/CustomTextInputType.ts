@@ -7,6 +7,7 @@ export type CustomTextInputType = {
   label?: string;
   bigLabel?: string;
   handleChange: (e) => void;
+  handleSubmit?: (e) => void;
   handleBlur?: (e) => void;
   value: string;
   placeholder?: string;

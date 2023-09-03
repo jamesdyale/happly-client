@@ -9,6 +9,7 @@ export const CustomTextInput = ({
   label,
   handleChange,
   handleBlur = () => null,
+  handleSubmit = (text: string) => null,
   value,
   placeholder,
   keyboardType,
@@ -75,19 +76,7 @@ export const CustomTextInput = ({
               placeholder={placeholder}
               keyboardType={keyboardType}
               secureTextEntry={secureTextEntry}
-              // style={[
-              //   styles.input,
-              //   {
-              //     borderColor: error ? "red" : theme.BORDER_COLOR,
-              //     color: theme.MAIN_TEXT_COLOR,
-              //     backgroundColor: theme.INPUT_BG
-              //   }
-              // ]}
-              // placeholder='User Nickname'
-              // onChangeText={(searchString) => {
-              //   this.setState({ searchString });
-              // }}
-              // underlineColorAndroid='transparent'
+              onSubmitEditing={(value) => handleSubmit(value.nativeEvent.text)}
             />
             <Icon
               style={styles.icon}
