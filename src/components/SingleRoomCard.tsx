@@ -1,9 +1,14 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import React, { useEffect } from "react";
 import { useTheme } from "~hooks";
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ROUTES } from "~constants";
 
 export const SingleRoomCard = ({ item }) => {
   const { theme } = useTheme();
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   useEffect(() => {
     let isMounted = true;
@@ -16,7 +21,7 @@ export const SingleRoomCard = ({ item }) => {
 
   return (
     <TouchableOpacity
-      onPress={() => console.log("Opening Room")}
+      onPress={() => navigate(ROUTES.SINGLE_ROOM, { roomID: item.id })}
       style={[
         styles.singleItemHolder,
         {
