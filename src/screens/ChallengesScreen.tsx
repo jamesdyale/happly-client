@@ -168,7 +168,7 @@ export const ChallengesScreen = () => {
       setSelectedChallengeId(null);
 
       // SENT BACK TOAST MESSAGE SAYING THE USER HAS BEEN ADDED TO THE CHALLENGE
-      toast.show("You have been added the challenge!", {
+      toast.show("You have been added to the challenge!", {
         type: "success",
         duration: 4000,
         placement: "bottom",
