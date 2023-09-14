@@ -11,14 +11,11 @@ import { RoomStack } from "~navigation/RoomStack";
 import { CreateHabitScreen } from "~screens";
 import { useScreenTracker, useTheme } from "~hooks";
 import { useRoute } from "@react-navigation/native";
+import { horizontalScale, moderateScale, verticalScale } from "~utils";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-const specialScreens = new Set([
-  ROUTES.CREATE_HABIT,
-  ROUTES.CREATE_CHALLENGE,
-  ROUTES.CREATE_ROOM
-]);
+const specialScreens = new Set([ROUTES.CREATE_HABIT, ROUTES.CREATE_CHALLENGE, ROUTES.CREATE_ROOM]);
 
 export const BottomTabNavigator = () => {
   const { theme } = useTheme();
@@ -50,9 +47,7 @@ export const BottomTabNavigator = () => {
             iconName = focused ? "ios-trophy" : "ios-trophy-outline";
             tabName = "Challenge";
           } else if (route.name === ROUTES.ROOMS) {
-            iconName = focused
-              ? "ios-chatbox-ellipses"
-              : "ios-chatbox-ellipses-outline";
+            iconName = focused ? "ios-chatbox-ellipses" : "ios-chatbox-ellipses-outline";
             tabName = "Rooms";
           } else if (route.name === ROUTES.CREATE_HABIT) {
             iconName = focused ? "add-circle" : "add-circle-outline";
@@ -60,13 +55,7 @@ export const BottomTabNavigator = () => {
           }
 
           return (
-            <CustomTabItem
-              name={tabName}
-              icon={iconName}
-              size={22}
-              color={color}
-              focused={focused}
-            />
+            <CustomTabItem name={tabName} icon={iconName} size={moderateScale(22)} color={color} focused={focused} />
           );
         }
       })}
@@ -88,9 +77,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    height: 90,
-    paddingLeft: 15,
-    paddingRight: 15,
+    height: verticalScale(90),
+    paddingLeft: horizontalScale(15),
+    paddingRight: horizontalScale(15),
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     zIndex: 10

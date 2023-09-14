@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
-import React from 'react'
-import { AddHabitIcon } from '~assets'
-import { useTheme } from '~hooks'
-
+import { StyleSheet, Text, View } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import React from "react";
+import { AddHabitIcon } from "~assets";
+import { useTheme } from "~hooks";
+import { horizontalScale, moderateScale, verticalScale } from "~utils";
 
 export const CustomTabItem = (props) => {
-  const { theme } = useTheme()
-  const { icon, name, size, color, focused } = props
-  if (name !== 'Create') {
+  const { theme } = useTheme();
+  const { icon, name, size, color, focused } = props;
+  if (name !== "Create") {
     return (
       <View style={[styles.customTabItemContainer, { backgroundColor: theme.SECONDARY_BG_COLOR }]}>
         <View style={styles.customTabItemIcon}>
@@ -16,8 +16,7 @@ export const CustomTabItem = (props) => {
         </View>
         <Text style={[styles.customTabItemTabName, { color: focused ? color : theme.MAIN_TEXT_COLOR }]}>{name}</Text>
       </View>
-
-    )
+    );
   }
 
   return (
@@ -26,35 +25,34 @@ export const CustomTabItem = (props) => {
         <AddHabitIcon {...props} />
       </View>
     </View>
-  )
-}
-
+  );
+};
 
 const styles = StyleSheet.create({
   customTabItemContainer: {
-    display: 'flex',
-    width: '100%',
-    height: 70,
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    width: horizontalScale(80),
+    height: verticalScale(70),
+    alignItems: "center",
+    justifyContent: "center",
     bottom: -10
   },
   customTabItemIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: horizontalScale(50),
+    height: verticalScale(50),
+    borderRadius: moderateScale(25),
+    alignItems: "center",
+    justifyContent: "center"
   },
   customTabItemPlusIcon: {
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
+    borderRadius: moderateScale(25),
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
     top: -30
   },
   customTabItemTabName: {
-    fontSize: 12,
-    fontWeight: 'bold'
+    fontSize: moderateScale(12),
+    fontWeight: "bold"
   }
-})
+});

@@ -110,7 +110,7 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
       } else {
         const { streakCount, challengeDuration } = data;
         if (streakCount >= challengeDuration) {
-          toast.show("Woooohhooooo you have completed the challenge", {
+          toast.show("Woooohooooo you have completed the challenge", {
             type: "success",
             duration: 4000,
             placement: "bottom",

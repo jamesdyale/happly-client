@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  SafeAreaView,
-  Alert
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert } from "react-native";
 import { useToast } from "react-native-toast-notifications";
 import Modal from "react-native-modal";
 import { useAtom, useSetAtom } from "jotai";
@@ -37,13 +30,15 @@ import { HabitType } from "~types";
 import { useTheme } from "~hooks";
 import {
   checkIfChallengeIsCompleted,
+  horizontalScale,
   markHabitAsDone,
-  removeAUserFromAChallenge
+  moderateScale,
+  removeAUserFromAChallenge,
+  verticalScale
 } from "~utils";
 
 export const EditHabitModal = () => {
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const toast = useToast();
   const { theme } = useTheme();
 
@@ -62,15 +57,11 @@ export const EditHabitModal = () => {
 
     if (dataDocumentSnapshot.exists()) {
       try {
-        const habitStat = progress.find(
-          (stat) => stat.habitId === habitSelected.id
-        );
+        const habitStat = progress.find((stat) => stat.habitId === habitSelected.id);
 
         if (habitStat) {
           await ActionDeleteStatsById(habitStat.id);
-          setProgress((prev) =>
-            prev.filter((stat) => stat.id !== habitStat.id)
-          );
+          setProgress((prev) => prev.filter((stat) => stat.id !== habitStat.id));
         }
 
         await ActionDeleteStreakByHabitId(habitSelected.id);
@@ -80,10 +71,7 @@ export const EditHabitModal = () => {
         await ActionDeleteHabitById(habitSelected.id);
 
         if (habitSelected.type === HabitType.CHALLENGE) {
-          await removeAUserFromAChallenge(
-            habitSelected.challengeId,
-            habitSelected.userId
-          );
+          await removeAUserFromAChallenge(habitSelected.challengeId, habitSelected.userId);
         }
 
         setSelectedHabit(null);
@@ -93,18 +81,15 @@ export const EditHabitModal = () => {
           type: "danger",
           duration: 4000,
           placement: "bottom",
-          icon: <Icon name='trash' size={20} color={APP_WHITE} />
+          icon: <Icon name='trash' size={moderateScale(20)} color={APP_WHITE} />
         });
       } catch (e) {
-        toast.show(
-          "An error happened when deleting your habit. Please try again!",
-          {
-            type: "danger",
-            duration: 4000,
-            placement: "bottom",
-            icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-          }
-        );
+        toast.show("An error happened when deleting your habit. Please try again!", {
+          type: "danger",
+          duration: 4000,
+          placement: "bottom",
+          icon: <Icon name='alert-circle' size={moderateScale(20)} color={APP_WHITE} />
+        });
       } finally {
         setLoading(false);
       }
@@ -158,7 +143,7 @@ export const EditHabitModal = () => {
         type: "danger",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
+        icon: <Icon name='alert-circle' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
       return;
     }
@@ -167,7 +152,7 @@ export const EditHabitModal = () => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+        icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
     } else {
       const data = await checkIfChallengeIsCompleted({
@@ -175,15 +160,12 @@ export const EditHabitModal = () => {
         habitId: habitSelected.id
       });
       if (!data) {
-        toast.show(
-          "Having trouble check if you have completed your challenge. Please try again!",
-          {
-            type: "success",
-            duration: 4000,
-            placement: "bottom",
-            icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
-          }
-        );
+        toast.show("Having trouble check if you have completed your challenge. Please try again!", {
+          type: "success",
+          duration: 4000,
+          placement: "bottom",
+          icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+        });
       } else {
         const { streakCount, challengeDuration } = data;
         if (streakCount >= challengeDuration) {
@@ -191,22 +173,15 @@ export const EditHabitModal = () => {
             type: "success",
             duration: 4000,
             placement: "bottom",
-            icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
           });
         } else {
-          toast.show(
-            `You rock. You have ${
-              challengeDuration - streakCount
-            } day(s) left to complete the challenge`,
-            {
-              type: "success",
-              duration: 4000,
-              placement: "bottom",
-              icon: (
-                <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
-              )
-            }
-          );
+          toast.show(`You rock. You have ${challengeDuration - streakCount} day(s) left to complete the challenge`, {
+            type: "success",
+            duration: 4000,
+            placement: "bottom",
+            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+          });
         }
       }
     }
@@ -264,19 +239,12 @@ export const EditHabitModal = () => {
                   ]}
                 >
                   {habitSelected.reminderAt.length > 0 &&
-                    `Closest Reminder is at ${findClosestReminder(
-                      habitSelected.reminderAt
-                    )}`}
+                    `Closest Reminder is at ${findClosestReminder(habitSelected.reminderAt)}`}
                   {habitSelected.reminderAt.length < 1 && "No Reminders Set"}
                 </Text>
               </View>
               <TouchableOpacity onPress={handleOnPressCloseIcon}>
-                <Icon
-                  style={styles.closeIcon}
-                  name='close'
-                  size={25}
-                  color={theme.MAIN_TEXT_COLOR}
-                />
+                <Icon style={styles.closeIcon} name='close' size={moderateScale(25)} color={theme.MAIN_TEXT_COLOR} />
               </TouchableOpacity>
             </View>
 
@@ -284,7 +252,7 @@ export const EditHabitModal = () => {
               <Icon
                 style={styles.icon}
                 name='notifications-outline'
-                size={25}
+                size={moderateScale(20)}
                 color={theme.MAIN_TEXT_COLOR}
               />
               <View>
@@ -328,12 +296,7 @@ export const EditHabitModal = () => {
             </View>
 
             <View style={styles.bodySection}>
-              <Icon
-                style={styles.icon}
-                name='options-outline'
-                size={25}
-                color={theme.MAIN_TEXT_COLOR}
-              />
+              <Icon style={styles.icon} name='options-outline' size={moderateScale(25)} color={theme.MAIN_TEXT_COLOR} />
               <View>
                 <Text
                   style={[
@@ -353,19 +316,14 @@ export const EditHabitModal = () => {
                     }
                   ]}
                 >
-                  {habitSelected.description.length > 0
-                    ? habitSelected.description
-                    : "None"}
+                  {habitSelected.description.length > 0 ? habitSelected.description : "None"}
                 </Text>
               </View>
             </View>
 
             <View style={styles.actionSection}>
-              <TouchableOpacity
-                style={styles.actionSectionButton}
-                onPress={handleOnPressDelete}
-              >
-                <Icon name='trash' size={25} color={theme.MAIN_TEXT_COLOR} />
+              <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressDelete}>
+                <Icon name='trash' size={moderateScale(25)} color={theme.MAIN_TEXT_COLOR} />
                 <Text
                   style={[
                     styles.infoText,
@@ -377,15 +335,8 @@ export const EditHabitModal = () => {
                   Delete
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.actionSectionButton}
-                onPress={handleOnPressEdit}
-              >
-                <Icon
-                  name='create-outline'
-                  size={25}
-                  color={theme.MAIN_TEXT_COLOR}
-                />
+              <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressEdit}>
+                <Icon name='create-outline' size={moderateScale(25)} color={theme.MAIN_TEXT_COLOR} />
                 <Text
                   style={[
                     styles.infoText,
@@ -397,15 +348,8 @@ export const EditHabitModal = () => {
                   Edit
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.actionSectionButton}
-                onPress={handleOnPressMarkAsDone}
-              >
-                <Icon
-                  name='checkbox-outline'
-                  size={25}
-                  color={theme.MAIN_TEXT_COLOR}
-                />
+              <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressMarkAsDone}>
+                <Icon name='checkbox-outline' size={moderateScale(25)} color={theme.MAIN_TEXT_COLOR} />
                 <Text
                   style={[
                     styles.infoText,
@@ -429,15 +373,18 @@ const styles = StyleSheet.create({
   container: {},
   bodySectionContainer: {
     width: "100%",
-    marginTop: 30,
+    marginTop: verticalScale(30),
     position: "absolute",
     bottom: 0,
-    borderRadius: 20,
-    padding: 30,
+    borderRadius: moderateScale(20),
+    paddingTop: verticalScale(30),
+    paddingBottom: verticalScale(30),
+    paddingLeft: horizontalScale(30),
+    paddingRight: horizontalScale(30),
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 2
+      width: horizontalScale(0),
+      height: verticalScale(2)
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -451,14 +398,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderBottomWidth: 1,
     borderBottomColor: "#d9d9d9",
-    paddingBottom: 15
+    paddingBottom: verticalScale(15)
   },
   bodySection: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: verticalScale(20),
+    paddingBottom: verticalScale(20),
     borderBottomWidth: 1,
     borderBottomColor: "#d9d9d9"
   },
@@ -467,47 +414,50 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 10,
-    paddingBottom: 10
+    paddingTop: verticalScale(10),
+    paddingBottom: verticalScale(10)
   },
   actionSectionButton: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    width: 100
+    width: horizontalScale(100)
   },
   habitTitle: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 20,
-    lineHeight: 24,
-    marginBottom: 3
+    fontSize: moderateScale(20),
+    lineHeight: verticalScale(24),
+    marginBottom: verticalScale(3)
   },
   highlightText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 10,
-    lineHeight: 12
+    fontSize: moderateScale(10),
+    lineHeight: verticalScale(12)
   },
   infoText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
-    lineHeight: 15,
-    marginTop: 3
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(15),
+    marginTop: verticalScale(3)
   },
   icon: {
-    marginRight: 15
+    marginRight: horizontalScale(15)
   },
   closeIcon: {
     backgroundColor: MAIN_ACCENT_COLOR,
-    width: 30,
-    height: 30,
-    padding: 2,
+    width: horizontalScale(30),
+    height: verticalScale(30),
+    paddingTop: verticalScale(2),
+    paddingBottom: verticalScale(2),
+    paddingLeft: horizontalScale(2),
+    paddingRight: horizontalScale(2),
     display: "flex",
     textAlign: "center",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 15,
+    borderRadius: moderateScale(15),
     color: APP_WHITE
   }
 });
