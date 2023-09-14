@@ -1,13 +1,4 @@
-import {
-  Alert,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { CustomButton, CustomTextInput, DayPicker } from "~components";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -28,7 +19,7 @@ import { useToast } from "react-native-toast-notifications";
 import moment from "moment/moment";
 import { generateHabitId, generateReminderId } from "~generators";
 import { NotificationModal } from "~modals";
-import { formValidationOnBlur, getData } from "~utils";
+import { formValidationOnBlur, getData, horizontalScale, moderateScale, verticalScale } from "~utils";
 import { useTheme } from "~hooks";
 import { ASYNC_STORAGE_KEYS } from "~constants";
 import { registerForPushNotificationsAsync } from "~services";
@@ -45,9 +36,7 @@ export const CreateHabitScreen = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [timeOfDay, setTimeOfDay] = useState(TimeOfDay.Morning);
-  const [frequencyOption, setFrequencyOption] = useState<Frequency>(
-    Frequency.Daily
-  );
+  const [frequencyOption, setFrequencyOption] = useState<Frequency>(Frequency.Daily);
   const [reminderAt, setReminderAt] = useState<string[]>([]);
 
   const [nameError, setNameError] = useState("");
@@ -103,9 +92,7 @@ export const CreateHabitScreen = () => {
           type: "danger",
           duration: 4000,
           placement: "bottom",
-          icon: (
-            <Icon name='alert-circle-sharp' size={20} color={theme.APP_WHITE} />
-          )
+          icon: <Icon name='alert-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
         });
         return;
       }
@@ -116,13 +103,7 @@ export const CreateHabitScreen = () => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: (
-          <Icon
-            name='checkmark-circle-sharp'
-            size={20}
-            color={theme.APP_WHITE}
-          />
-        )
+        icon: <Icon name='checkmark-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
     } else {
       await ActionCreateHabit({
@@ -158,13 +139,7 @@ export const CreateHabitScreen = () => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: (
-          <Icon
-            name='checkmark-circle-sharp'
-            size={20}
-            color={theme.APP_WHITE}
-          />
-        )
+        icon: <Icon name='checkmark-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
     }
 
@@ -247,10 +222,8 @@ export const CreateHabitScreen = () => {
 
   return (
     <>
-      <SafeAreaView
-        style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}
-      >
-        <ScrollView style={{ marginBottom: 10 }}>
+      <SafeAreaView style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}>
+        <ScrollView style={{ marginBottom: verticalScale(10) }}>
           <View style={styles.container}>
             <View style={styles.header}>
               <TouchableOpacity
@@ -265,7 +238,7 @@ export const CreateHabitScreen = () => {
                   navigation.goBack();
                 }}
               >
-                <Icon name='close' size={25} color={theme.APP_RED} />
+                <Icon name='close' size={moderateScale(25)} color={theme.APP_RED} />
               </TouchableOpacity>
               <Text
                 style={[
@@ -275,11 +248,7 @@ export const CreateHabitScreen = () => {
                   }
                 ]}
               >
-                New{" "}
-                <Text style={[styles.headerText, { color: "#9D9797" }]}>
-                  {" "}
-                  Habit
-                </Text>
+                New <Text style={[styles.headerText, { color: "#9D9797" }]}> Habit</Text>
               </Text>
             </View>
             <View>
@@ -300,12 +269,7 @@ export const CreateHabitScreen = () => {
                 value={description}
               />
               <View style={styles.sectionContainer}>
-                <Text
-                  style={[
-                    styles.sectionTitle,
-                    { color: theme.MAIN_TEXT_COLOR }
-                  ]}
-                >
+                <Text style={[styles.sectionTitle, { color: theme.MAIN_TEXT_COLOR }]}>
                   How often do you want to do it?
                 </Text>
                 <View style={styles.frequencyOptions}>
@@ -313,11 +277,9 @@ export const CreateHabitScreen = () => {
                     style={[
                       styles.frequencyOption,
                       {
-                        marginRight: 15,
+                        marginRight: horizontalScale(15),
                         backgroundColor:
-                          frequencyOption === Frequency.Daily
-                            ? theme.MAIN_TEXT_COLOR
-                            : theme.DISABLED_BUTTON_COLOR
+                          frequencyOption === Frequency.Daily ? theme.MAIN_TEXT_COLOR : theme.DISABLED_BUTTON_COLOR
                       }
                     ]}
                     onPress={() => setFrequencyOption(Frequency.Daily)}
@@ -327,9 +289,7 @@ export const CreateHabitScreen = () => {
                         styles.frequencyOptionTitle,
                         {
                           color:
-                            frequencyOption === Frequency.Daily
-                              ? theme.CONTRAST_MAIN_TEXT_COLOR
-                              : theme.MAIN_TEXT_COLOR
+                            frequencyOption === Frequency.Daily ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR
                         }
                       ]}
                     >
@@ -341,9 +301,7 @@ export const CreateHabitScreen = () => {
                       styles.frequencyOption,
                       {
                         backgroundColor:
-                          frequencyOption === Frequency.Weekly
-                            ? theme.MAIN_TEXT_COLOR
-                            : theme.DISABLED_BUTTON_COLOR
+                          frequencyOption === Frequency.Weekly ? theme.MAIN_TEXT_COLOR : theme.DISABLED_BUTTON_COLOR
                       }
                     ]}
                     onPress={() => setFrequencyOption(Frequency.Weekly)}
@@ -377,10 +335,7 @@ export const CreateHabitScreen = () => {
                   >
                     Every?
                   </Text>
-                  <DayPicker
-                    selectedDays={selectedDays}
-                    handleSelectDay={handleSelectDay}
-                  />
+                  <DayPicker selectedDays={selectedDays} handleSelectDay={handleSelectDay} />
                 </View>
               ) : null}
 
@@ -400,20 +355,17 @@ export const CreateHabitScreen = () => {
                     style={[
                       styles.periodOption,
                       {
-                        backgroundColor:
-                          timeOfDay === TimeOfDay.Morning
-                            ? theme.APP_BLUE
-                            : theme.APP_GRAY,
-                        marginRight: 15
+                        backgroundColor: timeOfDay === TimeOfDay.Morning ? theme.APP_BLUE : theme.APP_GRAY,
+                        marginRight: horizontalScale(15)
                       }
                     ]}
                     onPress={() => setTimeOfDay(TimeOfDay.Morning)}
                   >
                     <Image
                       style={{
-                        width: 15,
-                        height: 15,
-                        marginRight: 8
+                        width: horizontalScale(15),
+                        height: verticalScale(15),
+                        marginRight: horizontalScale(8)
                       }}
                       source={require("../../assets/svgs/sunrise1.png")}
                     />
@@ -421,10 +373,7 @@ export const CreateHabitScreen = () => {
                       style={[
                         styles.periodOptionTitle,
                         {
-                          color:
-                            timeOfDay === TimeOfDay.Morning
-                              ? theme.APP_WHITE
-                              : theme.APP_BLACK
+                          color: timeOfDay === TimeOfDay.Morning ? theme.APP_WHITE : theme.APP_BLACK
                         }
                       ]}
                     >
@@ -436,20 +385,17 @@ export const CreateHabitScreen = () => {
                     style={[
                       styles.periodOption,
                       {
-                        marginRight: 15,
-                        backgroundColor:
-                          timeOfDay === TimeOfDay.Afternoon
-                            ? theme.APP_BLUE
-                            : theme.APP_GRAY
+                        marginRight: horizontalScale(15),
+                        backgroundColor: timeOfDay === TimeOfDay.Afternoon ? theme.APP_BLUE : theme.APP_GRAY
                       }
                     ]}
                     onPress={() => setTimeOfDay(TimeOfDay.Afternoon)}
                   >
                     <Image
                       style={{
-                        width: 15,
-                        height: 15,
-                        marginRight: 8
+                        width: horizontalScale(15),
+                        height: verticalScale(15),
+                        marginRight: horizontalScale(8)
                       }}
                       source={require("../../assets/svgs/sun1.png")}
                     />
@@ -457,10 +403,7 @@ export const CreateHabitScreen = () => {
                       style={[
                         styles.periodOptionTitle,
                         {
-                          color:
-                            timeOfDay === TimeOfDay.Afternoon
-                              ? theme.APP_WHITE
-                              : theme.APP_BLACK
+                          color: timeOfDay === TimeOfDay.Afternoon ? theme.APP_WHITE : theme.APP_BLACK
                         }
                       ]}
                     >
@@ -472,19 +415,16 @@ export const CreateHabitScreen = () => {
                     style={[
                       styles.periodOption,
                       {
-                        backgroundColor:
-                          timeOfDay === TimeOfDay.Evening
-                            ? theme.APP_BLUE
-                            : theme.APP_GRAY
+                        backgroundColor: timeOfDay === TimeOfDay.Evening ? theme.APP_BLUE : theme.APP_GRAY
                       }
                     ]}
                     onPress={() => setTimeOfDay(TimeOfDay.Evening)}
                   >
                     <Image
                       style={{
-                        width: 15,
-                        height: 15,
-                        marginRight: 8
+                        width: horizontalScale(15),
+                        height: verticalScale(15),
+                        marginRight: horizontalScale(8)
                       }}
                       source={require("../../assets/svgs/crescent-moon1.png")}
                     />
@@ -492,10 +432,7 @@ export const CreateHabitScreen = () => {
                       style={[
                         styles.periodOptionTitle,
                         {
-                          color:
-                            timeOfDay === TimeOfDay.Evening
-                              ? theme.APP_WHITE
-                              : theme.APP_BLACK
+                          color: timeOfDay === TimeOfDay.Evening ? theme.APP_WHITE : theme.APP_BLACK
                         }
                       ]}
                     >
@@ -512,7 +449,7 @@ export const CreateHabitScreen = () => {
                     flexDirection: "row",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    marginBottom: 10
+                    marginBottom: verticalScale(10)
                   }}
                 >
                   <Text
@@ -549,9 +486,9 @@ export const CreateHabitScreen = () => {
                         <View style={styles.reminderTextContainer}>
                           <Icon
                             name='alarm-outline'
-                            size={20}
+                            size={moderateScale(20)}
                             color={theme.APP_BLACK}
-                            style={{ marginRight: 5 }}
+                            style={{ marginRight: horizontalScale(5) }}
                           />
                           <Text
                             style={[
@@ -564,14 +501,8 @@ export const CreateHabitScreen = () => {
                             {moment(reminder).format("h:mm a")}
                           </Text>
                         </View>
-                        <TouchableOpacity
-                          onPress={() => removeReminder(reminder)}
-                        >
-                          <Icon
-                            name='ios-close-circle-outline'
-                            size={20}
-                            color={theme.APP_BLACK}
-                          />
+                        <TouchableOpacity onPress={() => removeReminder(reminder)}>
+                          <Icon name='ios-close-circle-outline' size={moderateScale(20)} color={theme.APP_BLACK} />
                         </TouchableOpacity>
                       </View>
                     ))}
@@ -588,9 +519,9 @@ export const CreateHabitScreen = () => {
                   >
                     <Icon
                       name='ios-add-circle-sharp'
-                      size={20}
+                      size={moderateScale(20)}
                       color={theme.APP_BLACK}
-                      style={{ marginRight: 5 }}
+                      style={{ marginRight: horizontalScale(5) }}
                     />
                     <Text
                       style={[
@@ -600,9 +531,7 @@ export const CreateHabitScreen = () => {
                         }
                       ]}
                     >
-                      {reminderAt.length < 1
-                        ? "Add a reminder"
-                        : "Add another reminder"}
+                      {reminderAt.length < 1 ? "Add a reminder" : "Add another reminder"}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -633,45 +562,46 @@ const styles = StyleSheet.create({
     flex: 1
   },
   container: {
-    padding: 20
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20)
   },
   header: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20
+    marginBottom: verticalScale(20)
   },
   closeButton: {
-    marginRight: 40,
-    borderRadius: 6,
-    width: 40,
-    height: 40,
+    marginRight: horizontalScale(40),
+    borderRadius: moderateScale(6),
+    width: horizontalScale(40),
+    height: verticalScale(40),
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
   },
   headerText: {
     fontFamily: "Inter_700Bold",
-    fontSize: 30,
-    lineHeight: 36,
+    fontSize: moderateScale(30),
+    lineHeight: verticalScale(36),
     display: "flex"
   },
   sectionContainer: {
-    marginBottom: 20
+    marginBottom: verticalScale(20)
   },
   sectionTitle: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 18,
-    lineHeight: 22,
-    marginBottom: 10
+    fontSize: moderateScale(18),
+    lineHeight: verticalScale(22),
+    marginBottom: verticalScale(10)
   },
   frequencyOptions: {
     display: "flex",
     flexDirection: "row"
   },
   frequencyOption: {
-    borderRadius: 6,
-    height: 40,
+    borderRadius: moderateScale(6),
+    height: verticalScale(40),
     display: "flex",
     flex: 1,
     justifyContent: "center",
@@ -679,8 +609,8 @@ const styles = StyleSheet.create({
   },
   frequencyOptionTitle: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
-    lineHeight: 22
+    fontSize: moderateScale(14),
+    lineHeight: verticalScale(22)
   },
   everyOption: {
     display: "flex",
@@ -692,11 +622,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    marginBottom: 20
+    marginBottom: verticalScale(20)
   },
   periodOption: {
-    borderRadius: 10,
-    height: 40,
+    borderRadius: moderateScale(10),
+    height: verticalScale(40),
     display: "flex",
     flex: 1,
     flexDirection: "row",
@@ -705,38 +635,38 @@ const styles = StyleSheet.create({
   },
   periodOptionTitle: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
-    lineHeight: 22,
+    fontSize: moderateScale(14),
+    lineHeight: verticalScale(22),
     textAlign: "center",
     display: "flex"
   },
   reminderTimeContainer: {
     display: "flex",
     flexDirection: "column",
-    borderTopRightRadius: 6,
-    borderTopLeftRadius: 6,
+    borderTopRightRadius: moderateScale(6),
+    borderTopLeftRadius: moderateScale(6),
     width: "100%"
   },
   reminderWrapper: {
     display: "flex",
     flexDirection: "row",
-    borderBottomWidth: 1,
+    borderBottomWidth: moderateScale(1),
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 10
+    paddingHorizontal: horizontalScale(10)
   },
   reminderTextContainer: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: verticalScale(10),
     width: "90%"
   },
   reminderText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 16,
-    lineHeight: 19,
-    marginLeft: 5
+    fontSize: moderateScale(16),
+    lineHeight: verticalScale(19),
+    marginLeft: horizontalScale(5)
   },
   reminderContainer: {
     display: "flex",
@@ -745,14 +675,14 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   reminderTime: {
-    borderBottomLeftRadius: 6,
-    borderBottomRightRadius: 6,
+    borderBottomLeftRadius: moderateScale(6),
+    borderBottomRightRadius: moderateScale(6),
     width: "100%",
-    height: 40,
+    height: verticalScale(40),
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    paddingHorizontal: 10
+    paddingHorizontal: horizontalScale(10)
   }
 });
