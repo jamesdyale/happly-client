@@ -4,11 +4,11 @@ import { useTheme } from "~hooks";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ROUTES } from "~constants";
+import { horizontalScale, moderateScale, verticalScale } from "~utils";
 
 export const SingleRoomCard = ({ item }) => {
   const { theme } = useTheme();
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   useEffect(() => {
     let isMounted = true;
@@ -118,54 +118,58 @@ const styles = StyleSheet.create({
     flex: 1
   },
   container: {
-    padding: 20,
-    marginBottom: 20
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20),
+    marginBottom: verticalScale(20)
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20
+    marginBottom: verticalScale(20)
   },
   headerText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 30,
-    lineHeight: 36,
+    fontSize: moderateScale(30),
+    lineHeight: verticalScale(36),
     display: "flex"
   },
 
   tabsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20)
   },
   tab: {
-    padding: 10,
-    borderRadius: 5,
-    marginRight: 10,
-    marginBottom: 10
+    paddingVertical: verticalScale(10),
+    paddingHorizontal: horizontalScale(10),
+    borderRadius: moderateScale(5),
+    marginRight: horizontalScale(10),
+    marginBottom: verticalScale(10)
   },
   tabText: {
     fontStyle: "normal",
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    lineHeight: 18
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(18)
   },
 
   singleItemHolder: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
-    borderRadius: 10,
-    padding: 20
+    marginBottom: verticalScale(20),
+    borderRadius: moderateScale(10),
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20)
   },
   imageContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
+    width: horizontalScale(50),
+    height: verticalScale(50),
+    borderRadius: moderateScale(50),
     overflow: "hidden",
-    marginRight: 20
+    marginRight: horizontalScale(20)
   },
   image: {
     width: "100%",
@@ -178,7 +182,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   makeUpStyleImageText: {
-    fontSize: 20,
+    fontSize: moderateScale(20),
     fontWeight: "700"
   },
   itemText: {
@@ -187,15 +191,15 @@ const styles = StyleSheet.create({
   itemTextName: {
     fontStyle: "normal",
     fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    lineHeight: 24,
-    marginBottom: 5
+    fontSize: moderateScale(14),
+    lineHeight: verticalScale(24),
+    marginBottom: horizontalScale(5)
   },
   itemTextLastMessage: {
     fontStyle: "normal",
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    lineHeight: 18
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(18)
   },
   timeDetails: {
     alignItems: "flex-end"
@@ -203,21 +207,21 @@ const styles = StyleSheet.create({
   timeDetailsTimeSent: {
     fontStyle: "normal",
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    lineHeight: 18,
-    marginBottom: 5
+    fontSize: moderateScale(12),
+    lineHeight: horizontalScale(18),
+    marginBottom: verticalScale(5)
   },
   timeDetailsUnread: {
-    width: 20,
-    height: 20,
-    borderRadius: 20,
+    width: horizontalScale(20),
+    height: verticalScale(20),
+    borderRadius: moderateScale(20),
     justifyContent: "center",
     alignItems: "center"
   },
   timeDetailsUnreadText: {
     fontStyle: "normal",
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    lineHeight: 18
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(18)
   }
 });

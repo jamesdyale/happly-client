@@ -1,17 +1,18 @@
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { DayOfTheWeek } from '~types'
-import { useTheme } from '~hooks'
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { DayOfTheWeek } from "~types";
+import { useTheme } from "~hooks";
+import { horizontalScale, moderateScale, verticalScale } from "~utils";
 
 type DayPickerType = {
   selectedDays: string[];
   handleSelectDay: (day: string) => void;
-}
+};
 
 export const DayPicker = ({ selectedDays, handleSelectDay }: DayPickerType) => {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
 
-  const days = Object.keys(DayOfTheWeek)
+  const days = Object.keys(DayOfTheWeek);
 
   return (
     <View style={styles.container}>
@@ -25,32 +26,32 @@ export const DayPicker = ({ selectedDays, handleSelectDay }: DayPickerType) => {
           }}
           onPress={() => handleSelectDay(day)}
         >
-          <Text style={{ color: selectedDays.includes(day) ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.APP_GRAY }}
-          >{day.substring(0, 3)}</Text>
+          <Text style={{ color: selectedDays.includes(day) ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.APP_GRAY }}>
+            {day.substring(0, 3)}
+          </Text>
         </TouchableOpacity>
       ))}
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    // borderWidth: 1,
-    // borderRadius: 6,
-    padding: 5
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingVertical: verticalScale(5),
+    paddingHorizontal: horizontalScale(5)
   },
   day: {
-    borderWidth: 1,
-    borderRadius: 6,
-    width: 50,
-    height: 40,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
+    borderWidth: moderateScale(1),
+    borderRadius: moderateScale(6),
+    width: horizontalScale(50),
+    height: verticalScale(40),
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   }
-})
+});

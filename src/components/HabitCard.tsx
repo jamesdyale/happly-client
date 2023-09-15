@@ -4,23 +4,18 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { useSetAtom, useAtomValue } from "jotai";
 import { useToast } from "react-native-toast-notifications";
 import { Habit, HabitType, Stats, Streak } from "~types";
-import {
-  progressAtom,
-  selectedDayOfTheWeekAtom,
-  selectedHabitAtom
-} from "~state";
-import {
-  ActionCreateOrUpdateStreak,
-  ActionGetStatsByHabitId,
-  ActionGetStreakByHabitId
-} from "~actions";
+import { progressAtom, selectedDayOfTheWeekAtom, selectedHabitAtom } from "~state";
+import { ActionCreateOrUpdateStreak, ActionGetStatsByHabitId, ActionGetStreakByHabitId } from "~actions";
 import { APP_GRAY, APP_GREEN, APP_WHITE } from "~styles";
 import moment from "moment";
 import {
   checkIfChallengeIsCompleted,
   getMessageRelatedToStreakData,
+  horizontalScale,
   markHabitAsDone,
-  validateHabitStreak
+  moderateScale,
+  validateHabitStreak,
+  verticalScale
 } from "~utils";
 import { useTheme } from "~hooks";
 
@@ -73,7 +68,7 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
         type: "danger",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
+        icon: <Icon name='alert-circle' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
       return;
     }
@@ -90,7 +85,7 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+        icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
     } else {
       const data = await checkIfChallengeIsCompleted({
@@ -98,15 +93,12 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
         habitId: habit.id
       });
       if (!data) {
-        toast.show(
-          "Having trouble check if you have completed your challenge. Please try again!",
-          {
-            type: "success",
-            duration: 4000,
-            placement: "bottom",
-            icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
-          }
-        );
+        toast.show("Having trouble check if you have completed your challenge. Please try again!", {
+          type: "success",
+          duration: 4000,
+          placement: "bottom",
+          icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+        });
       } else {
         const { streakCount, challengeDuration } = data;
         if (streakCount >= challengeDuration) {
@@ -114,22 +106,15 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
             type: "success",
             duration: 4000,
             placement: "bottom",
-            icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
           });
         } else {
-          toast.show(
-            `You rock. You have ${
-              challengeDuration - streakCount
-            } day(s) left to complete the challenge`,
-            {
-              type: "success",
-              duration: 4000,
-              placement: "bottom",
-              icon: (
-                <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
-              )
-            }
-          );
+          toast.show(`You rock. You have ${challengeDuration - streakCount} day(s) left to complete the challenge`, {
+            type: "success",
+            duration: 4000,
+            placement: "bottom",
+            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+          });
         }
       }
     }
@@ -156,8 +141,7 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
     const progress: Stats[] = [];
     statsDocs.forEach((stat) => {
       const data = stat.data() as unknown as Stats;
-      if (new Date(data.completedAt).getMonth() + 1 === currentMonth)
-        progress.push(data);
+      if (new Date(data.completedAt).getMonth() + 1 === currentMonth) progress.push(data);
     });
 
     const streak = await validateHabitStreak(streaks[0], habit, progress);
@@ -170,10 +154,7 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        onPress={handleHabitClick}
-        style={styles.habitNameContainer}
-      >
+      <TouchableOpacity onPress={handleHabitClick} style={styles.habitNameContainer}>
         <Text style={styles.habitName}>{habit.name}</Text>
         {streakCountMessage && streakCountMessage !== "" ? (
           <Text style={styles.habitInfo}>{streakCountMessage}</Text>
@@ -186,29 +167,26 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
           {foundProgress ? (
             <View
               style={{
-                width: 50,
+                width: horizontalScale(50),
                 backgroundColor: "white",
-                borderRadius: 50
+                borderRadius: moderateScale(50)
               }}
             >
               <Icon
                 style={{
-                  marginTop: -9,
-                  marginLeft: -5,
+                  marginTop: verticalScale(-9),
+                  marginLeft: horizontalScale(-5),
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center"
                 }}
                 name='checkmark-circle'
-                size={63}
+                size={moderateScale(63)}
                 color={APP_GREEN}
               />
             </View>
           ) : (
-            <TouchableOpacity
-              style={styles.habitProgressInner}
-              onPress={handleCompletedHabit}
-            />
+            <TouchableOpacity style={styles.habitProgressInner} onPress={handleCompletedHabit} />
           )}
         </View>
       </View>
@@ -223,11 +201,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    height: 80,
+    height: verticalScale(80),
     backgroundColor: APP_GRAY,
-    borderRadius: 10,
-    marginBottom: 20,
-    padding: 20
+    borderRadius: moderateScale(10),
+    marginBottom: verticalScale(20),
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20)
   },
   habitNameContainer: {
     display: "flex",
@@ -236,10 +215,10 @@ const styles = StyleSheet.create({
     width: "80%"
   },
   habitName: {
-    fontSize: 18,
+    fontSize: moderateScale(18),
     fontWeight: "bold",
     color: "#000",
-    marginBottom: 5
+    marginBottom: verticalScale(5)
   },
   habitProgressContainer: {
     display: "flex",
@@ -248,22 +227,22 @@ const styles = StyleSheet.create({
   },
   habitInfo: {
     backgroundColor: APP_GRAY,
-    fontSize: 10,
-    lineHeight: 12
+    fontSize: moderateScale(10),
+    lineHeight: verticalScale(12)
   },
   habitProgress: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
+    width: horizontalScale(50),
+    height: verticalScale(50),
+    borderRadius: moderateScale(50),
     backgroundColor: APP_GREEN,
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
   },
   habitProgressInner: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
+    width: horizontalScale(40),
+    height: verticalScale(40),
+    borderRadius: moderateScale(50),
     backgroundColor: APP_WHITE
   }
 });

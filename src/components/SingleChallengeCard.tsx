@@ -6,6 +6,7 @@ import { CustomButton } from "~components";
 import { ChallengeType } from "~types/ChallengeType";
 import { useAtomValue } from "jotai";
 import { userAtom } from "~state";
+import { horizontalScale, moderateScale, verticalScale } from "~utils";
 
 interface SingleChallengesType {
   challenge: ChallengeType;
@@ -137,20 +138,21 @@ const styles = StyleSheet.create({
     flex: 1
   },
   container: {
-    padding: 20,
-    marginBottom: 20
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20),
+    marginBottom: verticalScale(20)
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20
+    marginBottom: verticalScale(20)
   },
   headerText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 30,
-    lineHeight: 36,
+    fontSize: moderateScale(30),
+    lineHeight: verticalScale(36),
     display: "flex"
   },
   noHabitsContainer: {
@@ -158,66 +160,70 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    padding: 20
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20)
   },
   noHabitTextMain: {
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
-    fontSize: 24,
-    lineHeight: 36
+    fontSize: moderateScale(24),
+    lineHeight: verticalScale(36)
   },
   noHabitTextSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
+    fontSize: moderateScale(14),
     fontStyle: "normal",
-    lineHeight: 18
+    lineHeight: verticalScale(18)
   },
   singleChallengeContainer: {
-    marginBottom: 20,
-    padding: 20,
-    borderRadius: 10
+    marginBottom: verticalScale(20),
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20),
+    borderRadius: moderateScale(10)
   },
   hashtagsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20
+    marginBottom: verticalScale(20)
   },
   hashtags: {
     fontStyle: "normal",
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    lineHeight: 18,
-    marginRight: 10,
-    padding: 5
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(18),
+    marginRight: horizontalScale(10),
+    paddingVertical: verticalScale(5),
+    paddingHorizontal: horizontalScale(5)
   },
   challengeInfo: {},
   challengeInfoTop: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 10
+    marginBottom: verticalScale(10)
   },
   challengeName: {
     fontStyle: "normal",
     fontFamily: "Inter_700Bold",
-    fontSize: 16,
-    lineHeight: 24,
-    marginBottom: 5
+    fontSize: moderateScale(16),
+    lineHeight: verticalScale(18),
+    marginBottom: verticalScale(5)
   },
   challengeDescription: {
     fontStyle: "normal",
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    lineHeight: 18,
-    marginBottom: 5
+    fontSize: moderateScale(13),
+    lineHeight: verticalScale(18),
+    marginBottom: verticalScale(5)
   },
   challengeMemberNumber: {
     fontStyle: "normal",
     fontFamily: "Inter_700Bold",
-    fontSize: 12,
-    lineHeight: 18,
-    marginRight: 10,
-    padding: 5
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(18),
+    marginRight: horizontalScale(10),
+    paddingVertical: verticalScale(5),
+    paddingHorizontal: horizontalScale(5)
   }
 });

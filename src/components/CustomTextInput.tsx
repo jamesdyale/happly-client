@@ -3,6 +3,7 @@ import React from "react";
 import { CustomTextInputType } from "~types";
 import { useTheme } from "~hooks";
 import Icon from "react-native-vector-icons/Ionicons";
+import { horizontalScale, moderateScale, verticalScale } from "~utils";
 
 export const CustomTextInput = ({
   bigLabel,
@@ -63,11 +64,11 @@ export const CustomTextInput = ({
                   color: theme.MAIN_TEXT_COLOR,
                   backgroundColor: theme.INPUT_BG,
                   flex: 1,
-                  paddingTop: 10,
-                  paddingRight: 0,
-                  paddingBottom: 10,
-                  paddingLeft: 16,
-                  borderWidth: 0
+                  paddingTop: verticalScale(10),
+                  paddingRight: horizontalScale(0),
+                  paddingBottom: verticalScale(10),
+                  paddingLeft: horizontalScale(16),
+                  borderWidth: moderateScale(0)
                 }
               ]}
               onChangeText={handleChange}
@@ -78,12 +79,7 @@ export const CustomTextInput = ({
               secureTextEntry={secureTextEntry}
               onSubmitEditing={(value) => handleSubmit(value.nativeEvent.text)}
             />
-            <Icon
-              style={styles.icon}
-              name={icon}
-              size={20}
-              color={theme.MAIN_TEXT_COLOR}
-            />
+            <Icon style={styles.icon} name={icon} size={moderateScale(20)} color={theme.MAIN_TEXT_COLOR} />
           </View>
         </>
       )}
@@ -112,37 +108,37 @@ export const CustomTextInput = ({
 
 const styles = StyleSheet.create({
   textInput: {
-    marginBottom: 10
+    marginBottom: verticalScale(10)
   },
   label: {
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
     fontWeight: "500",
-    fontSize: 14,
-    lineHeight: 19
+    fontSize: moderateScale(14),
+    lineHeight: verticalScale(19)
   },
   bigLabel: {
     fontFamily: "Inter_600SemiBold",
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: 18,
-    lineHeight: 22
+    fontSize: moderateScale(18),
+    lineHeight: verticalScale(22)
   },
   input: {
-    marginTop: 8,
-    marginBottom: 8,
-    borderWidth: 1,
-    paddingTop: 14.5,
-    paddingBottom: 14.5,
-    paddingLeft: 16,
-    paddingRight: 16,
+    marginTop: verticalScale(8),
+    marginBottom: verticalScale(8),
+    borderWidth: moderateScale(1),
+    paddingTop: verticalScale(14.5),
+    paddingBottom: verticalScale(14.5),
+    paddingLeft: horizontalScale(16),
+    paddingRight: horizontalScale(16),
     fontFamily: "Inter_400Regular",
     fontWeight: "400",
     fontStyle: "normal",
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8
+    borderBottomLeftRadius: moderateScale(8),
+    borderBottomRightRadius: moderateScale(8),
+    borderTopLeftRadius: moderateScale(8),
+    borderTopRightRadius: moderateScale(8)
   },
   error: {
     display: "flex",
@@ -150,20 +146,21 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_400Regular",
     fontStyle: "normal",
     fontWeight: "400",
-    fontSize: 12,
-    lineHeight: 16,
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(16),
     color: "red"
   },
   inputWithIconSection: {
     // flex: 1,
-    marginTop: 10,
+    marginTop: verticalScale(10),
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
-    height: 50
+    height: verticalScale(50)
   },
   icon: {
-    padding: 10,
-    marginRight: 10
+    paddingVertical: verticalScale(30),
+    paddingHorizontal: horizontalScale(30),
+    marginRight: horizontalScale(10)
   }
 });

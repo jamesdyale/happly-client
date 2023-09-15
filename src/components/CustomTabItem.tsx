@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     height: verticalScale(70),
     alignItems: "center",
     justifyContent: "center",
-    bottom: -10
+    bottom: verticalScale(-10)
   },
   customTabItemIcon: {
     width: horizontalScale(50),
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    top: -30
+    top: verticalScale(-30)
   },
   customTabItemTabName: {
     fontSize: moderateScale(12),
