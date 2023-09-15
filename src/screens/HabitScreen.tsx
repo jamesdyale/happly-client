@@ -5,12 +5,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { StreakIcon } from "~assets";
 import { ROUTES } from "../constants";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import {
-  editHabitAtom,
-  selectedDayOfTheWeekAtom,
-  selectedHabitAtom,
-  showDeleteModalAtom
-} from "~state";
+import { editHabitAtom, selectedDayOfTheWeekAtom, selectedHabitAtom, showDeleteModalAtom } from "~state";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Frequency, Habit, HabitType, Stats, Streak } from "~types";
@@ -31,16 +26,18 @@ import moment from "moment";
 import {
   calculateLowestDifferenceInDays,
   checkIfChallengeIsCompleted,
+  horizontalScale,
   markHabitAsDone,
-  validateHabitStreak
+  moderateScale,
+  validateHabitStreak,
+  verticalScale
 } from "~utils";
 import { useTheme } from "~hooks";
 
 export const HabitScreen = ({ route, navigation }) => {
   const toast = useToast();
   const { theme } = useTheme();
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const currentDate = moment().format("YYYY-MM-DD");
   const [selectedHabit, setSelectedHabit] = useAtom(selectedHabitAtom);
   const setEditHabit = useSetAtom(editHabitAtom);
@@ -149,7 +146,7 @@ export const HabitScreen = ({ route, navigation }) => {
         type: "danger",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='alert-circle' size={20} color={theme.APP_WHITE} />
+        icon: <Icon name='alert-circle' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
       return;
     }
@@ -158,7 +155,7 @@ export const HabitScreen = ({ route, navigation }) => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+        icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
     } else {
       const data = await checkIfChallengeIsCompleted({
@@ -166,15 +163,12 @@ export const HabitScreen = ({ route, navigation }) => {
         habitId: habit.id
       });
       if (!data) {
-        toast.show(
-          "Having trouble check if you have completed your challenge. Please try again!",
-          {
-            type: "success",
-            duration: 4000,
-            placement: "bottom",
-            icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
-          }
-        );
+        toast.show("Having trouble check if you have completed your challenge. Please try again!", {
+          type: "success",
+          duration: 4000,
+          placement: "bottom",
+          icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+        });
       } else {
         const { streakCount, challengeDuration } = data;
         if (streakCount >= challengeDuration) {
@@ -182,36 +176,27 @@ export const HabitScreen = ({ route, navigation }) => {
             type: "success",
             duration: 4000,
             placement: "bottom",
-            icon: <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
+            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
           });
         } else {
-          toast.show(
-            `You rock. You have ${
-              challengeDuration - streakCount
-            } day(s) left to complete the challenge`,
-            {
-              type: "success",
-              duration: 4000,
-              placement: "bottom",
-              icon: (
-                <Icon name='trending-up' size={20} color={theme.APP_WHITE} />
-              )
-            }
-          );
+          toast.show(`You rock. You have ${challengeDuration - streakCount} day(s) left to complete the challenge`, {
+            type: "success",
+            duration: 4000,
+            placement: "bottom",
+            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+          });
         }
       }
     }
   };
 
   return (
-    <SafeAreaView
-      style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}
-    >
+    <SafeAreaView style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Icon
             name='chevron-back-outline'
-            size={25}
+            size={moderateScale(25)}
             color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
             onPress={() => {
               navigation.goBack();
@@ -221,19 +206,19 @@ export const HabitScreen = ({ route, navigation }) => {
           <View style={styles.headerOptions}>
             <Icon
               name='create-outline'
-              size={25}
+              size={moderateScale(25)}
               color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
               onPress={handleOnPressEdit}
             />
             <Icon
               name='pause-outline'
-              size={25}
+              size={moderateScale(25)}
               color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
               onPress={handleOnPressPause}
             />
             <Icon
               name='trash-outline'
-              size={25}
+              size={moderateScale(25)}
               color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
               onPress={handleOnPressDelete}
             />
@@ -304,18 +289,13 @@ export const HabitScreen = ({ route, navigation }) => {
                 }
               ]}
             >
-              {habit?.reminderAt.length > 0 &&
-                findClosestReminder(habit?.reminderAt)}
+              {habit?.reminderAt.length > 0 && findClosestReminder(habit?.reminderAt)}
               {habit?.reminderAt.length < 1 && "None"}
             </Text>
           </View>
         </View>
 
-        <CustomCalendar
-          currentDate={currentDate}
-          stats={stats}
-          handleMonthChange={handleMonthChange}
-        />
+        <CustomCalendar currentDate={currentDate} stats={stats} handleMonthChange={handleMonthChange} />
 
         <View style={styles.streakContainer}>
           <View style={styles.streakVSLongestStreak}>
@@ -350,8 +330,7 @@ export const HabitScreen = ({ route, navigation }) => {
                   }
                 ]}
               >
-                {streak?.longestStreak}{" "}
-                {streak?.longestStreak > 1 ? "days" : "day"}
+                {streak?.longestStreak} {streak?.longestStreak > 1 ? "days" : "day"}
               </Text>
               <Text
                 style={[
@@ -374,9 +353,7 @@ export const HabitScreen = ({ route, navigation }) => {
           color={theme.APP_WHITE}
           text={"Mark as done"}
           onClick={handleOnPressMarkAsDone}
-          icon={
-            <Icon name='checkbox-outline' size={25} color={theme.APP_WHITE} />
-          }
+          icon={<Icon name='checkbox-outline' size={moderateScale(25)} color={theme.APP_WHITE} />}
           // disabled={loading}
         />
       </View>
@@ -391,71 +368,71 @@ const styles = StyleSheet.create({
     flex: 1
   },
   container: {
-    padding: 20
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20)
   },
   header: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 25
+    marginBottom: verticalScale(25)
   },
   headerOptions: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: 100
+    width: horizontalScale(100)
   },
   habitName: {
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 24,
-    lineHeight: 29,
-    marginBottom: 10
+    fontSize: moderateScale(24),
+    lineHeight: verticalScale(29),
+    marginBottom: verticalScale(10)
   },
   habitDescription: {
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
     fontWeight: "500",
-    fontSize: 14,
-    lineHeight: 18
+    fontSize: moderateScale(14),
+    lineHeight: verticalScale(18)
   },
   habitInfo: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 25,
-    marginBottom: 25,
-    width: 200,
+    marginVertical: verticalScale(25),
+    width: horizontalScale(200),
     alignSelf: "center"
   },
   habitInfoText: {
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
     fontWeight: "500",
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(18),
     textAlign: "center",
-    marginBottom: 5
+    marginBottom: verticalScale(5)
   },
   habitInfoText_Frequency: {
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 16,
-    lineHeight: 18,
+    fontSize: moderateScale(16),
+    lineHeight: verticalScale(18),
     textAlign: "center"
   },
   streakContainer: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 45,
-    marginTop: 25,
-    height: 130
+    marginBottom: verticalScale(45),
+    marginTop: verticalScale(25),
+    height: verticalScale(130)
   },
   streakVSLongestStreak: {
     display: "flex",
@@ -466,30 +443,30 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
     fontWeight: "500",
-    fontSize: 40,
-    lineHeight: 48
+    fontSize: verticalScale(40),
+    lineHeight: verticalScale(48)
   },
   streakLabel: {
     fontFamily: "Inter_400Regular",
     fontStyle: "normal",
     fontWeight: "400",
-    fontSize: 14,
-    lineHeight: 17,
+    fontSize: moderateScale(14),
+    lineHeight: verticalScale(17),
     opacity: 0.7
   },
   longestStreak: {
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
     fontWeight: "500",
-    fontSize: 12,
-    lineHeight: 15
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(15)
   },
   longestStreakLabel: {
     fontFamily: "Inter_400Regular",
     fontStyle: "normal",
     fontWeight: "400",
-    fontSize: 12,
-    lineHeight: 15,
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(15),
     opacity: 0.7
   }
 });
