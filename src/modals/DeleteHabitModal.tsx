@@ -1,20 +1,9 @@
 import React from "react";
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView
-} from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView } from "react-native";
 import Modal from "react-native-modal";
 import { APP_BLACK, APP_RED, APP_WHITE, GRAY_TEXT } from "~styles";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import {
-  loadingAtom,
-  progressAtom,
-  selectedHabitAtom,
-  showDeleteModalAtom
-} from "~state";
+import { loadingAtom, progressAtom, selectedHabitAtom, showDeleteModalAtom } from "~state";
 import {
   ActionGetUserHabitById,
   ActionDeleteHabitById,
@@ -28,12 +17,11 @@ import { ROUTES } from "../constants";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HabitType } from "~types";
-import { removeAUserFromAChallenge } from "~utils";
+import { horizontalScale, moderateScale, removeAUserFromAChallenge, verticalScale } from "~utils";
 
 export const DeleteHabitModal = () => {
   const toast = useToast();
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const setDeleteModal = useSetAtom(showDeleteModalAtom);
   const isDeleteHabitModalOpen = useAtomValue(showDeleteModalAtom);
@@ -49,15 +37,11 @@ export const DeleteHabitModal = () => {
 
     if (dataDocumentSnapshot.exists()) {
       try {
-        const habitStat = progress.find(
-          (stat) => stat.habitId === habitSelected.id
-        );
+        const habitStat = progress.find((stat) => stat.habitId === habitSelected.id);
 
         if (habitStat) {
           await ActionDeleteStatsById(habitStat.id);
-          setProgress((prev) =>
-            prev.filter((stat) => stat.id !== habitStat.id)
-          );
+          setProgress((prev) => prev.filter((stat) => stat.id !== habitStat.id));
         }
         await ActionDeleteStreakByHabitId(habitSelected.id);
 
@@ -66,10 +50,7 @@ export const DeleteHabitModal = () => {
         await ActionDeleteHabitById(habitSelected.id);
 
         if (habitSelected.type === HabitType.CHALLENGE) {
-          await removeAUserFromAChallenge(
-            habitSelected.challengeId,
-            habitSelected.userId
-          );
+          await removeAUserFromAChallenge(habitSelected.challengeId, habitSelected.userId);
         }
 
         setSelectedHabit(null);
@@ -79,20 +60,17 @@ export const DeleteHabitModal = () => {
           type: "danger",
           duration: 4000,
           placement: "bottom",
-          icon: <Icon name='trash' size={20} color={APP_WHITE} />
+          icon: <Icon name='trash' size={moderateScale(20)} color={APP_WHITE} />
         });
 
         navigate(ROUTES.MAIN_HOME);
       } catch (e) {
-        toast.show(
-          "An error happened when deleting your habit. Please try again!",
-          {
-            type: "danger",
-            duration: 4000,
-            placement: "bottom",
-            icon: <Icon name='alert-circle' size={20} color={APP_WHITE} />
-          }
-        );
+        toast.show("An error happened when deleting your habit. Please try again!", {
+          type: "danger",
+          duration: 4000,
+          placement: "bottom",
+          icon: <Icon name='alert-circle' size={moderateScale(20)} color={APP_WHITE} />
+        });
       } finally {
         setLoading(false);
       }
@@ -104,10 +82,7 @@ export const DeleteHabitModal = () => {
 
   return (
     <View style={styles.container}>
-      <Modal
-        isVisible={isDeleteHabitModalOpen}
-        onBackdropPress={() => setDeleteModal(false)}
-      >
+      <Modal isVisible={isDeleteHabitModalOpen} onBackdropPress={() => setDeleteModal(false)}>
         <SafeAreaView
           style={{
             display: "flex",
@@ -125,9 +100,7 @@ export const DeleteHabitModal = () => {
                 style={{ ...styles.actionSectionButton, ...styles.exitBtn }}
                 onPress={() => setDeleteModal(false)}
               >
-                <Text style={{ color: APP_BLACK, ...styles.infoText }}>
-                  No, Cancel
-                </Text>
+                <Text style={{ color: APP_BLACK, ...styles.infoText }}>No, Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={{
@@ -136,9 +109,7 @@ export const DeleteHabitModal = () => {
                 }}
                 onPress={handleOnPressDelete}
               >
-                <Text style={{ color: APP_WHITE, ...styles.infoText }}>
-                  Yes, Delete
-                </Text>
+                <Text style={{ color: APP_WHITE, ...styles.infoText }}>Yes, Delete</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -152,16 +123,17 @@ const styles = StyleSheet.create({
   container: {},
   bodySectionContainer: {
     width: "80%",
-    marginTop: 30,
+    marginTop: verticalScale(30),
     position: "absolute",
     bottom: 100,
     backgroundColor: APP_WHITE,
-    borderRadius: 20,
-    padding: 30,
+    borderRadius: moderateScale(20),
+    paddingVertical: verticalScale(30),
+    paddingHorizontal: horizontalScale(30),
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 2
+      width: horizontalScale(0),
+      height: verticalScale(2)
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -174,11 +146,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 20
+    marginTop: verticalScale(20)
   },
   actionSectionButton: {
-    borderRadius: 10,
-    padding: 15,
+    borderRadius: moderateScale(10),
+    paddingVertical: verticalScale(15),
+    paddingHorizontal: horizontalScale(15),
     width: "48%",
     display: "flex",
     alignItems: "center",
@@ -188,23 +161,23 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
     fontWeight: "500",
-    fontSize: 18,
+    fontSize: moderateScale(18),
     color: GRAY_TEXT
   },
   infoText: {
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
     fontWeight: "500",
-    fontSize: 14,
-    lineHeight: 17
+    fontSize: moderateScale(14),
+    lineHeight: verticalScale(17)
   },
   exitBtn: {
     borderColor: "#B0C1CB",
-    borderWidth: 1
+    borderWidth: moderateScale(1)
   },
   goForwardWithActionBtn: {
     borderColor: APP_RED,
     backgroundColor: APP_RED,
-    borderWidth: 1
+    borderWidth: moderateScale(1)
   }
 });

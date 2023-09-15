@@ -1,24 +1,12 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  Platform
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
-import {
-  APP_BLACK,
-  APP_GRAY,
-  APP_WHITE,
-  GRAY_TEXT,
-  MAIN_ACCENT_COLOR
-} from "~styles";
+import { APP_BLACK, APP_GRAY, APP_WHITE, GRAY_TEXT, MAIN_ACCENT_COLOR } from "~styles";
 import Modal from "react-native-modal";
 import { CustomButton } from "~components";
 import { useTheme } from "~hooks";
+import { horizontalScale, moderateScale, verticalScale } from "~utils";
 
 export const NotificationModal = ({
   handleTimeSelected,
@@ -71,7 +59,7 @@ export const NotificationModal = ({
                 New reminder
               </Text>
               <TouchableOpacity onPress={closeNotificationModal}>
-                <Icon name='close' size={25} color={theme.MAIN_TEXT_COLOR} />
+                <Icon name='close' size={moderateScale(25)} color={theme.MAIN_TEXT_COLOR} />
               </TouchableOpacity>
             </View>
             {isReminderHasBody && (
@@ -80,7 +68,7 @@ export const NotificationModal = ({
                   styles.titleSection,
                   {
                     color: theme.MAIN_TEXT_COLOR,
-                    fontSize: 14
+                    fontSize: moderateScale(14)
                   }
                 ]}
               >
@@ -120,15 +108,16 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "100%",
-    marginTop: 30,
+    marginTop: verticalScale(30),
     position: "absolute",
     bottom: 0,
-    borderRadius: 20,
-    padding: 30,
+    borderRadius: moderateScale(20),
+    paddingVertical: verticalScale(30),
+    paddingHorizontal: horizontalScale(30),
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 2
+      width: horizontalScale(0),
+      height: verticalScale(2)
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -140,24 +129,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    borderBottomWidth: 1,
-    marginBottom: 10,
-    paddingBottom: 10
+    borderBottomWidth: moderateScale(1),
+    marginBottom: verticalScale(10),
+    paddingBottom: verticalScale(10)
   },
   timePickerWrapper: {
-    marginBottom: 10
+    marginBottom: verticalScale(10)
   },
   titleSection: {
     fontFamily: "Inter_500Medium",
-    fontSize: 16,
+    fontSize: moderateScale(16),
     color: "red"
   },
   addReminderBtn: {
     backgroundColor: MAIN_ACCENT_COLOR,
     color: APP_WHITE,
-    borderRadius: 6,
+    borderRadius: moderateScale(6),
     width: "100%",
-    height: 40,
+    height: verticalScale(40),
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -166,6 +155,6 @@ const styles = StyleSheet.create({
   addReminderBtnText: {
     color: APP_WHITE,
     fontFamily: "Inter_500Medium",
-    fontSize: 14
+    fontSize: moderateScale(14)
   }
 });
