@@ -1,9 +1,18 @@
 import Svg, { Defs, G, Path, Rect } from "react-native-svg";
 import React from "react";
 import { StyleSheet } from "react-native";
+import { horizontalScale, verticalScale } from "~utils";
 
 export const AddHabitIcon = (props) => (
-  <Svg width={79} height={79} fill='none' xmlns='http://www.w3.org/2000/svg' {...props} style={styles.addHabitIcon}>
+  <Svg
+    width={horizontalScale(79)}
+    height={verticalScale(79)}
+    viewBox={`0 0 ${horizontalScale(79)} ${verticalScale(79)}`}
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+    {...props}
+    style={styles.addHabitIcon}
+  >
     <G filter='url(#a)'>
       <Rect x={12} y={8} width={55} height={55} rx={27.5} fill='#ED9107' />
       <Path
@@ -19,8 +28,8 @@ const styles = StyleSheet.create({
   addHabitIcon: {
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 3
+      width: horizontalScale(0),
+      height: verticalScale(3)
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
