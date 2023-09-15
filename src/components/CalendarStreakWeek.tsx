@@ -90,25 +90,26 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
 
 const styles = StyleSheet.create({
   day: {
-    width: verticalScale(50),
+    width: horizontalScale(42),
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: moderateScale(10),
     borderWidth: moderateScale(1),
-    borderColor: APP_GRAY,
-    paddingVertical: verticalScale(13),
-    paddingHorizontal: horizontalScale(13)
+    paddingTop: verticalScale(10),
+    paddingBottom: verticalScale(10),
+    paddingRight: horizontalScale(10),
+    paddingLeft: horizontalScale(10)
   },
   dayText: {
     fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(10),
+    fontSize: moderateScale(9),
     color: HABIT_OPTION
   },
   dayNumber: {
     fontFamily: "Inter_700Bold",
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(15),
     color: HABIT_OPTION
   }
 });

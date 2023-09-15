@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { CustomButton, CustomCalendar } from "~components";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -294,68 +294,69 @@ export const HabitScreen = ({ route, navigation }) => {
             </Text>
           </View>
         </View>
+        <ScrollView style={{ marginBottom: verticalScale(10) }}>
+          <CustomCalendar currentDate={currentDate} stats={stats} handleMonthChange={handleMonthChange} />
 
-        <CustomCalendar currentDate={currentDate} stats={stats} handleMonthChange={handleMonthChange} />
-
-        <View style={styles.streakContainer}>
-          <View style={styles.streakVSLongestStreak}>
-            <View>
-              <Text
-                style={[
-                  styles.streakDay,
-                  {
-                    color: theme.MAIN_ACCENT_COLOR
-                  }
-                ]}
-              >
-                {streak?.count} {streak?.count > 1 ? "DAYS" : "DAY"}
-              </Text>
-              <Text
-                style={[
-                  styles.streakLabel,
-                  {
-                    color: theme.MAIN_ACCENT_COLOR
-                  }
-                ]}
-              >
-                Your Current Streak
-              </Text>
+          <View style={styles.streakContainer}>
+            <View style={styles.streakVSLongestStreak}>
+              <View>
+                <Text
+                  style={[
+                    styles.streakDay,
+                    {
+                      color: theme.MAIN_ACCENT_COLOR
+                    }
+                  ]}
+                >
+                  {streak?.count} {streak?.count > 1 ? "DAYS" : "DAY"}
+                </Text>
+                <Text
+                  style={[
+                    styles.streakLabel,
+                    {
+                      color: theme.MAIN_ACCENT_COLOR
+                    }
+                  ]}
+                >
+                  Your Current Streak
+                </Text>
+              </View>
+              <View>
+                <Text
+                  style={[
+                    styles.longestStreak,
+                    {
+                      color: theme.MAIN_ACCENT_COLOR
+                    }
+                  ]}
+                >
+                  {streak?.longestStreak} {streak?.longestStreak > 1 ? "days" : "day"}
+                </Text>
+                <Text
+                  style={[
+                    styles.longestStreakLabel,
+                    {
+                      color: theme.MAIN_ACCENT_COLOR
+                    }
+                  ]}
+                >
+                  Your longest streak
+                </Text>
+              </View>
             </View>
             <View>
-              <Text
-                style={[
-                  styles.longestStreak,
-                  {
-                    color: theme.MAIN_ACCENT_COLOR
-                  }
-                ]}
-              >
-                {streak?.longestStreak} {streak?.longestStreak > 1 ? "days" : "day"}
-              </Text>
-              <Text
-                style={[
-                  styles.longestStreakLabel,
-                  {
-                    color: theme.MAIN_ACCENT_COLOR
-                  }
-                ]}
-              >
-                Your longest streak
-              </Text>
+              <StreakIcon />
             </View>
           </View>
-          <View>
-            <StreakIcon />
-          </View>
-        </View>
-        <CustomButton
-          bgColor={theme.MAIN_ACCENT_COLOR}
-          color={theme.APP_WHITE}
-          text={"Mark as done"}
-          onClick={handleOnPressMarkAsDone}
-          icon={<Icon name='checkbox-outline' size={moderateScale(25)} color={theme.APP_WHITE} />}
-          // disabled={loading}
-        />
+          <CustomButton
+            bgColor={theme.MAIN_ACCENT_COLOR}
+            color={theme.APP_WHITE}
+            text={"Mark as done"}
+            onClick={handleOnPressMarkAsDone}
+            icon={<Icon name='checkbox-outline' size={moderateScale(20)} color={theme.APP_WHITE} />}
+            // disabled={loading}
+          />
+        </ScrollView>
       </View>
 
       <DeleteHabitModal />
@@ -376,7 +377,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: verticalScale(25)
+    marginBottom: verticalScale(15)
   },
   headerOptions: {
     display: "flex",
@@ -390,8 +391,8 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     fontWeight: "700",
     fontSize: moderateScale(24),
-    lineHeight: verticalScale(29),
-    marginBottom: verticalScale(10)
+    lineHeight: verticalScale(24),
+    marginBottom: verticalScale(1)
   },
   habitDescription: {
     fontFamily: "Inter_500Medium",

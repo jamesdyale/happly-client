@@ -141,6 +141,7 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
     const progress: Stats[] = [];
     statsDocs.forEach((stat) => {
       const data = stat.data() as unknown as Stats;
+      // FIX THIS
       if (new Date(data.completedAt).getMonth() + 1 === currentMonth) progress.push(data);
     });
 
@@ -167,21 +168,22 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
           {foundProgress ? (
             <View
               style={{
-                width: horizontalScale(50),
-                backgroundColor: "white",
-                borderRadius: moderateScale(50)
+                width: 70,
+                borderRadius: 35,
+                backgroundColor: "white"
               }}
             >
               <Icon
                 style={{
-                  marginTop: verticalScale(-9),
-                  marginLeft: horizontalScale(-5),
+                  marginLeft: -8,
+                  marginTop: -13,
                   display: "flex",
                   justifyContent: "center",
-                  alignItems: "center"
+                  alignItems: "center",
+                  position: "relative"
                 }}
                 name='checkmark-circle'
-                size={moderateScale(63)}
+                size={89}
                 color={APP_GREEN}
               />
             </View>
@@ -212,7 +214,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
-    width: "80%"
+    width: "80%",
+    backgroundColor: "red"
   },
   habitName: {
     fontSize: moderateScale(18),
@@ -223,7 +226,11 @@ const styles = StyleSheet.create({
   habitProgressContainer: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "flex-end",
+    width: 70,
+    height: 70,
+    borderRadius: 35
   },
   habitInfo: {
     backgroundColor: APP_GRAY,
@@ -231,18 +238,18 @@ const styles = StyleSheet.create({
     lineHeight: verticalScale(12)
   },
   habitProgress: {
-    width: horizontalScale(50),
-    height: verticalScale(50),
-    borderRadius: moderateScale(50),
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     backgroundColor: APP_GREEN,
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
   },
   habitProgressInner: {
-    width: horizontalScale(40),
-    height: verticalScale(40),
-    borderRadius: moderateScale(50),
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     backgroundColor: APP_WHITE
   }
 });

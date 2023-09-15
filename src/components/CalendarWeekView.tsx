@@ -70,27 +70,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: verticalScale(10)
   },
-
   title: {
     fontStyle: "normal",
     fontWeight: "600",
     fontSize: moderateScale(14),
     lineHeight: verticalScale(18)
-  },
-  labelContainer: {
-    paddingVertical: verticalScale(2),
-    paddingHorizontal: horizontalScale(4),
-    backgroundColor: "#FDE3FF",
-    borderRadius: moderateScale(4),
-    marginTop: verticalScale(5)
-  },
-  label: {
-    fontFamily: "Inter",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: moderateScale(10),
-    lineHeight: verticalScale(15),
-    color: APP_BLACK
   },
   footer: {
     display: "flex",
