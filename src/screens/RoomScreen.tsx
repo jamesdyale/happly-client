@@ -16,7 +16,7 @@ import { useTheme } from "~hooks";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CustomTextInput } from "~components";
-import { formValidationOnBlur } from "~utils";
+import { formValidationOnBlur, horizontalScale, moderateScale, verticalScale } from "~utils";
 import moment from "moment";
 import { useAtomValue } from "jotai";
 import { userAtom } from "~state";
@@ -127,42 +127,22 @@ export const RoomScreen = () => {
         >
           <Icon
             name='chevron-back'
-            size={25}
+            size={moderateScale(25)}
             color={theme.MAIN_TEXT_COLOR}
             onPress={() => navigation.goBack()}
             style={styles.backIcon}
           />
           <View style={styles.headerTextSection}>
             <View style={styles.headerText}>
-              <Text style={[styles.roomName, { color: theme.MAIN_TEXT_COLOR }]}>
-                Sleeping Early
-              </Text>
-              <Text
-                style={[
-                  styles.members,
-                  { color: theme.MAIN_TEXT_COLOR + "90" }
-                ]}
-              >
-                100 Members
-              </Text>
+              <Text style={[styles.roomName, { color: theme.MAIN_TEXT_COLOR }]}>Sleeping Early</Text>
+              <Text style={[styles.members, { color: theme.MAIN_TEXT_COLOR + "90" }]}>100 Members</Text>
             </View>
             <View style={styles.actionBtn}>
-              <TouchableOpacity
-                style={styles.actionButtonContainer}
-                onPress={() => navigation.goBack()}
-              >
-                <Icon
-                  name='md-person-add-sharp'
-                  size={20}
-                  color={theme.APP_BLACK}
-                />
+              <TouchableOpacity style={styles.actionButtonContainer} onPress={() => navigation.goBack()}>
+                <Icon name='md-person-add-sharp' size={moderateScale(20)} color={theme.APP_BLACK} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButtonContainer}>
-                <Icon
-                  name='md-ellipsis-vertical'
-                  size={20}
-                  color={theme.APP_BLACK}
-                />
+                <Icon name='md-ellipsis-vertical' size={moderateScale(20)} color={theme.APP_BLACK} />
               </TouchableOpacity>
             </View>
           </View>
@@ -178,9 +158,7 @@ export const RoomScreen = () => {
           <ScrollView>
             {Object.keys(messages).map((date) => (
               <View key={date} style={styles.messagesGroup}>
-                <Text style={styles.messagesGroupText}>
-                  {moment().format("DD/MM/YYYY") === date ? "Today" : date}
-                </Text>
+                <Text style={styles.messagesGroupText}>{moment().format("DD/MM/YYYY") === date ? "Today" : date}</Text>
                 {messages[date].map((message: Message) => {
                   if (message.sender !== user.name) {
                     console.log(message);
@@ -231,9 +209,7 @@ const SenderComponent = (message: Message) => {
         ]}
       >
         <Text style={styles.message}>{message.message}</Text>
-        <Text style={styles.messageTime}>
-          {moment(message.dateTimeSent).format("hh:mm A")}
-        </Text>
+        <Text style={styles.messageTime}>{moment(message.dateTimeSent).format("hh:mm A")}</Text>
       </View>
       <View
         style={[
@@ -323,9 +299,7 @@ const ReceiverComponent = (message: Message) => {
         >
           {message.message}
         </Text>
-        <Text style={styles.messageTime}>
-          {moment(message.dateTimeSent).format("hh:mm A")}
-        </Text>
+        <Text style={styles.messageTime}>{moment(message.dateTimeSent).format("hh:mm A")}</Text>
       </View>
     </View>
   );
@@ -341,12 +315,13 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 20,
-    borderBottomWidth: 1,
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20),
+    borderBottomWidth: moderateScale(1),
     width: "100%"
   },
   backIcon: {
-    marginRight: 5,
+    marginRight: horizontalScale(5),
     width: "10%"
   },
   headerTextSection: {
@@ -357,26 +332,26 @@ const styles = StyleSheet.create({
   },
   headerText: {},
   roomName: {
-    fontSize: 20,
+    fontSize: moderateScale(20),
     fontFamily: "Inter_600SemiBold",
-    lineHeight: 24,
+    lineHeight: verticalScale(24),
     fontStyle: "normal"
   },
   members: {
-    fontSize: 12,
+    fontSize: moderateScale(12),
     fontFamily: "Inter_400Regular",
-    lineHeight: 18,
+    lineHeight: verticalScale(18),
     fontStyle: "normal"
   },
   actionBtn: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: 80
+    width: horizontalScale(80)
   },
   actionButtonContainer: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: horizontalScale(30),
+    height: verticalScale(30),
+    borderRadius: moderateScale(15),
     backgroundColor: "#eee",
     justifyContent: "center",
     alignItems: "center"
@@ -388,45 +363,44 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderTopWidth: 1,
+    paddingVertical: verticalScale(10),
+    paddingHorizontal: horizontalScale(20),
+    borderTopWidth: moderateScale(1),
     width: "100%"
   },
   messagesGroup: {
-    marginBottom: 20
+    marginBottom: verticalScale(20)
   },
   messagesGroupText: {
-    fontSize: 12,
+    fontSize: moderateScale(12),
     fontFamily: "Inter_400Regular",
-    lineHeight: 18,
+    lineHeight: verticalScale(18),
     fontStyle: "normal",
     color: "#999",
-    marginTop: 20,
+    marginTop: verticalScale(20),
     width: "100%",
     textAlign: "center"
   },
   messageContainer: {
     flexDirection: "row",
-    marginBottom: 10,
+    marginBottom: verticalScale(10),
     width: "70%",
-    padding: 10
+    paddingVertical: verticalScale(10),
+    paddingHorizontal: horizontalScale(10)
   },
   messageAvatar: {
-    width: 25,
-    height: 25,
-    borderRadius: 20,
+    width: horizontalScale(25),
+    height: verticalScale(25),
+    borderRadius: moderateScale(20),
     backgroundColor: "#eee",
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 10
+    marginRight: verticalScale(10)
   },
   messageAvatarText: {
-    fontSize: 16,
+    fontSize: moderateScale(16),
     fontFamily: "Inter_400Regular",
-    lineHeight: 24,
+    lineHeight: verticalScale(24),
     fontStyle: "normal",
     color: "#999"
   },
@@ -434,21 +408,22 @@ const styles = StyleSheet.create({
     width: "80%",
     flexDirection: "column",
     backgroundColor: "red",
-    padding: 10,
-    borderRadius: 10
+    paddingVertical: verticalScale(10),
+    paddingHorizontal: horizontalScale(10),
+    borderRadius: moderateScale(10)
   },
   message: {
-    fontSize: 14,
+    fontSize: moderateScale(14),
     fontFamily: "Inter_400Regular",
-    lineHeight: 20,
+    lineHeight: verticalScale(20),
     fontStyle: "normal",
     color: "#333",
-    marginBottom: 5
+    marginBottom: verticalScale(5)
   },
   messageTime: {
-    fontSize: 12,
+    fontSize: moderateScale(12),
     fontFamily: "Inter_400Regular",
-    lineHeight: 16,
+    lineHeight: verticalScale(16),
     fontStyle: "normal",
     color: "#999"
   },
@@ -457,30 +432,31 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   avatar: {
-    width: 25,
-    height: 25,
-    borderRadius: 20
+    width: horizontalScale(25),
+    height: verticalScale(25),
+    borderRadius: moderateScale(20)
   },
   makeUpStyleImage: {
-    width: 25,
-    height: 25,
-    borderRadius: 20,
+    width: horizontalScale(25),
+    height: verticalScale(25),
+    borderRadius: moderateScale(20),
     backgroundColor: "#eee",
     justifyContent: "center",
     alignItems: "center"
   },
   makeUpStyleImageText: {
-    fontSize: 16,
+    fontSize: moderateScale(16),
     fontFamily: "Inter_400Regular",
-    lineHeight: 24,
+    lineHeight: verticalScale(24),
     fontStyle: "normal",
     color: "#999"
   },
   senderMessageContainer: {
     flexDirection: "row",
-    marginBottom: 10,
+    marginBottom: verticalScale(10),
     width: "70%",
-    padding: 10,
+    paddingVertical: verticalScale(10),
+    paddingHorizontal: horizontalScale(10),
     alignSelf: "flex-end"
   }
 });

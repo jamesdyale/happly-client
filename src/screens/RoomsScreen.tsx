@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  StyleSheet
-} from "react-native";
+import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet } from "react-native";
 import React, { useEffect } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
@@ -17,6 +11,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { roomsAtom, userAtom } from "~state";
 import { onSnapshot } from "firebase/firestore";
 import { Room } from "~types";
+import { horizontalScale, moderateScale, verticalScale } from "~utils";
 
 enum Tab {
   FRIENDS = "friends",
@@ -41,8 +36,7 @@ enum Tab {
 // ];
 
 export const RoomsScreen = () => {
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = React.useState(Tab.ROOMS);
@@ -60,17 +54,14 @@ export const RoomsScreen = () => {
   const getRooms = async () => {
     const dataDocumentSnapshotQuery = ActionGetRoomsUserIsInByUserID(user.id);
 
-    const unsubscribe = onSnapshot(
-      dataDocumentSnapshotQuery,
-      (querySnapshot) => {
-        const rooms: Room[] = [];
-        querySnapshot.forEach((doc) => {
-          const room = doc.data() as Room;
-          rooms.push(room);
-        });
-        setRooms(rooms);
-      }
-    );
+    const unsubscribe = onSnapshot(dataDocumentSnapshotQuery, (querySnapshot) => {
+      const rooms: Room[] = [];
+      querySnapshot.forEach((doc) => {
+        const room = doc.data() as Room;
+        rooms.push(room);
+      });
+      setRooms(rooms);
+    });
 
     return () => unsubscribe();
   };
@@ -116,10 +107,7 @@ export const RoomsScreen = () => {
             style={[
               styles.tab,
               {
-                backgroundColor:
-                  activeTab === Tab.ROOMS
-                    ? theme.MAIN_ACCENT_COLOR
-                    : theme.MAIN_ACCENT_COLOR + "50"
+                backgroundColor: activeTab === Tab.ROOMS ? theme.MAIN_ACCENT_COLOR : theme.MAIN_ACCENT_COLOR + "50"
               }
             ]}
           >
@@ -127,10 +115,7 @@ export const RoomsScreen = () => {
               style={[
                 styles.tabText,
                 {
-                  color:
-                    activeTab === Tab.ROOMS
-                      ? theme.CONTRAST_MAIN_TEXT_COLOR
-                      : theme.MAIN_TEXT_COLOR
+                  color: activeTab === Tab.ROOMS ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR
                 }
               ]}
             >
@@ -148,7 +133,7 @@ export const RoomsScreen = () => {
               }
             ]}
           >
-            <Icon name='add' size={20} color={theme.MAIN_TEXT_COLOR} />
+            <Icon name='add' size={moderateScale(20)} color={theme.MAIN_TEXT_COLOR} />
             <Text
               style={[
                 styles.tabText,
@@ -194,20 +179,21 @@ const styles = StyleSheet.create({
     flex: 1
   },
   container: {
-    padding: 20,
-    marginBottom: 20
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20),
+    marginBottom: verticalScale(20)
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20
+    marginBottom: verticalScale(20)
   },
   headerText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 30,
-    lineHeight: 36,
+    fontSize: moderateScale(30),
+    lineHeight: verticalScale(36),
     display: "flex"
   },
 
@@ -215,32 +201,33 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20
+    marginBottom: verticalScale(20)
   },
   tab: {
-    padding: 10,
-    borderRadius: 5,
-    marginRight: 10,
-    marginBottom: 10
+    paddingVertical: verticalScale(10),
+    paddingHorizontal: horizontalScale(10),
+    borderRadius: moderateScale(5),
+    marginRight: horizontalScale(10),
+    marginBottom: verticalScale(10)
   },
   tabText: {
     fontStyle: "normal",
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    lineHeight: 18
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(18)
   },
 
   singleItemHolder: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20
+    marginBottom: verticalScale(20)
   },
   imageContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
+    width: horizontalScale(50),
+    height: verticalScale(50),
+    borderRadius: moderateScale(50),
     overflow: "hidden",
-    marginRight: 20
+    marginRight: horizontalScale(20)
   },
   image: {
     width: "100%",
@@ -253,7 +240,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   makeUpStyleImageText: {
-    fontSize: 20,
+    fontSize: moderateScale(20),
     fontWeight: "700"
   },
   itemText: {
@@ -262,15 +249,15 @@ const styles = StyleSheet.create({
   itemTextName: {
     fontStyle: "normal",
     fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    lineHeight: 24,
-    marginBottom: 5
+    fontSize: moderateScale(14),
+    lineHeight: verticalScale(24),
+    marginBottom: verticalScale(5)
   },
   itemTextLastMessage: {
     fontStyle: "normal",
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    lineHeight: 18
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(18)
   },
   timeDetails: {
     alignItems: "flex-end"
@@ -278,30 +265,31 @@ const styles = StyleSheet.create({
   timeDetailsTimeSent: {
     fontStyle: "normal",
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    lineHeight: 18,
-    marginBottom: 5
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(18),
+    marginBottom: verticalScale(5)
   },
   timeDetailsUnread: {
-    width: 20,
-    height: 20,
-    borderRadius: 20,
+    width: horizontalScale(20),
+    height: verticalScale(20),
+    borderRadius: moderateScale(20),
     justifyContent: "center",
     alignItems: "center"
   },
   timeDetailsUnreadText: {
     fontStyle: "normal",
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    lineHeight: 18
+    fontSize: moderateScale(12),
+    lineHeight: verticalScale(18)
   },
   addRoomButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: 8,
-    marginBottom: 10,
-    borderRadius: 5,
-    borderWidth: 1
+    paddingVertical: verticalScale(8),
+    paddingHorizontal: horizontalScale(8),
+    marginBottom: verticalScale(10),
+    borderRadius: moderateScale(5),
+    borderWidth: moderateScale(1)
   }
 });

@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  Alert,
-  ScrollView
-} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Alert, ScrollView } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
@@ -17,7 +10,7 @@ import { ASYNC_STORAGE_KEYS, Themes } from "~constants";
 import { useAtomValue, useSetAtom } from "jotai";
 import { selectedThemeAtom, themeAtom, userAtom } from "~state";
 import Colors from "~constants/theme";
-import { storeData } from "~utils";
+import { horizontalScale, moderateScale, storeData, verticalScale } from "~utils";
 import * as Linking from "expo-linking";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Clipboard from "expo-clipboard";
@@ -58,19 +51,13 @@ export const SettingsScreen = () => {
     const { id } = user;
 
     if (!id) {
-      Alert.alert(
-        "Error",
-        "Your UserID could not be copied to your clipboard. Please try again."
-      );
+      Alert.alert("Error", "Your UserID could not be copied to your clipboard. Please try again.");
       return;
     }
 
     await Clipboard.setStringAsync(id);
 
-    Alert.alert(
-      "Copied to clipboard",
-      "Your UserID has been copied to your clipboard."
-    );
+    Alert.alert("Copied to clipboard", "Your UserID has been copied to your clipboard.");
   };
 
   return (
@@ -82,7 +69,7 @@ export const SettingsScreen = () => {
         }
       ]}
     >
-      <ScrollView style={{ marginBottom: 10 }}>
+      <ScrollView style={{ marginBottom: verticalScale(10) }}>
         <View
           style={[
             styles.settingsHeader,
@@ -93,7 +80,7 @@ export const SettingsScreen = () => {
         >
           <Icon
             name='chevron-back'
-            size={25}
+            size={moderateScale(25)}
             color={theme.MAIN_TEXT_COLOR}
             onPress={() => navigation.goBack()}
           />
@@ -128,41 +115,23 @@ export const SettingsScreen = () => {
             General
           </Text>
 
-          <TouchableOpacity
-            style={styles.settingsSubItem}
-            onPress={handleCopyToClipboard}
-          >
+          <TouchableOpacity style={styles.settingsSubItem} onPress={handleCopyToClipboard}>
             <View style={styles.settingsItemContent}>
-              <View
-                style={[
-                  styles.settingsItemIcon,
-                  { backgroundColor: theme.MAIN_ACCENT_COLOR }
-                ]}
-              >
-                <Icon name='ios-person' size={20} color={theme.APP_WHITE} />
+              <View style={[styles.settingsItemIcon, { backgroundColor: theme.MAIN_ACCENT_COLOR }]}>
+                <Icon name='ios-person' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
-              <Text style={{ marginLeft: 20, color: theme.MAIN_TEXT_COLOR }}>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
                 Copy UserID To Share With Friend
               </Text>
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.settingsSubItem}
-            onPress={() => setThemeModalVisible(true)}
-          >
+          <TouchableOpacity style={styles.settingsSubItem} onPress={() => setThemeModalVisible(true)}>
             <View style={styles.settingsItemContent}>
-              <View
-                style={[
-                  styles.settingsItemIcon,
-                  { backgroundColor: theme.MAIN_ACCENT_COLOR }
-                ]}
-              >
-                <Icon name='phone-portrait' size={20} color={theme.APP_WHITE} />
+              <View style={[styles.settingsItemIcon, { backgroundColor: theme.MAIN_ACCENT_COLOR }]}>
+                <Icon name='phone-portrait' size={horizontalScale(20)} color={theme.APP_WHITE} />
               </View>
-              <Text style={{ marginLeft: 20, color: theme.MAIN_TEXT_COLOR }}>
-                Appearance
-              </Text>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Appearance</Text>
             </View>
           </TouchableOpacity>
 
@@ -221,90 +190,48 @@ export const SettingsScreen = () => {
             }
           >
             <View style={styles.settingsItemContent}>
-              <View
-                style={[
-                  styles.settingsItemIcon,
-                  { backgroundColor: theme.APP_BLUE }
-                ]}
-              >
-                <Icon name='newspaper' size={20} color={theme.APP_WHITE} />
+              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
+                <Icon name='newspaper' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
-              <Text style={{ marginLeft: 20, color: theme.MAIN_TEXT_COLOR }}>
-                Suggest a feature
-              </Text>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Suggest a feature</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.settingsSubItem}
+            onPress={() => openEmail("mailto:engineeringwithjames@gmail?subject=REPORT: I found a bug&body=")}
+          >
+            <View style={styles.settingsItemContent}>
+              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
+                <Icon name='bug' size={moderateScale(20)} color={theme.APP_WHITE} />
+              </View>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Report a bug</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.settingsSubItem}
+            onPress={() => WebBrowser.openBrowserAsync("https://jamesodeyale.github.io/happly-docs/privacy")}
+          >
+            <View style={styles.settingsItemContent}>
+              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
+                <Icon name='ios-file-tray-full-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
+              </View>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Privacy Policy</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.settingsSubItem}
             onPress={() =>
-              openEmail(
-                "mailto:engineeringwithjames@gmail?subject=REPORT: I found a bug&body="
-              )
+              WebBrowser.openBrowserAsync("https://jamesodeyale.github.io/happly-docs/terms_and_conditions")
             }
           >
             <View style={styles.settingsItemContent}>
-              <View
-                style={[
-                  styles.settingsItemIcon,
-                  { backgroundColor: theme.APP_BLUE }
-                ]}
-              >
-                <Icon name='bug' size={20} color={theme.APP_WHITE} />
+              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
+                <Icon name='document-text' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
-              <Text style={{ marginLeft: 20, color: theme.MAIN_TEXT_COLOR }}>
-                Report a bug
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.settingsSubItem}
-            onPress={() =>
-              WebBrowser.openBrowserAsync(
-                "https://jamesodeyale.github.io/happly-docs/privacy"
-              )
-            }
-          >
-            <View style={styles.settingsItemContent}>
-              <View
-                style={[
-                  styles.settingsItemIcon,
-                  { backgroundColor: theme.APP_BLUE }
-                ]}
-              >
-                <Icon
-                  name='ios-file-tray-full-sharp'
-                  size={20}
-                  color={theme.APP_WHITE}
-                />
-              </View>
-              <Text style={{ marginLeft: 20, color: theme.MAIN_TEXT_COLOR }}>
-                Privacy Policy
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.settingsSubItem}
-            onPress={() =>
-              WebBrowser.openBrowserAsync(
-                "https://jamesodeyale.github.io/happly-docs/terms_and_conditions"
-              )
-            }
-          >
-            <View style={styles.settingsItemContent}>
-              <View
-                style={[
-                  styles.settingsItemIcon,
-                  { backgroundColor: theme.APP_BLUE }
-                ]}
-              >
-                <Icon name='document-text' size={20} color={theme.APP_WHITE} />
-              </View>
-              <Text style={{ marginLeft: 20, color: theme.MAIN_TEXT_COLOR }}>
-                Terms & Conditions
-              </Text>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Terms & Conditions</Text>
             </View>
           </TouchableOpacity>
 
@@ -349,55 +276,25 @@ export const SettingsScreen = () => {
 
           <TouchableOpacity
             style={styles.settingsSubItem}
-            onPress={() =>
-              WebBrowser.openBrowserAsync(
-                "https://www.instagram.com/engineeringwithjames/"
-              )
-            }
+            onPress={() => WebBrowser.openBrowserAsync("https://www.instagram.com/engineeringwithjames/")}
           >
             <View style={styles.settingsItemContent}>
-              <View
-                style={[
-                  styles.settingsItemIcon,
-                  { backgroundColor: theme.APP_BLACK }
-                ]}
-              >
-                <Icon
-                  name='ios-logo-instagram'
-                  size={20}
-                  color={theme.APP_WHITE}
-                />
+              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLACK }]}>
+                <Icon name='ios-logo-instagram' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
-              <Text style={{ marginLeft: 20, color: theme.MAIN_TEXT_COLOR }}>
-                Instagram
-              </Text>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Instagram</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.settingsSubItem}
-            onPress={() =>
-              WebBrowser.openBrowserAsync(
-                "https://www.youtube.com/@engineeringwithjames"
-              )
-            }
+            onPress={() => WebBrowser.openBrowserAsync("https://www.youtube.com/@engineeringwithjames")}
           >
             <View style={styles.settingsItemContent}>
-              <View
-                style={[
-                  styles.settingsItemIcon,
-                  { backgroundColor: theme.APP_BLACK }
-                ]}
-              >
-                <Icon
-                  name='ios-logo-youtube'
-                  size={20}
-                  color={theme.APP_WHITE}
-                />
+              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLACK }]}>
+                <Icon name='ios-logo-youtube' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
-              <Text style={{ marginLeft: 20, color: theme.MAIN_TEXT_COLOR }}>
-                YouTube
-              </Text>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>YouTube</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -426,26 +323,28 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
-    padding: 20,
-    borderBottomWidth: 1
+    marginBottom: verticalScale(10),
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20),
+    borderBottomWidth: moderateScale(1)
   },
   settingsHeaderText: {
     fontFamily: "Inter_600SemiBold",
     fontStyle: "normal",
-    fontSize: 20,
-    marginLeft: 15
+    fontSize: moderateScale(20),
+    marginLeft: horizontalScale(15)
   },
   settingsItem: {
     display: "flex",
     flexDirection: "column",
-    padding: 20
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20)
   },
   settingsItemTitle: {
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
-    fontSize: 14,
-    lineHeight: 17,
+    fontSize: moderateScale(14),
+    lineHeight: verticalScale(17),
     textTransform: "uppercase"
   },
   settingsItemContent: {
@@ -458,20 +357,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: 20,
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingRight: 0
+    paddingTop: verticalScale(20),
+    paddingBottom: verticalScale(0),
+    paddingLeft: horizontalScale(0),
+    paddingRight: horizontalScale(0)
   },
   settingsSubItemImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 50
+    width: horizontalScale(40),
+    height: verticalScale(40),
+    borderRadius: moderateScale(50)
   },
   settingsItemIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
+    width: horizontalScale(40),
+    height: verticalScale(40),
+    borderRadius: moderateScale(50),
     display: "flex",
     justifyContent: "center",
     alignItems: "center"

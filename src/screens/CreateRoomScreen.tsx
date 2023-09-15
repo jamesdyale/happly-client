@@ -1,15 +1,8 @@
-import {
-  View,
-  Text,
-  Button,
-  KeyboardAvoidingView,
-  SafeAreaView,
-  StyleSheet
-} from "react-native";
+import { View, Text, Button, KeyboardAvoidingView, SafeAreaView, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { CustomButton, CustomTextInput } from "~components";
-import { formValidationOnBlur } from "~utils";
+import { formValidationOnBlur, horizontalScale, moderateScale, verticalScale } from "~utils";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTheme } from "~hooks";
@@ -57,9 +50,7 @@ export const CreateRoomScreen = () => {
           type: "danger",
           duration: 4000,
           placement: "bottom",
-          icon: (
-            <Icon name='alert-circle-sharp' size={20} color={theme.APP_WHITE} />
-          )
+          icon: <Icon name='alert-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
         });
         return;
       }
@@ -71,22 +62,14 @@ export const CreateRoomScreen = () => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: (
-          <Icon
-            name='checkmark-circle-sharp'
-            size={20}
-            color={theme.APP_WHITE}
-          />
-        )
+        icon: <Icon name='checkmark-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
     } catch (error) {
       toast.show("Something went wrong", {
         type: "danger",
         duration: 4000,
         placement: "bottom",
-        icon: (
-          <Icon name='alert-circle-sharp' size={20} color={theme.APP_WHITE} />
-        )
+        icon: <Icon name='alert-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
     } finally {
       setLoading(false);
@@ -113,7 +96,7 @@ export const CreateRoomScreen = () => {
         <View style={styles.CreateRoomFormHeader}>
           <Icon
             name='chevron-back'
-            size={25}
+            size={moderateScale(25)}
             color={theme.MAIN_TEXT_COLOR}
             onPress={() => navigation.goBack()}
           />
@@ -134,9 +117,7 @@ export const CreateRoomScreen = () => {
               label='Room Name'
               placeholder='Enter the room name'
               handleChange={setName}
-              handleBlur={() =>
-                setNameError(formValidationOnBlur("name", name))
-              }
+              handleBlur={() => setNameError(formValidationOnBlur("name", name))}
               value={name}
               error={nameError}
             />
@@ -144,11 +125,7 @@ export const CreateRoomScreen = () => {
               label='Description'
               placeholder='Enter the description'
               handleChange={setDescription}
-              handleBlur={() =>
-                setDescriptionError(
-                  formValidationOnBlur("description", description)
-                )
-              }
+              handleBlur={() => setDescriptionError(formValidationOnBlur("description", description))}
               value={description}
               error={descriptionError}
             />
@@ -156,9 +133,7 @@ export const CreateRoomScreen = () => {
               label='Invite your accountability partners'
               placeholder='Add their user id'
               handleChange={setInvite}
-              handleBlur={() =>
-                setInviteError(formValidationOnBlur("invite", invite))
-              }
+              handleBlur={() => setInviteError(formValidationOnBlur("invite", invite))}
               handleSubmit={handleSubmit}
               value={invite}
               icon='person-add'
@@ -167,7 +142,7 @@ export const CreateRoomScreen = () => {
             {inviteList.length > 0 && (
               <View
                 style={{
-                  marginTop: 10,
+                  marginTop: verticalScale(10),
                   display: "flex",
                   flexDirection: "column",
                   flexWrap: "wrap"
@@ -176,15 +151,13 @@ export const CreateRoomScreen = () => {
                 <Text
                   style={{
                     color: theme.MAIN_TEXT_COLOR
-                    // fontSize: 12,
-                    // marginTop: 10
                   }}
                 >
                   Added Users
                 </Text>
                 <View
                   style={{
-                    marginTop: 10,
+                    marginTop: verticalScale(10),
                     display: "flex",
                     flexDirection: "row",
                     flexWrap: "wrap"
@@ -195,16 +168,17 @@ export const CreateRoomScreen = () => {
                       key={index}
                       style={{
                         backgroundColor: theme.MAIN_ACCENT_COLOR,
-                        padding: 10,
-                        borderRadius: 5,
-                        marginRight: 10,
-                        marginBottom: 10
+                        paddingVertical: verticalScale(10),
+                        paddingHorizontal: horizontalScale(10),
+                        borderRadius: moderateScale(5),
+                        marginRight: horizontalScale(10),
+                        marginBottom: horizontalScale(10)
                       }}
                     >
                       <Text
                         style={{
                           color: theme.APP_WHITE,
-                          fontSize: 12
+                          fontSize: moderateScale(12)
                         }}
                       >
                         {invite}
@@ -217,8 +191,8 @@ export const CreateRoomScreen = () => {
             <Text
               style={{
                 color: theme.MAIN_ACCENT_COLOR,
-                fontSize: 12,
-                marginTop: 10
+                fontSize: moderateScale(12),
+                marginTop: verticalScale(10)
               }}
             >
               {"To get this tell your friends to go to Settings > Copy User ID"}
@@ -226,7 +200,7 @@ export const CreateRoomScreen = () => {
 
             {/* TODO: Feature to link it to this user's list of habits */}
           </View>
-          <View style={{ marginTop: -30 }}>
+          <View style={{ marginTop: verticalScale(-30) }}>
             <CustomButton
               bgColor={theme.MAIN_ACCENT_COLOR}
               color={theme.APP_WHITE}
@@ -245,17 +219,15 @@ const styles = StyleSheet.create({
   CreateRoomContainer: {},
   CreateRoomForm: {
     height: "100%",
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 20,
-    paddingBottom: 20
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: horizontalScale(20)
   },
   CreateRoomFormHeader: {
     flexDirection: "row",
     alignItems: "center"
   },
   CreateRoomFormBody: {
-    marginTop: 20,
+    marginTop: verticalScale(20),
     display: "flex",
     justifyContent: "space-between",
     height: "90%"
@@ -264,7 +236,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 24,
-    marginLeft: 20
+    fontSize: moderateScale(24),
+    marginLeft: horizontalScale(20)
   }
 });

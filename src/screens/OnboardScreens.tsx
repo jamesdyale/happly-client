@@ -1,16 +1,17 @@
-import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import React from "react";
 import {
   OnboardScreenFiveIcon,
   OnboardScreenTwoIcon,
   OnboardScreenFourIcon,
   OnboardScreenThreeIcon,
   OnboardScreenOneIcon
-} from '~assets'
-import { useTheme } from '~hooks'
+} from "~assets";
+import { useTheme } from "~hooks";
+import { horizontalScale, moderateScale, verticalScale } from "~utils";
 
 const OnboardScreenOne = () => {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
 
   return (
     <>
@@ -19,22 +20,34 @@ const OnboardScreenOne = () => {
       </View>
 
       <View style={styles.OnboardInformation}>
-        <Text style={[styles.OnboardInformation_Title, {
-          color: theme.MAIN_TEXT_COLOR
-        }]}>Welcome to Happly</Text>
-        <Text style={[styles.OnboardInformation_Text, , {
-          color: theme.MAIN_TEXT_COLOR
-        }]}>Build healthier habits with daily plans and mindful reminders that
-          will help you stay accountable.
+        <Text
+          style={[
+            styles.OnboardInformation_Title,
+            {
+              color: theme.MAIN_TEXT_COLOR
+            }
+          ]}
+        >
+          Welcome to Happly
+        </Text>
+        <Text
+          style={[
+            styles.OnboardInformation_Text,
+            ,
+            {
+              color: theme.MAIN_TEXT_COLOR
+            }
+          ]}
+        >
+          Build healthier habits with daily plans and mindful reminders that will help you stay accountable.
         </Text>
       </View>
     </>
-  )
-}
-
+  );
+};
 
 const OnboardScreenTwo = () => {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
 
   return (
     <>
@@ -43,21 +56,34 @@ const OnboardScreenTwo = () => {
       </View>
 
       <View style={styles.OnboardInformation}>
-        <Text style={[styles.OnboardInformation_Title, {
-          color: theme.MAIN_TEXT_COLOR
-        }]}>A better version of you</Text>
-        <Text style={[styles.OnboardInformation_Text, , {
-          color: theme.MAIN_TEXT_COLOR
-        }]}>
+        <Text
+          style={[
+            styles.OnboardInformation_Title,
+            {
+              color: theme.MAIN_TEXT_COLOR
+            }
+          ]}
+        >
+          A better version of you
+        </Text>
+        <Text
+          style={[
+            styles.OnboardInformation_Text,
+            ,
+            {
+              color: theme.MAIN_TEXT_COLOR
+            }
+          ]}
+        >
           You can build up a new habit or quit an existing bad one with Happly.
         </Text>
       </View>
     </>
-  )
-}
+  );
+};
 
 const OnboardScreenThree = () => {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
 
   return (
     <>
@@ -66,21 +92,34 @@ const OnboardScreenThree = () => {
       </View>
 
       <View style={styles.OnboardInformation}>
-        <Text style={[styles.OnboardInformation_Title, {
-          color: theme.MAIN_TEXT_COLOR
-        }]}>Visualize your efforts</Text>
-        <Text style={[styles.OnboardInformation_Text, , {
-          color: theme.MAIN_TEXT_COLOR
-        }]}>
+        <Text
+          style={[
+            styles.OnboardInformation_Title,
+            {
+              color: theme.MAIN_TEXT_COLOR
+            }
+          ]}
+        >
+          Visualize your efforts
+        </Text>
+        <Text
+          style={[
+            styles.OnboardInformation_Text,
+            ,
+            {
+              color: theme.MAIN_TEXT_COLOR
+            }
+          ]}
+        >
           We provide you with a daily report of your progress and a weekly analysis of your results.
         </Text>
       </View>
     </>
-  )
-}
+  );
+};
 
 const OnboardScreenFour = () => {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
 
   return (
     <>
@@ -89,21 +128,34 @@ const OnboardScreenFour = () => {
       </View>
 
       <View style={styles.OnboardInformation}>
-        <Text style={[styles.OnboardInformation_Title, {
-          color: theme.MAIN_TEXT_COLOR
-        }]}>How do we help you stick to your habits</Text>
-        <Text style={[styles.OnboardInformation_Text, , {
-          color: theme.MAIN_TEXT_COLOR
-        }]}>
+        <Text
+          style={[
+            styles.OnboardInformation_Title,
+            {
+              color: theme.MAIN_TEXT_COLOR
+            }
+          ]}
+        >
+          How do we help you stick to your habits
+        </Text>
+        <Text
+          style={[
+            styles.OnboardInformation_Text,
+            ,
+            {
+              color: theme.MAIN_TEXT_COLOR
+            }
+          ]}
+        >
           We use a combination of psychology and technology to help you build healthier habits.
         </Text>
       </View>
     </>
-  )
-}
+  );
+};
 
 const OnboardScreenFive = () => {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
 
   return (
     <>
@@ -112,21 +164,31 @@ const OnboardScreenFive = () => {
       </View>
 
       <View style={styles.OnboardInformation}>
-        <Text style={[styles.OnboardInformation_Title, {
-          color: theme.MAIN_TEXT_COLOR
-        }]}>Feeling motivated already?</Text>
-        <Text style={[styles.OnboardInformation_Text, , {
-          color: theme.MAIN_TEXT_COLOR
-        }]}>
-          “If you get better 1% every day for one year
-          you will end up 37 times better by the time
-          you are done”
+        <Text
+          style={[
+            styles.OnboardInformation_Title,
+            {
+              color: theme.MAIN_TEXT_COLOR
+            }
+          ]}
+        >
+          Feeling motivated already?
+        </Text>
+        <Text
+          style={[
+            styles.OnboardInformation_Text,
+            ,
+            {
+              color: theme.MAIN_TEXT_COLOR
+            }
+          ]}
+        >
+          “If you get better 1% every day for one year you will end up 37 times better by the time you are done”
         </Text>
       </View>
     </>
-  )
-}
-
+  );
+};
 
 export const screens = [
   {
@@ -149,73 +211,73 @@ export const screens = [
     id: 5,
     component: <OnboardScreenFive />
   }
-]
+];
 
 export const OnboardItem = ({ item }) => {
-  const { width } = useWindowDimensions()
-  return (
-    <View style={[styles.ItemContainer, { width }]}>
-      {item.component}
-    </View>
-  )
-}
+  const { width } = useWindowDimensions();
+  return <View style={[styles.ItemContainer, { width }]}>{item.component}</View>;
+};
 
 export const NextBtn = ({ handleNext, currentScreen }) => {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
   return (
     <TouchableOpacity onPress={handleNext}>
-      <Text style={[styles.OnboardInformation_ActionBtn_NextBtn, {
-        color: theme.MAIN_ACCENT_COLOR
-      }]}>
-        {currentScreen < screens.length - 1 ? 'Next' : 'Get Started'}
+      <Text
+        style={[
+          styles.OnboardInformation_ActionBtn_NextBtn,
+          {
+            color: theme.MAIN_ACCENT_COLOR
+          }
+        ]}
+      >
+        {currentScreen < screens.length - 1 ? "Next" : "Get Started"}
       </Text>
     </TouchableOpacity>
-  )
-}
-
+  );
+};
 
 const styles = StyleSheet.create({
   ItemContainer: {
-    paddingTop: 10,
-    paddingLeft: 50,
-    paddingRight: 50
+    paddingTop: verticalScale(10),
+    paddingLeft: horizontalScale(50),
+    paddingRight: horizontalScale(50)
   },
   OnboardScreen_Container: {
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'space-between'
+    height: "100%",
+    display: "flex",
+    justifyContent: "space-between"
   },
   OnboardScreen_Icon: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 100,
-    height: '50%'
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: verticalScale(100),
+    height: "50%"
   },
   OnboardInformation: {},
   OnboardInformation_Title: {
-    fontFamily: 'Inter_700Bold',
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 30,
-    lineHeight: 34,
-    marginBottom: 20,
-    textAlign: 'center'
+    fontFamily: "Inter_700Bold",
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: moderateScale(30),
+    lineHeight: verticalScale(34),
+    marginBottom: verticalScale(20),
+    textAlign: "center"
   },
   OnboardInformation_Text: {
-    fontFamily: 'Inter_400Regular',
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 18,
-    lineHeight: 25,
-    marginBottom: 20,
-    textAlign: 'center'
+    fontFamily: "Inter_400Regular",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: moderateScale(18),
+    lineHeight: verticalScale(25),
+    marginBottom: verticalScale(20),
+    textAlign: "center"
   },
   OnboardInformation_ActionBtn_NextBtn: {
-    fontFamily: 'Inter_600SemiBold',
-    fontStyle: 'normal',
-    fontWeight: '600',
-    fontSize: 17,
-    lineHeight: 20
+    fontFamily: "Inter_600SemiBold",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: moderateScale(17),
+    lineHeight: verticalScale(20)
   }
-})
+});
