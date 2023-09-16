@@ -31,3 +31,4 @@ export * from "./actionGetChallengeById";
 export * from "./actionGetRoomByUserId";
 export * from "./actionCreateRoom";
 export * from "./actionGetRoomsUserIsInByUserID";
+export * from "./actionGetRoomById";

@@ -11,15 +11,16 @@ import {
 import React, { useEffect } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useTheme } from "~hooks";
-import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { ParamListBase, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CustomTextInput, ReceiverMessage, SenderMessage } from "~components";
 import { horizontalScale, moderateScale, verticalScale } from "~utils";
 import moment from "moment";
 import { useAtomValue } from "jotai";
 import { userAtom } from "~state";
-import { Message } from "~types";
+import { Message, Room } from "~types";
 import { generateMessageId, generateRoomId, generateUserId } from "~generators";
+import { ActionGetRoomById } from "~actions";
 
 const messagesExample: Message[] = [
   {
@@ -62,15 +63,21 @@ export const RoomScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { theme } = useTheme();
 
+  // get the room id from the params
+  const { roomID } = useRoute().params as { roomID: Room["id"] };
+
   const user = useAtomValue(userAtom);
 
   const [message, setMessage] = React.useState("");
   const [messages, setMessages] = React.useState({});
 
+  const [room, setRoom] = React.useState<Room | null>(null);
+
   useEffect(() => {
     let isMounted = true;
 
     if (isMounted) {
+      getRoom();
       orderMessages();
     }
 
@@ -78,6 +85,15 @@ export const RoomScreen = () => {
       isMounted = false;
     };
   }, []);
+
+  const getRoom = async () => {
+    const roomResponse = await ActionGetRoomById(roomID);
+
+    if (roomResponse) {
+      const room = roomResponse.data() as Room;
+      setRoom(room);
+    }
+  };
 
   const orderMessages = () => {
     const messagesObject = {};
@@ -94,6 +110,10 @@ export const RoomScreen = () => {
 
     setMessages(messagesObject);
   };
+
+  if (room === null) {
+    return null;
+  }
 
   return (
     <SafeAreaView
@@ -129,8 +149,10 @@ export const RoomScreen = () => {
           />
           <View style={styles.headerTextSection}>
             <View style={styles.headerText}>
-              <Text style={[styles.roomName, { color: theme.MAIN_TEXT_COLOR }]}>Sleeping Early</Text>
-              <Text style={[styles.members, { color: theme.MAIN_TEXT_COLOR + "90" }]}>100 Members</Text>
+              <Text style={[styles.roomName, { color: theme.MAIN_TEXT_COLOR }]}>{room.name}</Text>
+              <Text style={[styles.members, { color: theme.MAIN_TEXT_COLOR + "90" }]}>
+                {room.members.length === 1 ? `${room.members.length} Member` : `${room.members.length} Members`}
+              </Text>
             </View>
             <View style={styles.actionBtn}>
               <TouchableOpacity style={styles.actionButtonContainer} onPress={() => navigation.goBack()}>
@@ -142,6 +164,7 @@ export const RoomScreen = () => {
             </View>
           </View>
         </View>
+
         <View
           style={[
             styles.roomConversation,
@@ -169,6 +192,7 @@ export const RoomScreen = () => {
             ))}
           </ScrollView>
         </View>
+
         <View
           style={[
             styles.footer,
