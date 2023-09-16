@@ -1,11 +1,25 @@
-import { View, Text, SafeAreaView, KeyboardAvoidingView, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView
+} from "react-native";
+import React, { useEffect, useRef } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useTheme } from "~hooks";
 import { ParamListBase, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CustomTextInput, ReceiverMessage, SenderMessage } from "~components";
-import { horizontalScale, moderateScale, orderMessagesByDateTimeSent, verticalScale } from "~utils";
+import {
+  groupMessagesByDateTimeSent,
+  horizontalScale,
+  moderateScale,
+  orderMessagesByDateTimeSent,
+  verticalScale
+} from "~utils";
 import moment from "moment";
 import { useAtomValue } from "jotai";
 import { userAtom } from "~state";
@@ -26,6 +40,8 @@ export const RoomScreen = () => {
   const { theme } = useTheme();
   const toast = useToast();
 
+  const scrollViewRef = useRef<ScrollView | null>(null);
+
   // get the room id from the params
   const { roomID } = useRoute().params as { roomID: Room["id"] };
 
@@ -36,7 +52,6 @@ export const RoomScreen = () => {
 
   const [room, setRoom] = React.useState<Room | null>(null);
   const [addUserModal, setAddUserModal] = React.useState(false);
-  const [inviteList, setInviteList] = React.useState([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -74,8 +89,9 @@ export const RoomScreen = () => {
         const data = doc.data() as unknown as Message;
         messages.push(data);
       });
-
-      setMessages(orderMessagesByDateTimeSent(messages));
+      const groupedMessages = groupMessagesByDateTimeSent(messages);
+      console.log("groupedMessages - ", groupedMessages);
+      setMessages(groupedMessages);
     });
 
     return () => unsubscribe();
@@ -123,6 +139,21 @@ export const RoomScreen = () => {
     }
   };
 
+  // Function to add a new message and scroll to the bottom
+  const addMessageAndScroll = (newMessage: string) => {
+    // Add the new message to your messages array
+    // Assuming you have a state variable or similar to manage messages
+    // messages.push(newMessage);
+
+    // Use scrollTo or scrollToEnd to scroll to the bottom
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({ animated: true }); // You can also use scrollTo if needed
+    }
+
+    // Update your component state with the new messages
+    // Set your component's state to trigger a re-render with the new message
+  };
+
   if (room === null) {
     return null;
   }
@@ -163,15 +194,24 @@ export const RoomScreen = () => {
             <View style={styles.headerText}>
               <Text style={[styles.roomName, { color: theme.MAIN_TEXT_COLOR }]}>{room.name}</Text>
               <Text style={[styles.members, { color: theme.MAIN_TEXT_COLOR + "90" }]}>
-                {room.members.length === 1 ? `${room.members.length} Member` : `${room.members.length} Members`}
+                {room.members.length === 1
+                  ? `${room.members.length} Member`
+                  : `${room.members.length} Members`}
               </Text>
             </View>
             <View style={styles.actionBtn}>
-              <TouchableOpacity style={styles.actionButtonContainer} onPress={() => setAddUserModal(true)}>
+              <TouchableOpacity
+                style={styles.actionButtonContainer}
+                onPress={() => setAddUserModal(true)}
+              >
                 <Icon name='md-person-add-sharp' size={moderateScale(20)} color={theme.APP_BLACK} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButtonContainer}>
-                <Icon name='md-ellipsis-vertical' size={moderateScale(20)} color={theme.APP_BLACK} />
+                <Icon
+                  name='md-ellipsis-vertical'
+                  size={moderateScale(20)}
+                  color={theme.APP_BLACK}
+                />
               </TouchableOpacity>
             </View>
           </View>
@@ -185,19 +225,29 @@ export const RoomScreen = () => {
             }
           ]}
         >
-          <ScrollView>
+          <ScrollView
+            ref={scrollViewRef}
+            onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+          >
             {Object.keys(messages).map((date) => (
               <View key={date} style={styles.messagesGroup}>
-                <Text style={styles.messagesGroupText}>{moment().format("DD/MM/YYYY") === date ? "Today" : date}</Text>
+                <Text style={styles.messagesGroupText}>
+                  {moment().format("DD/MM/YYYY") === date ? "Today" : date}
+                </Text>
                 {messages[date].map((message: Message) => (
                   <View
+                    key={message.id}
                     style={{
                       display: "flex",
                       alignItems: message.sender !== user.id ? "flex-start" : "flex-end",
                       width: "100%"
                     }}
                   >
-                    {message.sender !== user.id ? <ReceiverMessage {...message} /> : <SenderMessage {...message} />}
+                    {message.sender !== user.id ? (
+                      <ReceiverMessage {...message} />
+                    ) : (
+                      <SenderMessage {...message} />
+                    )}
                   </View>
                 ))}
               </View>

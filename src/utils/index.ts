@@ -18,3 +18,4 @@ export * from "./markHabitAsDone";
 export * from "./removeAUserFromAChallenge";
 export * from "./metric";
 export * from "./orderMessagesByDateTimeSent";
+export * from "./groupMessagesByDateTimeSent";

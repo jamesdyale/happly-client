@@ -1,5 +1,5 @@
-import { View, Text, Image, StyleSheet } from "react-native";
-import React, { useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import React from "react";
 import { useTheme } from "~hooks";
 import moment from "moment";
 import { Message } from "~types";
@@ -28,7 +28,7 @@ export const ReceiverMessage = (message: Message) => {
         >
           {message.message}
         </Text>
-        <Text style={styles.messageTime}>{moment(message.dateTimeSent).format("hh:mm A")}</Text>
+        <Text style={styles.messageTime}>{moment(message.messageTime).format("hh:mm A")}</Text>
       </View>
     </View>
   );

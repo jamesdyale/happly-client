@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { Timestamp, doc, setDoc } from "firebase/firestore";
 import { Message, Room, User } from "~types";
 import { FIREBASE_DB } from "~data";
 import moment from "moment";
@@ -9,7 +9,8 @@ export const ActionCreateMessageForRoom = async ({ message, sender, roomId }) =>
     const newMessage: Message = {
       id: generateMessageId(),
       message,
-      dateTimeSent: moment().format("YYYY-MM-DD HH:mm:ss"),
+      date: moment().format("MMMM Do YYYY"),
+      time: moment().format("HH:mm:ss:SSS"),
       sender,
       roomId
     };

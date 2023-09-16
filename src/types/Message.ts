@@ -5,7 +5,8 @@ import { Room } from "./Room";
 export type Message = {
   id: UniqueId<"message">;
   message: string;
-  dateTimeSent: string;
+  date: string;
+  time: string;
   sender: User["id"];
   roomId: Room["id"];
 };
