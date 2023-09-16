@@ -5,8 +5,8 @@ import { horizontalScale, verticalScale } from "~utils";
 
 export const AddHabitIcon = (props) => (
   <Svg
-    width={horizontalScale(79)}
-    height={verticalScale(79)}
+    width={79}
+    height={79}
     viewBox={`0 0 ${horizontalScale(79)} ${verticalScale(79)}`}
     fill='none'
     xmlns='http://www.w3.org/2000/svg'
@@ -26,10 +26,11 @@ export const AddHabitIcon = (props) => (
 
 const styles = StyleSheet.create({
   addHabitIcon: {
+    backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: {
-      width: horizontalScale(0),
-      height: verticalScale(3)
+      width: 0,
+      height: 3
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,

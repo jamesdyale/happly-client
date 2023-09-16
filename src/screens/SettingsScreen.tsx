@@ -69,7 +69,7 @@ export const SettingsScreen = () => {
         }
       ]}
     >
-      <ScrollView style={{ marginBottom: verticalScale(10) }}>
+      <ScrollView style={{ marginBottom: verticalScale(80) }}>
         <View
           style={[
             styles.settingsHeader,

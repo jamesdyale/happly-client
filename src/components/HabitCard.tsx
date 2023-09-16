@@ -214,8 +214,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
-    width: "80%",
-    backgroundColor: "red"
+    width: "80%"
   },
   habitName: {
     fontSize: moderateScale(18),
