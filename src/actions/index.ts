@@ -32,3 +32,5 @@ export * from "./actionGetRoomByUserId";
 export * from "./actionCreateRoom";
 export * from "./actionGetRoomsUserIsInByUserID";
 export * from "./actionGetRoomById";
+export * from "./actionUpdateRoomById";
+export * from "./actionCreateMessageForRoom";

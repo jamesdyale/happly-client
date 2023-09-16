@@ -141,7 +141,7 @@ export const CreateRoomScreen = () => {
             />
             <CustomTextInput
               label='Invite your accountability partners'
-              placeholder='Add their user id'
+              placeholder='Add their User ID'
               handleChange={setInvite}
               handleBlur={() => handleBlur()}
               handleSubmit={handleSubmit}

@@ -18,9 +18,10 @@ import { horizontalScale, moderateScale, verticalScale } from "~utils";
 import moment from "moment";
 import { useAtomValue } from "jotai";
 import { userAtom } from "~state";
-import { Message, Room } from "~types";
+import { Message, Room, User } from "~types";
 import { generateMessageId, generateRoomId, generateUserId } from "~generators";
-import { ActionGetRoomById } from "~actions";
+import { ActionGetRoomById, ActionUpdateRoomById } from "~actions";
+import { AddUserToRoomModal } from "~modals";
 
 const messagesExample: Message[] = [
   {
@@ -72,6 +73,8 @@ export const RoomScreen = () => {
   const [messages, setMessages] = React.useState({});
 
   const [room, setRoom] = React.useState<Room | null>(null);
+  const [addUserModal, setAddUserModal] = React.useState(false);
+  const [inviteList, setInviteList] = React.useState([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -109,6 +112,24 @@ export const RoomScreen = () => {
     });
 
     setMessages(messagesObject);
+  };
+
+  const addUserToRoom = async (invites: User["id"][]) => {
+    if (invites.length === 0) {
+      return;
+    }
+
+    const newMembers = [...room.members, ...invites];
+    const newRoom: Room = {
+      ...room,
+      members: newMembers
+    };
+
+    setRoom(newRoom);
+
+    await ActionUpdateRoomById(newRoom);
+
+    setAddUserModal(false);
   };
 
   if (room === null) {
@@ -155,7 +176,7 @@ export const RoomScreen = () => {
               </Text>
             </View>
             <View style={styles.actionBtn}>
-              <TouchableOpacity style={styles.actionButtonContainer} onPress={() => navigation.goBack()}>
+              <TouchableOpacity style={styles.actionButtonContainer} onPress={() => setAddUserModal(true)}>
                 <Icon name='md-person-add-sharp' size={moderateScale(20)} color={theme.APP_BLACK} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButtonContainer}>
@@ -213,6 +234,12 @@ export const RoomScreen = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
+
+      <AddUserToRoomModal
+        isVisible={addUserModal}
+        handleClose={() => setAddUserModal(false)}
+        addUserToRoom={addUserToRoom}
+      />
     </SafeAreaView>
   );
 };
