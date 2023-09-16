@@ -1,68 +1,30 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Image
-} from "react-native";
+import { View, Text, SafeAreaView, KeyboardAvoidingView, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import React, { useEffect } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useTheme } from "~hooks";
 import { ParamListBase, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CustomTextInput, ReceiverMessage, SenderMessage } from "~components";
-import { horizontalScale, moderateScale, verticalScale } from "~utils";
+import { horizontalScale, moderateScale, orderMessagesByDateTimeSent, verticalScale } from "~utils";
 import moment from "moment";
 import { useAtomValue } from "jotai";
 import { userAtom } from "~state";
 import { Message, Room, User } from "~types";
-import { generateMessageId, generateRoomId, generateUserId } from "~generators";
-import { ActionGetRoomById, ActionUpdateRoomById } from "~actions";
+import {
+  ActionCreateMessageForRoom,
+  ActionGetMessagesByRoomId,
+  ActionGetRoomById,
+  ActionUpdateRoomById
+} from "~actions";
 import { AddUserToRoomModal } from "~modals";
-
-const messagesExample: Message[] = [
-  {
-    id: generateMessageId(),
-    message:
-      "Goals for the week:" +
-      "" +
-      "- Sleep early and have a healthy wakeup time" +
-      "- Rest at least 2hours in between work (1hour in between say 12pm, 1-2hours after 5:30pm) Then work tll sleep comes" +
-      "3. Finish the project" +
-      "4. Finish the project",
-    dateTimeSent: "2023-07-14T17:13:03.987Z",
-    sender: "user-zyDJ03CmTXi_PyKY",
-    roomId: generateRoomId()
-  },
-  {
-    id: generateMessageId(),
-    message: "Hey, how are you?",
-    dateTimeSent: "2023-07-14T17:13:03.987Z",
-    sender: generateUserId(),
-    roomId: generateRoomId()
-  },
-  {
-    id: generateMessageId(),
-    message: "Hey,",
-    dateTimeSent: "2023-07-15T17:13:03.987Z",
-    sender: generateUserId(),
-    roomId: generateRoomId()
-  },
-  {
-    id: generateMessageId(),
-    message: "how are you?",
-    dateTimeSent: "2023-07-15T17:13:03.987Z",
-    sender: generateUserId(),
-    roomId: generateRoomId()
-  }
-];
+import { onSnapshot } from "firebase/firestore";
+import { useToast } from "react-native-toast-notifications";
+import { APP_WHITE } from "~styles";
 
 export const RoomScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { theme } = useTheme();
+  const toast = useToast();
 
   // get the room id from the params
   const { roomID } = useRoute().params as { roomID: Room["id"] };
@@ -81,7 +43,7 @@ export const RoomScreen = () => {
 
     if (isMounted) {
       getRoom();
-      orderMessages();
+      getMessagesRelatedToRoom();
     }
 
     return () => {
@@ -98,20 +60,25 @@ export const RoomScreen = () => {
     }
   };
 
-  const orderMessages = () => {
-    const messagesObject = {};
+  const getMessagesRelatedToRoom = async () => {
+    if (!roomID) {
+      return;
+    }
 
-    messagesExample.forEach((message) => {
-      const timeSent = moment(message.dateTimeSent).format("DD/MM/YYYY");
+    const messagesQuery = ActionGetMessagesByRoomId(roomID);
 
-      if (messagesObject[timeSent]) {
-        messagesObject[timeSent].push(message);
-      } else {
-        messagesObject[timeSent] = [message];
-      }
+    const unsubscribe = onSnapshot(messagesQuery, (querySnapshot) => {
+      const messages: Message[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data() as unknown as Message;
+        messages.push(data);
+      });
+
+      setMessages(orderMessagesByDateTimeSent(messages));
     });
 
-    setMessages(messagesObject);
+    return () => unsubscribe();
   };
 
   const addUserToRoom = async (invites: User["id"][]) => {
@@ -130,6 +97,30 @@ export const RoomScreen = () => {
     await ActionUpdateRoomById(newRoom);
 
     setAddUserModal(false);
+  };
+
+  const handleSubmitMessage = async (message) => {
+    if (message.length === 0) {
+      return;
+    }
+
+    const newMessage: Pick<Message, "message" | "roomId" | "sender"> = {
+      message,
+      roomId: roomID,
+      sender: user.id
+    };
+
+    try {
+      await ActionCreateMessageForRoom(newMessage);
+      setMessage("");
+    } catch (error) {
+      toast.show("An error happened when sending your message!", {
+        type: "danger",
+        duration: 4000,
+        placement: "bottom",
+        icon: <Icon name='alert-circle' size={moderateScale(20)} color={APP_WHITE} />
+      });
+    }
   };
 
   if (room === null) {
@@ -227,9 +218,10 @@ export const RoomScreen = () => {
               bigLabel=''
               placeholder='Type your message...'
               handleChange={setMessage}
-              // handleBlur={() => setNameError(formValidationOnBlur('name', name))}
+              handleSubmit={() => handleSubmitMessage(message)}
               value={message}
-              // error={nameError}
+              icon='send'
+              iconClicked={() => handleSubmitMessage(message)}
             />
           </View>
         </View>

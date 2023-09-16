@@ -4,7 +4,7 @@ import { FIREBASE_DB } from "~data";
 import moment from "moment";
 import { generateMessageId } from "~generators";
 
-export const ActionCreateMessageForRoom = async (message: string, sender: User["id"], roomId: Room["id"]) => {
+export const ActionCreateMessageForRoom = async ({ message, sender, roomId }) => {
   try {
     const newMessage: Message = {
       id: generateMessageId(),
@@ -16,6 +16,6 @@ export const ActionCreateMessageForRoom = async (message: string, sender: User["
 
     await setDoc(doc(FIREBASE_DB, "messages", newMessage.id), newMessage);
   } catch (e) {
-    console.error(e);
+    throw new Error(e);
   }
 };
