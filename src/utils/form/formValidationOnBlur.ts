@@ -1,50 +1,49 @@
 export const formValidationOnBlur = (field, value) => {
-  if (field === 'name') {
+  if (field === "name") {
     if (!value || value.length === 0) {
-      return 'Please enter a name'
+      return "Please enter a name";
     } else {
-      return ''
+      return "";
     }
   }
 
-  if (field === 'fullName') {
+  if (field === "fullName") {
     if (!value || value.length === 0) {
-      return 'Please enter a full name'
+      return "Please enter a full name";
     } else {
-      return ''
+      return "";
     }
   }
 
-  if (field === 'email') {
+  if (field === "email") {
     if (!value || value.length === 0) {
-      return 'Please enter a email'
+      return "Please enter a email";
     } else {
-      return ''
+      return "";
     }
   }
 
-
-  if (field === 'password') {
+  if (field === "password") {
     if (!value || value.length === 0) {
-      return 'Please enter a password'
+      return "Please enter a password";
     } else {
-      return ''
+      return "";
     }
   }
 
-  if (field === 'description') {
+  if (field === "description") {
     if (!value || value.length === 0) {
-      return 'Please enter a challenge description'
+      return "Please enter a challenge description";
     } else {
-      return ''
+      return "";
     }
   }
 
-  if (field === 'invite') {
+  if (field === "invite") {
     if (!value || value.length === 0) {
-      return 'Please enter a invitie'
+      return "Please enter a invite";
     } else {
-      return ''
+      return "";
     }
   }
-}
+};

@@ -79,7 +79,17 @@ export const CreateRoomScreen = () => {
   };
 
   const handleSubmit = (text: string) => {
-    setInviteList([...inviteList, text]);
+    if (text.length === 0) {
+      setInviteError("Please enter a user id");
+      return;
+    } else {
+      setInvite("");
+      setInviteList([...inviteList, text]);
+    }
+  };
+
+  const handleBlur = () => {
+    setInviteError(formValidationOnBlur("invite", invite));
     setInvite("");
   };
 
@@ -133,10 +143,13 @@ export const CreateRoomScreen = () => {
               label='Invite your accountability partners'
               placeholder='Add their user id'
               handleChange={setInvite}
-              handleBlur={() => setInviteError(formValidationOnBlur("invite", invite))}
+              handleBlur={() => handleBlur()}
               handleSubmit={handleSubmit}
               value={invite}
               icon='person-add'
+              iconClicked={() => {
+                handleSubmit(invite);
+              }}
             />
 
             {inviteList.length > 0 && (
@@ -144,8 +157,7 @@ export const CreateRoomScreen = () => {
                 style={{
                   marginTop: verticalScale(10),
                   display: "flex",
-                  flexDirection: "column",
-                  flexWrap: "wrap"
+                  flexDirection: "column"
                 }}
               >
                 <Text
@@ -159,8 +171,8 @@ export const CreateRoomScreen = () => {
                   style={{
                     marginTop: verticalScale(10),
                     display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap"
+                    flexDirection: "column",
+                    width: "100%"
                   }}
                 >
                   {inviteList.map((invite, index) => (
@@ -168,11 +180,15 @@ export const CreateRoomScreen = () => {
                       key={index}
                       style={{
                         backgroundColor: theme.MAIN_ACCENT_COLOR,
-                        paddingVertical: verticalScale(10),
-                        paddingHorizontal: horizontalScale(10),
                         borderRadius: moderateScale(5),
-                        marginRight: horizontalScale(10),
-                        marginBottom: horizontalScale(10)
+                        height: verticalScale(40),
+                        marginBottom: verticalScale(10),
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        paddingHorizontal: horizontalScale(10)
                       }}
                     >
                       <Text
@@ -183,6 +199,12 @@ export const CreateRoomScreen = () => {
                       >
                         {invite}
                       </Text>
+                      <Icon
+                        name='close'
+                        size={moderateScale(20)}
+                        color={theme.APP_WHITE}
+                        onPress={() => setInviteList(inviteList.filter((item) => item !== invite))}
+                      />
                     </View>
                   ))}
                 </View>

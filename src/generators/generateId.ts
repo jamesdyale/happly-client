@@ -14,3 +14,4 @@ export const generateHabitId = () => generateId("habit");
 export const generateReminderId = () => generateId("reminder");
 export const generateChallengeId = () => generateId("challenge");
 export const generateRoomId = () => generateId("room");
+export const generateMessageId = () => generateId("message");

@@ -18,3 +18,4 @@ export * from "./ThemeType";
 export * from "./HabitHistoryType";
 export * from "./ChallengeType";
 export * from "./Room";
+export * from "./Message";

@@ -15,4 +15,5 @@ export type CustomTextInputType = {
   secureTextEntry?: boolean;
   error?: string;
   icon?: string;
+  iconClicked?: () => void;
 };

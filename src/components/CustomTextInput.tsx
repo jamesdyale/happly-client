@@ -16,7 +16,8 @@ export const CustomTextInput = ({
   keyboardType,
   secureTextEntry,
   error,
-  icon
+  icon,
+  iconClicked
 }: CustomTextInputType) => {
   const { theme } = useTheme();
 
@@ -71,6 +72,7 @@ export const CustomTextInput = ({
                   borderWidth: moderateScale(0)
                 }
               ]}
+              placeholderTextColor={theme.LIGHT_MAIN_TEXT_COLOR}
               onChangeText={handleChange}
               onBlur={handleBlur}
               value={value}
@@ -79,7 +81,13 @@ export const CustomTextInput = ({
               secureTextEntry={secureTextEntry}
               onSubmitEditing={(value) => handleSubmit(value.nativeEvent.text)}
             />
-            <Icon style={styles.icon} name={icon} size={moderateScale(20)} color={theme.MAIN_TEXT_COLOR} />
+            <Icon
+              style={styles.icon}
+              name={icon}
+              size={moderateScale(20)}
+              color={theme.MAIN_TEXT_COLOR}
+              onPress={iconClicked}
+            />
           </View>
         </>
       )}
@@ -93,6 +101,7 @@ export const CustomTextInput = ({
               backgroundColor: theme.INPUT_BG
             }
           ]}
+          placeholderTextColor={theme.LIGHT_MAIN_TEXT_COLOR}
           onChangeText={handleChange}
           onBlur={handleBlur}
           value={value}
@@ -128,10 +137,8 @@ const styles = StyleSheet.create({
     marginTop: verticalScale(8),
     marginBottom: verticalScale(8),
     borderWidth: moderateScale(1),
-    paddingTop: verticalScale(14.5),
-    paddingBottom: verticalScale(14.5),
-    paddingLeft: horizontalScale(16),
-    paddingRight: horizontalScale(16),
+    paddingHorizontal: horizontalScale(16),
+    paddingVertical: verticalScale(14.5),
     fontFamily: "Inter_400Regular",
     fontWeight: "400",
     fontStyle: "normal",
@@ -159,8 +166,8 @@ const styles = StyleSheet.create({
     height: verticalScale(50)
   },
   icon: {
-    paddingVertical: verticalScale(30),
-    paddingHorizontal: horizontalScale(30),
+    // paddingVertical: verticalScale(30),
+    // paddingHorizontal: horizontalScale(30),
     marginRight: horizontalScale(10)
   }
 });

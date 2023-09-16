@@ -1,13 +1,11 @@
 import {
   View,
   Text,
-  Button,
   SafeAreaView,
   KeyboardAvoidingView,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  TextInput,
   Image
 } from "react-native";
 import React, { useEffect } from "react";
@@ -15,23 +13,17 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { useTheme } from "~hooks";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { CustomTextInput } from "~components";
-import { formValidationOnBlur, horizontalScale, moderateScale, verticalScale } from "~utils";
+import { CustomTextInput, ReceiverMessage, SenderMessage } from "~components";
+import { horizontalScale, moderateScale, verticalScale } from "~utils";
 import moment from "moment";
 import { useAtomValue } from "jotai";
 import { userAtom } from "~state";
-
-type Message = {
-  id: number;
-  message: string;
-  dateTimeSent: string;
-  sender: string;
-  avatar?: string;
-};
+import { Message } from "~types";
+import { generateMessageId, generateRoomId, generateUserId } from "~generators";
 
 const messagesExample: Message[] = [
   {
-    id: 1,
+    id: generateMessageId(),
     message:
       "Goals for the week:" +
       "" +
@@ -40,26 +32,29 @@ const messagesExample: Message[] = [
       "3. Finish the project" +
       "4. Finish the project",
     dateTimeSent: "2023-07-14T17:13:03.987Z",
-    sender: "Jane Doe",
-    avatar: "https://picsum.photos/200"
+    sender: "user-zyDJ03CmTXi_PyKY",
+    roomId: generateRoomId()
   },
   {
-    id: 2,
+    id: generateMessageId(),
     message: "Hey, how are you?",
     dateTimeSent: "2023-07-14T17:13:03.987Z",
-    sender: "James Odeyale"
+    sender: generateUserId(),
+    roomId: generateRoomId()
   },
   {
-    id: 3,
-    message: "Hey, how are you?",
+    id: generateMessageId(),
+    message: "Hey,",
     dateTimeSent: "2023-07-15T17:13:03.987Z",
-    sender: "Jane Doe"
+    sender: generateUserId(),
+    roomId: generateRoomId()
   },
   {
-    id: 4,
-    message: "Hey, how are you?",
+    id: generateMessageId(),
+    message: "how are you?",
     dateTimeSent: "2023-07-15T17:13:03.987Z",
-    sender: "James Odeyale"
+    sender: generateUserId(),
+    roomId: generateRoomId()
   }
 ];
 
@@ -159,14 +154,17 @@ export const RoomScreen = () => {
             {Object.keys(messages).map((date) => (
               <View key={date} style={styles.messagesGroup}>
                 <Text style={styles.messagesGroupText}>{moment().format("DD/MM/YYYY") === date ? "Today" : date}</Text>
-                {messages[date].map((message: Message) => {
-                  if (message.sender !== user.name) {
-                    console.log(message);
-                    return <ReceiverComponent {...message} />;
-                  } else {
-                    return <SenderComponent {...message} />;
-                  }
-                })}
+                {messages[date].map((message: Message) => (
+                  <View
+                    style={{
+                      display: "flex",
+                      alignItems: message.sender !== user.id ? "flex-start" : "flex-end",
+                      width: "100%"
+                    }}
+                  >
+                    {message.sender !== user.id ? <ReceiverMessage {...message} /> : <SenderMessage {...message} />}
+                  </View>
+                ))}
               </View>
             ))}
           </ScrollView>
@@ -192,116 +190,6 @@ export const RoomScreen = () => {
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  );
-};
-
-const SenderComponent = (message: Message) => {
-  const { theme } = useTheme();
-
-  return (
-    <View key={message.id} style={styles.senderMessageContainer}>
-      <View
-        style={[
-          styles.messageInfo,
-          {
-            backgroundColor: theme.CONTRAST_MAIN_TEXT_COLOR
-          }
-        ]}
-      >
-        <Text style={styles.message}>{message.message}</Text>
-        <Text style={styles.messageTime}>{moment(message.dateTimeSent).format("hh:mm A")}</Text>
-      </View>
-      <View
-        style={[
-          styles.imageContainer,
-          {
-            alignSelf: "flex-end"
-          }
-        ]}
-      >
-        {message.avatar ? (
-          <Image style={styles.avatar} source={{ uri: message.avatar }} />
-        ) : (
-          <View style={styles.messageAvatar}>
-            <View
-              style={[
-                styles.makeUpStyleImage,
-                {
-                  backgroundColor: theme.MAIN_TEXT_COLOR
-                }
-              ]}
-            >
-              <Text
-                style={[
-                  styles.makeUpStyleImageText,
-                  {
-                    color: theme.CONTRAST_MAIN_TEXT_COLOR
-                  }
-                ]}
-              >
-                {message.sender[0]}
-              </Text>
-            </View>
-          </View>
-        )}
-      </View>
-    </View>
-  );
-};
-
-const ReceiverComponent = (message: Message) => {
-  const { theme } = useTheme();
-
-  return (
-    <View key={message.id} style={styles.messageContainer}>
-      <View style={styles.imageContainer}>
-        {message.avatar ? (
-          <Image style={styles.avatar} source={{ uri: message.avatar }} />
-        ) : (
-          <View style={styles.messageAvatar}>
-            <View
-              style={[
-                styles.makeUpStyleImage,
-                {
-                  backgroundColor: theme.MAIN_ACCENT_COLOR
-                }
-              ]}
-            >
-              <Text
-                style={[
-                  styles.makeUpStyleImageText,
-                  {
-                    color: theme.MAIN_TEXT_COLOR
-                  }
-                ]}
-              >
-                {message.sender[0]}
-              </Text>
-            </View>
-          </View>
-        )}
-      </View>
-      <View
-        style={[
-          styles.messageInfo,
-          {
-            backgroundColor: theme.CONTRAST_MAIN_TEXT_COLOR
-          }
-        ]}
-      >
-        <Text
-          style={[
-            styles.message,
-            {
-              color: theme.MAIN_TEXT_COLOR
-            }
-          ]}
-        >
-          {message.message}
-        </Text>
-        <Text style={styles.messageTime}>{moment(message.dateTimeSent).format("hh:mm A")}</Text>
-      </View>
-    </View>
   );
 };
 
@@ -369,7 +257,8 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   messagesGroup: {
-    marginBottom: verticalScale(20)
+    marginBottom: verticalScale(20),
+    width: "100%"
   },
   messagesGroupText: {
     fontSize: moderateScale(12),
