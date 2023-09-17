@@ -126,12 +126,17 @@ export const SettingsScreen = () => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.settingsSubItem} onPress={() => setThemeModalVisible(true)}>
+          <TouchableOpacity
+            style={styles.settingsSubItem}
+            onPress={() => setThemeModalVisible(true)}
+          >
             <View style={styles.settingsItemContent}>
               <View style={[styles.settingsItemIcon, { backgroundColor: theme.MAIN_ACCENT_COLOR }]}>
                 <Icon name='phone-portrait' size={horizontalScale(20)} color={theme.APP_WHITE} />
               </View>
-              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Appearance</Text>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
+                Appearance
+              </Text>
             </View>
           </TouchableOpacity>
 
@@ -193,45 +198,65 @@ export const SettingsScreen = () => {
               <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
                 <Icon name='newspaper' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
-              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Suggest a feature</Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.settingsSubItem}
-            onPress={() => openEmail("mailto:engineeringwithjames@gmail?subject=REPORT: I found a bug&body=")}
-          >
-            <View style={styles.settingsItemContent}>
-              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
-                <Icon name='bug' size={moderateScale(20)} color={theme.APP_WHITE} />
-              </View>
-              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Report a bug</Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.settingsSubItem}
-            onPress={() => WebBrowser.openBrowserAsync("https://jamesodeyale.github.io/happly-docs/privacy")}
-          >
-            <View style={styles.settingsItemContent}>
-              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
-                <Icon name='ios-file-tray-full-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
-              </View>
-              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Privacy Policy</Text>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
+                Suggest a feature
+              </Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.settingsSubItem}
             onPress={() =>
-              WebBrowser.openBrowserAsync("https://jamesodeyale.github.io/happly-docs/terms_and_conditions")
+              openEmail("mailto:engineeringwithjames@gmail?subject=REPORT: I found a bug&body=")
+            }
+          >
+            <View style={styles.settingsItemContent}>
+              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
+                <Icon name='bug' size={moderateScale(20)} color={theme.APP_WHITE} />
+              </View>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
+                Report a bug
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.settingsSubItem}
+            onPress={() =>
+              WebBrowser.openBrowserAsync(
+                "https://engineeringwithjames.github.io/happly-docs/privacy"
+              )
+            }
+          >
+            <View style={styles.settingsItemContent}>
+              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
+                <Icon
+                  name='ios-file-tray-full-sharp'
+                  size={moderateScale(20)}
+                  color={theme.APP_WHITE}
+                />
+              </View>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
+                Privacy Policy
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.settingsSubItem}
+            onPress={() =>
+              WebBrowser.openBrowserAsync(
+                "https://jamesodeyale.github.io/happly-docs/terms_and_conditions"
+              )
             }
           >
             <View style={styles.settingsItemContent}>
               <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
                 <Icon name='document-text' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
-              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Terms & Conditions</Text>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
+                Terms & Conditions
+              </Text>
             </View>
           </TouchableOpacity>
 
@@ -276,25 +301,33 @@ export const SettingsScreen = () => {
 
           <TouchableOpacity
             style={styles.settingsSubItem}
-            onPress={() => WebBrowser.openBrowserAsync("https://www.instagram.com/engineeringwithjames/")}
+            onPress={() =>
+              WebBrowser.openBrowserAsync("https://www.instagram.com/engineeringwithjames/")
+            }
           >
             <View style={styles.settingsItemContent}>
               <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLACK }]}>
                 <Icon name='ios-logo-instagram' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
-              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>Instagram</Text>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
+                Instagram
+              </Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.settingsSubItem}
-            onPress={() => WebBrowser.openBrowserAsync("https://www.youtube.com/@engineeringwithjames")}
+            onPress={() =>
+              WebBrowser.openBrowserAsync("https://www.youtube.com/@engineeringwithjames")
+            }
           >
             <View style={styles.settingsItemContent}>
               <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLACK }]}>
                 <Icon name='ios-logo-youtube' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
-              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>YouTube</Text>
+              <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
+                YouTube
+              </Text>
             </View>
           </TouchableOpacity>
         </View>

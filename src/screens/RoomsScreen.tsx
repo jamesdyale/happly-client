@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet, Alert } from "react-native";
 import React, { useEffect } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
@@ -107,7 +107,8 @@ export const RoomsScreen = () => {
             style={[
               styles.tab,
               {
-                backgroundColor: activeTab === Tab.ROOMS ? theme.MAIN_ACCENT_COLOR : theme.MAIN_ACCENT_COLOR + "50"
+                backgroundColor:
+                  activeTab === Tab.ROOMS ? theme.MAIN_ACCENT_COLOR : theme.MAIN_ACCENT_COLOR + "50"
               }
             ]}
           >
@@ -115,7 +116,8 @@ export const RoomsScreen = () => {
               style={[
                 styles.tabText,
                 {
-                  color: activeTab === Tab.ROOMS ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR
+                  color:
+                    activeTab === Tab.ROOMS ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR
                 }
               ]}
             >
@@ -124,7 +126,11 @@ export const RoomsScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigate(ROUTES.CREATE_ROOM)}
+            onPress={() => {
+              Alert.alert("Accountability feature is not available yet");
+              return;
+              // navigate(ROUTES.CREATE_ROOM)
+            }}
             style={[
               styles.addRoomButton,
               {

@@ -1,4 +1,12 @@
-import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  Alert
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -138,7 +146,9 @@ export const ChallengesScreen = () => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='checkmark-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
+        icon: (
+          <Icon name='checkmark-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
+        )
       });
     } catch (error) {
       toast.show("Something went wrong", {
@@ -152,8 +162,10 @@ export const ChallengesScreen = () => {
   };
 
   const handlePopupReminder = async (challengeId: ChallengeType["id"]) => {
-    setShowNotificationModal(true);
-    setSelectedChallengeId(challengeId);
+    // setShowNotificationModal(true);
+    // setSelectedChallengeId(challengeId);
+    Alert.alert("Challenge feature is not available yet");
+    return;
   };
 
   const handleTimeSelected = (selectedDate: Date) => {

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from "react-native";
 import React, { useEffect } from "react";
 import { useTheme } from "~hooks";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
@@ -21,7 +21,11 @@ export const SingleRoomCard = ({ item }) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigate(ROUTES.SINGLE_ROOM, { roomID: item.id })}
+      onPress={() => {
+        Alert.alert("Challenge feature is not available yet");
+        return;
+        // navigate(ROUTES.SINGLE_ROOM, { roomID: item.id });
+      }}
       style={[
         styles.singleItemHolder,
         {
