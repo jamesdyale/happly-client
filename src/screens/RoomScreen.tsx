@@ -89,8 +89,9 @@ export const RoomScreen = () => {
         const data = doc.data() as unknown as Message;
         messages.push(data);
       });
+
       const groupedMessages = groupMessagesByDateTimeSent(messages);
-      console.log("groupedMessages - ", groupedMessages);
+
       setMessages(groupedMessages);
     });
 

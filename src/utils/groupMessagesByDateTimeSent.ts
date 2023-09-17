@@ -1,5 +1,5 @@
 import moment from "moment";
-import { orderMessagesByDateTimeSent } from "./orderMessagesByDateTimeSent";
+
 import { Message } from "~types";
 
 export const groupMessagesByDateTimeSent = (messages: Message[]) => {
