@@ -5,11 +5,12 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useTheme } from "~hooks";
 import { CustomButton, CustomTextInput } from "~components";
-import { formValidationOnBlur, horizontalScale, moderateScale, verticalScale } from "~utils";
+import { formValidationOnBlur, useMetric } from "~utils";
 
 export const CreateChallengeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { theme } = useTheme();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -31,7 +32,16 @@ export const CreateChallengeScreen = () => {
         }
       ]}
     >
-      <KeyboardAvoidingView behavior='padding' style={styles.CreateChallengeForm}>
+      <KeyboardAvoidingView
+        behavior='padding'
+        style={[
+          styles.CreateChallengeForm,
+          {
+            paddingVertical: verticalScale(20),
+            paddingHorizontal: horizontalScale(20)
+          }
+        ]}
+      >
         <View style={styles.CreateChallengeFormHeader}>
           <Icon
             name='chevron-back'
@@ -39,9 +49,26 @@ export const CreateChallengeScreen = () => {
             color={theme.APP_BLACK}
             onPress={() => navigation.goBack()}
           />
-          <Text style={styles.CreateChallengeFormBodyText}>Create Challenge</Text>
+          <Text
+            style={[
+              styles.CreateChallengeFormBodyText,
+              {
+                fontSize: moderateScale(24),
+                marginLeft: horizontalScale(20)
+              }
+            ]}
+          >
+            Create Challenge
+          </Text>
         </View>
-        <View style={styles.CreateChallengeFormBody}>
+        <View
+          style={[
+            styles.CreateChallengeFormBody,
+            {
+              marginTop: verticalScale(20)
+            }
+          ]}
+        >
           <View>
             <CustomTextInput
               label='Challenge Name'
@@ -55,7 +82,9 @@ export const CreateChallengeScreen = () => {
               label='Challenge Description'
               placeholder='Enter the description of the challenge'
               handleChange={setDescription}
-              handleBlur={() => setDescriptionError(formValidationOnBlur("description", description))}
+              handleBlur={() =>
+                setDescriptionError(formValidationOnBlur("description", description))
+              }
               value={description}
               error={descriptionError}
             />
@@ -90,16 +119,13 @@ export const CreateChallengeScreen = () => {
 const styles = StyleSheet.create({
   CreateChallengeContainer: {},
   CreateChallengeForm: {
-    height: "100%",
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20)
+    height: "100%"
   },
   CreateChallengeFormHeader: {
     flexDirection: "row",
     alignItems: "center"
   },
   CreateChallengeFormBody: {
-    marginTop: verticalScale(20),
     display: "flex",
     justifyContent: "space-between",
     height: "90%"
@@ -107,8 +133,6 @@ const styles = StyleSheet.create({
   CreateChallengeFormBodyText: {
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
-    fontWeight: "700",
-    fontSize: moderateScale(24),
-    marginLeft: horizontalScale(20)
+    fontWeight: "700"
   }
 });

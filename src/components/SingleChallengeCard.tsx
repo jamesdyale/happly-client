@@ -1,12 +1,10 @@
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { useTheme } from "~hooks";
 import { SleepingIcon } from "~assets";
 import { CustomButton } from "./CustomButton";
 import { ChallengeType } from "~types/ChallengeType";
-import { useAtomValue } from "jotai";
-import { userAtom } from "~state";
-import { horizontalScale, moderateScale, verticalScale } from "~utils";
+import { useMetric } from "~utils";
 
 interface SingleChallengesType {
   challenge: ChallengeType;
@@ -19,8 +17,8 @@ export const SingleChallengeCard = ({
   handlePopupReminder,
   isUserPartOfChallenge
 }: SingleChallengesType) => {
-  const user = useAtomValue(userAtom);
   const { theme } = useTheme();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   return (
     <View
@@ -28,11 +26,22 @@ export const SingleChallengeCard = ({
       style={[
         styles.singleChallengeContainer,
         {
-          backgroundColor: theme.CARD_BG
+          backgroundColor: theme.CARD_BG,
+          marginBottom: verticalScale(20),
+          paddingVertical: verticalScale(20),
+          paddingHorizontal: horizontalScale(20),
+          borderRadius: moderateScale(10)
         }
       ]}
     >
-      <View style={styles.hashtagsContainer}>
+      <View
+        style={[
+          styles.hashtagsContainer,
+          {
+            marginBottom: verticalScale(20)
+          }
+        ]}
+      >
         <View style={{ flexDirection: "row" }}>
           {challenge.hashtags.length > 0 &&
             challenge.hashtags.map((hashtag, index) => (
@@ -42,7 +51,12 @@ export const SingleChallengeCard = ({
                   styles.hashtags,
                   {
                     color: theme.MAIN_ACCENT_COLOR,
-                    backgroundColor: theme.MAIN_ACCENT_COLOR + "20"
+                    backgroundColor: theme.MAIN_ACCENT_COLOR + "20",
+                    fontSize: moderateScale(12),
+                    lineHeight: verticalScale(18),
+                    marginRight: horizontalScale(10),
+                    paddingVertical: verticalScale(5),
+                    paddingHorizontal: horizontalScale(5)
                   }
                 ]}
               >
@@ -56,7 +70,12 @@ export const SingleChallengeCard = ({
             styles.challengeMemberNumber,
             {
               color: theme.MAIN_ACCENT_COLOR,
-              backgroundColor: theme.MAIN_ACCENT_COLOR + "20"
+              backgroundColor: theme.MAIN_ACCENT_COLOR + "20",
+              fontSize: moderateScale(12),
+              lineHeight: verticalScale(18),
+              marginRight: horizontalScale(10),
+              paddingVertical: verticalScale(5),
+              paddingHorizontal: horizontalScale(5)
             }
           ]}
         >
@@ -68,7 +87,14 @@ export const SingleChallengeCard = ({
         </Text>
       </View>
       <View style={styles.challengeInfo}>
-        <View style={styles.challengeInfoTop}>
+        <View
+          style={[
+            styles.challengeInfoTop,
+            {
+              marginBottom: verticalScale(10)
+            }
+          ]}
+        >
           <View
             style={{
               display: "flex",
@@ -81,7 +107,10 @@ export const SingleChallengeCard = ({
               style={[
                 styles.challengeName,
                 {
-                  color: theme.MAIN_TEXT_COLOR
+                  color: theme.MAIN_TEXT_COLOR,
+                  fontSize: moderateScale(16),
+                  lineHeight: verticalScale(18),
+                  marginBottom: verticalScale(5)
                 }
               ]}
             >
@@ -91,7 +120,10 @@ export const SingleChallengeCard = ({
               style={[
                 styles.challengeDescription,
                 {
-                  color: theme.MAIN_TEXT_COLOR
+                  color: theme.MAIN_TEXT_COLOR,
+                  fontSize: moderateScale(13),
+                  lineHeight: verticalScale(18),
+                  marginBottom: verticalScale(5)
                 }
               ]}
             >
@@ -134,96 +166,32 @@ export const SingleChallengeCard = ({
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1
-  },
-  container: {
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20),
-    marginBottom: verticalScale(20)
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: verticalScale(20)
-  },
-  headerText: {
-    fontStyle: "normal",
-    fontWeight: "700",
-    fontSize: moderateScale(30),
-    lineHeight: verticalScale(36),
-    display: "flex"
-  },
-  noHabitsContainer: {
-    flex: 1,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20)
-  },
-  noHabitTextMain: {
-    fontFamily: "Inter_700Bold",
-    fontStyle: "normal",
-    fontSize: moderateScale(24),
-    lineHeight: verticalScale(36)
-  },
-  noHabitTextSub: {
-    fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(14),
-    fontStyle: "normal",
-    lineHeight: verticalScale(18)
-  },
-  singleChallengeContainer: {
-    marginBottom: verticalScale(20),
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20),
-    borderRadius: moderateScale(10)
-  },
+  singleChallengeContainer: {},
   hashtagsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: verticalScale(20)
+    alignItems: "center"
   },
   hashtags: {
     fontStyle: "normal",
-    fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(18),
-    marginRight: horizontalScale(10),
-    paddingVertical: verticalScale(5),
-    paddingHorizontal: horizontalScale(5)
+    fontFamily: "Inter_400Regular"
   },
   challengeInfo: {},
   challengeInfoTop: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: verticalScale(10)
+    alignItems: "center"
   },
   challengeName: {
     fontStyle: "normal",
-    fontFamily: "Inter_700Bold",
-    fontSize: moderateScale(16),
-    lineHeight: verticalScale(18),
-    marginBottom: verticalScale(5)
+    fontFamily: "Inter_700Bold"
   },
   challengeDescription: {
     fontStyle: "normal",
-    fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(13),
-    lineHeight: verticalScale(18),
-    marginBottom: verticalScale(5)
+    fontFamily: "Inter_400Regular"
   },
   challengeMemberNumber: {
     fontStyle: "normal",
-    fontFamily: "Inter_700Bold",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(18),
-    marginRight: horizontalScale(10),
-    paddingVertical: verticalScale(5),
-    paddingHorizontal: horizontalScale(5)
+    fontFamily: "Inter_700Bold"
   }
 });

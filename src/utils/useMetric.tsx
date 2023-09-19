@@ -4,7 +4,7 @@ import { Dimensions } from "react-native";
 const guidelineBaseWidth = 375;
 const guidelineBaseHeight = 812;
 
-const useMetric = () => {
+export const useMetric = () => {
   const [screenDimensions, setScreenDimensions] = useState(Dimensions.get("window"));
 
   // Define the metric functions
@@ -35,5 +35,3 @@ const useMetric = () => {
     moderateScale
   };
 };
-
-export default useMetric;

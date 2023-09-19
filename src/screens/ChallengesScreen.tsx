@@ -8,8 +8,6 @@ import {
   Alert
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { ParamListBase, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTheme } from "~hooks";
 import Icon from "react-native-vector-icons/Ionicons";
 import { SingleChallengeCard } from "~components";
@@ -26,20 +24,19 @@ import { useAtom, useAtomValue } from "jotai";
 import { challengesAtom, userAtom } from "~state";
 import { NotificationModal } from "~modals";
 import moment from "moment";
-import { Frequency, Habit, HabitType, TimeOfDay } from "~types";
+import { Frequency, HabitType, TimeOfDay } from "~types";
 import { generateHabitId } from "~generators";
 import { useToast } from "react-native-toast-notifications";
-import { horizontalScale, moderateScale, verticalScale } from "~utils";
+import { useMetric } from "~utils";
 
 export const ChallengesScreen = () => {
   const toast = useToast();
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { theme } = useTheme();
   const [challenges, setChallenges] = useAtom(challengesAtom);
   const user = useAtomValue(userAtom);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
-  const [reminderAt, setReminderAt] = useState<string[]>([]);
   const [selectedChallengeId, setSelectedChallengeId] = useState<ChallengeType["id"] | null>(null);
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   useEffect(() => {
     let isMounted = true;
@@ -184,13 +181,31 @@ export const ChallengesScreen = () => {
           }
         ]}
       >
-        <View style={styles.container}>
-          <View style={styles.header}>
+        <View
+          style={[
+            styles.container,
+            {
+              paddingVertical: verticalScale(20),
+              paddingHorizontal: horizontalScale(20),
+              marginBottom: verticalScale(20)
+            }
+          ]}
+        >
+          <View
+            style={[
+              styles.header,
+              {
+                marginBottom: verticalScale(20)
+              }
+            ]}
+          >
             <Text
               style={[
                 styles.headerText,
                 {
-                  color: theme.MAIN_TEXT_COLOR
+                  color: theme.MAIN_TEXT_COLOR,
+                  fontSize: moderateScale(30),
+                  lineHeight: verticalScale(36)
                 }
               ]}
             >
@@ -250,93 +265,15 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1
   },
-  container: {
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20),
-    marginBottom: verticalScale(20)
-  },
+  container: {},
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: verticalScale(20)
+    alignItems: "center"
   },
   headerText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: moderateScale(30),
-    lineHeight: verticalScale(36),
     display: "flex"
-  },
-  noHabitsContainer: {
-    flex: 1,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20)
-  },
-  noHabitTextMain: {
-    fontFamily: "Inter_700Bold",
-    fontStyle: "normal",
-    fontSize: moderateScale(24),
-    lineHeight: verticalScale(36)
-  },
-  noHabitTextSub: {
-    fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(14),
-    fontStyle: "normal",
-    lineHeight: verticalScale(18)
-  },
-  singleChallengeContainer: {
-    marginBottom: verticalScale(20),
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20),
-    borderRadius: moderateScale(10)
-  },
-  hashtagsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: verticalScale(20)
-  },
-  hashtags: {
-    fontStyle: "normal",
-    fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(18),
-    marginRight: horizontalScale(10),
-    paddingVertical: verticalScale(5),
-    paddingHorizontal: horizontalScale(5)
-  },
-  challengeInfo: {},
-  challengeInfoTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: verticalScale(10)
-  },
-  challengeName: {
-    fontStyle: "normal",
-    fontFamily: "Inter_700Bold",
-    fontSize: moderateScale(16),
-    lineHeight: verticalScale(24),
-    marginBottom: verticalScale(5)
-  },
-  challengeDescription: {
-    fontStyle: "normal",
-    fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(13),
-    lineHeight: verticalScale(18),
-    marginBottom: verticalScale(5)
-  },
-  challengeMemberNumber: {
-    fontStyle: "normal",
-    fontFamily: "Inter_700Bold",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(18),
-    marginRight: verticalScale(10),
-    paddingVertical: verticalScale(5),
-    paddingHorizontal: horizontalScale(5)
   }
 });

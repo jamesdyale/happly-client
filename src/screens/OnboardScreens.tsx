@@ -15,7 +15,7 @@ import {
   OnboardScreenOneIcon
 } from "~assets";
 import { useTheme } from "~hooks";
-import useMetric from "~utils/useMetric";
+import { useMetric } from "~utils";
 
 const { width } = Dimensions.get("window");
 
@@ -72,7 +72,7 @@ const OnboardScreenOne = () => {
 
 const OnboardScreenTwo = () => {
   const { theme } = useTheme();
-  const { horizontalScale, verticalScale, moderateScale } = useMetric();
+  const { verticalScale, moderateScale } = useMetric();
 
   return (
     <>
@@ -122,7 +122,7 @@ const OnboardScreenTwo = () => {
 
 const OnboardScreenThree = () => {
   const { theme } = useTheme();
-  const { horizontalScale, verticalScale, moderateScale } = useMetric();
+  const { verticalScale, moderateScale } = useMetric();
 
   return (
     <>
@@ -294,7 +294,7 @@ export const screens = [
 
 export const OnboardItem = ({ item }) => {
   const { width } = useWindowDimensions();
-  const { horizontalScale, verticalScale, moderateScale } = useMetric();
+  const { horizontalScale, verticalScale } = useMetric();
 
   return (
     <View
