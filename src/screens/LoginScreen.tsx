@@ -213,8 +213,7 @@ export const LoginScreen = () => {
             style={[
               styles.ActionTextContainer,
               {
-                marginVertical: verticalScale(12),
-                lineHeight: verticalScale(20)
+                marginVertical: verticalScale(12)
               }
             ]}
           >

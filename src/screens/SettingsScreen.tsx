@@ -10,7 +10,7 @@ import { ASYNC_STORAGE_KEYS, Themes } from "~constants";
 import { useAtomValue, useSetAtom } from "jotai";
 import { selectedThemeAtom, themeAtom, userAtom } from "~state";
 import Colors from "~constants/theme";
-import { horizontalScale, moderateScale, storeData, verticalScale } from "~utils";
+import { storeData, useMetric } from "~utils";
 import * as Linking from "expo-linking";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Clipboard from "expo-clipboard";
@@ -18,6 +18,7 @@ import * as Clipboard from "expo-clipboard";
 export const SettingsScreen = () => {
   const { theme } = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   const [themeModalVisible, setThemeModalVisible] = React.useState(false);
   const changeTheme = useSetAtom(themeAtom);
@@ -74,7 +75,11 @@ export const SettingsScreen = () => {
           style={[
             styles.settingsHeader,
             {
-              borderBottomColor: "#E5E5E5"
+              borderBottomColor: "#E5E5E5",
+              marginBottom: verticalScale(10),
+              paddingVertical: verticalScale(20),
+              paddingHorizontal: horizontalScale(20),
+              borderBottomWidth: moderateScale(1)
             }
           ]}
         >
@@ -88,7 +93,9 @@ export const SettingsScreen = () => {
             style={[
               styles.settingsHeaderText,
               {
-                color: theme.MAIN_TEXT_COLOR
+                color: theme.MAIN_TEXT_COLOR,
+                fontSize: moderateScale(20),
+                marginLeft: horizontalScale(15)
               }
             ]}
           >
@@ -100,7 +107,9 @@ export const SettingsScreen = () => {
           style={[
             styles.settingsItem,
             {
-              borderBottomColor: "#E5E5E5"
+              borderBottomColor: "#E5E5E5",
+              paddingVertical: verticalScale(20),
+              paddingHorizontal: horizontalScale(20)
             }
           ]}
         >
@@ -108,16 +117,39 @@ export const SettingsScreen = () => {
             style={[
               styles.settingsItemTitle,
               {
-                color: theme.MAIN_TEXT_COLOR
+                color: theme.MAIN_TEXT_COLOR,
+                fontSize: moderateScale(14),
+                lineHeight: verticalScale(17)
               }
             ]}
           >
             General
           </Text>
 
-          <TouchableOpacity style={styles.settingsSubItem} onPress={handleCopyToClipboard}>
+          <TouchableOpacity
+            style={[
+              styles.settingsSubItem,
+              {
+                paddingTop: verticalScale(20),
+                paddingBottom: verticalScale(0),
+                paddingLeft: horizontalScale(0),
+                paddingRight: horizontalScale(0)
+              }
+            ]}
+            onPress={handleCopyToClipboard}
+          >
             <View style={styles.settingsItemContent}>
-              <View style={[styles.settingsItemIcon, { backgroundColor: theme.MAIN_ACCENT_COLOR }]}>
+              <View
+                style={[
+                  styles.settingsItemIcon,
+                  {
+                    backgroundColor: theme.MAIN_ACCENT_COLOR,
+                    width: horizontalScale(40),
+                    height: verticalScale(40),
+                    borderRadius: moderateScale(50)
+                  }
+                ]}
+              >
                 <Icon name='ios-person' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
               <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
@@ -127,11 +159,29 @@ export const SettingsScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.settingsSubItem}
+            style={[
+              styles.settingsSubItem,
+              {
+                paddingTop: verticalScale(20),
+                paddingBottom: verticalScale(0),
+                paddingLeft: horizontalScale(0),
+                paddingRight: horizontalScale(0)
+              }
+            ]}
             onPress={() => setThemeModalVisible(true)}
           >
             <View style={styles.settingsItemContent}>
-              <View style={[styles.settingsItemIcon, { backgroundColor: theme.MAIN_ACCENT_COLOR }]}>
+              <View
+                style={[
+                  styles.settingsItemIcon,
+                  {
+                    backgroundColor: theme.MAIN_ACCENT_COLOR,
+                    width: horizontalScale(40),
+                    height: verticalScale(40),
+                    borderRadius: moderateScale(50)
+                  }
+                ]}
+              >
                 <Icon name='phone-portrait' size={horizontalScale(20)} color={theme.APP_WHITE} />
               </View>
               <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
@@ -171,7 +221,9 @@ export const SettingsScreen = () => {
           style={[
             styles.settingsItem,
             {
-              borderBottomColor: "#E5E5E5"
+              borderBottomColor: "#E5E5E5",
+              paddingVertical: verticalScale(20),
+              paddingHorizontal: horizontalScale(20)
             }
           ]}
         >
@@ -179,7 +231,9 @@ export const SettingsScreen = () => {
             style={[
               styles.settingsItemTitle,
               {
-                color: theme.MAIN_TEXT_COLOR
+                color: theme.MAIN_TEXT_COLOR,
+                fontSize: moderateScale(14),
+                lineHeight: verticalScale(17)
               }
             ]}
           >
@@ -187,7 +241,15 @@ export const SettingsScreen = () => {
           </Text>
 
           <TouchableOpacity
-            style={styles.settingsSubItem}
+            style={[
+              styles.settingsSubItem,
+              {
+                paddingTop: verticalScale(20),
+                paddingBottom: verticalScale(0),
+                paddingLeft: horizontalScale(0),
+                paddingRight: horizontalScale(0)
+              }
+            ]}
             onPress={() =>
               openEmail(
                 "mailto:engineeringwithjames@gmail.com?subject=Suggest a feature&body=Hi there, I would like to suggest a feature for the app."
@@ -195,7 +257,17 @@ export const SettingsScreen = () => {
             }
           >
             <View style={styles.settingsItemContent}>
-              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
+              <View
+                style={[
+                  styles.settingsItemIcon,
+                  {
+                    backgroundColor: theme.APP_BLUE,
+                    width: horizontalScale(40),
+                    height: verticalScale(40),
+                    borderRadius: moderateScale(50)
+                  }
+                ]}
+              >
                 <Icon name='newspaper' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
               <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
@@ -205,13 +277,31 @@ export const SettingsScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.settingsSubItem}
+            style={[
+              styles.settingsSubItem,
+              {
+                paddingTop: verticalScale(20),
+                paddingBottom: verticalScale(0),
+                paddingLeft: horizontalScale(0),
+                paddingRight: horizontalScale(0)
+              }
+            ]}
             onPress={() =>
               openEmail("mailto:engineeringwithjames@gmail?subject=REPORT: I found a bug&body=")
             }
           >
             <View style={styles.settingsItemContent}>
-              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
+              <View
+                style={[
+                  styles.settingsItemIcon,
+                  {
+                    backgroundColor: theme.APP_BLUE,
+                    width: horizontalScale(40),
+                    height: verticalScale(40),
+                    borderRadius: moderateScale(50)
+                  }
+                ]}
+              >
                 <Icon name='bug' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
               <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
@@ -221,7 +311,15 @@ export const SettingsScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.settingsSubItem}
+            style={[
+              styles.settingsSubItem,
+              {
+                paddingTop: verticalScale(20),
+                paddingBottom: verticalScale(0),
+                paddingLeft: horizontalScale(0),
+                paddingRight: horizontalScale(0)
+              }
+            ]}
             onPress={() =>
               WebBrowser.openBrowserAsync(
                 "https://engineeringwithjames.github.io/happly-docs/privacy"
@@ -229,7 +327,17 @@ export const SettingsScreen = () => {
             }
           >
             <View style={styles.settingsItemContent}>
-              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
+              <View
+                style={[
+                  styles.settingsItemIcon,
+                  {
+                    backgroundColor: theme.APP_BLUE,
+                    width: horizontalScale(40),
+                    height: verticalScale(40),
+                    borderRadius: moderateScale(50)
+                  }
+                ]}
+              >
                 <Icon
                   name='ios-file-tray-full-sharp'
                   size={moderateScale(20)}
@@ -243,7 +351,15 @@ export const SettingsScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.settingsSubItem}
+            style={[
+              styles.settingsSubItem,
+              {
+                paddingTop: verticalScale(20),
+                paddingBottom: verticalScale(0),
+                paddingLeft: horizontalScale(0),
+                paddingRight: horizontalScale(0)
+              }
+            ]}
             onPress={() =>
               WebBrowser.openBrowserAsync(
                 "https://jamesodeyale.github.io/happly-docs/terms_and_conditions"
@@ -251,7 +367,17 @@ export const SettingsScreen = () => {
             }
           >
             <View style={styles.settingsItemContent}>
-              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLUE }]}>
+              <View
+                style={[
+                  styles.settingsItemIcon,
+                  {
+                    backgroundColor: theme.APP_BLUE,
+                    width: horizontalScale(40),
+                    height: verticalScale(40),
+                    borderRadius: moderateScale(50)
+                  }
+                ]}
+              >
                 <Icon name='document-text' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
               <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
@@ -287,12 +413,22 @@ export const SettingsScreen = () => {
           {/*</View>*/}
         </View>
 
-        <View style={[styles.settingsItem]}>
+        <View
+          style={[
+            styles.settingsItem,
+            {
+              paddingVertical: verticalScale(20),
+              paddingHorizontal: horizontalScale(20)
+            }
+          ]}
+        >
           <Text
             style={[
               styles.settingsItemTitle,
               {
-                color: theme.MAIN_TEXT_COLOR
+                color: theme.MAIN_TEXT_COLOR,
+                fontSize: moderateScale(14),
+                lineHeight: verticalScale(17)
               }
             ]}
           >
@@ -300,13 +436,31 @@ export const SettingsScreen = () => {
           </Text>
 
           <TouchableOpacity
-            style={styles.settingsSubItem}
+            style={[
+              styles.settingsSubItem,
+              {
+                paddingTop: verticalScale(20),
+                paddingBottom: verticalScale(0),
+                paddingLeft: horizontalScale(0),
+                paddingRight: horizontalScale(0)
+              }
+            ]}
             onPress={() =>
               WebBrowser.openBrowserAsync("https://www.instagram.com/engineeringwithjames/")
             }
           >
             <View style={styles.settingsItemContent}>
-              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLACK }]}>
+              <View
+                style={[
+                  styles.settingsItemIcon,
+                  {
+                    backgroundColor: theme.APP_BLACK,
+                    width: horizontalScale(40),
+                    height: verticalScale(40),
+                    borderRadius: moderateScale(50)
+                  }
+                ]}
+              >
                 <Icon name='ios-logo-instagram' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
               <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
@@ -316,13 +470,31 @@ export const SettingsScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.settingsSubItem}
+            style={[
+              styles.settingsSubItem,
+              {
+                paddingTop: verticalScale(20),
+                paddingBottom: verticalScale(0),
+                paddingLeft: horizontalScale(0),
+                paddingRight: horizontalScale(0)
+              }
+            ]}
             onPress={() =>
               WebBrowser.openBrowserAsync("https://www.youtube.com/@engineeringwithjames")
             }
           >
             <View style={styles.settingsItemContent}>
-              <View style={[styles.settingsItemIcon, { backgroundColor: theme.APP_BLACK }]}>
+              <View
+                style={[
+                  styles.settingsItemIcon,
+                  {
+                    backgroundColor: theme.APP_BLACK,
+                    width: horizontalScale(40),
+                    height: verticalScale(40),
+                    borderRadius: moderateScale(50)
+                  }
+                ]}
+              >
                 <Icon name='ios-logo-youtube' size={moderateScale(20)} color={theme.APP_WHITE} />
               </View>
               <Text style={{ marginLeft: horizontalScale(20), color: theme.MAIN_TEXT_COLOR }}>
@@ -355,29 +527,19 @@ const styles = StyleSheet.create({
   settingsHeader: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: verticalScale(10),
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20),
-    borderBottomWidth: moderateScale(1)
+    alignItems: "center"
   },
   settingsHeaderText: {
     fontFamily: "Inter_600SemiBold",
-    fontStyle: "normal",
-    fontSize: moderateScale(20),
-    marginLeft: horizontalScale(15)
+    fontStyle: "normal"
   },
   settingsItem: {
     display: "flex",
-    flexDirection: "column",
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20)
+    flexDirection: "column"
   },
   settingsItemTitle: {
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
-    fontSize: moderateScale(14),
-    lineHeight: verticalScale(17),
     textTransform: "uppercase"
   },
   settingsItemContent: {
@@ -389,21 +551,9 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: verticalScale(20),
-    paddingBottom: verticalScale(0),
-    paddingLeft: horizontalScale(0),
-    paddingRight: horizontalScale(0)
-  },
-  settingsSubItemImage: {
-    width: horizontalScale(40),
-    height: verticalScale(40),
-    borderRadius: moderateScale(50)
+    alignItems: "center"
   },
   settingsItemIcon: {
-    width: horizontalScale(40),
-    height: verticalScale(40),
-    borderRadius: moderateScale(50),
     display: "flex",
     justifyContent: "center",
     alignItems: "center"

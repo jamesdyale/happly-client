@@ -10,7 +10,7 @@ import { ActionCreateUser, ActionDeleteUserById } from "~actions";
 import { User } from "~types";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as WebBrowser from "expo-web-browser";
-import { formValidationOnBlur, horizontalScale, moderateScale, storeData, verticalScale } from "~utils";
+import { formValidationOnBlur, storeData, useMetric } from "~utils";
 import { ASYNC_STORAGE_KEYS, ROUTES } from "~constants";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -18,6 +18,7 @@ import { useTheme } from "~hooks";
 
 export const SignUpScreen = () => {
   const { theme } = useTheme();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
@@ -87,7 +88,11 @@ export const SignUpScreen = () => {
           return;
         }
 
-        const userCredentialPromise = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
+        const userCredentialPromise = await createUserWithEmailAndPassword(
+          FIREBASE_AUTH,
+          email,
+          password
+        );
         if (userCredentialPromise && userCredentialPromise.user) {
           const newUser: User = {
             id: user.id,
@@ -137,14 +142,50 @@ export const SignUpScreen = () => {
         }
       ]}
     >
-      <KeyboardAvoidingView behavior='padding' style={styles.AuthForm}>
+      <KeyboardAvoidingView
+        behavior='padding'
+        style={[
+          styles.AuthForm,
+          {
+            paddingTop: verticalScale(80),
+            paddingBottom: verticalScale(60),
+            paddingLeft: horizontalScale(20),
+            paddingRight: horizontalScale(20)
+          }
+        ]}
+      >
         <View style={styles.AuthFormHeaderContainer}>
-          <Text style={styles.AuthFormHeader}>Create An Account</Text>
-          <Text style={styles.AuthFormInfo}>
-            Provide required details and click the <Text style={{ color: theme.MAIN_ACCENT_COLOR }}>Sign Up</Text>{" "}
-            button below.
+          <Text
+            style={[
+              styles.AuthFormHeader,
+              {
+                fontSize: moderateScale(28),
+                marginBottom: verticalScale(12)
+              }
+            ]}
+          >
+            Create An Account
           </Text>
-          <View style={styles.AuthFormBody}>
+          <Text
+            style={[
+              styles.AuthFormInfo,
+              {
+                fontSize: moderateScale(16),
+                lineHeight: verticalScale(19)
+              }
+            ]}
+          >
+            Provide required details and click the{" "}
+            <Text style={{ color: theme.MAIN_ACCENT_COLOR }}>Sign Up</Text> button below.
+          </Text>
+          <View
+            style={[
+              styles.AuthFormBody,
+              {
+                marginTop: verticalScale(40)
+              }
+            ]}
+          >
             <CustomTextInput
               label='Full Name'
               placeholder='Enter your full name'
@@ -182,17 +223,39 @@ export const SignUpScreen = () => {
           </View>
         </View>
         <View style={styles.AuthFormActionBtn}>
-          <Text style={styles.ActionTextContainer}>
-            <Text style={styles.ActionText}>By clicking the "Sign Up" button, you accept the </Text>
+          <Text
+            style={[
+              styles.ActionTextContainer,
+              {
+                marginVertical: verticalScale(12),
+                lineHeight: verticalScale(20)
+              }
+            ]}
+          >
+            <Text
+              style={[
+                styles.ActionText,
+                {
+                  fontSize: moderateScale(14),
+                  letterSpacing: moderateScale(0.25)
+                }
+              ]}
+            >
+              By clicking the "Sign Up" button, you accept the{" "}
+            </Text>
             <Text
               style={[
                 styles.HighlightedText,
                 {
-                  color: theme.MAIN_ACCENT_COLOR
+                  color: theme.MAIN_ACCENT_COLOR,
+                  fontSize: moderateScale(14),
+                  letterSpacing: moderateScale(0.25)
                 }
               ]}
               onPress={() =>
-                WebBrowser.openBrowserAsync("https://jamesodeyale.github.io/happly-docs/terms_and_conditions")
+                WebBrowser.openBrowserAsync(
+                  "https://jamesodeyale.github.io/happly-docs/terms_and_conditions"
+                )
               }
             >
               Terms and Conditions
@@ -200,7 +263,9 @@ export const SignUpScreen = () => {
             <Text style={styles.ActionText}> and </Text>
             <Text
               style={[styles.HighlightedText, { color: theme.MAIN_ACCENT_COLOR }]}
-              onPress={() => WebBrowser.openBrowserAsync("https://jamesodeyale.github.io/happly-docs/privacy")}
+              onPress={() =>
+                WebBrowser.openBrowserAsync("https://jamesodeyale.github.io/happly-docs/privacy")
+              }
             >
               privacy policy
             </Text>
@@ -217,7 +282,8 @@ export const SignUpScreen = () => {
               style={[
                 styles.ActionText,
                 {
-                  color: theme.MAIN_TEXT_COLOR
+                  fontSize: moderateScale(14),
+                  letterSpacing: moderateScale(0.25)
                 }
               ]}
             >
@@ -240,10 +306,6 @@ const styles = StyleSheet.create({
   AuthScreenContainer: {},
   AuthForm: {
     height: "100%",
-    paddingTop: verticalScale(80),
-    paddingBottom: verticalScale(60),
-    paddingLeft: horizontalScale(20),
-    paddingRight: horizontalScale(20),
     display: "flex",
     justifyContent: "space-between"
   },
@@ -254,20 +316,14 @@ const styles = StyleSheet.create({
   AuthFormHeader: {
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
-    fontWeight: "700",
-    fontSize: moderateScale(28),
-    marginBottom: verticalScale(12)
+    fontWeight: "700"
   },
   AuthFormInfo: {
     fontFamily: "Inter_400Regular",
     fontStyle: "normal",
-    fontSize: moderateScale(16),
-    lineHeight: verticalScale(19),
     color: "#959595"
   },
-  AuthFormBody: {
-    marginTop: verticalScale(40)
-  },
+  AuthFormBody: {},
   AuthFormActionBtn: {
     display: "flex",
     alignItems: "center"
@@ -275,24 +331,18 @@ const styles = StyleSheet.create({
   HighlightedText: {
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
-    fontWeight: "700",
-    fontSize: moderateScale(14),
-    letterSpacing: moderateScale(0.25)
+    fontWeight: "700"
   },
   ActionTextContainer: {
     display: "flex",
     flexDirection: "row",
-    marginTop: 12,
-    marginVertical: verticalScale(12),
-    lineHeight: verticalScale(20)
+    marginTop: 12
     // width: '40%',
     // height: '100%'
   },
   ActionText: {
     fontFamily: "Inter_400Regular",
     fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: moderateScale(14),
-    letterSpacing: moderateScale(0.25)
+    fontWeight: "400"
   }
 });

@@ -11,7 +11,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { roomsAtom, userAtom } from "~state";
 import { onSnapshot } from "firebase/firestore";
 import { Room } from "~types";
-import { horizontalScale, moderateScale, verticalScale } from "~utils";
+import { useMetric } from "~utils";
 
 enum Tab {
   FRIENDS = "friends",
@@ -36,8 +36,7 @@ enum Tab {
 // ];
 
 export const RoomsScreen = () => {
-  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = React.useState(Tab.ROOMS);
   const user = useAtomValue(userAtom);
@@ -75,13 +74,31 @@ export const RoomsScreen = () => {
         }
       ]}
     >
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <View
+        style={[
+          styles.container,
+          {
+            paddingVertical: verticalScale(20),
+            paddingHorizontal: horizontalScale(20),
+            marginBottom: verticalScale(20)
+          }
+        ]}
+      >
+        <View
+          style={[
+            styles.header,
+            {
+              marginBottom: verticalScale(20)
+            }
+          ]}
+        >
           <Text
             style={[
               styles.headerText,
               {
-                color: theme.MAIN_TEXT_COLOR
+                color: theme.MAIN_TEXT_COLOR,
+                fontSize: moderateScale(30),
+                lineHeight: verticalScale(36)
               }
             ]}
           >
@@ -91,7 +108,14 @@ export const RoomsScreen = () => {
             <Icon name='search' size={30} color={theme.MAIN_TEXT_COLOR} />
           </TouchableOpacity> */}
         </View>
-        <View style={styles.tabsContainer}>
+        <View
+          style={[
+            styles.tabsContainer,
+            {
+              marginBottom: verticalScale(20)
+            }
+          ]}
+        >
           {/* <TouchableOpacity onPress={() => setActiveTab(Tab.FRIENDS)} style={[styles.tab, {
             backgroundColor: activeTab === Tab.FRIENDS ? theme.MAIN_ACCENT_COLOR : theme.MAIN_ACCENT_COLOR + '50'
           }]}>
@@ -108,7 +132,14 @@ export const RoomsScreen = () => {
               styles.tab,
               {
                 backgroundColor:
-                  activeTab === Tab.ROOMS ? theme.MAIN_ACCENT_COLOR : theme.MAIN_ACCENT_COLOR + "50"
+                  activeTab === Tab.ROOMS
+                    ? theme.MAIN_ACCENT_COLOR
+                    : theme.MAIN_ACCENT_COLOR + "50",
+                paddingVertical: verticalScale(10),
+                paddingHorizontal: horizontalScale(10),
+                borderRadius: moderateScale(5),
+                marginRight: horizontalScale(10),
+                marginBottom: verticalScale(10)
               }
             ]}
           >
@@ -117,7 +148,11 @@ export const RoomsScreen = () => {
                 styles.tabText,
                 {
                   color:
-                    activeTab === Tab.ROOMS ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.MAIN_TEXT_COLOR
+                    activeTab === Tab.ROOMS
+                      ? theme.CONTRAST_MAIN_TEXT_COLOR
+                      : theme.MAIN_TEXT_COLOR,
+                  fontSize: moderateScale(12),
+                  lineHeight: verticalScale(18)
                 }
               ]}
             >
@@ -135,7 +170,12 @@ export const RoomsScreen = () => {
               styles.addRoomButton,
               {
                 backgroundColor: theme.MAIN_ACCENT_COLOR + "50",
-                borderColor: theme.MAIN_ACCENT_COLOR + "50"
+                borderColor: theme.MAIN_ACCENT_COLOR + "50",
+                paddingVertical: verticalScale(8),
+                paddingHorizontal: horizontalScale(8),
+                marginBottom: verticalScale(10),
+                borderRadius: moderateScale(5),
+                borderWidth: moderateScale(1)
               }
             ]}
           >
@@ -144,7 +184,9 @@ export const RoomsScreen = () => {
               style={[
                 styles.tabText,
                 {
-                  color: theme.MAIN_TEXT_COLOR
+                  color: theme.MAIN_TEXT_COLOR,
+                  fontSize: moderateScale(12),
+                  lineHeight: verticalScale(18)
                 }
               ]}
             >
@@ -184,118 +226,31 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1
   },
-  container: {
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20),
-    marginBottom: verticalScale(20)
-  },
+  container: {},
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: verticalScale(20)
+    alignItems: "center"
   },
   headerText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: moderateScale(30),
-    lineHeight: verticalScale(36),
     display: "flex"
   },
 
   tabsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: verticalScale(20)
+    justifyContent: "space-between"
   },
-  tab: {
-    paddingVertical: verticalScale(10),
-    paddingHorizontal: horizontalScale(10),
-    borderRadius: moderateScale(5),
-    marginRight: horizontalScale(10),
-    marginBottom: verticalScale(10)
-  },
+  tab: {},
   tabText: {
     fontStyle: "normal",
-    fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(18)
-  },
-
-  singleItemHolder: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: verticalScale(20)
-  },
-  imageContainer: {
-    width: horizontalScale(50),
-    height: verticalScale(50),
-    borderRadius: moderateScale(50),
-    overflow: "hidden",
-    marginRight: horizontalScale(20)
-  },
-  image: {
-    width: "100%",
-    height: "100%"
-  },
-  makeUpStyleImage: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  makeUpStyleImageText: {
-    fontSize: moderateScale(20),
-    fontWeight: "700"
-  },
-  itemText: {
-    flex: 1
-  },
-  itemTextName: {
-    fontStyle: "normal",
-    fontFamily: "Inter_500Medium",
-    fontSize: moderateScale(14),
-    lineHeight: verticalScale(24),
-    marginBottom: verticalScale(5)
-  },
-  itemTextLastMessage: {
-    fontStyle: "normal",
-    fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(18)
-  },
-  timeDetails: {
-    alignItems: "flex-end"
-  },
-  timeDetailsTimeSent: {
-    fontStyle: "normal",
-    fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(18),
-    marginBottom: verticalScale(5)
-  },
-  timeDetailsUnread: {
-    width: horizontalScale(20),
-    height: verticalScale(20),
-    borderRadius: moderateScale(20),
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  timeDetailsUnreadText: {
-    fontStyle: "normal",
-    fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(18)
+    fontFamily: "Inter_400Regular"
   },
   addRoomButton: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: verticalScale(8),
-    paddingHorizontal: horizontalScale(8),
-    marginBottom: verticalScale(10),
-    borderRadius: moderateScale(5),
-    borderWidth: moderateScale(1)
+    justifyContent: "center"
   }
 });
