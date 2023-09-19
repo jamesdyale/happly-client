@@ -5,17 +5,19 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { StreakIcon } from "~assets";
 import { ROUTES } from "../constants";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { editHabitAtom, selectedDayOfTheWeekAtom, selectedHabitAtom, showDeleteModalAtom } from "~state";
+import {
+  editHabitAtom,
+  selectedDayOfTheWeekAtom,
+  selectedHabitAtom,
+  showDeleteModalAtom
+} from "~state";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Frequency, Habit, HabitType, Stats, Streak } from "~types";
-import { generateStatId } from "~generators/generateId";
+import { Habit, HabitType, Stats, Streak } from "~types";
 import {
-  ActionCreateStat,
   ActionGetStatsByHabitId,
   ActionGetStreakByHabitId,
-  ActionGetUserHabitByIdDoc,
-  ActionUpdateStreak
+  ActionGetUserHabitByIdDoc
 } from "~actions";
 import { useToast } from "react-native-toast-notifications";
 import { DeleteHabitModal } from "~modals";
@@ -24,20 +26,19 @@ import { findClosestReminder } from "~utils/timeUtils";
 import { DateData } from "react-native-calendars";
 import moment from "moment";
 import {
-  calculateLowestDifferenceInDays,
   checkIfChallengeIsCompleted,
-  horizontalScale,
   markHabitAsDone,
-  moderateScale,
   validateHabitStreak,
-  verticalScale
+  useMetric
 } from "~utils";
 import { useTheme } from "~hooks";
 
-export const HabitScreen = ({ route, navigation }) => {
+export const HabitScreen = ({ navigation }) => {
   const toast = useToast();
   const { theme } = useTheme();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
   const currentDate = moment().format("YYYY-MM-DD");
   const [selectedHabit, setSelectedHabit] = useAtom(selectedHabitAtom);
   const setEditHabit = useSetAtom(editHabitAtom);
@@ -179,12 +180,17 @@ export const HabitScreen = ({ route, navigation }) => {
             icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
           });
         } else {
-          toast.show(`You rock. You have ${challengeDuration - streakCount} day(s) left to complete the challenge`, {
-            type: "success",
-            duration: 4000,
-            placement: "bottom",
-            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
-          });
+          toast.show(
+            `You rock. You have ${
+              challengeDuration - streakCount
+            } day(s) left to complete the challenge`,
+            {
+              type: "success",
+              duration: 4000,
+              placement: "bottom",
+              icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+            }
+          );
         }
       }
     }
@@ -192,8 +198,23 @@ export const HabitScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}>
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <View
+        style={[
+          styles.container,
+          {
+            paddingVertical: verticalScale(20),
+            paddingHorizontal: horizontalScale(20)
+          }
+        ]}
+      >
+        <View
+          style={[
+            styles.header,
+            {
+              marginBottom: verticalScale(15)
+            }
+          ]}
+        >
           <Icon
             name='chevron-back-outline'
             size={moderateScale(25)}
@@ -203,7 +224,14 @@ export const HabitScreen = ({ route, navigation }) => {
             }}
           />
 
-          <View style={styles.headerOptions}>
+          <View
+            style={[
+              styles.headerOptions,
+              {
+                width: horizontalScale(100)
+              }
+            ]}
+          >
             <Icon
               name='create-outline'
               size={moderateScale(25)}
@@ -229,7 +257,10 @@ export const HabitScreen = ({ route, navigation }) => {
           style={[
             styles.habitName,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: moderateScale(24),
+              lineHeight: verticalScale(24),
+              marginBottom: verticalScale(1)
             }
           ]}
         >
@@ -239,20 +270,33 @@ export const HabitScreen = ({ route, navigation }) => {
           style={[
             styles.habitDescription,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: moderateScale(14),
+              lineHeight: verticalScale(18)
             }
           ]}
         >
           {habit?.description}
         </Text>
 
-        <View style={styles.habitInfo}>
+        <View
+          style={[
+            styles.habitInfo,
+            {
+              marginVertical: verticalScale(25),
+              width: horizontalScale(200)
+            }
+          ]}
+        >
           <View>
             <Text
               style={[
                 styles.habitInfoText,
                 {
-                  color: theme.MAIN_TEXT_COLOR
+                  color: theme.MAIN_TEXT_COLOR,
+                  fontSize: moderateScale(12),
+                  lineHeight: verticalScale(18),
+                  marginBottom: verticalScale(5)
                 }
               ]}
             >
@@ -262,7 +306,9 @@ export const HabitScreen = ({ route, navigation }) => {
               style={[
                 styles.habitInfoText_Frequency,
                 {
-                  color: theme.MAIN_TEXT_COLOR
+                  color: theme.MAIN_TEXT_COLOR,
+                  fontSize: moderateScale(16),
+                  lineHeight: verticalScale(18)
                 }
               ]}
             >
@@ -295,16 +341,31 @@ export const HabitScreen = ({ route, navigation }) => {
           </View>
         </View>
         <ScrollView style={{ marginBottom: verticalScale(10) }}>
-          <CustomCalendar currentDate={currentDate} stats={stats} handleMonthChange={handleMonthChange} />
+          <CustomCalendar
+            currentDate={currentDate}
+            stats={stats}
+            handleMonthChange={handleMonthChange}
+          />
 
-          <View style={styles.streakContainer}>
+          <View
+            style={[
+              styles.streakContainer,
+              {
+                marginBottom: verticalScale(45),
+                marginTop: verticalScale(25),
+                height: verticalScale(130)
+              }
+            ]}
+          >
             <View style={styles.streakVSLongestStreak}>
               <View>
                 <Text
                   style={[
                     styles.streakDay,
                     {
-                      color: theme.MAIN_ACCENT_COLOR
+                      color: theme.MAIN_ACCENT_COLOR,
+                      fontSize: verticalScale(40),
+                      lineHeight: verticalScale(48)
                     }
                   ]}
                 >
@@ -314,7 +375,9 @@ export const HabitScreen = ({ route, navigation }) => {
                   style={[
                     styles.streakLabel,
                     {
-                      color: theme.MAIN_ACCENT_COLOR
+                      color: theme.MAIN_ACCENT_COLOR,
+                      fontSize: moderateScale(14),
+                      lineHeight: verticalScale(17)
                     }
                   ]}
                 >
@@ -326,7 +389,9 @@ export const HabitScreen = ({ route, navigation }) => {
                   style={[
                     styles.longestStreak,
                     {
-                      color: theme.MAIN_ACCENT_COLOR
+                      color: theme.MAIN_ACCENT_COLOR,
+                      fontSize: moderateScale(12),
+                      lineHeight: verticalScale(15)
                     }
                   ]}
                 >
@@ -336,7 +401,9 @@ export const HabitScreen = ({ route, navigation }) => {
                   style={[
                     styles.longestStreakLabel,
                     {
-                      color: theme.MAIN_ACCENT_COLOR
+                      color: theme.MAIN_ACCENT_COLOR,
+                      fontSize: moderateScale(12),
+                      lineHeight: verticalScale(15)
                     }
                   ]}
                 >
@@ -368,72 +435,52 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1
   },
-  container: {
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20)
-  },
+  container: {},
   header: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: verticalScale(15)
+    alignItems: "center"
   },
   headerOptions: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    width: horizontalScale(100)
+    alignItems: "center"
   },
   habitName: {
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
-    fontWeight: "700",
-    fontSize: moderateScale(24),
-    lineHeight: verticalScale(24),
-    marginBottom: verticalScale(1)
+    fontWeight: "700"
   },
   habitDescription: {
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: moderateScale(14),
-    lineHeight: verticalScale(18)
+    fontWeight: "500"
   },
   habitInfo: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: verticalScale(25),
-    width: horizontalScale(200),
     alignSelf: "center"
   },
   habitInfoText: {
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
     fontWeight: "500",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(18),
-    textAlign: "center",
-    marginBottom: verticalScale(5)
+    textAlign: "center"
   },
   habitInfoText_Frequency: {
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: moderateScale(16),
-    lineHeight: verticalScale(18),
     textAlign: "center"
   },
   streakContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: verticalScale(45),
-    marginTop: verticalScale(25),
-    height: verticalScale(130)
+    justifyContent: "space-between"
   },
   streakVSLongestStreak: {
     display: "flex",
@@ -443,31 +490,23 @@ const styles = StyleSheet.create({
   streakDay: {
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: verticalScale(40),
-    lineHeight: verticalScale(48)
+    fontWeight: "500"
   },
   streakLabel: {
     fontFamily: "Inter_400Regular",
     fontStyle: "normal",
     fontWeight: "400",
-    fontSize: moderateScale(14),
-    lineHeight: verticalScale(17),
     opacity: 0.7
   },
   longestStreak: {
     fontFamily: "Inter_500Medium",
     fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(15)
+    fontWeight: "500"
   },
   longestStreakLabel: {
     fontFamily: "Inter_400Regular",
     fontStyle: "normal",
     fontWeight: "400",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(15),
     opacity: 0.7
   }
 });

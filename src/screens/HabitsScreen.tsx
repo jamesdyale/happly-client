@@ -7,7 +7,7 @@ import { onSnapshot } from "firebase/firestore";
 import { Habit, HabitHistory, Stats, User } from "~types";
 import { CalendarWeekView } from "~components";
 import { useTheme } from "~hooks";
-import { getData, horizontalScale, moderateScale, verticalScale } from "~utils";
+import { getData, useMetric } from "~utils";
 import { ASYNC_STORAGE_KEYS } from "~constants";
 import { NoHabitIcon2 } from "~assets";
 
@@ -15,6 +15,7 @@ export const HabitsScreen = () => {
   const [allHabits, setHabits] = useAtom(habitsAtom);
   const { theme } = useTheme();
   const [stats, setStats] = React.useState<Stats[]>([]);
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   useEffect(() => {
     // TODO: Add loading state
@@ -64,12 +65,24 @@ export const HabitsScreen = () => {
         }
       ]}
     >
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {
+            paddingHorizontal: horizontalScale(20),
+            paddingVertical: verticalScale(20),
+            marginBottom: verticalScale(20)
+          }
+        ]}
+      >
         <Text
           style={[
             styles.headerText,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: moderateScale(30),
+              lineHeight: verticalScale(36),
+              marginBottom: verticalScale(20)
             }
           ]}
         >
@@ -82,12 +95,38 @@ export const HabitsScreen = () => {
               <CalendarWeekView key={habitId} habit={allHabits[habitId].habit} />
             ))}
           {allHabits && Object.keys(allHabits).length === 0 && (
-            <View style={styles.noHabitsContainer}>
+            <View
+              style={[
+                styles.noHabitsContainer,
+                {
+                  paddingHorizontal: horizontalScale(20),
+                  paddingVertical: verticalScale(20)
+                }
+              ]}
+            >
               <NoHabitIcon2 />
-              <Text style={[styles.noHabitTextMain, { color: theme.MAIN_TEXT_COLOR }]}>
+              <Text
+                style={[
+                  styles.noHabitTextMain,
+                  {
+                    color: theme.MAIN_TEXT_COLOR,
+                    fontSize: moderateScale(24),
+                    lineHeight: verticalScale(36)
+                  }
+                ]}
+              >
                 There are no active habits{" "}
               </Text>
-              <Text style={[styles.noHabitTextSub, { color: theme.MAIN_TEXT_COLOR }]}>
+              <Text
+                style={[
+                  styles.noHabitTextSub,
+                  {
+                    color: theme.MAIN_TEXT_COLOR,
+                    fontSize: moderateScale(14),
+                    lineHeight: verticalScale(18)
+                  }
+                ]}
+              >
                 Let’s start in developing that habit{" "}
               </Text>
             </View>
@@ -102,37 +141,24 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1
   },
-  container: {
-    paddingHorizontal: horizontalScale(20),
-    paddingVertical: verticalScale(20),
-    marginBottom: verticalScale(20)
-  },
+  container: {},
   headerText: {
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: moderateScale(30),
-    lineHeight: verticalScale(36),
-    display: "flex",
-    marginBottom: verticalScale(20)
+    display: "flex"
   },
   noHabitsContainer: {
     flex: 1,
     height: "100%",
     justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: horizontalScale(20),
-    paddingVertical: verticalScale(20)
+    alignItems: "center"
   },
   noHabitTextMain: {
     fontFamily: "Inter_700Bold",
-    fontStyle: "normal",
-    fontSize: moderateScale(24),
-    lineHeight: verticalScale(36)
+    fontStyle: "normal"
   },
   noHabitTextSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(14),
-    fontStyle: "normal",
-    lineHeight: verticalScale(18)
+    fontStyle: "normal"
   }
 });

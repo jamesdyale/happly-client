@@ -1,8 +1,8 @@
-import { View, Text, Button, KeyboardAvoidingView, SafeAreaView, StyleSheet } from "react-native";
+import { View, Text, KeyboardAvoidingView, SafeAreaView, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { CustomButton, CustomTextInput } from "~components";
-import { formValidationOnBlur, horizontalScale, moderateScale, verticalScale } from "~utils";
+import { formValidationOnBlur, useMetric } from "~utils";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTheme } from "~hooks";
@@ -18,6 +18,7 @@ export const CreateRoomScreen = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { theme } = useTheme();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   const user = useAtomValue(userAtom);
 
@@ -62,7 +63,9 @@ export const CreateRoomScreen = () => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='checkmark-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
+        icon: (
+          <Icon name='checkmark-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
+        )
       });
     } catch (error) {
       toast.show("Something went wrong", {
@@ -102,7 +105,16 @@ export const CreateRoomScreen = () => {
         }
       ]}
     >
-      <KeyboardAvoidingView behavior='padding' style={styles.CreateRoomForm}>
+      <KeyboardAvoidingView
+        behavior='padding'
+        style={[
+          styles.CreateRoomForm,
+          {
+            paddingVertical: verticalScale(20),
+            paddingHorizontal: horizontalScale(20)
+          }
+        ]}
+      >
         <View style={styles.CreateRoomFormHeader}>
           <Icon
             name='chevron-back'
@@ -114,14 +126,23 @@ export const CreateRoomScreen = () => {
             style={[
               styles.CreateRoomFormBodyText,
               {
-                color: theme.MAIN_TEXT_COLOR
+                color: theme.MAIN_TEXT_COLOR,
+                fontSize: moderateScale(24),
+                marginLeft: horizontalScale(20)
               }
             ]}
           >
             Create Room
           </Text>
         </View>
-        <View style={styles.CreateRoomFormBody}>
+        <View
+          style={[
+            styles.CreateRoomFormBody,
+            {
+              marginTop: verticalScale(20)
+            }
+          ]}
+        >
           <View>
             <CustomTextInput
               label='Room Name'
@@ -135,7 +156,9 @@ export const CreateRoomScreen = () => {
               label='Description'
               placeholder='Enter the description'
               handleChange={setDescription}
-              handleBlur={() => setDescriptionError(formValidationOnBlur("description", description))}
+              handleBlur={() =>
+                setDescriptionError(formValidationOnBlur("description", description))
+              }
               value={description}
               error={descriptionError}
             />
@@ -240,16 +263,13 @@ export const CreateRoomScreen = () => {
 const styles = StyleSheet.create({
   CreateRoomContainer: {},
   CreateRoomForm: {
-    height: "100%",
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20)
+    height: "100%"
   },
   CreateRoomFormHeader: {
     flexDirection: "row",
     alignItems: "center"
   },
   CreateRoomFormBody: {
-    marginTop: verticalScale(20),
     display: "flex",
     justifyContent: "space-between",
     height: "90%"

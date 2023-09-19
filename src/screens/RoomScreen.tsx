@@ -13,13 +13,7 @@ import { useTheme } from "~hooks";
 import { ParamListBase, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CustomTextInput, ReceiverMessage, SenderMessage } from "~components";
-import {
-  groupMessagesByDateTimeSent,
-  horizontalScale,
-  moderateScale,
-  orderMessagesByDateTimeSent,
-  verticalScale
-} from "~utils";
+import { groupMessagesByDateTimeSent, useMetric } from "~utils";
 import moment from "moment";
 import { useAtomValue } from "jotai";
 import { userAtom } from "~state";
@@ -39,6 +33,7 @@ export const RoomScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { theme } = useTheme();
   const toast = useToast();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   const scrollViewRef = useRef<ScrollView | null>(null);
 
@@ -180,7 +175,10 @@ export const RoomScreen = () => {
           style={[
             styles.header,
             {
-              borderBottomColor: theme.BORDER_COLOR
+              borderBottomColor: theme.BORDER_COLOR,
+              paddingVertical: verticalScale(20),
+              paddingHorizontal: horizontalScale(20),
+              borderBottomWidth: moderateScale(1)
             }
           ]}
         >
@@ -189,25 +187,73 @@ export const RoomScreen = () => {
             size={moderateScale(25)}
             color={theme.MAIN_TEXT_COLOR}
             onPress={() => navigation.goBack()}
-            style={styles.backIcon}
+            style={[
+              styles.backIcon,
+              {
+                marginRight: horizontalScale(5)
+              }
+            ]}
           />
           <View style={styles.headerTextSection}>
             <View style={styles.headerText}>
-              <Text style={[styles.roomName, { color: theme.MAIN_TEXT_COLOR }]}>{room.name}</Text>
-              <Text style={[styles.members, { color: theme.MAIN_TEXT_COLOR + "90" }]}>
+              <Text
+                style={[
+                  styles.roomName,
+                  {
+                    color: theme.MAIN_TEXT_COLOR,
+                    fontSize: moderateScale(20),
+                    lineHeight: verticalScale(24)
+                  }
+                ]}
+              >
+                {room.name}
+              </Text>
+              <Text
+                style={[
+                  styles.members,
+                  {
+                    color: theme.MAIN_TEXT_COLOR + "90",
+                    fontSize: moderateScale(12),
+                    lineHeight: verticalScale(18)
+                  }
+                ]}
+              >
                 {room.members.length === 1
                   ? `${room.members.length} Member`
                   : `${room.members.length} Members`}
               </Text>
             </View>
-            <View style={styles.actionBtn}>
+            <View
+              style={[
+                styles.actionBtn,
+                {
+                  width: horizontalScale(80)
+                }
+              ]}
+            >
               <TouchableOpacity
-                style={styles.actionButtonContainer}
+                style={[
+                  styles.actionButtonContainer,
+                  {
+                    width: horizontalScale(30),
+                    height: verticalScale(30),
+                    borderRadius: moderateScale(15)
+                  }
+                ]}
                 onPress={() => setAddUserModal(true)}
               >
                 <Icon name='md-person-add-sharp' size={moderateScale(20)} color={theme.APP_BLACK} />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.actionButtonContainer}>
+              <TouchableOpacity
+                style={[
+                  styles.actionButtonContainer,
+                  {
+                    width: horizontalScale(30),
+                    height: verticalScale(30),
+                    borderRadius: moderateScale(15)
+                  }
+                ]}
+              >
                 <Icon
                   name='md-ellipsis-vertical'
                   size={moderateScale(20)}
@@ -231,8 +277,25 @@ export const RoomScreen = () => {
             onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
           >
             {Object.keys(messages).map((date) => (
-              <View key={date} style={styles.messagesGroup}>
-                <Text style={styles.messagesGroupText}>
+              <View
+                key={date}
+                style={[
+                  styles.messagesGroup,
+                  {
+                    marginBottom: verticalScale(20)
+                  }
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.messagesGroupText,
+                    {
+                      fontSize: moderateScale(12),
+                      lineHeight: verticalScale(18),
+                      marginTop: verticalScale(20)
+                    }
+                  ]}
+                >
                   {moment().format("DD/MM/YYYY") === date ? "Today" : date}
                 </Text>
                 {messages[date].map((message: Message) => (
@@ -260,7 +323,10 @@ export const RoomScreen = () => {
           style={[
             styles.footer,
             {
-              borderTopColor: theme.BORDER_COLOR
+              borderTopColor: theme.BORDER_COLOR,
+              paddingVertical: verticalScale(10),
+              paddingHorizontal: horizontalScale(20),
+              borderTopWidth: moderateScale(1)
             }
           ]}
         >
@@ -297,13 +363,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20),
-    borderBottomWidth: moderateScale(1),
     width: "100%"
   },
   backIcon: {
-    marginRight: horizontalScale(5),
     width: "10%"
   },
   headerTextSection: {
@@ -314,26 +376,18 @@ const styles = StyleSheet.create({
   },
   headerText: {},
   roomName: {
-    fontSize: moderateScale(20),
     fontFamily: "Inter_600SemiBold",
-    lineHeight: verticalScale(24),
     fontStyle: "normal"
   },
   members: {
-    fontSize: moderateScale(12),
     fontFamily: "Inter_400Regular",
-    lineHeight: verticalScale(18),
     fontStyle: "normal"
   },
   actionBtn: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    width: horizontalScale(80)
+    justifyContent: "space-between"
   },
   actionButtonContainer: {
-    width: horizontalScale(30),
-    height: verticalScale(30),
-    borderRadius: moderateScale(15),
     backgroundColor: "#eee",
     justifyContent: "center",
     alignItems: "center"
@@ -345,101 +399,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: verticalScale(10),
-    paddingHorizontal: horizontalScale(20),
-    borderTopWidth: moderateScale(1),
     width: "100%"
   },
   messagesGroup: {
-    marginBottom: verticalScale(20),
     width: "100%"
   },
   messagesGroupText: {
-    fontSize: moderateScale(12),
     fontFamily: "Inter_400Regular",
-    lineHeight: verticalScale(18),
     fontStyle: "normal",
     color: "#999",
-    marginTop: verticalScale(20),
     width: "100%",
     textAlign: "center"
-  },
-  messageContainer: {
-    flexDirection: "row",
-    marginBottom: verticalScale(10),
-    width: "70%",
-    paddingVertical: verticalScale(10),
-    paddingHorizontal: horizontalScale(10)
-  },
-  messageAvatar: {
-    width: horizontalScale(25),
-    height: verticalScale(25),
-    borderRadius: moderateScale(20),
-    backgroundColor: "#eee",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: verticalScale(10)
-  },
-  messageAvatarText: {
-    fontSize: moderateScale(16),
-    fontFamily: "Inter_400Regular",
-    lineHeight: verticalScale(24),
-    fontStyle: "normal",
-    color: "#999"
-  },
-  messageInfo: {
-    width: "80%",
-    flexDirection: "column",
-    backgroundColor: "red",
-    paddingVertical: verticalScale(10),
-    paddingHorizontal: horizontalScale(10),
-    borderRadius: moderateScale(10)
-  },
-  message: {
-    fontSize: moderateScale(14),
-    fontFamily: "Inter_400Regular",
-    lineHeight: verticalScale(20),
-    fontStyle: "normal",
-    color: "#333",
-    marginBottom: verticalScale(5)
-  },
-  messageTime: {
-    fontSize: moderateScale(12),
-    fontFamily: "Inter_400Regular",
-    lineHeight: verticalScale(16),
-    fontStyle: "normal",
-    color: "#999"
   },
   imageContainer: {
     width: "20%",
     alignItems: "center"
-  },
-  avatar: {
-    width: horizontalScale(25),
-    height: verticalScale(25),
-    borderRadius: moderateScale(20)
-  },
-  makeUpStyleImage: {
-    width: horizontalScale(25),
-    height: verticalScale(25),
-    borderRadius: moderateScale(20),
-    backgroundColor: "#eee",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  makeUpStyleImageText: {
-    fontSize: moderateScale(16),
-    fontFamily: "Inter_400Regular",
-    lineHeight: verticalScale(24),
-    fontStyle: "normal",
-    color: "#999"
-  },
-  senderMessageContainer: {
-    flexDirection: "row",
-    marginBottom: verticalScale(10),
-    width: "70%",
-    paddingVertical: verticalScale(10),
-    paddingHorizontal: horizontalScale(10),
-    alignSelf: "flex-end"
   }
 });
