@@ -25,7 +25,10 @@ export const CustomSlider = ({ data, scrollX }) => {
         return (
           <Animated.View
             key={index.toString()}
-            style={[styles.dot, { width: dotWidth, opacity, backgroundColor: theme.MAIN_ACCENT_COLOR }]}
+            style={[
+              styles.dot,
+              { width: dotWidth, opacity, backgroundColor: theme.MAIN_ACCENT_COLOR }
+            ]}
           />
         );
       })}

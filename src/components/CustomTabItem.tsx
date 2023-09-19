@@ -6,8 +6,7 @@ import { useTheme } from "~hooks";
 import { horizontalScale, moderateScale, verticalScale } from "~utils";
 
 const { width, height } = Dimensions.get("window");
-console.log("width - ", width);
-console.log("height - ", height);
+
 export const CustomTabItem = (props) => {
   const { theme } = useTheme();
   const { icon, name, size, color, focused } = props;
@@ -17,7 +16,11 @@ export const CustomTabItem = (props) => {
         <View style={styles.customTabItemIcon}>
           <Icon name={icon} size={size} color={focused ? color : theme.MAIN_TEXT_COLOR} />
         </View>
-        <Text style={[styles.customTabItemTabName, { color: focused ? color : theme.MAIN_TEXT_COLOR }]}>{name}</Text>
+        <Text
+          style={[styles.customTabItemTabName, { color: focused ? color : theme.MAIN_TEXT_COLOR }]}
+        >
+          {name}
+        </Text>
       </View>
     );
   }

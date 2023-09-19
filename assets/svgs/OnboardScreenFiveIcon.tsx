@@ -4,9 +4,9 @@ import { horizontalScale, verticalScale } from "~utils";
 
 export const OnboardScreenFiveIcon = () => (
   <Svg
-    width={horizontalScale(350)}
-    height={verticalScale(362)}
-    viewBox={`0 0 ${horizontalScale(350)} ${verticalScale(362)}`}
+    width='350'
+    height='362'
+    viewBox='0 0 350 362'
     fill='none'
     xmlns='http://www.w3.org/2000/svg'
   >
@@ -33,7 +33,10 @@ export const OnboardScreenFiveIcon = () => (
         d='M171.921 211.891L239.89 158.415L171.255 138.123L104.905 158.415L170.588 211.891V212.981L171.255 212.44L171.921 212.981V211.891Z'
         fill='#DBDBDB'
       />
-      <Path d='M223.815 261.778L171.254 213.615L121.08 260.803L172.773 294.922L223.815 261.778Z' fill='#969696' />
+      <Path
+        d='M223.815 261.778L171.254 213.615L121.08 260.803L172.773 294.922L223.815 261.778Z'
+        fill='#969696'
+      />
       <Path
         d='M170.449 361.613C229.062 361.613 276.578 359.363 276.578 356.587C276.578 353.811 229.062 351.56 170.449 351.56C111.836 351.56 64.3203 353.811 64.3203 356.587C64.3203 359.363 111.836 361.613 170.449 361.613Z'
         fill='#263238'
@@ -55,7 +58,12 @@ export const OnboardScreenFiveIcon = () => (
         stroke-linecap='round'
         stroke-linejoin='round'
       />
-      <Path d='M145.946 356.169L146.419 350.609' stroke='#263238' stroke-linecap='round' stroke-linejoin='round' />
+      <Path
+        d='M145.946 356.169L146.419 350.609'
+        stroke='#263238'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
       <Path
         d='M210.468 345.041C210.468 345.041 217.316 352.983 217.316 354.097C217.316 355.21 216.998 356.007 216.998 356.007H198.058C198.058 356.007 197.895 353.625 198.058 350.764C198.22 347.902 198.375 342.976 198.375 342.976C198.375 342.976 197.105 341.066 197.423 339.481C197.74 337.895 199.654 337.571 200.126 337.571C200.126 337.571 204.968 336.225 207.292 338.522L210.476 345.041H210.468Z'
         fill='#263238'
@@ -70,7 +78,12 @@ export const OnboardScreenFiveIcon = () => (
         stroke-linecap='round'
         stroke-linejoin='round'
       />
-      <Path d='M201.234 356.169L200.753 350.609' stroke='#263238' stroke-linecap='round' stroke-linejoin='round' />
+      <Path
+        d='M201.234 356.169L200.753 350.609'
+        stroke='#263238'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
       <Path
         d='M207.098 155.531C203.845 152.453 202.396 152.283 195.726 149.553C189.056 146.823 185.291 145.965 185.284 145.965C182.913 145.601 180.543 145.269 178.165 144.921C176.406 144.665 174.71 143.985 172.905 144.132C169.403 144.426 165.22 145.168 161.687 145.965C161.687 145.965 157.923 146.815 151.253 149.553C144.583 152.283 141.329 152.453 138.083 155.531C134.83 158.608 114.991 180.981 115.161 184.051C115.332 187.129 120.119 190.199 123.884 188.66C127.649 187.121 145.094 167.826 145.094 167.826C145.094 167.826 154.158 188.83 154.158 193.099C154.158 197.367 153.306 198.906 152.957 199.757C152.616 200.608 145.768 219.229 143.715 227.597C141.662 235.964 140.291 250.479 140.981 258.676C141.662 266.874 140.469 277.801 139.61 281.559C138.757 285.317 137.045 291.465 137.045 301.542C137.045 311.618 137.557 340.138 137.557 340.819V344.917L146.279 344.237L152.779 312.128L162.873 270.454L172.796 234.417L173.47 234.363L174.144 234.417L184.067 270.454L194.161 312.128L200.661 344.237L209.383 344.917V340.819C209.383 340.138 209.895 311.618 209.895 301.542C209.895 291.465 208.183 285.317 207.331 281.559C206.478 277.801 205.278 266.874 205.959 258.676C206.641 250.479 205.278 235.964 203.225 227.597C201.172 219.229 192.534 200.615 192.186 199.757C191.845 198.906 190.985 197.367 190.985 193.099C190.985 188.83 200.049 167.826 200.049 167.826C200.049 167.826 219.299 187.129 223.056 188.66C226.821 190.199 229.811 187.121 229.982 184.051C230.152 180.973 210.305 158.601 207.059 155.531H207.098Z'
         fill='white'
@@ -92,8 +105,18 @@ export const OnboardScreenFiveIcon = () => (
         stroke-linecap='round'
         stroke-linejoin='round'
       />
-      <Path d='M200.08 167.826L196.013 163.975' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M145.094 167.827L148.673 164.246' stroke='#263238' stroke-linecap='round' stroke-linejoin='round' />
+      <Path
+        d='M200.08 167.826L196.013 163.975'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M145.094 167.827L148.673 164.246'
+        stroke='#263238'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
       <Path
         d='M137.348 327.084C137.464 334.508 137.565 340.517 137.565 340.826V344.925L146.287 344.245L149.758 327.084H137.34H137.348Z'
         fill='white'
@@ -213,7 +236,10 @@ export const OnboardScreenFiveIcon = () => (
         stroke-linecap='round'
         stroke-linejoin='round'
       />
-      <Path d='M192.86 127.652L202.985 119.757L214.21 125.912L211.049 133.174L192.86 127.652Z' fill='#FFF6E8' />
+      <Path
+        d='M192.86 127.652L202.985 119.757L214.21 125.912L211.049 133.174L192.86 127.652Z'
+        fill='#FFF6E8'
+      />
       <Path
         d='M210.096 143.273C210.096 143.273 205.51 140.745 204.402 139.484C203.295 138.224 202.822 135.223 202.505 132.54C202.187 129.856 200.452 126.229 200.452 126.229C200.452 126.229 201.242 125.124 202.985 126.384C204.728 127.645 205.518 131.906 205.518 131.906C205.518 131.906 209.786 134.117 210.422 136.801'
         fill='white'
@@ -268,7 +294,12 @@ export const OnboardScreenFiveIcon = () => (
         stroke-linecap='round'
         stroke-linejoin='round'
       />
-      <Path d='M183.417 112.666L185.299 116.246' stroke='#263238' stroke-linecap='round' stroke-linejoin='round' />
+      <Path
+        d='M183.417 112.666L185.299 116.246'
+        stroke='#263238'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
       <Path
         d='M186.671 115.906C186.671 115.906 185.129 117.445 182.735 117.615'
         stroke='#263238'
@@ -312,42 +343,192 @@ export const OnboardScreenFiveIcon = () => (
         stroke-linecap='round'
         stroke-linejoin='round'
       />
-      <Path d='M290.537 152.832L289.452 160.944' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M286.175 154.347L287.647 159.823' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M282.256 155.097L285.734 160.936' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
+      <Path
+        d='M290.537 152.832L289.452 160.944'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M286.175 154.347L287.647 159.823'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M282.256 155.097L285.734 160.936'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
       <Path
         d='M279.374 156.521C279.769 156.869 284.696 162.112 284.696 162.112'
         stroke='#ED9107'
         stroke-linecap='round'
         stroke-linejoin='round'
       />
-      <Path d='M278.034 158.84L282.813 163.728' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M282.302 165.367L276.732 161.647' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M282.008 166.504L276.12 163.666' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M281.342 167.78L275.075 166.705' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M282.922 169.164L276.027 169.86' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M282.736 170.162L276.578 172.667' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M283.968 171.94L277.925 174.315' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M284.58 173.634L277.987 177.153' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M285.285 174.949L278.855 179.078' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M285.757 176.526L280.613 181.313' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M287.399 177.037L284.742 183.772' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M289.259 177.044L287.508 184.337' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M291.188 178.034L290.939 185.721' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M293.442 178.382L296.06 186.255' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M295.239 177.4L300.491 183.865' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M296.912 176.55L303.884 182.651' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M297.416 174.655L306.65 179.504' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M298.438 173.232L306.146 175.575' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M297.47 171.685L304.45 170.363' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M297.485 170.077L304.504 167.393' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M303.582 164.725L295.681 168.955' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M302.877 161.555L296.401 166.806' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M300.894 159.583L296.409 164.95' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M298.872 157.116L294.767 164.432' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M296.285 157.402L293.813 163.132' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M294.464 156.041L292.528 162.475' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
-      <Path d='M292.915 155.152L290.932 162.707' stroke='#ED9107' stroke-linecap='round' stroke-linejoin='round' />
+      <Path
+        d='M278.034 158.84L282.813 163.728'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M282.302 165.367L276.732 161.647'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M282.008 166.504L276.12 163.666'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M281.342 167.78L275.075 166.705'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M282.922 169.164L276.027 169.86'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M282.736 170.162L276.578 172.667'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M283.968 171.94L277.925 174.315'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M284.58 173.634L277.987 177.153'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M285.285 174.949L278.855 179.078'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M285.757 176.526L280.613 181.313'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M287.399 177.037L284.742 183.772'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M289.259 177.044L287.508 184.337'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M291.188 178.034L290.939 185.721'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M293.442 178.382L296.06 186.255'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M295.239 177.4L300.491 183.865'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M296.912 176.55L303.884 182.651'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M297.416 174.655L306.65 179.504'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M298.438 173.232L306.146 175.575'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M297.47 171.685L304.45 170.363'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M297.485 170.077L304.504 167.393'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M303.582 164.725L295.681 168.955'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M302.877 161.555L296.401 166.806'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M300.894 159.583L296.409 164.95'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M298.872 157.116L294.767 164.432'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M296.285 157.402L293.813 163.132'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M294.464 156.041L292.528 162.475'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <Path
+        d='M292.915 155.152L290.932 162.707'
+        stroke='#ED9107'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
       <Path
         d='M283.704 165.893C283.325 166.326 282.659 166.373 282.225 165.986C281.791 165.607 281.744 164.942 282.132 164.509C282.519 164.076 283.178 164.029 283.611 164.416C284.045 164.795 284.092 165.46 283.704 165.893Z'
         fill='#73988C'

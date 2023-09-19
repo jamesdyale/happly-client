@@ -16,5 +16,6 @@ export * from "./validateHabitStreak";
 export * from "./checkIfChallengeIsCompleted";
 export * from "./markHabitAsDone";
 export * from "./removeAUserFromAChallenge";
-export * from "./metric";
+export * from "./useMetric";
 export * from "./groupMessagesByDateTimeSent";
+export * from "./metric";

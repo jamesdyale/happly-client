@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Alert } from "react-native";
 import React from "react";
 import { useTheme } from "~hooks";
 import { SleepingIcon } from "~assets";
-import { CustomButton } from "~components";
+import { CustomButton } from "./CustomButton";
 import { ChallengeType } from "~types/ChallengeType";
 import { useAtomValue } from "jotai";
 import { userAtom } from "~state";

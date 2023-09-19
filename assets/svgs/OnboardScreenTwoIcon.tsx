@@ -4,9 +4,9 @@ import { horizontalScale, verticalScale } from "~utils";
 
 export const OnboardScreenTwoIcon = () => (
   <Svg
-    width={horizontalScale(362)}
-    height={verticalScale(378)}
-    viewBox={`0 0 ${horizontalScale(362)} ${verticalScale(378)}`}
+    width='362'
+    height='378'
+    viewBox='0 0 362 378'
     fill='none'
     xmlns='http://www.w3.org/2000/svg'
   >
@@ -331,7 +331,10 @@ export const OnboardScreenTwoIcon = () => (
         stroke-linecap='round'
         stroke-linejoin='round'
       />
-      <Path d='M171.949 216.709L166.175 219.621C166.175 219.621 164.246 219.414 167.906 214.357' fill='white' />
+      <Path
+        d='M171.949 216.709L166.175 219.621C166.175 219.621 164.246 219.414 167.906 214.357'
+        fill='white'
+      />
       <Path
         d='M171.949 216.709L166.175 219.621C166.175 219.621 164.246 219.414 167.906 214.357'
         stroke='#263238'
@@ -540,7 +543,12 @@ export const OnboardScreenTwoIcon = () => (
         stroke-linecap='round'
         stroke-linejoin='round'
       />
-      <Path d='M173.773 204.129L189.76 213.207' stroke='white' stroke-linecap='round' stroke-linejoin='round' />
+      <Path
+        d='M173.773 204.129L189.76 213.207'
+        stroke='white'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
       <Path
         d='M163.594 198.678C163.594 198.678 156.689 202.316 157.052 205.58C157.415 208.844 165.408 203.404 164.682 207.031C163.956 210.668 160.017 211.331 163.956 212.844C167.896 214.357 185.396 228.46 196.302 235.724C207.208 242.988 218.467 252.801 217.378 255.703C216.29 258.604 206.109 284.759 208.297 301.836'
         stroke='white'

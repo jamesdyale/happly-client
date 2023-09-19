@@ -1,4 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View
+} from "react-native";
 import React from "react";
 import {
   OnboardScreenFiveIcon,
@@ -8,14 +15,24 @@ import {
   OnboardScreenOneIcon
 } from "~assets";
 import { useTheme } from "~hooks";
-import { horizontalScale, moderateScale, verticalScale } from "~utils";
+import useMetric from "~utils/useMetric";
+
+const { width } = Dimensions.get("window");
 
 const OnboardScreenOne = () => {
   const { theme } = useTheme();
+  const { verticalScale, moderateScale } = useMetric();
 
   return (
     <>
-      <View style={{ ...styles.OnboardScreen_Icon, paddingTop: 50 }}>
+      <View
+        style={[
+          styles.OnboardScreen_Icon,
+          {
+            marginBottom: verticalScale(50)
+          }
+        ]}
+      >
         <OnboardScreenOneIcon />
       </View>
 
@@ -24,7 +41,10 @@ const OnboardScreenOne = () => {
           style={[
             styles.OnboardInformation_Title,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: width === 820 ? moderateScale(30) : moderateScale(25),
+              lineHeight: width === 820 ? verticalScale(60) : verticalScale(55),
+              marginBottom: verticalScale(20)
             }
           ]}
         >
@@ -35,11 +55,15 @@ const OnboardScreenOne = () => {
             styles.OnboardInformation_Text,
             ,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: width === 820 ? moderateScale(16) : moderateScale(16),
+              lineHeight: moderateScale(24),
+              marginBottom: verticalScale(20)
             }
           ]}
         >
-          Build healthier habits with daily plans and mindful reminders that will help you stay accountable.
+          Build healthier habits with daily plans and mindful reminders that will help you stay
+          accountable.
         </Text>
       </View>
     </>
@@ -48,10 +72,18 @@ const OnboardScreenOne = () => {
 
 const OnboardScreenTwo = () => {
   const { theme } = useTheme();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   return (
     <>
-      <View style={styles.OnboardScreen_Icon}>
+      <View
+        style={[
+          styles.OnboardScreen_Icon,
+          {
+            marginBottom: verticalScale(50)
+          }
+        ]}
+      >
         <OnboardScreenTwoIcon />
       </View>
 
@@ -60,7 +92,10 @@ const OnboardScreenTwo = () => {
           style={[
             styles.OnboardInformation_Title,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: width === 820 ? moderateScale(30) : moderateScale(25),
+              lineHeight: width === 820 ? verticalScale(60) : verticalScale(55),
+              marginBottom: verticalScale(20)
             }
           ]}
         >
@@ -71,7 +106,10 @@ const OnboardScreenTwo = () => {
             styles.OnboardInformation_Text,
             ,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: width === 820 ? moderateScale(16) : moderateScale(16),
+              lineHeight: moderateScale(24),
+              marginBottom: verticalScale(20)
             }
           ]}
         >
@@ -84,10 +122,18 @@ const OnboardScreenTwo = () => {
 
 const OnboardScreenThree = () => {
   const { theme } = useTheme();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   return (
     <>
-      <View style={styles.OnboardScreen_Icon}>
+      <View
+        style={[
+          styles.OnboardScreen_Icon,
+          {
+            marginBottom: verticalScale(50)
+          }
+        ]}
+      >
         <OnboardScreenThreeIcon />
       </View>
 
@@ -96,7 +142,10 @@ const OnboardScreenThree = () => {
           style={[
             styles.OnboardInformation_Title,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: width === 820 ? moderateScale(30) : moderateScale(25),
+              lineHeight: width === 820 ? verticalScale(60) : verticalScale(55),
+              marginBottom: verticalScale(20)
             }
           ]}
         >
@@ -107,7 +156,10 @@ const OnboardScreenThree = () => {
             styles.OnboardInformation_Text,
             ,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: width === 820 ? moderateScale(16) : moderateScale(16),
+              lineHeight: moderateScale(24),
+              marginBottom: verticalScale(20)
             }
           ]}
         >
@@ -120,10 +172,18 @@ const OnboardScreenThree = () => {
 
 const OnboardScreenFour = () => {
   const { theme } = useTheme();
+  const { verticalScale, moderateScale } = useMetric();
 
   return (
     <>
-      <View style={styles.OnboardScreen_Icon}>
+      <View
+        style={[
+          styles.OnboardScreen_Icon,
+          {
+            marginBottom: verticalScale(50)
+          }
+        ]}
+      >
         <OnboardScreenFourIcon />
       </View>
 
@@ -132,7 +192,10 @@ const OnboardScreenFour = () => {
           style={[
             styles.OnboardInformation_Title,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: width === 820 ? moderateScale(30) : moderateScale(25),
+              lineHeight: width === 820 ? verticalScale(60) : verticalScale(55),
+              marginBottom: verticalScale(20)
             }
           ]}
         >
@@ -141,9 +204,11 @@ const OnboardScreenFour = () => {
         <Text
           style={[
             styles.OnboardInformation_Text,
-            ,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: width === 820 ? moderateScale(16) : moderateScale(16),
+              lineHeight: moderateScale(24),
+              marginBottom: verticalScale(20)
             }
           ]}
         >
@@ -156,10 +221,18 @@ const OnboardScreenFour = () => {
 
 const OnboardScreenFive = () => {
   const { theme } = useTheme();
+  const { verticalScale, moderateScale } = useMetric();
 
   return (
     <>
-      <View style={styles.OnboardScreen_Icon}>
+      <View
+        style={[
+          styles.OnboardScreen_Icon,
+          {
+            marginBottom: verticalScale(50)
+          }
+        ]}
+      >
         <OnboardScreenFiveIcon />
       </View>
 
@@ -168,7 +241,10 @@ const OnboardScreenFive = () => {
           style={[
             styles.OnboardInformation_Title,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: width === 820 ? moderateScale(30) : moderateScale(25),
+              lineHeight: width === 820 ? verticalScale(60) : verticalScale(55),
+              marginBottom: verticalScale(20)
             }
           ]}
         >
@@ -177,13 +253,16 @@ const OnboardScreenFive = () => {
         <Text
           style={[
             styles.OnboardInformation_Text,
-            ,
             {
-              color: theme.MAIN_TEXT_COLOR
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: width === 820 ? moderateScale(16) : moderateScale(16),
+              lineHeight: moderateScale(24),
+              marginBottom: verticalScale(20)
             }
           ]}
         >
-          “If you get better 1% every day for one year you will end up 37 times better by the time you are done”
+          “If you get better 1% every day for one year you will end up 37 times better by the time
+          you are done”
         </Text>
       </View>
     </>
@@ -215,18 +294,38 @@ export const screens = [
 
 export const OnboardItem = ({ item }) => {
   const { width } = useWindowDimensions();
-  return <View style={[styles.ItemContainer, { width }]}>{item.component}</View>;
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
+
+  return (
+    <View
+      style={[
+        styles.ItemContainer,
+        {
+          width,
+          paddingTop: verticalScale(10),
+          paddingLeft: horizontalScale(50),
+          paddingRight: horizontalScale(50)
+        }
+      ]}
+    >
+      {item.component}
+    </View>
+  );
 };
 
 export const NextBtn = ({ handleNext, currentScreen }) => {
   const { theme } = useTheme();
+  const { verticalScale, moderateScale } = useMetric();
+
   return (
     <TouchableOpacity onPress={handleNext}>
       <Text
         style={[
           styles.OnboardInformation_ActionBtn_NextBtn,
           {
-            color: theme.MAIN_ACCENT_COLOR
+            color: theme.MAIN_ACCENT_COLOR,
+            fontSize: moderateScale(15),
+            lineHeight: verticalScale(30)
           }
         ]}
       >
@@ -237,47 +336,39 @@ export const NextBtn = ({ handleNext, currentScreen }) => {
 };
 
 const styles = StyleSheet.create({
-  ItemContainer: {
-    paddingTop: verticalScale(10),
-    paddingLeft: horizontalScale(50),
-    paddingRight: horizontalScale(50)
-  },
+  ItemContainer: {},
   OnboardScreen_Container: {
     height: "100%",
     display: "flex",
     justifyContent: "space-between"
   },
   OnboardScreen_Icon: {
+    textAlign: "center",
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
-    marginBottom: verticalScale(100),
-    height: "50%"
+    alignSelf: "center",
+
+    height: "50%",
+    paddingTop: 50
   },
   OnboardInformation: {},
   OnboardInformation_Title: {
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: moderateScale(30),
-    lineHeight: verticalScale(34),
-    marginBottom: verticalScale(20),
+
     textAlign: "center"
   },
   OnboardInformation_Text: {
     fontFamily: "Inter_400Regular",
     fontStyle: "normal",
     fontWeight: "400",
-    fontSize: moderateScale(18),
-    lineHeight: verticalScale(25),
-    marginBottom: verticalScale(20),
     textAlign: "center"
   },
   OnboardInformation_ActionBtn_NextBtn: {
     fontFamily: "Inter_600SemiBold",
     fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: moderateScale(17),
-    lineHeight: verticalScale(20)
+    fontWeight: "600"
   }
 });

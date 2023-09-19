@@ -1,7 +1,13 @@
 import React from "react";
 import { Animated, FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { CustomSlider } from "~components";
-import { storeData, randomNameGenerator, verticalScale, horizontalScale, moderateScale } from "~utils";
+import {
+  storeData,
+  randomNameGenerator,
+  verticalScale,
+  horizontalScale,
+  moderateScale
+} from "~utils";
 import { NextBtn, OnboardItem, screens } from "./OnboardScreens";
 import { ASYNC_STORAGE_KEYS } from "~constants";
 import { useSetAtom } from "jotai";
@@ -105,7 +111,9 @@ export const OnboardScreen = () => {
             pagingEnabled
             bounces={false}
             keyExtractor={(item) => item.id.toString()}
-            onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: false })}
+            onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+              useNativeDriver: false
+            })}
             onScrollBeginDrag={handleScroll}
             scrollEventThrottle={32}
             onViewableItemsChanged={viewableItemsChanged}
@@ -135,15 +143,15 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: verticalScale(100),
-    height: "50%"
+    marginBottom: verticalScale(80),
+    height: "80%"
   },
   OnboardScreen_SkipTextContainer: {
     display: "flex",
     alignItems: "flex-end",
     height: "5%",
-    marginBottom: verticalScale(20),
-    paddingTop: verticalScale(20),
+    marginBottom: verticalScale(10),
+    paddingTop: verticalScale(10),
     paddingLeft: horizontalScale(20),
     paddingRight: horizontalScale(20)
   },
@@ -151,19 +159,20 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: moderateScale(15),
-    lineHeight: verticalScale(20)
+    fontSize: moderateScale(13),
+    lineHeight: verticalScale(25)
   },
   OnboardScreen_CurrentScreen: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    height: "80%"
   },
   OnboardInformation_ActionBtn: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-end",
+    alignItems: "center",
     height: "10%",
     paddingTop: verticalScale(20),
     paddingBottom: verticalScale(20),
