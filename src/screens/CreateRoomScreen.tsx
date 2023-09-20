@@ -277,8 +277,6 @@ const styles = StyleSheet.create({
   CreateRoomFormBodyText: {
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
-    fontWeight: "700",
-    fontSize: moderateScale(24),
-    marginLeft: horizontalScale(20)
+    fontWeight: "700"
   }
 });

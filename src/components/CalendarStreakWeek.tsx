@@ -8,7 +8,7 @@ import { Habit } from "~types";
 import { useAtomValue } from "jotai";
 import { userAtom } from "~state";
 import { ActionPollHabitStatsQuery } from "~actions";
-import { getData, horizontalScale, moderateScale, verticalScale } from "~utils";
+import { getData, useMetric } from "~utils";
 import { ASYNC_STORAGE_KEYS } from "~constants";
 
 interface IDayOfTheWeek {
@@ -20,6 +20,7 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
   const { day, habitId } = props;
   const [isHighlighted, setIsHighlighted] = useState(false);
   const user = useAtomValue(userAtom);
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -60,7 +61,14 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
         styles.day,
         {
           backgroundColor: isHighlighted ? MAIN_ACCENT_COLOR : APP_WHITE,
-          borderColor: isHighlighted ? MAIN_ACCENT_COLOR : APP_GRAY
+          borderColor: isHighlighted ? MAIN_ACCENT_COLOR : APP_GRAY,
+          width: horizontalScale(42),
+          borderRadius: moderateScale(10),
+          borderWidth: moderateScale(1),
+          paddingTop: verticalScale(10),
+          paddingBottom: verticalScale(10),
+          paddingRight: horizontalScale(10),
+          paddingLeft: horizontalScale(10)
         }
       ]}
     >
@@ -68,7 +76,8 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
         style={[
           styles.dayText,
           {
-            color: isHighlighted ? APP_WHITE : HABIT_OPTION
+            color: isHighlighted ? APP_WHITE : HABIT_OPTION,
+            fontSize: moderateScale(9)
           }
         ]}
       >
@@ -78,7 +87,8 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
         style={[
           styles.dayNumber,
           {
-            color: isHighlighted ? APP_WHITE : HABIT_OPTION
+            color: isHighlighted ? APP_WHITE : HABIT_OPTION,
+            fontSize: moderateScale(15)
           }
         ]}
       >
@@ -90,26 +100,17 @@ export const CalendarStreakWeek = (props: IDayOfTheWeek) => {
 
 const styles = StyleSheet.create({
   day: {
-    width: horizontalScale(42),
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
-    borderRadius: moderateScale(10),
-    borderWidth: moderateScale(1),
-    paddingTop: verticalScale(10),
-    paddingBottom: verticalScale(10),
-    paddingRight: horizontalScale(10),
-    paddingLeft: horizontalScale(10)
+    alignItems: "center"
   },
   dayText: {
     fontFamily: "Inter_400Regular",
-    fontSize: moderateScale(9),
     color: HABIT_OPTION
   },
   dayNumber: {
     fontFamily: "Inter_700Bold",
-    fontSize: moderateScale(15),
     color: HABIT_OPTION
   }
 });

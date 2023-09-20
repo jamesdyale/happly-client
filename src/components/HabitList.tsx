@@ -1,10 +1,4 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useAtom, useAtomValue } from "jotai";
 import { NoHabitIcon } from "~assets";
@@ -14,22 +8,17 @@ import { HabitCard } from "./HabitCard";
 import Icon from "react-native-vector-icons/Ionicons";
 import { TimeOfDay } from "~types";
 import { GetCurrentTimeOfDay } from "~utils/timeUtils";
-import {
-  horizontalScale,
-  moderateScale,
-  percentage,
-  verticalScale
-} from "~utils";
+import { percentage, useMetric } from "~utils";
 import { useTheme } from "~hooks";
 
 export const HabitList = () => {
   const { theme } = useTheme();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
+
   const dailyHabit = useAtomValue(dailyHabitsAtom);
   const progress = useAtomValue(progressAtom);
   const [timeOfDay, setTimeOfDay] = useAtom(selectedTimeOfDayAtom);
-  const [currentTimeOfDay, setCurrentTimeOfDay] = useState<TimeOfDay>(
-    TimeOfDay.All
-  );
+  const [currentTimeOfDay, setCurrentTimeOfDay] = useState<TimeOfDay>(TimeOfDay.All);
 
   useEffect(() => {
     let isMounted = true;
@@ -43,14 +32,33 @@ export const HabitList = () => {
   }, []);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.MAIN_BG_COLOR }]}>
-      <View style={[styles.periodContainer]}>
+    <View
+      style={[
+        styles.container,
+        {
+          paddingTop: verticalScale(20),
+          paddingLeft: horizontalScale(20),
+          paddingRight: horizontalScale(20),
+          paddingBottom: verticalScale(20),
+          backgroundColor: theme.MAIN_BG_COLOR
+        }
+      ]}
+    >
+      <View
+        style={[
+          styles.periodContainer,
+          {
+            marginBottom: verticalScale(20)
+          }
+        ]}
+      >
         <TouchableOpacity
           style={[
             styles.periodOption,
             {
-              backgroundColor:
-                timeOfDay === TimeOfDay.All ? theme.APP_BLUE : theme.APP_GRAY
+              backgroundColor: timeOfDay === TimeOfDay.All ? theme.APP_BLUE : theme.APP_GRAY,
+              borderRadius: moderateScale(10),
+              height: verticalScale(40)
             }
           ]}
           onPress={() => setTimeOfDay(TimeOfDay.All)}
@@ -58,19 +66,16 @@ export const HabitList = () => {
           <Icon
             name='file-tray-full-sharp'
             size={moderateScale(18)}
-            color={
-              timeOfDay === TimeOfDay.All ? theme.APP_WHITE : theme.APP_BLACK
-            }
+            color={timeOfDay === TimeOfDay.All ? theme.APP_WHITE : theme.APP_BLACK}
             style={{ marginRight: horizontalScale(8) }}
           />
           <Text
             style={[
               styles.periodOptionTitle,
               {
-                color:
-                  timeOfDay === TimeOfDay.All
-                    ? theme.APP_WHITE
-                    : theme.APP_BLACK
+                color: timeOfDay === TimeOfDay.All ? theme.APP_WHITE : theme.APP_BLACK,
+                fontSize: moderateScale(14),
+                lineHeight: verticalScale(22)
               }
             ]}
           >
@@ -82,8 +87,7 @@ export const HabitList = () => {
           style={[
             styles.periodOption,
             {
-              backgroundColor:
-                timeOfDay === currentTimeOfDay ? theme.APP_BLUE : theme.APP_GRAY
+              backgroundColor: timeOfDay === currentTimeOfDay ? theme.APP_BLUE : theme.APP_GRAY
             }
           ]}
           onPress={() => setTimeOfDay(currentTimeOfDay)}
@@ -97,19 +101,16 @@ export const HabitList = () => {
                 : "ios-moon-sharp"
             }
             size={moderateScale(15)}
-            color={
-              timeOfDay === currentTimeOfDay ? theme.APP_WHITE : theme.APP_BLACK
-            }
+            color={timeOfDay === currentTimeOfDay ? theme.APP_WHITE : theme.APP_BLACK}
             style={{ marginRight: horizontalScale(8) }}
           />
           <Text
             style={[
               styles.periodOptionTitle,
               {
-                color:
-                  timeOfDay === currentTimeOfDay
-                    ? theme.APP_WHITE
-                    : theme.APP_BLACK
+                color: timeOfDay === currentTimeOfDay ? theme.APP_WHITE : theme.APP_BLACK,
+                fontSize: moderateScale(14),
+                lineHeight: verticalScale(22)
               }
             ]}
           >
@@ -134,7 +135,9 @@ export const HabitList = () => {
                 style={[
                   styles.noHabitMessage,
                   {
-                    color: theme.HABIT_OPTION
+                    color: theme.HABIT_OPTION,
+                    fontSize: moderateScale(12),
+                    lineHeight: verticalScale(15)
                   }
                 ]}
               >
@@ -144,7 +147,10 @@ export const HabitList = () => {
                 style={[
                   styles.noHabitMessageMessenger,
                   {
-                    color: theme.MAIN_ACCENT_COLOR
+                    color: theme.MAIN_ACCENT_COLOR,
+                    fontSize: moderateScale(10),
+                    lineHeight: verticalScale(12),
+                    marginTop: verticalScale(10)
                   }
                 ]}
               >
@@ -183,11 +189,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flex: 1,
     flexDirection: "column",
-    width: "100%",
-    paddingTop: verticalScale(20),
-    paddingLeft: horizontalScale(20),
-    paddingRight: horizontalScale(20),
-    paddingBottom: verticalScale(20)
+    width: "100%"
   },
   noHabitIconContainer: {
     display: "flex",
@@ -198,8 +200,6 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: moderateScale(12),
-    lineHeight: verticalScale(15),
     textAlign: "center",
     opacity: 0.5
   },
@@ -207,31 +207,23 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_700Bold",
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: moderateScale(10),
-    lineHeight: verticalScale(12),
     textAlign: "right",
-    opacity: 0.5,
-    marginTop: verticalScale(10)
+    opacity: 0.5
   },
   periodContainer: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "100%",
-    marginBottom: verticalScale(20)
+    width: "100%"
   },
   periodOption: {
-    borderRadius: moderateScale(10),
     width: "48%",
-    height: verticalScale(40),
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center"
   },
   periodOptionTitle: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: moderateScale(14),
-    lineHeight: verticalScale(22)
+    fontFamily: "Inter_600SemiBold"
   }
 });

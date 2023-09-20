@@ -5,7 +5,11 @@ import { useSetAtom, useAtomValue } from "jotai";
 import { useToast } from "react-native-toast-notifications";
 import { Habit, HabitType, Stats, Streak } from "~types";
 import { progressAtom, selectedDayOfTheWeekAtom, selectedHabitAtom } from "~state";
-import { ActionCreateOrUpdateStreak, ActionGetStatsByHabitId, ActionGetStreakByHabitId } from "~actions";
+import {
+  ActionCreateOrUpdateStreak,
+  ActionGetStatsByHabitId,
+  ActionGetStreakByHabitId
+} from "~actions";
 import { APP_GRAY, APP_GREEN, APP_WHITE } from "~styles";
 import moment from "moment";
 import {
@@ -109,12 +113,17 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
             icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
           });
         } else {
-          toast.show(`You rock. You have ${challengeDuration - streakCount} day(s) left to complete the challenge`, {
-            type: "success",
-            duration: 4000,
-            placement: "bottom",
-            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
-          });
+          toast.show(
+            `You rock. You have ${
+              challengeDuration - streakCount
+            } day(s) left to complete the challenge`,
+            {
+              type: "success",
+              duration: 4000,
+              placement: "bottom",
+              icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+            }
+          );
         }
       }
     }
@@ -154,41 +163,102 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={handleHabitClick} style={styles.habitNameContainer}>
+    <View
+      style={[
+        styles.container,
+        {
+          height: verticalScale(80),
+          borderRadius: moderateScale(10),
+          marginBottom: verticalScale(20),
+          paddingVertical: verticalScale(20),
+          paddingHorizontal: horizontalScale(20)
+        }
+      ]}
+    >
+      <TouchableOpacity
+        onPress={handleHabitClick}
+        style={[
+          styles.habitNameContainer,
+          {
+            fontSize: moderateScale(18),
+            marginBottom: verticalScale(5)
+          }
+        ]}
+      >
         <Text style={styles.habitName}>{habit.name}</Text>
         {streakCountMessage && streakCountMessage !== "" ? (
-          <Text style={styles.habitInfo}>{streakCountMessage}</Text>
+          <Text
+            style={[
+              styles.habitInfo,
+              {
+                fontSize: moderateScale(10),
+                lineHeight: verticalScale(12)
+              }
+            ]}
+          >
+            {streakCountMessage}
+          </Text>
         ) : (
-          <Text style={styles.habitInfo}>{habit.description}</Text>
+          <Text
+            style={[
+              styles.habitInfo,
+              {
+                fontSize: moderateScale(10),
+                lineHeight: verticalScale(12)
+              }
+            ]}
+          >
+            {habit.description}
+          </Text>
         )}
       </TouchableOpacity>
-      <View style={styles.habitProgressContainer}>
-        <View style={styles.habitProgress}>
+      <View
+        style={[
+          styles.habitProgressContainer,
+          {
+            width: 70,
+            height: 70,
+            borderRadius: 35
+          }
+        ]}
+      >
+        <View
+          style={[
+            styles.habitProgress,
+            {
+              width: horizontalScale(60),
+              height: verticalScale(60),
+              borderRadius: moderateScale(30)
+            }
+          ]}
+        >
           {foundProgress ? (
             <View
               style={{
-                width: 70,
-                borderRadius: 35,
-                backgroundColor: "white"
+                width: horizontalScale(50),
+                height: verticalScale(50),
+                borderRadius: moderateScale(25),
+                backgroundColor: APP_GREEN,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "relative"
               }}
             >
-              <Icon
-                style={{
-                  marginLeft: -8,
-                  marginTop: -13,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative"
-                }}
-                name='checkmark-circle'
-                size={89}
-                color={APP_GREEN}
-              />
+              <Icon name='checkmark-sharp' size={moderateScale(50)} color={APP_WHITE} />
             </View>
           ) : (
-            <TouchableOpacity style={styles.habitProgressInner} onPress={handleCompletedHabit} />
+            <TouchableOpacity
+              style={[
+                styles.habitProgressInner,
+                {
+                  width: horizontalScale(50),
+                  height: verticalScale(50),
+                  borderRadius: moderateScale(25)
+                }
+              ]}
+              onPress={handleCompletedHabit}
+            />
           )}
         </View>
       </View>
@@ -203,12 +273,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    height: verticalScale(80),
-    backgroundColor: APP_GRAY,
-    borderRadius: moderateScale(10),
-    marginBottom: verticalScale(20),
-    paddingVertical: verticalScale(20),
-    paddingHorizontal: horizontalScale(20)
+    backgroundColor: APP_GRAY
   },
   habitNameContainer: {
     display: "flex",
@@ -217,38 +282,25 @@ const styles = StyleSheet.create({
     width: "80%"
   },
   habitName: {
-    fontSize: moderateScale(18),
     fontWeight: "bold",
-    color: "#000",
-    marginBottom: verticalScale(5)
+    color: "#000"
   },
   habitProgressContainer: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-end",
-    width: 70,
-    height: 70,
-    borderRadius: 35
+    justifyContent: "flex-end"
   },
   habitInfo: {
-    backgroundColor: APP_GRAY,
-    fontSize: moderateScale(10),
-    lineHeight: verticalScale(12)
+    backgroundColor: APP_GRAY
   },
   habitProgress: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
     backgroundColor: APP_GREEN,
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
   },
   habitProgressInner: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
     backgroundColor: APP_WHITE
   }
 });

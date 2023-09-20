@@ -1,45 +1,18 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from "react-native-reanimated";
 import { ProgressBarType } from "~types";
-import { moderateScale, progressBarStatus, verticalScale } from "~utils";
+import { progressBarStatus, useMetric } from "~utils";
 import { useTheme } from "~hooks";
-
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%"
-  },
-  top: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: verticalScale(10)
-  },
-  text: {
-    fontFamily: "Inter_600SemiBold"
-  },
-  bottom: {
-    width: "100%",
-    height: verticalScale(15),
-    borderBottomLeftRadius: moderateScale(8),
-    borderBottomRightRadius: moderateScale(8),
-    borderTopLeftRadius: moderateScale(8),
-    borderTopRightRadius: moderateScale(8)
-  },
-  innerBottom: {
-    width: "50%",
-    height: verticalScale(15),
-    borderBottomLeftRadius: moderateScale(8),
-    borderBottomRightRadius: moderateScale(8),
-    borderTopLeftRadius: moderateScale(8),
-    borderTopRightRadius: moderateScale(8)
-  }
-});
 
 export const CustomProgressBar = ({ progress }: ProgressBarType) => {
   const { theme } = useTheme();
+  const { verticalScale, moderateScale } = useMetric();
 
   const sharedValueWidth = useSharedValue(progress);
 
@@ -58,15 +31,47 @@ export const CustomProgressBar = ({ progress }: ProgressBarType) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.top}>
-        <Text style={[styles.text, { color: theme.MAIN_TEXT_COLOR }]}>{progressBarStatus(progress)}</Text>
-        <Text style={[styles.text, { color: theme.MAIN_TEXT_COLOR }]}>{progress}%</Text>
+      <View
+        style={[
+          styles.top,
+          {
+            marginBottom: verticalScale(10)
+          }
+        ]}
+      >
+        <Text
+          style={[
+            styles.text,
+            {
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: moderateScale(12)
+            }
+          ]}
+        >
+          {progressBarStatus(progress)}
+        </Text>
+        <Text
+          style={[
+            styles.text,
+            {
+              color: theme.MAIN_TEXT_COLOR,
+              fontSize: moderateScale(12)
+            }
+          ]}
+        >
+          {progress}%
+        </Text>
       </View>
       <View
         style={[
           styles.bottom,
           {
-            backgroundColor: theme.APP_GRAY
+            backgroundColor: theme.APP_GRAY,
+            height: verticalScale(15),
+            borderBottomLeftRadius: moderateScale(8),
+            borderBottomRightRadius: moderateScale(8),
+            borderTopLeftRadius: moderateScale(8),
+            borderTopRightRadius: moderateScale(8)
           }
         ]}
       >
@@ -75,7 +80,12 @@ export const CustomProgressBar = ({ progress }: ProgressBarType) => {
             styles.innerBottom,
             style,
             {
-              backgroundColor: theme.MAIN_ACCENT_COLOR
+              backgroundColor: theme.MAIN_ACCENT_COLOR,
+              height: verticalScale(15),
+              borderBottomLeftRadius: moderateScale(8),
+              borderBottomRightRadius: moderateScale(8),
+              borderTopLeftRadius: moderateScale(8),
+              borderTopRightRadius: moderateScale(8)
             }
           ]}
         />
@@ -83,3 +93,25 @@ export const CustomProgressBar = ({ progress }: ProgressBarType) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%"
+  },
+  top: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  text: {
+    fontFamily: "Inter_600SemiBold"
+  },
+  bottom: {
+    width: "100%"
+  },
+  innerBottom: {
+    width: "50%"
+  }
+});

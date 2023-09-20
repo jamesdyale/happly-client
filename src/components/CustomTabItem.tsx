@@ -1,23 +1,45 @@
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import React from "react";
-import { AddHabitIcon } from "~assets";
 import { useTheme } from "~hooks";
-import { horizontalScale, moderateScale, verticalScale } from "~utils";
+import { useMetric } from "~utils";
 
 const { width, height } = Dimensions.get("window");
 
 export const CustomTabItem = (props) => {
   const { theme } = useTheme();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
+
   const { icon, name, size, color, focused } = props;
   if (name !== "Create") {
     return (
-      <View style={[styles.customTabItemContainer]}>
-        <View style={styles.customTabItemIcon}>
+      <View
+        style={[
+          styles.customTabItemContainer,
+          {
+            width: horizontalScale(80),
+            height: verticalScale(70),
+            bottom: verticalScale(-3)
+          }
+        ]}
+      >
+        <View
+          style={[
+            styles.customTabItemIcon,
+            {
+              width: horizontalScale(50),
+              height: verticalScale(50),
+              borderRadius: moderateScale(25)
+            }
+          ]}
+        >
           <Icon name={icon} size={size} color={focused ? color : theme.MAIN_TEXT_COLOR} />
         </View>
         <Text
-          style={[styles.customTabItemTabName, { color: focused ? color : theme.MAIN_TEXT_COLOR }]}
+          style={[
+            styles.customTabItemTabName,
+            { color: focused ? color : theme.MAIN_TEXT_COLOR, fontSize: moderateScale(12) }
+          ]}
         >
           {name}
         </Text>
@@ -26,8 +48,25 @@ export const CustomTabItem = (props) => {
   }
 
   return (
-    <View style={[styles.customTabItemContainer]}>
-      <View style={styles.customTabItemPlusIcon}>
+    <View
+      style={[
+        styles.customTabItemContainer,
+        {
+          width: horizontalScale(80),
+          height: verticalScale(70),
+          bottom: verticalScale(-3)
+        }
+      ]}
+    >
+      <View
+        style={[
+          styles.customTabItemPlusIcon,
+          {
+            borderRadius: moderateScale(25),
+            top: verticalScale(-40)
+          }
+        ]}
+      >
         <View
           style={{
             width: width === 820 ? 120 : 75,
@@ -64,29 +103,20 @@ export const CustomTabItem = (props) => {
 const styles = StyleSheet.create({
   customTabItemContainer: {
     display: "flex",
-    width: horizontalScale(80),
-    height: verticalScale(70),
     alignItems: "center",
-    justifyContent: "center",
-    bottom: verticalScale(-3)
+    justifyContent: "center"
   },
   customTabItemIcon: {
-    width: horizontalScale(50),
-    height: verticalScale(50),
-    borderRadius: moderateScale(25),
     alignItems: "center",
     justifyContent: "center"
   },
   customTabItemPlusIcon: {
-    borderRadius: moderateScale(25),
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    top: verticalScale(-40),
     zIndex: 999
   },
   customTabItemTabName: {
-    fontSize: moderateScale(12),
     fontWeight: "bold"
   }
 });

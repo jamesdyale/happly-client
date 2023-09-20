@@ -1,10 +1,11 @@
 import { StyleSheet, View, Animated, useWindowDimensions } from "react-native";
 import { useTheme } from "~hooks";
-import { horizontalScale, moderateScale, verticalScale } from "~utils";
+import { useMetric } from "~utils";
 
 export const CustomSlider = ({ data, scrollX }) => {
   const { theme } = useTheme();
   const { width } = useWindowDimensions();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   return (
     <View style={styles.container}>
@@ -27,7 +28,14 @@ export const CustomSlider = ({ data, scrollX }) => {
             key={index.toString()}
             style={[
               styles.dot,
-              { width: dotWidth, opacity, backgroundColor: theme.MAIN_ACCENT_COLOR }
+              {
+                width: dotWidth,
+                opacity,
+                backgroundColor: theme.MAIN_ACCENT_COLOR,
+                height: verticalScale(10),
+                borderRadius: moderateScale(5),
+                marginHorizontal: horizontalScale(8)
+              }
             ]}
           />
         );
@@ -42,9 +50,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%"
   },
-  dot: {
-    height: verticalScale(10),
-    borderRadius: moderateScale(5),
-    marginHorizontal: horizontalScale(8)
-  }
+  dot: {}
 });

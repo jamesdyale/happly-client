@@ -4,8 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Habit } from "~types";
-import { getLast7Days, horizontalScale, moderateScale, verticalScale } from "~utils";
-import { APP_BLACK } from "~styles";
+import { getLast7Days, useMetric } from "~utils";
 import { ROUTES } from "~constants";
 import { CalendarStreakWeek } from "~components/CalendarStreakWeek";
 import { useSetAtom } from "jotai";
@@ -15,6 +14,7 @@ import { useTheme } from "~hooks";
 export const CalendarWeekView = ({ habit }: { habit: Habit }) => {
   const { theme } = useTheme();
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   const setSelectedHabit = useSetAtom(selectedHabitAtom);
 
@@ -26,14 +26,30 @@ export const CalendarWeekView = ({ habit }: { habit: Habit }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.habitTitleContainer}>
+    <View
+      style={[
+        styles.container,
+        {
+          marginBottom: verticalScale(35)
+        }
+      ]}
+    >
+      <View
+        style={[
+          styles.habitTitleContainer,
+          {
+            marginBottom: verticalScale(10)
+          }
+        ]}
+      >
         <View>
           <Text
             style={[
               styles.title,
               {
-                color: theme.MAIN_TEXT_COLOR
+                color: theme.MAIN_TEXT_COLOR,
+                fontSize: moderateScale(14),
+                lineHeight: verticalScale(18)
               }
             ]}
           >
@@ -60,21 +76,16 @@ export const CalendarWeekView = ({ habit }: { habit: Habit }) => {
   );
 };
 const styles = StyleSheet.create({
-  container: {
-    marginBottom: verticalScale(35)
-  },
+  container: {},
   habitTitleContainer: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: verticalScale(10)
+    alignItems: "center"
   },
   title: {
     fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: moderateScale(14),
-    lineHeight: verticalScale(18)
+    fontWeight: "600"
   },
   footer: {
     display: "flex",

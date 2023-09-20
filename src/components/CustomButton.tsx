@@ -1,19 +1,43 @@
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ButtonType } from "~types";
 import { useTheme } from "~hooks";
-import { horizontalScale, moderateScale, verticalScale } from "~utils";
+import { useMetric } from "~utils";
 
-export const CustomButton = ({ icon, text, onClick, bgColor, color, disabled = false }: ButtonType) => {
+export const CustomButton = ({
+  icon,
+  text,
+  onClick,
+  bgColor,
+  color,
+  disabled = false
+}: ButtonType) => {
   const { theme } = useTheme();
+  const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   return (
-    <TouchableOpacity style={[styles.container, { backgroundColor: bgColor }]} onPress={onClick} disabled={disabled}>
+    <TouchableOpacity
+      style={[
+        styles.container,
+        {
+          backgroundColor: bgColor,
+          marginTop: verticalScale(5),
+          borderBottomLeftRadius: moderateScale(8),
+          borderBottomRightRadius: moderateScale(8),
+          borderTopLeftRadius: moderateScale(8),
+          borderTopRightRadius: moderateScale(8)
+        }
+      ]}
+      onPress={onClick}
+      disabled={disabled}
+    >
       {disabled && (
         <View
           style={[
             styles.buttonContainer,
             {
-              backgroundColor: theme.DISABLED_BUTTON_COLOR
+              backgroundColor: theme.DISABLED_BUTTON_COLOR,
+              paddingVertical: verticalScale(16),
+              paddingHorizontal: horizontalScale(16)
             }
           ]}
         >
@@ -21,8 +45,27 @@ export const CustomButton = ({ icon, text, onClick, bgColor, color, disabled = f
         </View>
       )}
       {!disabled && (
-        <View style={styles.buttonContainer}>
-          {icon ? <View style={styles.icon}>{icon}</View> : null}
+        <View
+          style={[
+            styles.buttonContainer,
+            {
+              paddingVertical: verticalScale(16),
+              paddingHorizontal: horizontalScale(16)
+            }
+          ]}
+        >
+          {icon ? (
+            <View
+              style={[
+                styles.icon,
+                {
+                  marginRight: horizontalScale(5)
+                }
+              ]}
+            >
+              {icon}
+            </View>
+          ) : null}
           <Text style={[styles.text, { color }]}>{text}</Text>
         </View>
       )}
@@ -33,26 +76,17 @@ export const CustomButton = ({ icon, text, onClick, bgColor, color, disabled = f
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    marginTop: verticalScale(5),
     flexDirection: "row",
-    alignItems: "center",
-    borderBottomLeftRadius: moderateScale(8),
-    borderBottomRightRadius: moderateScale(8),
-    borderTopLeftRadius: moderateScale(8),
-    borderTopRightRadius: moderateScale(8)
+    alignItems: "center"
   },
   buttonContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     fontWeight: "bold",
-    width: "100%",
-    paddingVertical: verticalScale(16),
-    paddingHorizontal: horizontalScale(16)
+    width: "100%"
   },
-  icon: {
-    marginRight: horizontalScale(5)
-  },
+  icon: {},
   text: {
     fontWeight: "700"
   }

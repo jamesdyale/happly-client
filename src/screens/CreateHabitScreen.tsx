@@ -341,7 +341,8 @@ export const CreateHabitScreen = () => {
                         backgroundColor:
                           frequencyOption === Frequency.Daily
                             ? theme.MAIN_TEXT_COLOR
-                            : theme.DISABLED_BUTTON_COLOR
+                            : theme.DISABLED_BUTTON_COLOR,
+                        borderRadius: moderateScale(6)
                       }
                     ]}
                     onPress={() => setFrequencyOption(Frequency.Daily)}
@@ -369,7 +370,8 @@ export const CreateHabitScreen = () => {
                         backgroundColor:
                           frequencyOption === Frequency.Weekly
                             ? theme.MAIN_TEXT_COLOR
-                            : theme.DISABLED_BUTTON_COLOR
+                            : theme.DISABLED_BUTTON_COLOR,
+                        borderRadius: moderateScale(6)
                       }
                     ]}
                     onPress={() => setFrequencyOption(Frequency.Weekly)}
@@ -490,7 +492,9 @@ export const CreateHabitScreen = () => {
                       {
                         marginRight: horizontalScale(15),
                         backgroundColor:
-                          timeOfDay === TimeOfDay.Afternoon ? theme.APP_BLUE : theme.APP_GRAY
+                          timeOfDay === TimeOfDay.Afternoon ? theme.APP_BLUE : theme.APP_GRAY,
+                        borderRadius: moderateScale(10),
+                        height: verticalScale(40)
                       }
                     ]}
                     onPress={() => setTimeOfDay(TimeOfDay.Afternoon)}
@@ -545,7 +549,8 @@ export const CreateHabitScreen = () => {
                           color:
                             timeOfDay === TimeOfDay.Evening ? theme.APP_WHITE : theme.APP_BLACK,
                           fontSize: moderateScale(14),
-                          lineHeight: verticalScale(22)
+                          lineHeight: verticalScale(22),
+                          borderRadius: moderateScale(10)
                         }
                       ]}
                     >

@@ -5,11 +5,13 @@ import moment from "moment";
 import { useAtom } from "jotai";
 import { DayOfTheWeek } from "./DayOfTheWeek";
 import { selectedDayOfTheWeekAtom } from "~state";
-import { getWeekFromCurrentDate, horizontalScale } from "~utils";
+import { getWeekFromCurrentDate, useMetric } from "~utils";
 import { getCurrentDayOfNewWeek } from "~utils/getCurrentDayOfNewWeek";
 
 // make this into a reusable library
 export const WeekCalendar = () => {
+  const { horizontalScale } = useMetric();
+
   const [selectedDay, setSelectedDay] = useAtom(selectedDayOfTheWeekAtom);
   const [daysTillCurrent, setDaysTillCurrent] = useState(0);
   const [week, setWeek] = useState(getWeekFromCurrentDate(moment()));
@@ -49,7 +51,15 @@ export const WeekCalendar = () => {
 
   return (
     <PanGestureHandler onGestureEvent={handleSwipe}>
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {
+            paddingLeft: horizontalScale(20),
+            paddingRight: horizontalScale(20)
+          }
+        ]}
+      >
         {week.map((day) => {
           return (
             <DayOfTheWeek
@@ -69,8 +79,6 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    paddingLeft: horizontalScale(20),
-    paddingRight: horizontalScale(20)
+    justifyContent: "space-between"
   }
 });

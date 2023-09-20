@@ -27,13 +27,13 @@ export const RootNavigator = () => {
 
   return (
     <Navigator screenOptions={{ headerShown: false }}>
-      {isAppReady && isUserOnboarded ? (
+      {isAppReady && !isUserOnboarded ? (
         <Group key='unauthorized'>
           <Screen name={ROUTES.BENEFIT} component={OnboardScreen} />
         </Group>
       ) : null}
 
-      {isAppReady && !isUserOnboarded ? (
+      {isAppReady && isUserOnboarded ? (
         <Group key='authorized'>
           <Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
           <Screen name={ROUTES.ALL_HABIT} component={HabitsScreen} />
