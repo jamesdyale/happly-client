@@ -87,7 +87,8 @@ export const HabitList = () => {
           style={[
             styles.periodOption,
             {
-              backgroundColor: timeOfDay === currentTimeOfDay ? theme.APP_BLUE : theme.APP_GRAY
+              backgroundColor: timeOfDay === currentTimeOfDay ? theme.APP_BLUE : theme.APP_GRAY,
+              borderRadius: moderateScale(10)
             }
           ]}
           onPress={() => setTimeOfDay(currentTimeOfDay)}

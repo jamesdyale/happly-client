@@ -27,6 +27,7 @@ export const OnboardScreen = () => {
   const scrollX = React.useRef(new Animated.Value(0)).current;
   const [currentScreen, setCurrentScreen] = React.useState<number>(0);
 
+  const [alreadyViewedNotification, setAlreadyViewedNotification] = React.useState<boolean>(false);
   const setUser = useSetAtom(userAtom);
 
   const viewableItemsChanged = React.useRef(({ viewableItems }) => {
@@ -65,7 +66,10 @@ export const OnboardScreen = () => {
     if (currentScreen < screens.length - 1) {
       if (currentScreen + 1 === 4) {
         // request permission to send push notifications
-        await registerForPushNotificationsAsync();
+        if (!alreadyViewedNotification) {
+          await registerForPushNotificationsAsync();
+          setAlreadyViewedNotification(true);
+        }
       }
       slidesRef.current.scrollToIndex({ index: currentScreen + 1 });
     } else {
@@ -75,7 +79,11 @@ export const OnboardScreen = () => {
 
   const handleScroll = async () => {
     if (currentScreen + 1 === 4) {
-      await registerForPushNotificationsAsync();
+      // request permission to send push notifications
+      if (!alreadyViewedNotification) {
+        await registerForPushNotificationsAsync();
+        setAlreadyViewedNotification(true);
+      }
     }
   };
 
