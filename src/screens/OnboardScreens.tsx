@@ -315,7 +315,7 @@ export const OnboardItem = ({ item }) => {
 
 export const NextBtn = ({ handleNext, currentScreen }) => {
   const { theme } = useTheme();
-  const { verticalScale, moderateScale } = useMetric();
+  const { moderateScale } = useMetric();
 
   return (
     <TouchableOpacity onPress={handleNext}>
@@ -324,8 +324,8 @@ export const NextBtn = ({ handleNext, currentScreen }) => {
           styles.OnboardInformation_ActionBtn_NextBtn,
           {
             color: theme.MAIN_ACCENT_COLOR,
-            fontSize: moderateScale(15),
-            lineHeight: verticalScale(30)
+            fontSize: moderateScale(13),
+            lineHeight: moderateScale(16)
           }
         ]}
       >

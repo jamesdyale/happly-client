@@ -97,12 +97,24 @@ export const OnboardScreen = () => {
       ]}
     >
       <View style={styles.OnboardScreen_Container}>
-        <View style={styles.OnboardScreen_SkipTextContainer}>
+        <View
+          style={[
+            styles.OnboardScreen_SkipTextContainer,
+            {
+              marginBottom: verticalScale(10),
+              paddingTop: verticalScale(10),
+              paddingLeft: horizontalScale(20),
+              paddingRight: horizontalScale(20)
+            }
+          ]}
+        >
           <Text
             style={[
               styles.OnboardScreen_SkipText,
               {
-                color: theme.MAIN_ACCENT_COLOR
+                color: theme.MAIN_ACCENT_COLOR,
+                fontSize: moderateScale(13),
+                lineHeight: moderateScale(16)
               }
             ]}
             onPress={handleSkip}
@@ -129,7 +141,17 @@ export const OnboardScreen = () => {
             ref={slidesRef}
           />
         </View>
-        <View style={styles.OnboardInformation_ActionBtn}>
+        <View
+          style={[
+            styles.OnboardInformation_ActionBtn,
+            {
+              paddingTop: verticalScale(20),
+              paddingBottom: verticalScale(20),
+              paddingLeft: horizontalScale(20),
+              paddingRight: horizontalScale(25)
+            }
+          ]}
+        >
           <View>
             <CustomSlider data={screens} scrollX={scrollX} />
           </View>
@@ -143,32 +165,20 @@ export const OnboardScreen = () => {
 const styles = StyleSheet.create({
   OnboardScreen: {},
   OnboardScreen_Container: {
+    width: "100%",
     height: "100%",
     display: "flex",
     justifyContent: "space-between"
   },
-  OnboardScreen_Icon: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: verticalScale(80),
-    height: "80%"
-  },
   OnboardScreen_SkipTextContainer: {
     display: "flex",
     alignItems: "flex-end",
-    height: "5%",
-    marginBottom: verticalScale(10),
-    paddingTop: verticalScale(10),
-    paddingLeft: horizontalScale(20),
-    paddingRight: horizontalScale(20)
+    height: "5%"
   },
   OnboardScreen_SkipText: {
     fontFamily: "Inter_600SemiBold",
     fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: moderateScale(13),
-    lineHeight: verticalScale(25)
+    fontWeight: "600"
   },
   OnboardScreen_CurrentScreen: {
     flex: 1,
@@ -181,10 +191,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: "10%",
-    paddingTop: verticalScale(20),
-    paddingBottom: verticalScale(20),
-    paddingLeft: horizontalScale(20),
-    paddingRight: horizontalScale(25)
+    height: "12%"
   }
 });

@@ -46,7 +46,7 @@ export const UserProfile = () => {
                   styles.welcomeText,
                   {
                     fontSize: moderateScale(20),
-                    lineHeight: verticalScale(24),
+                    lineHeight: moderateScale(24),
                     color: theme.MAIN_TEXT_COLOR
                   }
                 ]}
@@ -73,7 +73,7 @@ export const UserProfile = () => {
             {
               color: theme.MAIN_TEXT_COLOR_2,
               fontSize: moderateScale(15),
-              lineHeight: verticalScale(19),
+              lineHeight: moderateScale(19),
               marginRight: horizontalScale(5)
             }
           ]}

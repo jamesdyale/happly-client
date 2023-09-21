@@ -2,16 +2,15 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ROUTES } from "~constants";
-import { HABIT_OPTION, MAIN_ACCENT_COLOR, SECONDARY_BG_COLOR } from "~styles";
+import { HABIT_OPTION, MAIN_ACCENT_COLOR } from "~styles";
 import { CustomTabItem } from "~components";
 import { HomeStack } from "~navigation/HomeStack";
 import { HabitStack } from "~navigation/HabitStack";
 import { ChallengeStack } from "~navigation/ChallengeStack";
 import { RoomStack } from "~navigation/RoomStack";
 import { CreateHabitScreen } from "~screens";
-import { useScreenTracker, useTheme } from "~hooks";
-import { useRoute } from "@react-navigation/native";
-import { horizontalScale, moderateScale, verticalScale } from "~utils";
+import { useTheme } from "~hooks";
+import { useMetric } from "~utils";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -19,7 +18,7 @@ const specialScreens = new Set([ROUTES.CREATE_HABIT, ROUTES.CREATE_CHALLENGE, RO
 
 export const BottomTabNavigator = () => {
   const { theme } = useTheme();
-  const route = useRoute();
+  const { moderateScale, verticalScale, horizontalScale } = useMetric();
 
   return (
     <Navigator
@@ -30,10 +29,13 @@ export const BottomTabNavigator = () => {
         tabBarStyle: {
           ...styles.tabBarStyle,
           display: specialScreens.has(route.name) ? "none" : "flex",
-          backgroundColor: theme.SECONDARY_BG_COLOR
+          backgroundColor: theme.SECONDARY_BG_COLOR,
+          height: verticalScale(90),
+          paddingLeft: horizontalScale(15),
+          paddingRight: horizontalScale(15)
         },
         tabBarActiveTintColor: MAIN_ACCENT_COLOR,
-        tabBarIcon: ({ color, size, focused }) => {
+        tabBarIcon: ({ color, focused }) => {
           let iconName;
           let tabName;
 
@@ -55,7 +57,13 @@ export const BottomTabNavigator = () => {
           }
 
           return (
-            <CustomTabItem name={tabName} icon={iconName} size={moderateScale(22)} color={color} focused={focused} />
+            <CustomTabItem
+              name={tabName}
+              icon={iconName}
+              size={moderateScale(22)}
+              color={color}
+              focused={focused}
+            />
           );
         }
       })}
@@ -77,9 +85,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    height: verticalScale(90),
-    paddingLeft: horizontalScale(15),
-    paddingRight: horizontalScale(15),
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     zIndex: 10
