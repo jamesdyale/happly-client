@@ -2,7 +2,7 @@
   "expo": {
     "name": "happly-app",
     "slug": "happly-app",
-    "version": "11.0.0",
+    "version": "12.0.0",
     "orientation": "portrait",
     "icon": "./assets/happly.png",
     "userInterfaceStyle": "automatic",
@@ -15,9 +15,9 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.engineeringwithjames.happlyapp",
-      "buildNumber": "11.0.0",
+      "buildNumber": "12.0.0",
       "config": {
         "usesNonExemptEncryption": false
       },
