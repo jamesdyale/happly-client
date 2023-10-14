@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "happly-app",
-    "slug": "happly-app",
-    "version": "14.0.0",
+    "name": "happly",
+    "slug": "happly",
+    "version": "2.0.0",
     "orientation": "portrait",
-    "icon": "./assets/happly.png",
+    "platforms": ["ios"],
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/happly_splash.png",
+      "image": "./assets/splash.png",
       "resizeMode": "cover"
     },
     "updates": {
@@ -16,32 +17,22 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.engineeringwithjames.happlyapp",
-      "buildNumber": "14.0.0",
+      "bundleIdentifier": "com.engineeringwithjames.happly",
+      "buildNumber": "2.0.0",
       "config": {
         "usesNonExemptEncryption": false
       },
       "infoPlist": {
+        "CFBundleShortVersionString": "2.0.0",
+        "CFBundleVersion": "2.0.0",
         "LSApplicationQueriesSchemes": ["mailto"]
       }
     },
-    "android": {
-      "package": "com.engineeringwithjames.happlyapp",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      },
-      "versionCode": 1,
-      "permissions": ["NOTIFICATIONS"],
-      "useNextNotificationsApi": true
-    },
-    "web": {
-      "favicon": "./src/assets/happly.png"
-    },
     "extra": {
       "eas": {
-        "projectId": "f4a2e2e5-7b6d-4ff1-aeaf-da8279931695"
+        "projectId": "9758c81b-b464-4f2a-8ba0-dc899395fc51"
       }
-    }
+    },
+    "owner": "engineeringwithjames"
   }
 }

@@ -202,7 +202,8 @@ export const HabitScreen = ({ navigation }) => {
         style={[
           styles.container,
           {
-            paddingVertical: verticalScale(20),
+            paddingTop: verticalScale(20),
+            paddingBottom: verticalScale(40),
             paddingHorizontal: horizontalScale(20)
           }
         ]}
@@ -253,94 +254,94 @@ export const HabitScreen = ({ navigation }) => {
           </View>
         </View>
 
-        <Text
-          style={[
-            styles.habitName,
-            {
-              color: theme.MAIN_TEXT_COLOR,
-              fontSize: moderateScale(24),
-              lineHeight: verticalScale(24),
-              marginBottom: verticalScale(1)
-            }
-          ]}
-        >
-          {habit?.name}
-        </Text>
-        <Text
-          style={[
-            styles.habitDescription,
-            {
-              color: theme.MAIN_TEXT_COLOR,
-              fontSize: moderateScale(14),
-              lineHeight: verticalScale(18)
-            }
-          ]}
-        >
-          {habit?.description}
-        </Text>
+        <ScrollView style={{ marginBottom: verticalScale(20) }}>
+          <Text
+            style={[
+              styles.habitName,
+              {
+                color: theme.MAIN_TEXT_COLOR,
+                fontSize: moderateScale(24),
+                lineHeight: verticalScale(48),
+                marginBottom: verticalScale(1)
+              }
+            ]}
+          >
+            {habit?.name}
+          </Text>
+          <Text
+            style={[
+              styles.habitDescription,
+              {
+                color: theme.MAIN_TEXT_COLOR,
+                fontSize: moderateScale(14),
+                lineHeight: verticalScale(18)
+              }
+            ]}
+          >
+            {habit?.description}
+          </Text>
 
-        <View
-          style={[
-            styles.habitInfo,
-            {
-              marginVertical: verticalScale(25),
-              width: horizontalScale(200)
-            }
-          ]}
-        >
-          <View>
-            <Text
-              style={[
-                styles.habitInfoText,
-                {
-                  color: theme.MAIN_TEXT_COLOR,
-                  fontSize: moderateScale(12),
-                  lineHeight: verticalScale(18),
-                  marginBottom: verticalScale(5)
-                }
-              ]}
-            >
-              Repeat:
-            </Text>
-            <Text
-              style={[
-                styles.habitInfoText_Frequency,
-                {
-                  color: theme.MAIN_TEXT_COLOR,
-                  fontSize: moderateScale(16),
-                  lineHeight: verticalScale(18)
-                }
-              ]}
-            >
-              {habit?.frequencyOption}
-            </Text>
+          <View
+            style={[
+              styles.habitInfo,
+              {
+                marginVertical: verticalScale(25),
+                width: horizontalScale(200)
+              }
+            ]}
+          >
+            <View>
+              <Text
+                style={[
+                  styles.habitInfoText,
+                  {
+                    color: theme.MAIN_TEXT_COLOR,
+                    fontSize: moderateScale(12),
+                    lineHeight: verticalScale(18),
+                    marginBottom: verticalScale(5)
+                  }
+                ]}
+              >
+                Repeat:
+              </Text>
+              <Text
+                style={[
+                  styles.habitInfoText_Frequency,
+                  {
+                    color: theme.MAIN_TEXT_COLOR,
+                    fontSize: moderateScale(16),
+                    lineHeight: verticalScale(18)
+                  }
+                ]}
+              >
+                {habit?.frequencyOption}
+              </Text>
+            </View>
+            <View>
+              <Text
+                style={[
+                  styles.habitInfoText,
+                  {
+                    color: theme.MAIN_TEXT_COLOR
+                  }
+                ]}
+              >
+                Closest Remind:
+              </Text>
+              {/* TODO: Add reminder logic here */}
+              <Text
+                style={[
+                  styles.habitInfoText_Frequency,
+                  {
+                    color: theme.MAIN_TEXT_COLOR
+                  }
+                ]}
+              >
+                {habit?.reminderAt.length > 0 && findClosestReminder(habit?.reminderAt)}
+                {habit?.reminderAt.length < 1 && "None"}
+              </Text>
+            </View>
           </View>
-          <View>
-            <Text
-              style={[
-                styles.habitInfoText,
-                {
-                  color: theme.MAIN_TEXT_COLOR
-                }
-              ]}
-            >
-              Closest Remind:
-            </Text>
-            {/* TODO: Add reminder logic here */}
-            <Text
-              style={[
-                styles.habitInfoText_Frequency,
-                {
-                  color: theme.MAIN_TEXT_COLOR
-                }
-              ]}
-            >
-              {habit?.reminderAt.length > 0 && findClosestReminder(habit?.reminderAt)}
-              {habit?.reminderAt.length < 1 && "None"}
-            </Text>
-          </View>
-        </View>
-        <ScrollView style={{ marginBottom: verticalScale(10) }}>
           <CustomCalendar
             currentDate={currentDate}
             stats={stats}

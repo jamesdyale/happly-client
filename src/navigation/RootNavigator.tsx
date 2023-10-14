@@ -24,7 +24,7 @@ const { Navigator, Screen, Group } = createStackNavigator();
 export const RootNavigator = () => {
   const isAppReady = useAtomValue(isAppReadyAtom);
   const isUserOnboarded = useAtomValue(isUserOnboardedAtom);
-
+  console.log("isUserOnboarded", isUserOnboarded);
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       {isAppReady && !isUserOnboarded ? (
