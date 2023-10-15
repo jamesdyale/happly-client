@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "happly",
-    "slug": "happly",
-    "version": "6.0.0",
+    "name": "happlyapp",
+    "slug": "happlyapp",
+    "version": "2.0.0",
     "orientation": "portrait",
     "platforms": ["ios"],
     "icon": "./assets/icon.png",
@@ -17,22 +17,20 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.engineeringwithjames.happly",
-      "buildNumber": "6.0.0",
+      "bundleIdentifier": "com.engineeringwithjames.happlyapp",
+      "buildNumber": "2.0.0",
       "config": {
         "usesNonExemptEncryption": false
       },
       "infoPlist": {
-        "CFBundleShortVersionString": "6.0.0",
-        "CFBundleVersion": "6.0.0",
         "LSApplicationQueriesSchemes": ["mailto"]
       }
     },
+    "owner": "engineeringwithjames",
     "extra": {
       "eas": {
-        "projectId": "9758c81b-b464-4f2a-8ba0-dc899395fc51"
+        "projectId": "be4d3da1-75a0-4c93-893c-49c3b256fd19"
       }
-    },
-    "owner": "engineeringwithjames"
+    }
   }
 }
