@@ -12,6 +12,7 @@ npm-debug.*
 web-build/
 ios
 android
+eas.json
 # macOS
 .DS_Store
 
