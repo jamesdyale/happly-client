@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import "react-native-gesture-handler";
+import React from "react";
 import { Provider as StateProvider } from "jotai";
 import { ToastProvider } from "react-native-toast-notifications";
 import { Navigation } from "~navigation";

@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import { ROUTES } from "../constants";
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -38,12 +39,18 @@ export const RootNavigator = () => {
           <Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
           <Screen name={ROUTES.ALL_HABIT} component={HabitsScreen} />
           <Screen name={ROUTES.HABIT} component={HabitScreen} />
-          <Screen name={ROUTES.RECOVER_ACCOUNT} component={AccountRecoveryScreen} />
+          <Screen
+            name={ROUTES.RECOVER_ACCOUNT}
+            component={AccountRecoveryScreen}
+          />
           <Screen name={ROUTES.SETTINGS} component={SettingsScreen} />
           <Screen name={ROUTES.LOGIN} component={LoginScreen} />
           <Screen name={ROUTES.SIGNUP} component={SignUpScreen} />
           <Screen name={ROUTES.CREATE_ROOM} component={CreateRoomScreen} />
-          <Screen name={ROUTES.CREATE_CHALLENGE} component={CreateChallengeScreen} />
+          <Screen
+            name={ROUTES.CREATE_CHALLENGE}
+            component={CreateChallengeScreen}
+          />
           <Screen name={ROUTES.SINGLE_ROOM} component={RoomScreen} />
         </Group>
       ) : null}

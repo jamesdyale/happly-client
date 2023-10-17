@@ -1,9 +1,10 @@
-import { ROUTES } from '~constants'
-import { CreateHabitScreen, HabitScreen, HabitsScreen } from '~screens'
-import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
+import "react-native-gesture-handler";
+import { ROUTES } from "~constants";
+import { CreateHabitScreen, HabitScreen, HabitsScreen } from "~screens";
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const { Navigator, Screen } = createStackNavigator()
+const { Navigator, Screen } = createStackNavigator();
 
 export const HabitStack = () => {
   return (
@@ -12,5 +13,5 @@ export const HabitStack = () => {
       <Screen name={ROUTES.SINGLE_HABIT} component={HabitScreen} />
       <Screen name={ROUTES.CREATE_HABIT} component={CreateHabitScreen} />
     </Navigator>
-  )
-}
+  );
+};

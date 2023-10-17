@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import { ROUTES } from "~constants";
 import { CreateRoomScreen, RoomScreen, RoomsScreen } from "~screens";
 import React from "react";

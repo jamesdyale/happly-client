@@ -1,5 +1,6 @@
+import "react-native-gesture-handler";
 import { ROUTES } from "~constants";
-import { ChallengesScreen, CreateChallengeScreen } from "~screens";
+import { ChallengesScreen } from "~screens";
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
