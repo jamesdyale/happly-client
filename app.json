@@ -2,11 +2,9 @@
   "expo": {
     "name": "happly-client",
     "slug": "happly-client",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
-    "platforms": [
-      "ios"
-    ],
+    "platforms": ["ios"],
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -16,20 +14,16 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.engineeringwithjames.happlyclient",
-      "buildNumber": "1.0.0",
+      "buildNumber": "2.0.0",
       "config": {
         "usesNonExemptEncryption": false
       },
       "infoPlist": {
-        "LSApplicationQueriesSchemes": [
-          "mailto"
-        ]
+        "LSApplicationQueriesSchemes": ["mailto"]
       }
     },
     "owner": "engineeringwithjames",

@@ -3,6 +3,7 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
+      "react": ["./node_modules/@types/react"],
       "~*": ["src/*"],
       "~assets": ["assets"]
     }

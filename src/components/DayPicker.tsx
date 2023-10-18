@@ -38,14 +38,18 @@ export const DayPicker = ({ selectedDays, handleSelectDay }: DayPickerType) => {
               backgroundColor: selectedDays.includes(day)
                 ? theme.MAIN_TEXT_COLOR
                 : theme.HABIT_OPTION,
-              borderColor: selectedDays.includes(day) ? theme.MAIN_TEXT_COLOR : theme.HABIT_OPTION
+              borderColor: selectedDays.includes(day)
+                ? theme.MAIN_TEXT_COLOR
+                : theme.HABIT_OPTION
             }
           ]}
           onPress={() => handleSelectDay(day)}
         >
           <Text
             style={{
-              color: selectedDays.includes(day) ? theme.CONTRAST_MAIN_TEXT_COLOR : theme.APP_GRAY
+              color: selectedDays.includes(day)
+                ? theme.CONTRAST_MAIN_TEXT_COLOR
+                : theme.APP_GRAY
             }}
           >
             {day.substring(0, 3)}
