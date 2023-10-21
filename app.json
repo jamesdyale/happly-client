@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "happly-client",
+    "name": "Happly",
     "slug": "happly-client",
-    "version": "2.0.0",
+    "version": "4.0.0",
     "orientation": "portrait",
     "platforms": ["ios"],
     "icon": "./assets/icon.png",
@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.engineeringwithjames.happlyclient",
-      "buildNumber": "2.0.0",
+      "buildNumber": "4.0.0",
       "config": {
         "usesNonExemptEncryption": false
       },
