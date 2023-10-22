@@ -1,8 +1,14 @@
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Platform } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView
+} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
-import { APP_BLACK, APP_GRAY, APP_WHITE, GRAY_TEXT, MAIN_ACCENT_COLOR } from "~styles";
+import { APP_WHITE, MAIN_ACCENT_COLOR } from "~styles";
 import Modal from "react-native-modal";
 import { CustomButton } from "~components";
 import { useTheme } from "~hooks";
@@ -15,11 +21,8 @@ export const NotificationModal = ({
   reminderBody = ""
 }) => {
   const [time, setTime] = React.useState(new Date());
-  const [show, setShow] = React.useState(true);
 
   const { theme } = useTheme();
-
-  const handleChange = (event, selectedTime) => {};
 
   return (
     <View style={styles.wrapper}>
@@ -59,7 +62,11 @@ export const NotificationModal = ({
                 New reminder
               </Text>
               <TouchableOpacity onPress={closeNotificationModal}>
-                <Icon name='close' size={moderateScale(25)} color={theme.MAIN_TEXT_COLOR} />
+                <Icon
+                  name='close'
+                  size={moderateScale(25)}
+                  color={theme.MAIN_TEXT_COLOR}
+                />
               </TouchableOpacity>
             </View>
             {isReminderHasBody && (
