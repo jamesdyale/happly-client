@@ -11,7 +11,10 @@ import {
   userAtom
 } from "~state";
 import { Habit, Stats, User } from "~types";
-import { ActionGetUserHabitsByUserId, ActionGetCompletedStatForDay } from "~actions";
+import {
+  ActionGetUserHabitsByUserId,
+  ActionGetCompletedStatForDay
+} from "~actions";
 import { onSnapshot } from "firebase/firestore";
 import moment from "moment/moment";
 import { useTheme } from "~hooks";
@@ -64,7 +67,11 @@ export const HomeScreen = () => {
           if (data.frequencyOption === "Daily") {
             habits.push(data);
           } else if (data.frequencyOption === "Weekly") {
-            if (data.selectedDays.includes(moment(selectedDay, "MMMM Do YYYY").format("dddd"))) {
+            if (
+              data.selectedDays.includes(
+                moment(selectedDay, "MMMM Do YYYY").format("dddd")
+              )
+            ) {
               habits.push(data);
             }
           }
@@ -86,7 +93,10 @@ export const HomeScreen = () => {
       return;
     }
 
-    const completedHabitQuery = ActionGetCompletedStatForDay(userId, selectedDay);
+    const completedHabitQuery = ActionGetCompletedStatForDay(
+      userId,
+      selectedDay
+    );
 
     const unsubscribe = onSnapshot(completedHabitQuery, (querySnapshot) => {
       const progress: Stats[] = [];
