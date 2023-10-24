@@ -25,7 +25,7 @@ const { Navigator, Screen, Group } = createStackNavigator();
 export const RootNavigator = () => {
   const isAppReady = useAtomValue(isAppReadyAtom);
   const isUserOnboarded = useAtomValue(isUserOnboardedAtom);
-  console.log("isUserOnboarded", isUserOnboarded);
+
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       {isAppReady && !isUserOnboarded ? (
@@ -37,8 +37,8 @@ export const RootNavigator = () => {
       {isAppReady && isUserOnboarded ? (
         <Group key='authorized'>
           <Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
-          <Screen name={ROUTES.ALL_HABIT} component={HabitsScreen} />
-          <Screen name={ROUTES.HABIT} component={HabitScreen} />
+          {/* <Screen name={ROUTES.ALL_HABIT} component={HabitsScreen} />
+          <Screen name={ROUTES.HABIT} component={HabitScreen} />*/}
           <Screen
             name={ROUTES.RECOVER_ACCOUNT}
             component={AccountRecoveryScreen}

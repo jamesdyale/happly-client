@@ -13,8 +13,9 @@ import { useTheme } from "~hooks";
 
 export const CalendarWeekView = ({ habit }: { habit: Habit }) => {
   const { theme } = useTheme();
-  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const { horizontalScale, verticalScale, moderateScale } = useMetric();
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { verticalScale, moderateScale } = useMetric();
 
   const setSelectedHabit = useSetAtom(selectedHabitAtom);
 
@@ -22,7 +23,7 @@ export const CalendarWeekView = ({ habit }: { habit: Habit }) => {
 
   const handleNavigationToHabitScreen = () => {
     setSelectedHabit(habit);
-    navigate(ROUTES.HABIT);
+    navigate(ROUTES.SINGLE_HABIT);
   };
 
   return (
@@ -69,7 +70,9 @@ export const CalendarWeekView = ({ habit }: { habit: Habit }) => {
       </View>
       <View style={styles.footer}>
         {week.map((day, index) => {
-          return <CalendarStreakWeek key={index} day={day} habitId={habit.id} />;
+          return (
+            <CalendarStreakWeek key={index} day={day} habitId={habit.id} />
+          );
         })}
       </View>
     </View>

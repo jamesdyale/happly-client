@@ -14,7 +14,11 @@ import { useMetric } from "~utils";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-const specialScreens = new Set([ROUTES.CREATE_HABIT, ROUTES.CREATE_CHALLENGE, ROUTES.CREATE_ROOM]);
+const specialScreens = new Set([
+  ROUTES.CREATE_HABIT,
+  ROUTES.CREATE_CHALLENGE,
+  ROUTES.CREATE_ROOM
+]);
 
 export const BottomTabNavigator = () => {
   const { theme } = useTheme();
@@ -42,14 +46,16 @@ export const BottomTabNavigator = () => {
           if (route.name === ROUTES.HOME) {
             iconName = focused ? "ios-home-sharp" : "ios-home-outline";
             tabName = "Home";
-          } else if (route.name === ROUTES.ALL_HABIT) {
+          } else if (route.name === ROUTES.HABITS) {
             iconName = focused ? "bar-chart" : "bar-chart-outline";
             tabName = "Habit";
           } else if (route.name === ROUTES.CHALLENGES) {
             iconName = focused ? "ios-trophy" : "ios-trophy-outline";
             tabName = "Challenge";
           } else if (route.name === ROUTES.ROOMS) {
-            iconName = focused ? "ios-chatbox-ellipses" : "ios-chatbox-ellipses-outline";
+            iconName = focused
+              ? "ios-chatbox-ellipses"
+              : "ios-chatbox-ellipses-outline";
             tabName = "Rooms";
           } else if (route.name === ROUTES.CREATE_HABIT) {
             iconName = focused ? "add-circle" : "add-circle-outline";
@@ -69,7 +75,7 @@ export const BottomTabNavigator = () => {
       })}
     >
       <Screen name={ROUTES.HOME} component={HomeStack} />
-      <Screen name={ROUTES.ALL_HABIT} component={HabitStack} />
+      <Screen name={ROUTES.HABITS} component={HabitStack} />
       <Screen name={ROUTES.CREATE_HABIT} component={CreateHabitScreen} />
       <Screen name={ROUTES.CHALLENGES} component={ChallengeStack} />
       <Screen name={ROUTES.ROOMS} component={RoomStack} />
