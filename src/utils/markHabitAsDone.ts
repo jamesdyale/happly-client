@@ -1,12 +1,8 @@
 import moment from "moment";
-import {
-  ActionCreateOrUpdateStreak,
-  ActionCreateStat,
-  ActionGetStatsByHabitId
-} from "~actions";
+import { ActionCreateStat } from "../actions/actionCreateStat";
+import { ActionGetStatsByHabitId } from "../actions/actionGetStatsByHabitId";
 import { generateStatId } from "~generators";
-import { HabitType, Stats } from "~types";
-import { checkIfChallengeIsCompleted } from "./checkIfChallengeIsCompleted";
+import { Stats } from "~types";
 
 export const markHabitAsDone = async ({
   habit,

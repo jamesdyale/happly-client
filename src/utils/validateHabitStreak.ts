@@ -1,7 +1,7 @@
 import moment from "moment";
-import { ActionUpdateStreak } from "~actions";
+import { ActionUpdateStreak } from "../actions/actionUpdateStreak";
 import { Streak, Habit, Frequency, Stats } from "~types";
-import { calculateLowestDifferenceInDays } from "~utils";
+import { calculateLowestDifferenceInDays } from "./calculateLowestDifferenceInDays";
 
 export const validateHabitStreak = async (
   currentStreak: Streak,

@@ -83,5 +83,8 @@
     "prettier": "^2.8.8",
     "react-native-dotenv": "^3.4.9"
   },
+  "resolutions": {
+    "expo/expo-asset": "8.9.1"
+  },
   "private": true
 }

@@ -1,4 +1,5 @@
-import { ActionCreateChallenge, ActionGetChallengeById } from "~actions";
+import { ActionCreateChallenge } from "../actions/actionCreateChallenge";
+import { ActionGetChallengeById } from "../actions/actionGetChallengeById";
 import { ChallengeType, User } from "~types";
 
 export const removeAUserFromAChallenge = async (

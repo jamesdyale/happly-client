@@ -1,8 +1,5 @@
-import {
-  ActionGetChallengeById,
-  ActionGetChallenges,
-  ActionGetStreakByHabitId
-} from "~actions";
+import { ActionGetStreakByHabitId } from "../actions/actionGetStreakByHabitId";
+import { ActionGetChallengeById } from "../actions/actionGetChallengeById";
 import { ChallengeType, Habit, Streak } from "~types";
 
 export const checkIfChallengeIsCompleted = async ({
