@@ -11,6 +11,7 @@ export const CustomTabItem = (props) => {
   const { horizontalScale, verticalScale, moderateScale } = useMetric();
 
   const { icon, name, size, color, focused } = props;
+
   if (name !== "Create") {
     return (
       <View
@@ -33,12 +34,19 @@ export const CustomTabItem = (props) => {
             }
           ]}
         >
-          <Icon name={icon} size={size} color={focused ? color : theme.MAIN_TEXT_COLOR} />
+          <Icon
+            name={icon}
+            size={size}
+            color={focused ? color : theme.MAIN_TEXT_COLOR}
+          />
         </View>
         <Text
           style={[
             styles.customTabItemTabName,
-            { color: focused ? color : theme.MAIN_TEXT_COLOR, fontSize: moderateScale(12) }
+            {
+              color: focused ? color : theme.MAIN_TEXT_COLOR,
+              fontSize: moderateScale(12)
+            }
           ]}
         >
           {name}
@@ -85,7 +93,6 @@ export const CustomTabItem = (props) => {
               justifyContent: "center",
               alignItems: "flex-end",
               position: "relative",
-              // backgroundColor: "red",
               marginLeft: height === 1180 ? 10 : 5,
               marginTop: height === 1180 ? 5 : 5
             }}
@@ -94,7 +101,6 @@ export const CustomTabItem = (props) => {
             color={theme.APP_WHITE}
           />
         </View>
-        {/* <AddHabitIcon {...props} /> */}
       </View>
     </View>
   );

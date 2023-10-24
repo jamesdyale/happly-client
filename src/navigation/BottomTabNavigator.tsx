@@ -16,6 +16,7 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 const specialScreens = new Set([
   ROUTES.CREATE_HABIT,
+  ROUTES.SINGLE_HABIT,
   ROUTES.CREATE_CHALLENGE,
   ROUTES.CREATE_ROOM
 ]);
@@ -42,13 +43,12 @@ export const BottomTabNavigator = () => {
         tabBarIcon: ({ color, focused }) => {
           let iconName;
           let tabName;
-
           if (route.name === ROUTES.HOME) {
             iconName = focused ? "ios-home-sharp" : "ios-home-outline";
             tabName = "Home";
           } else if (route.name === ROUTES.HABITS) {
             iconName = focused ? "bar-chart" : "bar-chart-outline";
-            tabName = "Habit";
+            tabName = "Habits";
           } else if (route.name === ROUTES.CHALLENGES) {
             iconName = focused ? "ios-trophy" : "ios-trophy-outline";
             tabName = "Challenge";

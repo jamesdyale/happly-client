@@ -5,8 +5,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import {
   OnboardScreen,
   AccountRecoveryScreen,
-  HabitScreen,
-  HabitsScreen,
   SettingsScreen,
   CreateRoomScreen,
   CreateChallengeScreen,
@@ -37,8 +35,6 @@ export const RootNavigator = () => {
       {isAppReady && isUserOnboarded ? (
         <Group key='authorized'>
           <Screen name={ROUTES.MAIN_APP} component={BottomTabNavigator} />
-          {/* <Screen name={ROUTES.ALL_HABIT} component={HabitsScreen} />
-          <Screen name={ROUTES.HABIT} component={HabitScreen} />*/}
           <Screen
             name={ROUTES.RECOVER_ACCOUNT}
             component={AccountRecoveryScreen}

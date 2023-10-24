@@ -37,7 +37,8 @@ export const HabitScreen = ({ navigation }) => {
   const toast = useToast();
   const { theme } = useTheme();
   const { horizontalScale, verticalScale, moderateScale } = useMetric();
-  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const currentDate = moment().format("YYYY-MM-DD");
   const [selectedHabit, setSelectedHabit] = useAtom(selectedHabitAtom);
@@ -67,7 +68,38 @@ export const HabitScreen = ({ navigation }) => {
     };
   }, []);
 
+  useEffect(() => {
+    navigation.getParent()?.setOptions({
+      tabBarStyle: {
+        display: "none"
+      }
+    });
+    return () =>
+      navigation.getParent()?.setOptions({
+        tabBarStyle: {
+          display: "flex",
+          position: "absolute",
+          borderTopWidth: 0,
+          bottom: 0,
+          right: 0,
+          left: 0,
+          borderTopRightRadius: 30,
+          borderTopLeftRadius: 30,
+          zIndex: 10,
+          backgroundColor: theme.SECONDARY_BG_COLOR,
+          height: verticalScale(90),
+          paddingLeft: horizontalScale(15),
+          paddingRight: horizontalScale(15)
+        }
+      });
+  }, [navigation]);
+
   const getHabitById = async () => {
+    if (selectedHabit === null) {
+      navigate(ROUTES.ALL_HABIT);
+      return;
+    }
+
     const dataDocumentSnapshot = ActionGetUserHabitByIdDoc(selectedHabit.id);
 
     const subscription = onSnapshot(dataDocumentSnapshot, (doc) => {
@@ -90,6 +122,10 @@ export const HabitScreen = ({ navigation }) => {
   };
 
   const getHabitStats = async (currentMonth) => {
+    if (selectedHabit === null) {
+      return;
+    }
+
     const docs = await ActionGetStatsByHabitId(selectedHabit.id);
     if (!docs) return;
 
@@ -105,6 +141,11 @@ export const HabitScreen = ({ navigation }) => {
   };
 
   const getHabitStreak = async () => {
+    if (selectedHabit === null) {
+      navigate(ROUTES.ALL_HABIT);
+      return;
+    }
+
     const docs = await ActionGetStreakByHabitId(selectedHabit.id);
 
     if (!docs) return;
@@ -147,7 +188,13 @@ export const HabitScreen = ({ navigation }) => {
         type: "danger",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='alert-circle' size={moderateScale(20)} color={theme.APP_WHITE} />
+        icon: (
+          <Icon
+            name='alert-circle'
+            size={moderateScale(20)}
+            color={theme.APP_WHITE}
+          />
+        )
       });
       return;
     }
@@ -156,7 +203,13 @@ export const HabitScreen = ({ navigation }) => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+        icon: (
+          <Icon
+            name='trending-up'
+            size={moderateScale(20)}
+            color={theme.APP_WHITE}
+          />
+        )
       });
     } else {
       const data = await checkIfChallengeIsCompleted({
@@ -164,12 +217,21 @@ export const HabitScreen = ({ navigation }) => {
         habitId: habit.id
       });
       if (!data) {
-        toast.show("Having trouble check if you have completed your challenge. Please try again!", {
-          type: "success",
-          duration: 4000,
-          placement: "bottom",
-          icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
-        });
+        toast.show(
+          "Having trouble check if you have completed your challenge. Please try again!",
+          {
+            type: "success",
+            duration: 4000,
+            placement: "bottom",
+            icon: (
+              <Icon
+                name='trending-up'
+                size={moderateScale(20)}
+                color={theme.APP_WHITE}
+              />
+            )
+          }
+        );
       } else {
         const { streakCount, challengeDuration } = data;
         if (streakCount >= challengeDuration) {
@@ -177,7 +239,13 @@ export const HabitScreen = ({ navigation }) => {
             type: "success",
             duration: 4000,
             placement: "bottom",
-            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+            icon: (
+              <Icon
+                name='trending-up'
+                size={moderateScale(20)}
+                color={theme.APP_WHITE}
+              />
+            )
           });
         } else {
           toast.show(
@@ -188,7 +256,13 @@ export const HabitScreen = ({ navigation }) => {
               type: "success",
               duration: 4000,
               placement: "bottom",
-              icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+              icon: (
+                <Icon
+                  name='trending-up'
+                  size={moderateScale(20)}
+                  color={theme.APP_WHITE}
+                />
+              )
             }
           );
         }
@@ -197,7 +271,9 @@ export const HabitScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}>
+    <SafeAreaView
+      style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}
+    >
       <View
         style={[
           styles.container,
@@ -337,7 +413,8 @@ export const HabitScreen = ({ navigation }) => {
                   }
                 ]}
               >
-                {habit?.reminderAt.length > 0 && findClosestReminder(habit?.reminderAt)}
+                {habit?.reminderAt.length > 0 &&
+                  findClosestReminder(habit?.reminderAt)}
                 {habit?.reminderAt.length < 1 && "None"}
               </Text>
             </View>
@@ -396,7 +473,8 @@ export const HabitScreen = ({ navigation }) => {
                     }
                   ]}
                 >
-                  {streak?.longestStreak} {streak?.longestStreak > 1 ? "days" : "day"}
+                  {streak?.longestStreak}{" "}
+                  {streak?.longestStreak > 1 ? "days" : "day"}
                 </Text>
                 <Text
                   style={[
@@ -421,7 +499,13 @@ export const HabitScreen = ({ navigation }) => {
             color={theme.APP_WHITE}
             text={"Mark as done"}
             onClick={handleOnPressMarkAsDone}
-            icon={<Icon name='checkbox-outline' size={moderateScale(20)} color={theme.APP_WHITE} />}
+            icon={
+              <Icon
+                name='checkbox-outline'
+                size={moderateScale(20)}
+                color={theme.APP_WHITE}
+              />
+            }
             // disabled={loading}
           />
         </ScrollView>
