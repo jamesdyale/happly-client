@@ -10,7 +10,7 @@
 ## 🚀 How to use in DEVELOPMENT
 
 - Install packages with `yarn`.
-- Reach out to me to get the test database environment variables (it's a playgroup to mess around so we don't corrupt production database)
+- Reach out to me so I can add you to the test database environment (it's a playgroup to mess around so we don't corrupt production database)
 - Run `yarn start` to start the bundler.
 - When metro bundler opens up choose `i` to open in ios.
 
