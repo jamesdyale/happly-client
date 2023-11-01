@@ -14,4 +14,4 @@ export * from "./CalendarWeekView";
 export * from "./DayPicker";
 export * from "./SingleChallengeCard";
 export * from "./SingleRoomCard";
-export * from "./RoomComponent";
+export * from "./Message";

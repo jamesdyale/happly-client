@@ -10,14 +10,23 @@ import {
 import React, { useEffect, useRef } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useTheme } from "~hooks";
-import { ParamListBase, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  ParamListBase,
+  useNavigation,
+  useRoute
+} from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { CustomTextInput, ReceiverMessage, SenderMessage } from "~components";
+import {
+  CustomTextInput,
+  Message,
+  ReceiverMessage,
+  SenderMessage
+} from "~components";
 import { groupMessagesByDateTimeSent, useMetric } from "~utils";
 import moment from "moment";
 import { useAtomValue } from "jotai";
 import { userAtom } from "~state";
-import { Message, Room, User } from "~types";
+import { Message as MessageType, Room, User } from "~types";
 import {
   ActionCreateMessageForRoom,
   ActionGetMessagesByRoomId,
@@ -78,10 +87,10 @@ export const RoomScreen = () => {
     const messagesQuery = ActionGetMessagesByRoomId(roomID);
 
     const unsubscribe = onSnapshot(messagesQuery, (querySnapshot) => {
-      const messages: Message[] = [];
+      const messages: MessageType[] = [];
 
       querySnapshot.forEach((doc) => {
-        const data = doc.data() as unknown as Message;
+        const data = doc.data() as unknown as MessageType;
         messages.push(data);
       });
 
@@ -130,7 +139,13 @@ export const RoomScreen = () => {
         type: "danger",
         duration: 4000,
         placement: "bottom",
-        icon: <Icon name='alert-circle' size={moderateScale(20)} color={APP_WHITE} />
+        icon: (
+          <Icon
+            name='alert-circle'
+            size={moderateScale(20)}
+            color={APP_WHITE}
+          />
+        )
       });
     }
   };
@@ -242,7 +257,11 @@ export const RoomScreen = () => {
                 ]}
                 onPress={() => setAddUserModal(true)}
               >
-                <Icon name='md-person-add-sharp' size={moderateScale(20)} color={theme.APP_BLACK} />
+                <Icon
+                  name='md-person-add-sharp'
+                  size={moderateScale(20)}
+                  color={theme.APP_BLACK}
+                />
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
@@ -274,7 +293,9 @@ export const RoomScreen = () => {
         >
           <ScrollView
             ref={scrollViewRef}
-            onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+            onContentSizeChange={() =>
+              scrollViewRef.current?.scrollToEnd({ animated: true })
+            }
           >
             {Object.keys(messages).map((date) => (
               <View
@@ -298,19 +319,20 @@ export const RoomScreen = () => {
                 >
                   {moment().format("DD/MM/YYYY") === date ? "Today" : date}
                 </Text>
-                {messages[date].map((message: Message) => (
+                {messages[date].map((message: MessageType) => (
                   <View
                     key={message.id}
                     style={{
                       display: "flex",
-                      alignItems: message.sender !== user.id ? "flex-start" : "flex-end",
+                      alignItems:
+                        message.sender !== user.id ? "flex-start" : "flex-end",
                       width: "100%"
                     }}
                   >
                     {message.sender !== user.id ? (
-                      <ReceiverMessage {...message} />
+                      <Message message={message} type='receiver' />
                     ) : (
-                      <SenderMessage {...message} />
+                      <Message message={message} type='sender' />
                     )}
                   </View>
                 ))}
