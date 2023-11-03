@@ -22,6 +22,11 @@ export const selectedDayOfTheWeekAtom = atomWithStorage<string>(
   "dayOfTheWeek",
   moment().format("MMMM Do YYYY")
 );
+export const currentTimeOfDayAtom = atomWithStorage<TimeOfDay>(
+  "currentTimeOfDay",
+  TimeOfDay.All
+);
+
 export const dailyHabitsAtom = atomWithStorage<Habit[]>("dailyHabits", []);
 export const habitsAtom = atomWithStorage<HabitHistory | null>("habits", null);
 export const progressAtom = atomWithStorage<Stats[]>("stats", []);
@@ -35,7 +40,7 @@ export const showDeleteModalAtom = atomWithStorage<boolean>(
   false
 );
 export const selectedTimeOfDayAtom = atomWithStorage<TimeOfDay>(
-  "timeOfDay",
+  "selectedTimeOfDayAtom",
   TimeOfDay.All
 );
 export const loadingAtom = atomWithStorage<boolean>("loading", false);

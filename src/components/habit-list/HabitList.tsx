@@ -1,18 +1,18 @@
-import { StyleSheet, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import { AppState, StyleSheet, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import { TimeOfDay } from "~types";
 import { GetCurrentTimeOfDay } from "~utils/timeUtils";
 import { useMetric } from "~utils";
 import { useTheme } from "~hooks";
 import { HabitPeriod } from "./components/HabitPeriod";
 import { HabitOfDay } from "./components/HabitOfDay";
+import { useAtom } from "jotai";
+import { currentTimeOfDayAtom } from "~state";
 
 export const HabitList = () => {
   const { theme } = useTheme();
   const { horizontalScale, verticalScale } = useMetric();
-  const [currentTimeOfDay, setCurrentTimeOfDay] = useState<TimeOfDay>(
-    TimeOfDay.All
-  );
+  const [currentTimeOfDay, setCurrentTimeOfDay] = useAtom(currentTimeOfDayAtom);
 
   useEffect(() => {
     let isMounted = true;
