@@ -16,8 +16,6 @@ const App = () => {
 
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {
-      console.log("appState.current", appState.current);
-      console.log("nextAppState", nextAppState);
       if (appState.current.match(/active/) && nextAppState === "active") {
         // set the selected day to the current day
         const currentDay = moment().format("MMMM Do YYYY");
