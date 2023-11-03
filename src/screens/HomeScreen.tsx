@@ -37,6 +37,18 @@ export const HomeScreen = () => {
     let isMounted = true;
 
     if (isMounted) {
+      getCurrentDay();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted) {
       getHabitsForTheDay();
       getCompletedHabitForDay();
     }
@@ -47,6 +59,7 @@ export const HomeScreen = () => {
   }, [selectedDay, timeOfDay]);
 
   const getHabitsForTheDay = async () => {
+    console.log("getHabitsForTheDay");
     if (!user) {
       console.log("no user");
       return;
@@ -86,6 +99,7 @@ export const HomeScreen = () => {
   };
 
   const getCompletedHabitForDay = async () => {
+    console.log("getCompletedHabitForDay");
     const userId = (await getData(ASYNC_STORAGE_KEYS.USER_ID)) as User["id"];
 
     if (!userId) {
@@ -114,6 +128,12 @@ export const HomeScreen = () => {
     });
 
     return () => unsubscribe();
+  };
+
+  const getCurrentDay = () => {
+    console.log("getCurrentDay");
+    const today = moment().format("dddd");
+    console.log(today);
   };
 
   if (loadingHabits && loadingStats) {
