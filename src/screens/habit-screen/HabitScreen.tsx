@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { CustomButton, CustomCalendar } from "~components";
 import Icon from "react-native-vector-icons/Ionicons";
 import { StreakIcon } from "~assets";
-import { ROUTES } from "../constants";
+import { ROUTES } from "../../constants";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   editHabitAtom,
@@ -22,7 +22,6 @@ import {
 import { useToast } from "react-native-toast-notifications";
 import { DeleteHabitModal } from "~modals";
 import { onSnapshot } from "firebase/firestore";
-import { findClosestReminder } from "~utils/timeUtils";
 import { DateData } from "react-native-calendars";
 import moment from "moment";
 import {
@@ -32,6 +31,9 @@ import {
   useMetric
 } from "~utils";
 import { useTheme } from "~hooks";
+import { ActionSection } from "./components/ActionSection";
+import { StreakInformation } from "./components/StreakInformation";
+import { ClosestReminder } from "./components/ClosestReminder";
 
 export const HabitScreen = ({ navigation }) => {
   const toast = useToast();
@@ -284,52 +286,12 @@ export const HabitScreen = ({ navigation }) => {
           }
         ]}
       >
-        <View
-          style={[
-            styles.header,
-            {
-              marginBottom: verticalScale(15)
-            }
-          ]}
-        >
-          <Icon
-            name='chevron-back-outline'
-            size={moderateScale(25)}
-            color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-
-          <View
-            style={[
-              styles.headerOptions,
-              {
-                width: horizontalScale(100)
-              }
-            ]}
-          >
-            <Icon
-              name='create-outline'
-              size={moderateScale(25)}
-              color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
-              onPress={handleOnPressEdit}
-            />
-            <Icon
-              name='pause-outline'
-              size={moderateScale(25)}
-              color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
-              onPress={handleOnPressPause}
-            />
-            <Icon
-              name='trash-outline'
-              size={moderateScale(25)}
-              color={theme.HABIT_SCREEN_ACTION_ICON_COLOR}
-              onPress={handleOnPressDelete}
-            />
-          </View>
-        </View>
-
+        <ActionSection
+          navigation={navigation}
+          handleOnPressEdit={handleOnPressEdit}
+          handleOnPressPause={handleOnPressPause}
+          handleOnPressDelete={handleOnPressDelete}
+        />
         <ScrollView style={{ marginBottom: verticalScale(20) }}>
           <Text
             style={[
@@ -393,32 +355,10 @@ export const HabitScreen = ({ navigation }) => {
                 {habit?.frequencyOption}
               </Text>
             </View>
-            <View>
-              <Text
-                style={[
-                  styles.habitInfoText,
-                  {
-                    color: theme.MAIN_TEXT_COLOR
-                  }
-                ]}
-              >
-                Closest Remind:
-              </Text>
-              {/* TODO: Add reminder logic here */}
-              <Text
-                style={[
-                  styles.habitInfoText_Frequency,
-                  {
-                    color: theme.MAIN_TEXT_COLOR
-                  }
-                ]}
-              >
-                {habit?.reminderAt.length > 0 &&
-                  findClosestReminder(habit?.reminderAt)}
-                {habit?.reminderAt.length < 1 && "None"}
-              </Text>
-            </View>
+
+            <ClosestReminder habit={habit} />
           </View>
+
           <CustomCalendar
             currentDate={currentDate}
             stats={stats}
@@ -435,65 +375,13 @@ export const HabitScreen = ({ navigation }) => {
               }
             ]}
           >
-            <View style={styles.streakVSLongestStreak}>
-              <View>
-                <Text
-                  style={[
-                    styles.streakDay,
-                    {
-                      color: theme.MAIN_ACCENT_COLOR,
-                      fontSize: verticalScale(40),
-                      lineHeight: verticalScale(48)
-                    }
-                  ]}
-                >
-                  {streak?.count} {streak?.count > 1 ? "DAYS" : "DAY"}
-                </Text>
-                <Text
-                  style={[
-                    styles.streakLabel,
-                    {
-                      color: theme.MAIN_ACCENT_COLOR,
-                      fontSize: moderateScale(14),
-                      lineHeight: verticalScale(17)
-                    }
-                  ]}
-                >
-                  Your Current Streak
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={[
-                    styles.longestStreak,
-                    {
-                      color: theme.MAIN_ACCENT_COLOR,
-                      fontSize: moderateScale(12),
-                      lineHeight: verticalScale(15)
-                    }
-                  ]}
-                >
-                  {streak?.longestStreak}{" "}
-                  {streak?.longestStreak > 1 ? "days" : "day"}
-                </Text>
-                <Text
-                  style={[
-                    styles.longestStreakLabel,
-                    {
-                      color: theme.MAIN_ACCENT_COLOR,
-                      fontSize: moderateScale(12),
-                      lineHeight: verticalScale(15)
-                    }
-                  ]}
-                >
-                  Your longest streak
-                </Text>
-              </View>
-            </View>
+            <StreakInformation streak={streak} />
+
             <View>
               <StreakIcon />
             </View>
           </View>
+
           <CustomButton
             bgColor={theme.MAIN_ACCENT_COLOR}
             color={theme.APP_WHITE}

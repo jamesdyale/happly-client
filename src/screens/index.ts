@@ -4,7 +4,7 @@ export * from "./HabitsScreen";
 export * from "./ChallengesScreen";
 export * from "./CreateChallengeScreen";
 export * from "./CreateRoomScreen";
-export * from "./HabitScreen";
+export * from "./habit-screen/HabitScreen";
 export * from "./HomeScreen";
 export * from "./LoginScreen";
 export * from "./OnboardScreen";
