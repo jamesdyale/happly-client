@@ -1,14 +1,8 @@
 import React from "react";
 import { Animated, FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { CustomSlider } from "~components";
-import {
-  storeData,
-  randomNameGenerator,
-  verticalScale,
-  horizontalScale,
-  moderateScale
-} from "~utils";
-import { NextBtn, OnboardItem, screens } from "./OnboardScreens";
+import { storeData, randomNameGenerator, verticalScale, horizontalScale, moderateScale } from "~utils";
+import { screens } from "./components/ListOfScreens";
 import { ASYNC_STORAGE_KEYS } from "~constants";
 import { useSetAtom } from "jotai";
 import { isUserOnboardedAtom, userAtom } from "~state";
@@ -17,6 +11,8 @@ import { generateUserId } from "~generators";
 import { ActionCreateUser } from "~actions";
 import { useTheme } from "~hooks";
 import { registerForPushNotificationsAsync } from "~services";
+import { OnboardItem } from "./components/OnboardItem";
+import { NextBtn } from "./components/NextBtn";
 
 export const OnboardScreen = () => {
   const { theme } = useTheme();

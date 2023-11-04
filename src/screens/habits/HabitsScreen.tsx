@@ -89,11 +89,7 @@ export const HabitsScreen = () => {
           Habits
         </Text>
         <ScrollView style={{ marginBottom: verticalScale(20) }}>
-          {allHabits &&
-            Object.keys(allHabits).length > 0 &&
-            Object.keys(allHabits).map((habitId) => (
-              <CalendarWeekView key={habitId} habit={allHabits[habitId].habit} />
-            ))}
+          {allHabits && Object.keys(allHabits).length > 0 && Object.keys(allHabits).map((habitId) => <CalendarWeekView key={habitId} habit={allHabits[habitId].habit} />)}
           {allHabits && Object.keys(allHabits).length === 0 && (
             <View
               style={[
