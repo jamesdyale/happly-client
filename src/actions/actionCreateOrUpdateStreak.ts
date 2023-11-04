@@ -15,8 +15,8 @@ export const ActionCreateOrUpdateStreak = async (habitId: Habit["id"], userId: U
         id: generateStreakId(),
         habitId,
         userId,
-        count: 0,
-        longestStreak: 0,
+        count: 1,
+        longestStreak: 1,
         startDate: new Date().toISOString(),
         lastUpdated: new Date().toISOString()
       };

@@ -5,31 +5,17 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { StreakIcon } from "~assets";
 import { ROUTES } from "../../constants";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import {
-  editHabitAtom,
-  selectedDayOfTheWeekAtom,
-  selectedHabitAtom,
-  showDeleteModalAtom
-} from "~state";
+import { editHabitAtom, selectedDayOfTheWeekAtom, selectedHabitAtom, showDeleteModalAtom } from "~state";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Habit, HabitType, Stats, Streak } from "~types";
-import {
-  ActionGetStatsByHabitId,
-  ActionGetStreakByHabitId,
-  ActionGetUserHabitByIdDoc
-} from "~actions";
+import { ActionCreateOrUpdateStreak, ActionGetStatsByHabitId, ActionGetStreakByHabitId, ActionGetUserHabitByIdDoc } from "~actions";
 import { useToast } from "react-native-toast-notifications";
 import { DeleteHabitModal } from "~modals";
 import { onSnapshot } from "firebase/firestore";
 import { DateData } from "react-native-calendars";
 import moment from "moment";
-import {
-  checkIfChallengeIsCompleted,
-  markHabitAsDone,
-  validateHabitStreak,
-  useMetric
-} from "~utils";
+import { checkIfChallengeIsCompleted, markHabitAsDone, validateHabitStreak, useMetric } from "~utils";
 import { useTheme } from "~hooks";
 import { ActionSection } from "./components/ActionSection";
 import { StreakInformation } from "./components/StreakInformation";
@@ -39,8 +25,7 @@ export const HabitScreen = ({ navigation }) => {
   const toast = useToast();
   const { theme } = useTheme();
   const { horizontalScale, verticalScale, moderateScale } = useMetric();
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const currentDate = moment().format("YYYY-MM-DD");
   const [selectedHabit, setSelectedHabit] = useAtom(selectedHabitAtom);
@@ -123,7 +108,7 @@ export const HabitScreen = ({ navigation }) => {
     await getHabitStats(month.month);
   };
 
-  const getHabitStats = async (currentMonth) => {
+  const getHabitStats = async () => {
     if (selectedHabit === null) {
       return;
     }
@@ -188,28 +173,17 @@ export const HabitScreen = ({ navigation }) => {
         type: "danger",
         duration: 4000,
         placement: "bottom",
-        icon: (
-          <Icon
-            name='alert-circle'
-            size={moderateScale(20)}
-            color={theme.APP_WHITE}
-          />
-        )
+        icon: <Icon name='alert-circle' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
       return;
     }
+
     if (habit.type === HabitType.REGULAR) {
       toast.show(message, {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: (
-          <Icon
-            name='trending-up'
-            size={moderateScale(20)}
-            color={theme.APP_WHITE}
-          />
-        )
+        icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
     } else {
       const data = await checkIfChallengeIsCompleted({
@@ -217,21 +191,12 @@ export const HabitScreen = ({ navigation }) => {
         habitId: habit.id
       });
       if (!data) {
-        toast.show(
-          "Having trouble check if you have completed your challenge. Please try again!",
-          {
-            type: "success",
-            duration: 4000,
-            placement: "bottom",
-            icon: (
-              <Icon
-                name='trending-up'
-                size={moderateScale(20)}
-                color={theme.APP_WHITE}
-              />
-            )
-          }
-        );
+        toast.show("Having trouble check if you have completed your challenge. Please try again!", {
+          type: "success",
+          duration: 4000,
+          placement: "bottom",
+          icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+        });
       } else {
         const { streakCount, challengeDuration } = data;
         if (streakCount >= challengeDuration) {
@@ -239,41 +204,22 @@ export const HabitScreen = ({ navigation }) => {
             type: "success",
             duration: 4000,
             placement: "bottom",
-            icon: (
-              <Icon
-                name='trending-up'
-                size={moderateScale(20)}
-                color={theme.APP_WHITE}
-              />
-            )
+            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
           });
         } else {
-          toast.show(
-            `You rock. You have ${
-              challengeDuration - streakCount
-            } day(s) left to complete the challenge`,
-            {
-              type: "success",
-              duration: 4000,
-              placement: "bottom",
-              icon: (
-                <Icon
-                  name='trending-up'
-                  size={moderateScale(20)}
-                  color={theme.APP_WHITE}
-                />
-              )
-            }
-          );
+          toast.show(`You rock. You have ${challengeDuration - streakCount} day(s) left to complete the challenge`, {
+            type: "success",
+            duration: 4000,
+            placement: "bottom",
+            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+          });
         }
       }
     }
   };
 
   return (
-    <SafeAreaView
-      style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}
-    >
+    <SafeAreaView style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}>
       <View
         style={[
           styles.container,
@@ -284,12 +230,7 @@ export const HabitScreen = ({ navigation }) => {
           }
         ]}
       >
-        <ActionSection
-          navigation={navigation}
-          handleOnPressEdit={handleOnPressEdit}
-          handleOnPressPause={handleOnPressPause}
-          handleOnPressDelete={handleOnPressDelete}
-        />
+        <ActionSection navigation={navigation} handleOnPressEdit={handleOnPressEdit} handleOnPressPause={handleOnPressPause} handleOnPressDelete={handleOnPressDelete} />
         <ScrollView style={{ marginBottom: verticalScale(20) }}>
           <Text
             style={[
@@ -357,11 +298,7 @@ export const HabitScreen = ({ navigation }) => {
             <ClosestReminder habit={habit} />
           </View>
 
-          <CustomCalendar
-            currentDate={currentDate}
-            stats={stats}
-            handleMonthChange={handleMonthChange}
-          />
+          <CustomCalendar currentDate={currentDate} stats={stats} handleMonthChange={handleMonthChange} />
 
           <View
             style={[
@@ -385,13 +322,7 @@ export const HabitScreen = ({ navigation }) => {
             color={theme.APP_WHITE}
             text={"Mark as done"}
             onClick={handleOnPressMarkAsDone}
-            icon={
-              <Icon
-                name='checkbox-outline'
-                size={moderateScale(20)}
-                color={theme.APP_WHITE}
-              />
-            }
+            icon={<Icon name='checkbox-outline' size={moderateScale(20)} color={theme.APP_WHITE} />}
             // disabled={loading}
           />
         </ScrollView>
