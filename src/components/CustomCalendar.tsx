@@ -8,11 +8,7 @@ import { useTheme } from "~hooks";
 import { moderateScale } from "~utils";
 
 const Arrow = ({ direction }) => {
-  return direction === "left" ? (
-    <Icon name='chevron-back' size={22} color={APP_GRAY} />
-  ) : (
-    <Icon name='chevron-forward' size={22} color={APP_GRAY} />
-  );
+  return direction === "left" ? <Icon name='chevron-back' size={22} color={APP_GRAY} /> : <Icon name='chevron-forward' size={22} color={APP_GRAY} />;
 };
 
 type CustomCalendarType = {

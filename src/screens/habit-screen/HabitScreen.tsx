@@ -134,9 +134,7 @@ export const HabitScreen = ({ navigation }) => {
     const progress: Stats[] = [];
     docs.forEach((doc) => {
       const data = doc.data() as unknown as Stats;
-      if (new Date(data.completedAt).getMonth() + 1 === currentMonth) {
-        progress.push(data);
-      }
+      progress.push(data);
     });
 
     setStats(progress);
