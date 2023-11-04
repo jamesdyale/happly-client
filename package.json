@@ -38,6 +38,7 @@
     "jotai": "^2.2.1",
     "jotai-optics": "^0.3.0",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "nanoid": "^4.0.2",
     "optics-ts": "^2.4.0",
     "patch-package": "^7.0.0",

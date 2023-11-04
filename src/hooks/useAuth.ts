@@ -9,8 +9,8 @@ import { ASYNC_STORAGE_KEYS } from "~constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const useAuth = () => {
-  const [, setUser] = useAtom(userAtom);
-  const [, setAuthFlow] = useAtom(authFlowAtom);
+  const [user, setUser] = useAtom(userAtom);
+  const setAuthFlow = useSetAtom(authFlowAtom);
   const [isAppReady, setIsAppReady] = useAtom(isAppReadyAtom);
   const [isUserOnboarded, setIsUserOnboarded] = useAtom(isUserOnboardedAtom);
 
@@ -60,5 +60,5 @@ export const useAuth = () => {
     };
   }, []);
 
-  return { isAppReady, isUserOnboarded };
+  return { isAppReady, isUserOnboarded, user };
 };

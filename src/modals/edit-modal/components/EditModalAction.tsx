@@ -1,42 +1,22 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useToast } from "react-native-toast-notifications";
 import { useAtom, useSetAtom } from "jotai";
-import {
-  editHabitAtom,
-  loadingAtom,
-  progressAtom,
-  selectedDayOfTheWeekAtom,
-  selectedHabitAtom,
-  showDeleteModalAtom
-} from "~state";
+import { editHabitAtom, loadingAtom, progressAtom, selectedDayOfTheWeekAtom, selectedHabitAtom, showDeleteModalAtom, userAtom } from "~state";
 import { APP_WHITE } from "~styles";
 import Icon from "react-native-vector-icons/Ionicons";
 import React from "react";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import {
-  ActionGetUserHabitById,
-  ActionDeleteHabitById,
-  ActionDeleteStatsById,
-  ActionDeleteStreakByHabitId,
-  ActionDeleteRemindersByHabitId
-} from "~actions";
+import { ActionGetUserHabitById, ActionDeleteHabitById, ActionDeleteStatsById, ActionDeleteStreakByHabitId, ActionDeleteRemindersByHabitId, ActionCreateUser } from "~actions";
 import { useAtomValue } from "jotai";
 import { HabitType } from "~types";
 import { useTheme } from "~hooks";
-import {
-  checkIfChallengeIsCompleted,
-  horizontalScale,
-  markHabitAsDone,
-  moderateScale,
-  removeAUserFromAChallenge,
-  verticalScale
-} from "~utils";
+import { checkIfChallengeIsCompleted, horizontalScale, markHabitAsDone, moderateScale, removeAUserFromAChallenge, verticalScale } from "~utils";
 import { ROUTES } from "~constants";
+import momentTime from "moment-timezone";
 
 export const EditModalAction = () => {
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const toast = useToast();
   const { theme } = useTheme();
 
@@ -45,8 +25,8 @@ export const EditModalAction = () => {
   const setEditHabit = useSetAtom(editHabitAtom);
   const setDeleteModal = useSetAtom(showDeleteModalAtom);
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom);
-
   const setLoading = useSetAtom(loadingAtom);
+  const [user, setUser] = useAtom(userAtom);
 
   const deleteHabit = async () => {
     setLoading(true);
@@ -55,15 +35,11 @@ export const EditModalAction = () => {
 
     if (dataDocumentSnapshot.exists()) {
       try {
-        const habitStat = progress.find(
-          (stat) => stat.habitId === habitSelected.id
-        );
+        const habitStat = progress.find((stat) => stat.habitId === habitSelected.id);
 
         if (habitStat) {
           await ActionDeleteStatsById(habitStat.id);
-          setProgress((prev) =>
-            prev.filter((stat) => stat.id !== habitStat.id)
-          );
+          setProgress((prev) => prev.filter((stat) => stat.id !== habitStat.id));
         }
 
         await ActionDeleteStreakByHabitId(habitSelected.id);
@@ -73,10 +49,7 @@ export const EditModalAction = () => {
         await ActionDeleteHabitById(habitSelected.id);
 
         if (habitSelected.type === HabitType.CHALLENGE) {
-          await removeAUserFromAChallenge(
-            habitSelected.challengeId,
-            habitSelected.userId
-          );
+          await removeAUserFromAChallenge(habitSelected.challengeId, habitSelected.userId);
         }
 
         setSelectedHabit(null);
@@ -89,21 +62,12 @@ export const EditModalAction = () => {
           icon: <Icon name='trash' size={moderateScale(20)} color={APP_WHITE} />
         });
       } catch (e) {
-        toast.show(
-          "An error happened when deleting your habit. Please try again!",
-          {
-            type: "danger",
-            duration: 4000,
-            placement: "bottom",
-            icon: (
-              <Icon
-                name='alert-circle'
-                size={moderateScale(20)}
-                color={APP_WHITE}
-              />
-            )
-          }
-        );
+        toast.show("An error happened when deleting your habit. Please try again!", {
+          type: "danger",
+          duration: 4000,
+          placement: "bottom",
+          icon: <Icon name='alert-circle' size={moderateScale(20)} color={APP_WHITE} />
+        });
       } finally {
         setLoading(false);
       }
@@ -142,6 +106,18 @@ export const EditModalAction = () => {
   const handleOnPressMarkAsDone = async () => {
     setLoading(true);
 
+    const userTimezone = momentTime.tz.guess();
+
+    if (user && !user.timezone) {
+      const updatedUser = {
+        ...user,
+        timezone: userTimezone
+      };
+
+      await ActionCreateUser(updatedUser, updatedUser.id);
+      setUser(updatedUser);
+    }
+
     const { message, stat } = await markHabitAsDone({
       habit: habitSelected,
       selectedDay,
@@ -153,13 +129,7 @@ export const EditModalAction = () => {
         type: "danger",
         duration: 4000,
         placement: "bottom",
-        icon: (
-          <Icon
-            name='alert-circle'
-            size={moderateScale(20)}
-            color={theme.APP_WHITE}
-          />
-        )
+        icon: <Icon name='alert-circle' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
       return;
     }
@@ -168,13 +138,7 @@ export const EditModalAction = () => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: (
-          <Icon
-            name='trending-up'
-            size={moderateScale(20)}
-            color={theme.APP_WHITE}
-          />
-        )
+        icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
     } else {
       const data = await checkIfChallengeIsCompleted({
@@ -182,21 +146,12 @@ export const EditModalAction = () => {
         habitId: habitSelected.id
       });
       if (!data) {
-        toast.show(
-          "Having trouble check if you have completed your challenge. Please try again!",
-          {
-            type: "success",
-            duration: 4000,
-            placement: "bottom",
-            icon: (
-              <Icon
-                name='trending-up'
-                size={moderateScale(20)}
-                color={theme.APP_WHITE}
-              />
-            )
-          }
-        );
+        toast.show("Having trouble check if you have completed your challenge. Please try again!", {
+          type: "success",
+          duration: 4000,
+          placement: "bottom",
+          icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+        });
       } else {
         const { streakCount, challengeDuration } = data;
         if (streakCount >= challengeDuration) {
@@ -204,32 +159,15 @@ export const EditModalAction = () => {
             type: "success",
             duration: 4000,
             placement: "bottom",
-            icon: (
-              <Icon
-                name='trending-up'
-                size={moderateScale(20)}
-                color={theme.APP_WHITE}
-              />
-            )
+            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
           });
         } else {
-          toast.show(
-            `You rock. You have ${
-              challengeDuration - streakCount
-            } day(s) left to complete the challenge`,
-            {
-              type: "success",
-              duration: 4000,
-              placement: "bottom",
-              icon: (
-                <Icon
-                  name='trending-up'
-                  size={moderateScale(20)}
-                  color={theme.APP_WHITE}
-                />
-              )
-            }
-          );
+          toast.show(`You rock. You have ${challengeDuration - streakCount} day(s) left to complete the challenge`, {
+            type: "success",
+            duration: 4000,
+            placement: "bottom",
+            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+          });
         }
       }
     }
@@ -239,15 +177,8 @@ export const EditModalAction = () => {
 
   return (
     <View style={styles.actionSection}>
-      <TouchableOpacity
-        style={styles.actionSectionButton}
-        onPress={handleOnPressDelete}
-      >
-        <Icon
-          name='trash'
-          size={moderateScale(25)}
-          color={theme.MAIN_TEXT_COLOR}
-        />
+      <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressDelete}>
+        <Icon name='trash' size={moderateScale(25)} color={theme.MAIN_TEXT_COLOR} />
         <Text
           style={[
             styles.infoText,
@@ -259,15 +190,8 @@ export const EditModalAction = () => {
           Delete
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.actionSectionButton}
-        onPress={handleOnPressEdit}
-      >
-        <Icon
-          name='create-outline'
-          size={moderateScale(25)}
-          color={theme.MAIN_TEXT_COLOR}
-        />
+      <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressEdit}>
+        <Icon name='create-outline' size={moderateScale(25)} color={theme.MAIN_TEXT_COLOR} />
         <Text
           style={[
             styles.infoText,
@@ -279,15 +203,8 @@ export const EditModalAction = () => {
           Edit
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.actionSectionButton}
-        onPress={handleOnPressMarkAsDone}
-      >
-        <Icon
-          name='checkbox-outline'
-          size={moderateScale(25)}
-          color={theme.MAIN_TEXT_COLOR}
-        />
+      <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressMarkAsDone}>
+        <Icon name='checkbox-outline' size={moderateScale(25)} color={theme.MAIN_TEXT_COLOR} />
         <Text
           style={[
             styles.infoText,

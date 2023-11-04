@@ -1,30 +1,23 @@
-import { NavigationContainer, NavigationState } from '@react-navigation/native'
-import { RootNavigator } from '~navigation/RootNavigator'
-import { useNavigationStatePersistence, useScreenTracker } from '~hooks'
-import { useCallback } from 'react'
-
+import { NavigationContainer, NavigationState } from "@react-navigation/native";
+import { RootNavigator } from "~navigation/RootNavigator";
+import { useNavigationStatePersistence, useScreenTracker } from "~hooks";
+import { useCallback } from "react";
 
 export const Navigation = () => {
-  const { navigationRef, onReady, onStateChange: onStateChangeScreenTracker } = useScreenTracker()
+  const { navigationRef, onReady, onStateChange: onStateChangeScreenTracker } = useScreenTracker();
 
-  const {
-    isReady,
-    initialState,
-    onStateChange: onStateChangeNavigationStatePersistance
-  } = useNavigationStatePersistence()
-
+  const { isReady, initialState, onStateChange: onStateChangeNavigationStatePersistance } = useNavigationStatePersistence();
 
   const onStateChange = useCallback(
     (state: NavigationState | undefined) => {
-      onStateChangeScreenTracker()
-      onStateChangeNavigationStatePersistance(state)
+      onStateChangeScreenTracker();
+      onStateChangeNavigationStatePersistance(state);
     },
     [onStateChangeNavigationStatePersistance, onStateChangeScreenTracker]
-  )
-
+  );
 
   if (!isReady) {
-    return null
+    return null;
   }
 
   return (
@@ -37,5 +30,5 @@ export const Navigation = () => {
     >
       <RootNavigator />
     </NavigationContainer>
-  )
-}
+  );
+};

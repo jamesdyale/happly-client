@@ -5,21 +5,21 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { StreakIcon } from "~assets";
 import { ROUTES } from "../../constants";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { editHabitAtom, selectedDayOfTheWeekAtom, selectedHabitAtom, showDeleteModalAtom } from "~state";
+import { editHabitAtom, selectedDayOfTheWeekAtom, selectedHabitAtom, showDeleteModalAtom, userAtom } from "~state";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Habit, HabitType, Stats, Streak } from "~types";
-import { ActionCreateOrUpdateStreak, ActionGetStatsByHabitId, ActionGetStreakByHabitId, ActionGetUserHabitByIdDoc } from "~actions";
+import { ActionCreateUser, ActionGetStatsByHabitId, ActionGetStreakByHabitId, ActionGetUserHabitByIdDoc } from "~actions";
 import { useToast } from "react-native-toast-notifications";
 import { DeleteHabitModal } from "~modals";
 import { onSnapshot } from "firebase/firestore";
-import { DateData } from "react-native-calendars";
 import moment from "moment";
 import { checkIfChallengeIsCompleted, markHabitAsDone, validateHabitStreak, useMetric } from "~utils";
 import { useTheme } from "~hooks";
 import { ActionSection } from "./components/ActionSection";
 import { StreakInformation } from "./components/StreakInformation";
 import { ClosestReminder } from "./components/ClosestReminder";
+import momentTime from "moment-timezone";
 
 export const HabitScreen = ({ navigation }) => {
   const toast = useToast();
@@ -28,6 +28,8 @@ export const HabitScreen = ({ navigation }) => {
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const currentDate = moment().format("YYYY-MM-DD");
+
+  const [user, setUser] = useAtom(userAtom);
   const [selectedHabit, setSelectedHabit] = useAtom(selectedHabitAtom);
   const setEditHabit = useSetAtom(editHabitAtom);
   const [, setDeleteModal] = useAtom(showDeleteModalAtom);
@@ -40,11 +42,10 @@ export const HabitScreen = ({ navigation }) => {
   useEffect(() => {
     // TODO: Add loading state
     let isMounted = true;
-    let currentMonth = moment(currentDate).month() + 1;
 
     if (isMounted) {
       getHabitById();
-      getHabitStats(currentMonth);
+      getHabitStats();
       getHabitStreak();
     }
 
@@ -104,8 +105,8 @@ export const HabitScreen = ({ navigation }) => {
     return () => subscription();
   };
 
-  const handleMonthChange = async (month: DateData) => {
-    await getHabitStats(month.month);
+  const handleMonthChange = async () => {
+    await getHabitStats();
   };
 
   const getHabitStats = async () => {
@@ -162,6 +163,18 @@ export const HabitScreen = ({ navigation }) => {
   };
 
   const handleOnPressMarkAsDone = async () => {
+    const userTimezone = momentTime.tz.guess();
+
+    if (user && !user.timezone) {
+      const updatedUser = {
+        ...user,
+        timezone: userTimezone
+      };
+
+      await ActionCreateUser(updatedUser, updatedUser.id);
+      setUser(updatedUser);
+    }
+
     const { message, stat } = await markHabitAsDone({
       habit,
       selectedDay,

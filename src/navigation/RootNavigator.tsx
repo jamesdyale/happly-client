@@ -7,7 +7,7 @@ import { BottomTabNavigator } from "~navigation/BottomTabNavigator";
 import { LoginScreen } from "~screens/login/LoginScreen";
 import { SignUpScreen } from "~screens/signup/SignUpScreen";
 import { ModalStack } from "~navigation/ModalStack";
-import { isAppReadyAtom, isUserOnboardedAtom } from "~state";
+import { isAppReadyAtom, isUserOnboardedAtom, userAtom } from "~state";
 import { useAtomValue } from "jotai";
 
 const { Navigator, Screen, Group } = createStackNavigator();

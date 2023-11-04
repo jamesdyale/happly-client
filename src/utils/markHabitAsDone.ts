@@ -32,10 +32,7 @@ export const markHabitAsDone = async ({
 
     retrievedStatsFromHabitId.forEach((doc) => {
       const data = doc.data() as unknown as Stats;
-      if (
-        data.completedAt ===
-        moment(selectedDay, "MMMM Do YYYY").format("ddd MMM DD YYYY")
-      ) {
+      if (data.completedAt === moment(selectedDay, "MMMM Do YYYY").format("ddd MMM DD YYYY")) {
         existingStat = true;
       }
     });
@@ -52,9 +49,7 @@ export const markHabitAsDone = async ({
       id: generateStatId(),
       userId: habit.userId,
       habitId: habit.id,
-      completedAt: moment(selectedDay, "MMMM Do YYYY").format(
-        "ddd MMM DD YYYY"
-      ),
+      completedAt: moment(selectedDay, "MMMM Do YYYY").format("ddd MMM DD YYYY"),
       progress: 100
     };
 
@@ -62,8 +57,7 @@ export const markHabitAsDone = async ({
       const createdStat = await ActionCreateStat(stat);
 
       if (!createdStat) {
-        response.message =
-          "An error happened when completing your habit. Please try again!";
+        response.message = "An error happened when completing your habit. Please try again!";
         return response;
       }
 
@@ -71,8 +65,7 @@ export const markHabitAsDone = async ({
       response.stat = createdStat;
       return response;
     } catch (e) {
-      response.message =
-        "An error happened when completing your habit. Please try again!";
+      response.message = "An error happened when completing your habit. Please try again!";
       return response;
     }
   }

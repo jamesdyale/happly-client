@@ -1,15 +1,16 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
-import { useSetAtom, useAtomValue } from "jotai";
+import { useSetAtom, useAtomValue, useAtom } from "jotai";
 import { useToast } from "react-native-toast-notifications";
 import { Habit, HabitType, Stats, Streak } from "~types";
-import { progressAtom, selectedDayOfTheWeekAtom, selectedHabitAtom } from "~state";
-import { ActionCreateOrUpdateStreak, ActionGetStreakByHabitIdQuery } from "~actions";
+import { progressAtom, selectedDayOfTheWeekAtom, selectedHabitAtom, userAtom } from "~state";
+import { ActionCreateOrUpdateStreak, ActionCreateUser, ActionGetStreakByHabitIdQuery } from "~actions";
 import { APP_GRAY, APP_GREEN, APP_WHITE } from "~styles";
 import { checkIfChallengeIsCompleted, getMessageRelatedToStreakData, horizontalScale, markHabitAsDone, moderateScale, verticalScale } from "~utils";
 import { useTheme } from "~hooks";
 import { onSnapshot } from "firebase/firestore";
+import momentTime from "moment-timezone";
 
 type HabitCardType = {
   habit: Habit;
@@ -23,6 +24,7 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
   const setHabitSelected = useSetAtom(selectedHabitAtom);
   const setProgress = useSetAtom(progressAtom);
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom);
+  const [user, setUser] = useAtom(userAtom);
 
   const foundProgress = progress.find((stat) => stat.habitId === habit.id);
 
@@ -47,6 +49,18 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
   };
 
   const handleCompletedHabit = async () => {
+    const userTimezone = momentTime.tz.guess();
+
+    if (user && !user.timezone) {
+      const updatedUser = {
+        ...user,
+        timezone: userTimezone
+      };
+
+      await ActionCreateUser(updatedUser, updatedUser.id);
+      setUser(updatedUser);
+    }
+
     const { message, stat } = await markHabitAsDone({
       habit,
       selectedDay,

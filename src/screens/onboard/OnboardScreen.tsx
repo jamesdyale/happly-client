@@ -13,6 +13,7 @@ import { useTheme } from "~hooks";
 import { registerForPushNotificationsAsync } from "~services";
 import { OnboardItem } from "./components/OnboardItem";
 import { NextBtn } from "./components/NextBtn";
+import momentTime from "moment-timezone";
 
 export const OnboardScreen = () => {
   const { theme } = useTheme();
@@ -42,7 +43,8 @@ export const OnboardScreen = () => {
       email: "",
       name: randomNameGenerator(),
       isAccountVerified: false,
-      pushToken: "" // figure out a way to ask the user for permission to send push notifications
+      pushToken: "", // figure out a way to ask the user for permission to send push notifications
+      timezone: momentTime.tz.guess()
     };
 
     // we want to set the user to be logged in
