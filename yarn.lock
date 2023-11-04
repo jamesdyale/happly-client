@@ -4898,6 +4898,13 @@ expo-linking@^5.0.2:
     qs "^6.11.0"
     url-parse "^1.5.9"
 
+expo-localization@^14.5.0:
+  version "14.5.0"
+  resolved "https://registry.yarnpkg.com/expo-localization/-/expo-localization-14.5.0.tgz#8a7e52d5c079a86b20ccadbb0d90cff0df8d3e34"
+  integrity sha512-hax+Gs5akRCKeMhDRugTW+n7ORYkKoLFWPUXviupsAioR9MXSoghRqE9nOJio8mFwhhMiUA8BflppdpUxxOiSA==
+  dependencies:
+    rtl-detect "^1.0.2"
+
 expo-modules-autolinking@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-1.2.0.tgz#3ead115510a43fe196fc0498586b6133bd573209"
@@ -4971,10 +4978,10 @@ expo-web-browser@~12.1.1:
     compare-urls "^2.0.0"
     url "^0.11.0"
 
-expo@~48.0.18:
-  version "48.0.20"
-  resolved "https://registry.yarnpkg.com/expo/-/expo-48.0.20.tgz#098a19b1eba81a15062fa853ae6941fdf9aef1f4"
-  integrity sha512-SDRlLRINWWqf/OIPaUr/BsFZLhR5oEj1u9Cn06h1mPeo8pqv6ei/QTSZql4e0ixHIu3PWMPrUx9k/47nnTyTpg==
+expo@~48.0.21:
+  version "48.0.21"
+  resolved "https://registry.yarnpkg.com/expo/-/expo-48.0.21.tgz#40c5795c738ef05f8a7ddf466a53d73d86a3c456"
+  integrity sha512-Z211SC4wZP4Xd5/RBJhEw4uwSgpfzAvMh6IVdzwEVAJAcV1s48CACcSmIUe+7QJjEPzmb3T5Yo4EJ/JJXJ2o9A==
   dependencies:
     "@babel/runtime" "^7.20.0"
     "@expo/cli" "0.7.3"
@@ -7922,7 +7929,7 @@ react-native-calendars@^1.1299.0:
   optionalDependencies:
     moment "^2.29.4"
 
-react-native-codegen@^0.71.5:
+react-native-codegen@^0.71.6:
   version "0.71.6"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.71.6.tgz#481a610c3af9135b09e1e031da032e7270e0cc1b"
   integrity sha512-e5pR4VldIhEaFctfSAEgxbng0uG4gjBQxAHes3EKLdosH/Av90pQfSe9IDVdFIngvNPzt8Y14pNjrtqov/yNIg==
@@ -8055,10 +8062,10 @@ react-native-vector-icons@^9.2.0:
     prop-types "^15.7.2"
     yargs "^16.1.1"
 
-react-native@0.71.13:
-  version "0.71.13"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.13.tgz#e20007904f5f8a4b8b1faf1e60f0d7eb9f578ed6"
-  integrity sha512-zEa69YQNLdv8Sf5Pn0CNDB1K9eGuNy1KoMNxXlrZ89JZ8d02b5hihZIoOCCIwhH+iPgslYwr3ZoGd3AY6FMrgw==
+react-native@0.71.14:
+  version "0.71.14"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.14.tgz#df12b405a7913b736de01b0347af14e4be7bf324"
+  integrity sha512-7uhzas8aKpU2EARhlONt7yiclh+7PXEOJk469ewpQyId8Owq5WNtZvQm/z3k4mHUriMeQ37vgSGkOInSKcCazw==
   dependencies:
     "@jest/create-cache-key-function" "^29.2.1"
     "@react-native-community/cli" "10.2.4"
@@ -8085,7 +8092,7 @@ react-native@0.71.13:
     pretty-format "^26.5.2"
     promise "^8.3.0"
     react-devtools-core "^4.26.1"
-    react-native-codegen "^0.71.5"
+    react-native-codegen "^0.71.6"
     react-native-gradle-plugin "^0.71.19"
     react-refresh "^0.4.0"
     react-shallow-renderer "^16.15.0"
@@ -8376,6 +8383,11 @@ rimraf@~2.6.2:
   integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
   dependencies:
     glob "^7.1.3"
+
+rtl-detect@^1.0.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/rtl-detect/-/rtl-detect-1.1.2.tgz#ca7f0330af5c6bb626c15675c642ba85ad6273c6"
+  integrity sha512-PGMBq03+TTG/p/cRB7HCLKJ1MgDIi07+QU1faSjiYRfmY5UsAttV9Hs08jDAHVwcOwmVLcSJkpwyfXszVjWfIQ==
 
 run-parallel@^1.1.9:
   version "1.2.0"

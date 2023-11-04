@@ -3,18 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { HabitList, UserProfile, WeekCalendar } from "~components";
 import { EditHabitModal } from "~modals";
-import {
-  dailyHabitsAtom,
-  progressAtom,
-  selectedDayOfTheWeekAtom,
-  selectedTimeOfDayAtom,
-  userAtom
-} from "~state";
+import { dailyHabitsAtom, progressAtom, selectedDayOfTheWeekAtom, selectedTimeOfDayAtom, userAtom } from "~state";
 import { Habit, Stats, User } from "~types";
-import {
-  ActionGetUserHabitsByUserId,
-  ActionGetCompletedStatForDay
-} from "~actions";
+import { ActionGetUserHabitsByUserId, ActionGetCompletedStatForDay } from "~actions";
 import { onSnapshot } from "firebase/firestore";
 import moment from "moment/moment";
 import { useTheme } from "~hooks";
@@ -59,7 +50,6 @@ export const HomeScreen = () => {
   }, [selectedDay, timeOfDay]);
 
   const getHabitsForTheDay = async () => {
-    console.log("getHabitsForTheDay");
     if (!user) {
       console.log("no user");
       return;
@@ -71,20 +61,11 @@ export const HomeScreen = () => {
       const habits: Habit[] = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data() as unknown as Habit;
-        if (
-          moment(data.createdAt, "MMMM Do YYYY").isSameOrBefore(
-            moment(selectedDay, "MMMM Do YYYY"),
-            "day"
-          )
-        ) {
+        if (moment(data.createdAt, "MMMM Do YYYY").isSameOrBefore(moment(selectedDay, "MMMM Do YYYY"), "day")) {
           if (data.frequencyOption === "Daily") {
             habits.push(data);
           } else if (data.frequencyOption === "Weekly") {
-            if (
-              data.selectedDays.includes(
-                moment(selectedDay, "MMMM Do YYYY").format("dddd")
-              )
-            ) {
+            if (data.selectedDays.includes(moment(selectedDay, "MMMM Do YYYY").format("dddd"))) {
               habits.push(data);
             }
           }
@@ -107,10 +88,7 @@ export const HomeScreen = () => {
       return;
     }
 
-    const completedHabitQuery = ActionGetCompletedStatForDay(
-      userId,
-      selectedDay
-    );
+    const completedHabitQuery = ActionGetCompletedStatForDay(userId, selectedDay);
 
     const unsubscribe = onSnapshot(completedHabitQuery, (querySnapshot) => {
       const progress: Stats[] = [];

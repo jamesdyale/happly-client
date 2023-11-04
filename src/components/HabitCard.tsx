@@ -5,23 +5,11 @@ import { useSetAtom, useAtomValue } from "jotai";
 import { useToast } from "react-native-toast-notifications";
 import { Habit, HabitType, Stats, Streak } from "~types";
 import { progressAtom, selectedDayOfTheWeekAtom, selectedHabitAtom } from "~state";
-import {
-  ActionCreateOrUpdateStreak,
-  ActionGetStatsByHabitId,
-  ActionGetStreakByHabitId
-} from "~actions";
+import { ActionCreateOrUpdateStreak, ActionGetStreakByHabitIdQuery } from "~actions";
 import { APP_GRAY, APP_GREEN, APP_WHITE } from "~styles";
-import moment from "moment";
-import {
-  checkIfChallengeIsCompleted,
-  getMessageRelatedToStreakData,
-  horizontalScale,
-  markHabitAsDone,
-  moderateScale,
-  validateHabitStreak,
-  verticalScale
-} from "~utils";
+import { checkIfChallengeIsCompleted, getMessageRelatedToStreakData, horizontalScale, markHabitAsDone, moderateScale, verticalScale } from "~utils";
 import { useTheme } from "~hooks";
+import { onSnapshot } from "firebase/firestore";
 
 type HabitCardType = {
   habit: Habit;
@@ -32,8 +20,6 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
   const toast = useToast();
   const { theme } = useTheme();
 
-  const currentDate = moment().format("YYYY-MM-DD");
-  const currentMonth = moment(currentDate).month() + 1;
   const setHabitSelected = useSetAtom(selectedHabitAtom);
   const setProgress = useSetAtom(progressAtom);
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom);
@@ -79,7 +65,6 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
 
     await ActionCreateOrUpdateStreak(habit.id, habit.userId);
 
-    // TODO: Add logic to check the stats and update the habit accordingly
     setProgress((prev) => [...prev, stat]);
 
     getHabitStreak();
@@ -113,17 +98,12 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
             icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
           });
         } else {
-          toast.show(
-            `You rock. You have ${
-              challengeDuration - streakCount
-            } day(s) left to complete the challenge`,
-            {
-              type: "success",
-              duration: 4000,
-              placement: "bottom",
-              icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
-            }
-          );
+          toast.show(`You rock. You have ${challengeDuration - streakCount} day(s) left to complete the challenge`, {
+            type: "success",
+            duration: 4000,
+            placement: "bottom",
+            icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+          });
         }
       }
     }
@@ -134,32 +114,20 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
       return;
     }
 
-    const streakDocs = await ActionGetStreakByHabitId(habit.id);
-    const statsDocs = await ActionGetStatsByHabitId(habit.id);
+    const streakQuery = ActionGetStreakByHabitIdQuery(habit.id);
 
-    if (!streakDocs) return;
+    const unsubscribe = onSnapshot(streakQuery, (querySnapshot) => {
+      const streaks: Streak[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data() as unknown as Streak;
+        streaks.push(data);
+      });
 
-    if (!statsDocs) return;
-
-    const streaks: Streak[] = [];
-    streakDocs.forEach((doc) => {
-      const data = doc.data() as unknown as Streak;
-      streaks.push(data);
-    });
-
-    const progress: Stats[] = [];
-    statsDocs.forEach((stat) => {
-      const data = stat.data() as unknown as Stats;
-      // FIX THIS
-      if (new Date(data.completedAt).getMonth() + 1 === currentMonth) progress.push(data);
-    });
-
-    const streak = await validateHabitStreak(streaks[0], habit, progress);
-
-    if (streak) {
-      const streakCountMessage = getMessageRelatedToStreakData(streak);
+      const streakCountMessage = getMessageRelatedToStreakData(streaks[0]);
       setStreakCountMessage(streakCountMessage);
-    }
+    });
+
+    return () => unsubscribe();
   };
 
   return (
@@ -180,12 +148,20 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
         style={[
           styles.habitNameContainer,
           {
-            fontSize: moderateScale(18),
             marginBottom: verticalScale(5)
           }
         ]}
       >
-        <Text style={styles.habitName}>{habit.name}</Text>
+        <Text
+          style={[
+            styles.habitName,
+            {
+              fontSize: moderateScale(14)
+            }
+          ]}
+        >
+          {habit.name}
+        </Text>
         {streakCountMessage && streakCountMessage !== "" ? (
           <Text
             style={[

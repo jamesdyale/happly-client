@@ -3,26 +3,17 @@ import { ActionUpdateStreak } from "../actions/actionUpdateStreak";
 import { Streak, Habit, Frequency, Stats } from "~types";
 import { calculateLowestDifferenceInDays } from "./calculateLowestDifferenceInDays";
 
-export const validateHabitStreak = async (
-  currentStreak: Streak,
-  selectedHabit: Habit,
-  stats: Stats[]
-) => {
+export const validateHabitStreak = async (currentStreak: Streak, selectedHabit: Habit, stats: Stats[]) => {
   try {
     const currentDate = moment().format("YYYY-MM-DD");
-    if (
-      moment(currentStreak.lastUpdated).format("YYYY-MM-DD") === currentDate
-    ) {
+    if (moment(currentStreak.lastUpdated).format("YYYY-MM-DD") === currentDate) {
       return currentStreak;
     }
-    console.log("selectedHabit - ", selectedHabit);
+
     if (selectedHabit.frequencyOption === Frequency.Daily) {
       const validStats = stats.filter((stat) => {
         // TODO: optimize this better by query the DB not doing it manually
-        if (
-          moment(currentDate).isSame(stat.completedAt, "day") ||
-          moment(currentDate).subtract(1, "day").isSame(stat.completedAt, "day")
-        ) {
+        if (moment(currentDate).isSame(stat.completedAt, "day") || moment(currentDate).subtract(1, "day").isSame(stat.completedAt, "day")) {
           return stat;
         } else {
           return null;
@@ -46,13 +37,8 @@ export const validateHabitStreak = async (
       // TODO: there is a bug here
       const currentDay = moment(currentDate).format("dddd");
       console.log("currentDay - ", currentDay);
-      const lowestDifference = calculateLowestDifferenceInDays(
-        selectedHabit.selectedDays,
-        currentDay
-      );
-      const lastEligibleDateToKeepStreakAlive = moment(currentDate)
-        .subtract(lowestDifference, "day")
-        .format("MMMM Do YYYY");
+      const lowestDifference = calculateLowestDifferenceInDays(selectedHabit.selectedDays, currentDay);
+      const lastEligibleDateToKeepStreakAlive = moment(currentDate).subtract(lowestDifference, "day").format("MMMM Do YYYY");
 
       let isStreakValid = false;
 
@@ -60,9 +46,7 @@ export const validateHabitStreak = async (
         isStreakValid = true;
       } else {
         const validStats = stats.filter((stat) => {
-          const completedAtDate = moment(stat.completedAt).format(
-            "MMMM Do YYYY"
-          );
+          const completedAtDate = moment(stat.completedAt).format("MMMM Do YYYY");
           if (completedAtDate === lastEligibleDateToKeepStreakAlive) {
             return stat;
           } else {
