@@ -14,12 +14,7 @@ import { useMetric } from "~utils";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-const specialScreens = new Set([
-  ROUTES.CREATE_HABIT,
-  ROUTES.SINGLE_HABIT,
-  ROUTES.CREATE_CHALLENGE,
-  ROUTES.CREATE_ROOM
-]);
+const specialScreens = new Set([ROUTES.CREATE_HABIT, ROUTES.SINGLE_HABIT, ROUTES.CREATE_CHALLENGE, ROUTES.CREATE_ROOM]);
 
 export const BottomTabNavigator = () => {
   const { theme } = useTheme();
@@ -53,24 +48,14 @@ export const BottomTabNavigator = () => {
             iconName = focused ? "ios-trophy" : "ios-trophy-outline";
             tabName = "Challenge";
           } else if (route.name === ROUTES.ROOMS) {
-            iconName = focused
-              ? "ios-chatbox-ellipses"
-              : "ios-chatbox-ellipses-outline";
+            iconName = focused ? "ios-chatbox-ellipses" : "ios-chatbox-ellipses-outline";
             tabName = "Rooms";
           } else if (route.name === ROUTES.CREATE_HABIT) {
             iconName = focused ? "add-circle" : "add-circle-outline";
             tabName = "Create";
           }
 
-          return (
-            <CustomTabItem
-              name={tabName}
-              icon={iconName}
-              size={moderateScale(22)}
-              color={color}
-              focused={focused}
-            />
-          );
+          return <CustomTabItem name={tabName} icon={iconName} size={moderateScale(22)} color={color} focused={focused} />;
         }
       })}
     >

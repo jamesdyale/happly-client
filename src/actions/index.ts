@@ -36,3 +36,4 @@ export * from "./actionUpdateRoomById";
 export * from "./actionCreateMessageForRoom";
 export * from "./actionGetMessagesByRoomId";
 export * from "./actionGetStreakByHabitIdQuery";
+export * from "./actionGetHabitById";

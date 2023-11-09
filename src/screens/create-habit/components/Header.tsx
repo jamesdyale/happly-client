@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useMetric } from "~utils";
 import { useTheme } from "~hooks";
 
-export const Header = ({ setEditHabit }) => {
+export const Header = () => {
   const { theme } = useTheme();
   const { horizontalScale, verticalScale, moderateScale } = useMetric();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -32,7 +32,6 @@ export const Header = ({ setEditHabit }) => {
           }
         ]}
         onPress={() => {
-          setEditHabit(null);
           navigation.goBack();
         }}
       >
@@ -48,8 +47,7 @@ export const Header = ({ setEditHabit }) => {
           }
         ]}
       >
-        New{" "}
-        <Text style={[styles.headerText, { color: "#9D9797" }]}> Habit</Text>
+        New <Text style={[styles.headerText, { color: "#9D9797" }]}> Habit</Text>
       </Text>
     </View>
   );

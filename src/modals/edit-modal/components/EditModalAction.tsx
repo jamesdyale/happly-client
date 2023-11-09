@@ -11,7 +11,7 @@ import { ActionGetUserHabitById, ActionDeleteHabitById, ActionDeleteStatsById, A
 import { useAtomValue } from "jotai";
 import { HabitType } from "~types";
 import { useTheme } from "~hooks";
-import { checkIfChallengeIsCompleted, horizontalScale, markHabitAsDone, moderateScale, removeAUserFromAChallenge, verticalScale } from "~utils";
+import { checkIfChallengeIsCompleted, horizontalScale, markHabitAsDone, moderateScale, removeAUserFromAChallenge, secureStore, verticalScale } from "~utils";
 import { ROUTES } from "~constants";
 import momentTime from "moment-timezone";
 
@@ -22,7 +22,6 @@ export const EditModalAction = () => {
 
   const [habitSelected, setSelectedHabit] = useAtom(selectedHabitAtom);
   const [progress, setProgress] = useAtom(progressAtom);
-  const setEditHabit = useSetAtom(editHabitAtom);
   const setDeleteModal = useSetAtom(showDeleteModalAtom);
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom);
   const setLoading = useSetAtom(loadingAtom);
@@ -97,8 +96,8 @@ export const EditModalAction = () => {
     );
   };
 
-  const handleOnPressEdit = () => {
-    setEditHabit(habitSelected);
+  const handleOnPressEdit = async () => {
+    secureStore.setItem("EDIT_HABIT_ID", habitSelected.id);
     setSelectedHabit(null);
     navigate(ROUTES.CREATE_HABIT);
   };
@@ -190,7 +189,12 @@ export const EditModalAction = () => {
           Delete
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.actionSectionButton} onPress={handleOnPressEdit}>
+      <TouchableOpacity
+        style={styles.actionSectionButton}
+        onPress={() => {
+          handleOnPressEdit();
+        }}
+      >
         <Icon name='create-outline' size={moderateScale(25)} color={theme.MAIN_TEXT_COLOR} />
         <Text
           style={[

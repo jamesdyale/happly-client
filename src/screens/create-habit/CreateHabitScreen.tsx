@@ -1,30 +1,18 @@
-import {
-  Alert,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View
-} from "react-native";
-import React, { useEffect, useState } from "react";
+import { Alert, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
 import { CustomButton, CustomTextInput, DayPicker } from "~components";
 import Icon from "react-native-vector-icons/Ionicons";
-import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { ParamListBase, useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Frequency, HabitType, TimeOfDay } from "~types";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { editHabitAtom, selectedDayOfTheWeekAtom, userAtom } from "~state";
-import {
-  ActionCreateHabit,
-  ActionCreateOrUpdateStreak,
-  ActionCreateReminders,
-  ActionDeleteReminder
-} from "~actions";
+import { Frequency, Habit, HabitType, TimeOfDay } from "~types";
+import { useAtomValue, useSetAtom } from "jotai";
+import { selectedDayOfTheWeekAtom, userAtom } from "~state";
+import { ActionCreateHabit, ActionCreateOrUpdateStreak, ActionCreateReminders, ActionDeleteReminder, ActionGetHabitById } from "~actions";
 import { useToast } from "react-native-toast-notifications";
 import moment from "moment/moment";
 import { generateHabitId } from "~generators";
 import { NotificationModal } from "~modals";
-import { useMetric } from "~utils";
+import { secureStore, useMetric } from "~utils";
 import { useTheme } from "~hooks";
 import { Header } from "./components/Header";
 import { HabitFrequencySection } from "./components/HabitFrequencySection";
@@ -38,33 +26,63 @@ export const CreateHabitScreen = () => {
 
   const user = useAtomValue(userAtom);
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const [editHabit, setEditHabit] = useAtom(editHabitAtom);
   const setSelectedDay = useSetAtom(selectedDayOfTheWeekAtom);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [timeOfDay, setTimeOfDay] = useState(TimeOfDay.Morning);
-  const [frequencyOption, setFrequencyOption] = useState<Frequency>(
-    Frequency.Daily
-  );
+  const [frequencyOption, setFrequencyOption] = useState<Frequency>(Frequency.Daily);
   const [reminderAt, setReminderAt] = useState<string[]>([]);
 
   const [nameError, setNameError] = useState("");
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
+  const [editHabit, setEditHabit] = useState<Habit | null>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (editHabit) {
-      setName(editHabit.name);
-      setDescription(editHabit.description);
-      setTimeOfDay(editHabit.timeOfDay);
-      setSelectedDays(editHabit.selectedDays);
-      setFrequencyOption(editHabit.frequencyOption);
-      setReminderAt(editHabit.reminderAt);
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      getHabitId();
+
+      return () => {
+        // Do something when the screen is unfocused
+        removeHabitId();
+      };
+    }, [])
+  );
+
+  const getHabitId = async () => {
+    const habitId = await secureStore.getItem("EDIT_HABIT_ID");
+    if (habitId) {
+      const habitQuery = await ActionGetHabitById(habitId);
+
+      if (habitQuery.exists) {
+        const habit = habitQuery.data() as Habit;
+
+        setEditHabit(habit);
+        setName(habit.name);
+        setDescription(habit.description);
+        setTimeOfDay(habit.timeOfDay);
+        setSelectedDays(habit.selectedDays);
+        setFrequencyOption(habit.frequencyOption);
+        setReminderAt(habit.reminderAt);
+      }
     }
-  }, [editHabit]);
+  };
+
+  const removeHabitId = async () => {
+    await secureStore.removeItem("EDIT_HABIT_ID");
+
+    setEditHabit(null);
+    setName("");
+    setDescription("");
+    setTimeOfDay(TimeOfDay.Morning);
+    setSelectedDays([]);
+    setFrequencyOption(Frequency.Daily);
+    setReminderAt([]);
+  };
 
   const createHabit = async () => {
     setLoading(true);
@@ -102,13 +120,7 @@ export const CreateHabitScreen = () => {
           type: "danger",
           duration: 4000,
           placement: "bottom",
-          icon: (
-            <Icon
-              name='alert-circle-sharp'
-              size={moderateScale(20)}
-              color={theme.APP_WHITE}
-            />
-          )
+          icon: <Icon name='alert-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
         });
         return;
       }
@@ -119,13 +131,7 @@ export const CreateHabitScreen = () => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: (
-          <Icon
-            name='checkmark-circle-sharp'
-            size={moderateScale(20)}
-            color={theme.APP_WHITE}
-          />
-        )
+        icon: <Icon name='checkmark-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
     } else {
       await ActionCreateHabit({
@@ -141,9 +147,9 @@ export const CreateHabitScreen = () => {
         type: HabitType.REGULAR
       });
 
-      // figure out how I want to handle reminder updates
-      // check if there are any new reminders and create them or delete all the previous reminders
-      // and create new ones
+      // // figure out how I want to handle reminder updates
+      // // check if there are any new reminders and create them or delete all the previous reminders
+      // // and create new ones
       ActionDeleteReminder({
         habitId: editHabit.id
       }).then(async () => {
@@ -161,13 +167,7 @@ export const CreateHabitScreen = () => {
         type: "success",
         duration: 4000,
         placement: "bottom",
-        icon: (
-          <Icon
-            name='checkmark-circle-sharp'
-            size={moderateScale(20)}
-            color={theme.APP_WHITE}
-          />
-        )
+        icon: <Icon name='checkmark-circle-sharp' size={moderateScale(20)} color={theme.APP_WHITE} />
       });
     }
 
@@ -215,9 +215,7 @@ export const CreateHabitScreen = () => {
 
   return (
     <>
-      <SafeAreaView
-        style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}
-      >
+      <SafeAreaView style={[styles.wrapper, { backgroundColor: theme.MAIN_BG_COLOR }]}>
         <ScrollView style={{ marginBottom: verticalScale(10) }}>
           <View
             style={[
@@ -228,7 +226,7 @@ export const CreateHabitScreen = () => {
               }
             ]}
           >
-            <Header setEditHabit={setEditHabit} />
+            <Header />
 
             <View>
               <CustomTextInput
@@ -241,16 +239,8 @@ export const CreateHabitScreen = () => {
                 value={name}
                 error={nameError}
               />
-              <CustomTextInput
-                bigLabel='Description'
-                placeholder='Enter the description'
-                handleChange={setDescription}
-                value={description}
-              />
-              <HabitFrequencySection
-                frequencyOption={frequencyOption}
-                setFrequencyOption={setFrequencyOption}
-              />
+              <CustomTextInput bigLabel='Description' placeholder='Enter the description' handleChange={setDescription} value={description} />
+              <HabitFrequencySection frequencyOption={frequencyOption} setFrequencyOption={setFrequencyOption} />
 
               {frequencyOption === Frequency.Weekly ? (
                 <View
@@ -274,41 +264,20 @@ export const CreateHabitScreen = () => {
                   >
                     Every?
                   </Text>
-                  <DayPicker
-                    selectedDays={selectedDays}
-                    handleSelectDay={handleSelectDay}
-                  />
+                  <DayPicker selectedDays={selectedDays} handleSelectDay={handleSelectDay} />
                 </View>
               ) : null}
 
-              <TimeOfDaySection
-                timeOfDay={timeOfDay}
-                setTimeOfDay={setTimeOfDay}
-              />
+              <TimeOfDaySection timeOfDay={timeOfDay} setTimeOfDay={setTimeOfDay} />
 
-              <ReminderSection
-                removeReminder={removeReminder}
-                reminderAt={reminderAt}
-                setShowNotificationModal={setShowNotificationModal}
-              />
+              <ReminderSection removeReminder={removeReminder} reminderAt={reminderAt} setShowNotificationModal={setShowNotificationModal} />
             </View>
 
-            <CustomButton
-              bgColor={theme.MAIN_ACCENT_COLOR}
-              color={theme.APP_WHITE}
-              text={editHabit ? "SAVE" : "CREATE"}
-              onClick={createHabit}
-              disabled={loading}
-            />
+            <CustomButton bgColor={theme.MAIN_ACCENT_COLOR} color={theme.APP_WHITE} text={editHabit ? "SAVE" : "CREATE"} onClick={createHabit} disabled={loading} />
           </View>
         </ScrollView>
       </SafeAreaView>
-      {showNotificationModal && (
-        <NotificationModal
-          handleTimeSelected={handleTimeSelected}
-          closeNotificationModal={() => setShowNotificationModal(false)}
-        />
-      )}
+      {showNotificationModal && <NotificationModal handleTimeSelected={handleTimeSelected} closeNotificationModal={() => setShowNotificationModal(false)} />}
     </>
   );
 };
