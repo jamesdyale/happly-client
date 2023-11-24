@@ -1182,11 +1182,6 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@engineeringwithjames/happly-config@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@engineeringwithjames/happly-config/-/happly-config-1.0.0.tgz#aec97d4a111cdaa659036bdb16fd70d1c4a82640"
-  integrity sha512-avjgykJEbbrF5f4vQIjbAJOyDUClfXCTkNQEEeFGf65Uvl5dYidRTlBKGoBHE2jt0UrUw9hrVj67F+IGsEpdSg==
-
 "@eslint-community/eslint-utils@^4.1.2", "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz#a23514e8fb9af1269d5f7788aa556798d61c6b59"
