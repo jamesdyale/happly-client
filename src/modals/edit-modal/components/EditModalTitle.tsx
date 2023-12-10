@@ -38,20 +38,18 @@ export const EditModalTitle = () => {
             }
           ]}
         >
-          {habitSelected.reminderAt.length > 0 &&
-            `Closest Reminder is at ${findClosestReminder(
-              habitSelected.reminderAt
-            )}`}
+          {habitSelected.reminderAt.length > 0 && `Closest Reminder is at ${findClosestReminder(habitSelected.reminderAt)}`}
           {habitSelected.reminderAt.length < 1 && "No Reminders Set"}
         </Text>
       </View>
-      <TouchableOpacity onPress={handleOnPressCloseIcon}>
-        <Icon
-          style={styles.closeIcon}
-          name='close'
-          size={moderateScale(25)}
-          color={theme.MAIN_TEXT_COLOR}
-        />
+      <TouchableOpacity
+        style={{
+          backgroundColor: MAIN_ACCENT_COLOR,
+          borderRadius: moderateScale(20)
+        }}
+        onPress={handleOnPressCloseIcon}
+      >
+        <Icon style={styles.closeIcon} name='close' size={moderateScale(30)} color={theme.MAIN_TEXT_COLOR} />
       </TouchableOpacity>
     </View>
   );
@@ -86,11 +84,10 @@ const styles = StyleSheet.create({
     lineHeight: verticalScale(12)
   },
   closeIcon: {
-    backgroundColor: MAIN_ACCENT_COLOR,
-    width: horizontalScale(30),
-    height: verticalScale(30),
-    paddingTop: verticalScale(2),
-    paddingBottom: verticalScale(2),
+    width: horizontalScale(40),
+    height: verticalScale(40),
+    paddingTop: verticalScale(4),
+    paddingBottom: verticalScale(4),
     paddingLeft: horizontalScale(2),
     paddingRight: horizontalScale(2),
     display: "flex",
@@ -98,7 +95,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: moderateScale(15),
     color: APP_WHITE
   }
 });
