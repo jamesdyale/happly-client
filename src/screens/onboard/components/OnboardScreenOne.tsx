@@ -1,8 +1,10 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Dimensions } from "react-native";
 import React from "react";
 import { OnboardScreenOneIcon } from "~assets";
 import { useTheme } from "~hooks";
 import { useMetric } from "~utils";
+
+const { width } = Dimensions.get("window");
 
 export const OnboardScreenOne = () => {
   const { theme } = useTheme();

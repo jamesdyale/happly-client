@@ -7,11 +7,7 @@ import { TimeOfDay } from "~types";
 import { useMetric } from "~utils";
 import { useTheme } from "~hooks";
 
-export const HabitPeriod = ({
-  currentTimeOfDay
-}: {
-  currentTimeOfDay: TimeOfDay;
-}) => {
+export const HabitPeriod = ({ currentTimeOfDay }: { currentTimeOfDay: TimeOfDay }) => {
   const { theme } = useTheme();
   const { horizontalScale, verticalScale, moderateScale } = useMetric();
   const [timeOfDay, setTimeOfDay] = useAtom(selectedTimeOfDayAtom);
@@ -29,8 +25,7 @@ export const HabitPeriod = ({
         style={[
           styles.periodOption,
           {
-            backgroundColor:
-              timeOfDay === TimeOfDay.All ? theme.APP_BLUE : theme.APP_GRAY,
+            backgroundColor: timeOfDay === TimeOfDay.All ? theme.APP_BLUE : theme.APP_GRAY,
             borderRadius: moderateScale(10),
             height: verticalScale(40)
           }
@@ -40,17 +35,14 @@ export const HabitPeriod = ({
         <Icon
           name='file-tray-full-sharp'
           size={moderateScale(18)}
-          color={
-            timeOfDay === TimeOfDay.All ? theme.APP_WHITE : theme.APP_BLACK
-          }
+          color={timeOfDay === TimeOfDay.All ? theme.APP_WHITE : theme.APP_BLACK}
           style={{ marginRight: horizontalScale(8) }}
         />
         <Text
           style={[
             styles.periodOptionTitle,
             {
-              color:
-                timeOfDay === TimeOfDay.All ? theme.APP_WHITE : theme.APP_BLACK,
+              color: timeOfDay === TimeOfDay.All ? theme.APP_WHITE : theme.APP_BLACK,
               fontSize: moderateScale(14),
               lineHeight: verticalScale(22)
             }
@@ -64,35 +56,23 @@ export const HabitPeriod = ({
         style={[
           styles.periodOption,
           {
-            backgroundColor:
-              timeOfDay === currentTimeOfDay ? theme.APP_BLUE : theme.APP_GRAY,
+            backgroundColor: timeOfDay === currentTimeOfDay ? theme.APP_BLUE : theme.APP_GRAY,
             borderRadius: moderateScale(10)
           }
         ]}
         onPress={() => setTimeOfDay(currentTimeOfDay)}
       >
         <Icon
-          name={
-            currentTimeOfDay === TimeOfDay.Morning
-              ? "ios-partly-sunny-sharp"
-              : currentTimeOfDay === TimeOfDay.Afternoon
-              ? "ios-sunny-sharp"
-              : "ios-moon-sharp"
-          }
+          name={currentTimeOfDay === TimeOfDay.Morning ? "ios-partly-sunny-sharp" : currentTimeOfDay === TimeOfDay.Afternoon ? "ios-sunny-sharp" : "ios-moon-sharp"}
           size={moderateScale(15)}
-          color={
-            timeOfDay === currentTimeOfDay ? theme.APP_WHITE : theme.APP_BLACK
-          }
+          color={timeOfDay === currentTimeOfDay ? theme.APP_WHITE : theme.APP_BLACK}
           style={{ marginRight: horizontalScale(8) }}
         />
         <Text
           style={[
             styles.periodOptionTitle,
             {
-              color:
-                timeOfDay === currentTimeOfDay
-                  ? theme.APP_WHITE
-                  : theme.APP_BLACK,
+              color: timeOfDay === currentTimeOfDay ? theme.APP_WHITE : theme.APP_BLACK,
               fontSize: moderateScale(14),
               lineHeight: verticalScale(22)
             }

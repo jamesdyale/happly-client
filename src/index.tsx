@@ -23,6 +23,7 @@ const App = () => {
   }, []);
 
   const handleAppStateChange = (nextAppState) => {
+    console.log(`app state changed - ${nextAppState}`);
     if (nextAppState === "active") {
       // set the selected day to the current day
       const currentDay = moment().format("MMMM Do YYYY");

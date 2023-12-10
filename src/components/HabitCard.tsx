@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { useSetAtom, useAtomValue, useAtom } from "jotai";
 import { useToast } from "react-native-toast-notifications";
 import { Habit, HabitType, Stats, Streak } from "~types";
-import { progressAtom, selectedDayOfTheWeekAtom, selectedHabitAtom, userAtom } from "~state";
+import { habitMarkedAsDoneAtom, progressAtom, selectedDayOfTheWeekAtom, selectedHabitAtom, userAtom } from "~state";
 import { ActionCreateOrUpdateStreak, ActionCreateUser, ActionGetStreakByHabitIdQuery } from "~actions";
 import { APP_GRAY, APP_GREEN, APP_WHITE } from "~styles";
 import { checkIfChallengeIsCompleted, getMessageRelatedToStreakData, horizontalScale, markHabitAsDone, moderateScale, verticalScale } from "~utils";
@@ -25,6 +25,7 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
   const setProgress = useSetAtom(progressAtom);
   const selectedDay = useAtomValue(selectedDayOfTheWeekAtom);
   const [user, setUser] = useAtom(userAtom);
+  const setHabitMarkedAsDone = useSetAtom(habitMarkedAsDoneAtom);
 
   const foundProgress = progress.find((stat) => stat.habitId === habit.id);
 
@@ -84,12 +85,13 @@ export const HabitCard = ({ habit, progress }: HabitCardType) => {
     getHabitStreak();
 
     if (habit.type === HabitType.REGULAR) {
-      toast.show(message, {
-        type: "success",
-        duration: 4000,
-        placement: "bottom",
-        icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
-      });
+      setHabitMarkedAsDone(true);
+      // toast.show(message, {
+      //   type: "success",
+      //   duration: 4000,
+      //   placement: "bottom",
+      //   icon: <Icon name='trending-up' size={moderateScale(20)} color={theme.APP_WHITE} />
+      // });
     } else {
       const data = await checkIfChallengeIsCompleted({
         challengeId: habit.challengeId,

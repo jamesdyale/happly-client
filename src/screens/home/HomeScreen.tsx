@@ -2,8 +2,8 @@ import { SafeAreaView, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { HabitList, UserProfile, WeekCalendar } from "~components";
-import { EditHabitModal } from "~modals";
-import { dailyHabitsAtom, progressAtom, selectedDayOfTheWeekAtom, selectedTimeOfDayAtom, userAtom } from "~state";
+import { CompleteHabitModal, EditHabitModal } from "~modals";
+import { dailyHabitsAtom, habitMarkedAsDoneAtom, progressAtom, selectedDayOfTheWeekAtom, selectedTimeOfDayAtom, userAtom } from "~state";
 import { Habit, Stats, User } from "~types";
 import { ActionGetUserHabitsByUserId, ActionGetCompletedStatForDay } from "~actions";
 import { onSnapshot } from "firebase/firestore";
@@ -18,6 +18,7 @@ export const HomeScreen = () => {
   const user = useAtomValue(userAtom);
   const setDailyHabit = useSetAtom(dailyHabitsAtom);
   const setProgress = useSetAtom(progressAtom);
+  const habitMarkedAsDone = useAtomValue(habitMarkedAsDoneAtom);
 
   const [loadingHabits, setLoadingHabits] = useState(false);
   const [loadingStats, setLoadingStats] = useState(false);
@@ -111,6 +112,7 @@ export const HomeScreen = () => {
       <WeekCalendar />
       <HabitList />
       <EditHabitModal />
+      {habitMarkedAsDone ? <CompleteHabitModal /> : null}
     </SafeAreaView>
   );
 };
