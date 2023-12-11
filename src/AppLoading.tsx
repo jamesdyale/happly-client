@@ -10,8 +10,12 @@ export const AppLoading = ({ children }) => {
   const { isThemeReady } = useTheme();
 
   useEffect(() => {
-    if (isLoadingComplete && isAppReady && isThemeReady && user) {
-      SplashScreen.hideAsync();
+    if (isLoadingComplete && isAppReady && isThemeReady) {
+      if (isUserOnboarded && user) {
+        SplashScreen.hideAsync();
+      } else {
+        SplashScreen.hideAsync();
+      }
     }
   }, [isLoadingComplete, isAppReady, isUserOnboarded, isThemeReady]);
 
