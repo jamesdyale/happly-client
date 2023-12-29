@@ -50,7 +50,7 @@ export const CompleteHabitModal = () => {
   const [habitMarkedAsDone, setHabitMarkedAsDone] = useAtom(habitMarkedAsDoneAtom);
 
   useEffect(() => {
-    const timer = setInterval(() => setHabitMarkedAsDone(false), 4000);
+    const timer = setInterval(() => setHabitMarkedAsDone(false), 3000);
     return () => clearInterval(timer);
   }, []);
 
@@ -59,7 +59,7 @@ export const CompleteHabitModal = () => {
       <View style={[styles.container, { backgroundColor: theme.SECONDARY_BG_COLOR }]}>
         <SafeAreaView>
           <View style={styles.animationBody}>
-            <Text style={[styles.animationText, { fontSize: width === 820 ? moderateScale(20) : moderateScale(16) }]}>{generatedText()}</Text>
+            <Text style={[styles.animationText, { fontSize: width === 820 ? moderateScale(20) : moderateScale(16), color: theme.MAIN_TEXT_COLOR }]}>{generatedText()}</Text>
             <LottieView source={require("~assets/lottie/done.json")} autoPlay loop={false} speed={0.65} style={{ width: horizontalScale(400), height: horizontalScale(400) }} />
           </View>
         </SafeAreaView>
